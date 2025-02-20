@@ -196,6 +196,10 @@ function Mine({ navigation }) {
         name="MineIndexScreen"
         component={MineIndexScreen}
         options={({ navigation }) => ({
+          headerMode: 'float',
+          headerShown: false,
+          headerStyle: { backgroundColor: 'transparent' },
+          headerTransparent: true,
           title: 'Mine-index',
         })}
       />
