@@ -17,6 +17,7 @@ import {
   SwipeableItem,
   SwipeableItemButton,
   TextField,
+  TextInput,
   Touchable,
   withTheme,
 } from '@draftbit/ui';
@@ -32,7 +33,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fetch } from 'react-request';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
-import * as TestApi from '../apis/TestApi.js';
 import FetchLoadingBlock from '../components/FetchLoadingBlock';
 import MyFavoriteMinuteBlock from '../components/MyFavoriteMinuteBlock';
 import MyFavoriteOpinionSectionBlock from '../components/MyFavoriteOpinionSectionBlock';
@@ -63,6 +63,8 @@ const MineMyFavoritesDetail2Screen = props => {
   const setGlobalVariableValue = GlobalVariables.useSetValue();
   const [action, setAction] = React.useState('');
   const [action_enable, setAction_enable] = React.useState(false);
+  const [add_folder_error_show, setAdd_folder_error_show] =
+    React.useState(false);
   const [add_folder_item_shown, setAdd_folder_item_shown] =
     React.useState(false);
   const [delete_folder_index, setDelete_folder_index] = React.useState(0);
@@ -199,6 +201,7 @@ const MineMyFavoritesDetail2Screen = props => {
   const [show_action_menu, setShow_action_menu] = React.useState(false);
   const [show_confirm_modal, setShow_confirm_modal] = React.useState(false);
   const [to_id, setTo_id] = React.useState(0);
+  const [vote_options, setVote_options] = React.useState([]);
   const [textFieldValue, setTextFieldValue] = React.useState('');
   const [refreshingViewFetch2ScrollView, setRefreshingViewFetch2ScrollView] =
     React.useState(false);
@@ -225,9 +228,8 @@ const MineMyFavoritesDetail2Screen = props => {
     if (is_selected_all) {
       setFavorite_item_ids([]);
     } else {
-      const newArray = follow_user.map(item => item.item.id);
+      const newArray = follow_user.map(item => item.id);
       setFavorite_item_ids(newArray);
-      console.log(newArray);
     }
     setIs_selected_all(!is_selected_all);
   };
@@ -235,6 +237,7 @@ const MineMyFavoritesDetail2Screen = props => {
   const aceCampTestFavoritesActionPOST =
     AceCampTestApi.useFavoritesActionPOST();
   const aceCampTestFavoritesAddPOST = AceCampTestApi.useFavoritesAddPOST();
+  const aceCampTestFavoritesEditPUT = AceCampTestApi.useFavoritesEditPUT();
 
   return (
     <ScreenContainer
@@ -436,10 +439,6 @@ const MineMyFavoritesDetail2Screen = props => {
                   }
                   showsHorizontalScrollIndicator={false}
                   showsVerticalScrollIndicator={false}
-                  style={StyleSheet.applyWidth(
-                    { alignSelf: 'flex-start' },
-                    dimensions.width
-                  )}
                 >
                   <SimpleStyleSwipeableList
                     data={fetch2Data?.data}
@@ -492,13 +491,13 @@ const MineMyFavoritesDetail2Screen = props => {
                                 ) {
                                   setFavorite_item_ids(
                                     favorite_item_ids.filter(
-                                      e => e !== swipeableListData?.item?.id
+                                      e => e !== swipeableListData?.id
                                     )
                                   );
                                 } else {
                                   setFavorite_item_ids(
                                     favorite_item_ids.concat([
-                                      swipeableListData?.item?.id,
+                                      swipeableListData?.id,
                                     ])
                                   );
                                 }
@@ -546,7 +545,7 @@ const MineMyFavoritesDetail2Screen = props => {
                                       ].props}
                                       source={imageSource(
                                         favorite_item_ids.includes(
-                                          swipeableListData?.item?.id
+                                          swipeableListData?.id
                                         )
                                           ? Images['icselectactive']
                                           : Images['icselectdefault']
@@ -565,66 +564,72 @@ const MineMyFavoritesDetail2Screen = props => {
                                 )}
                               </>
                               {/* View 2 */}
-                              <View
-                                style={StyleSheet.applyWidth(
-                                  { alignSelf: 'stretch', flexGrow: 1 },
-                                  dimensions.width
+                              <>
+                                {!(action_enable || !action_enable) ? null : (
+                                  <View>
+                                    <Touchable
+                                      onPress={() => {
+                                        try {
+                                          navigation.push('WebViewScreen', {
+                                            url:
+                                              Constants['base_url'] +
+                                              '/viewpoint/detail/' +
+                                              (swipeableListData?.item
+                                                ?.parent_id
+                                                ? swipeableListData?.item
+                                                    ?.parent_id
+                                                : swipeableListData?.item?.id),
+                                          });
+                                        } catch (err) {
+                                          console.error(err);
+                                        }
+                                      }}
+                                      disabled={action_enable}
+                                      disabledOpacity={100}
+                                    >
+                                      <>
+                                        {!(
+                                          swipeableListData?.item_type ===
+                                          'Opinion'
+                                        ) ? null : (
+                                          <MyFavoriteOpinionSectionBlock
+                                            dataItem={swipeableListData}
+                                          />
+                                        )}
+                                      </>
+                                    </Touchable>
+                                    {/* Touchable 2 */}
+                                    <Touchable
+                                      onPress={() => {
+                                        try {
+                                          navigation.push(
+                                            'ArticleDetailScreen',
+                                            {
+                                              article_info_id:
+                                                swipeableListData?.item?.id,
+                                            }
+                                          );
+                                        } catch (err) {
+                                          console.error(err);
+                                        }
+                                      }}
+                                      disabled={action_enable}
+                                      disabledOpacity={100}
+                                    >
+                                      <>
+                                        {!(
+                                          swipeableListData?.item_type !==
+                                          'Opinion'
+                                        ) ? null : (
+                                          <MyFavoriteMinuteBlock
+                                            dataItem={swipeableListData}
+                                          />
+                                        )}
+                                      </>
+                                    </Touchable>
+                                  </View>
                                 )}
-                              >
-                                <Touchable
-                                  onPress={() => {
-                                    try {
-                                      navigation.push('WebViewScreen', {
-                                        url:
-                                          Constants['base_url'] +
-                                          '/viewpoint/detail/' +
-                                          (swipeableListData?.item?.parent_id
-                                            ? swipeableListData?.item?.parent_id
-                                            : swipeableListData?.item?.id),
-                                      });
-                                    } catch (err) {
-                                      console.error(err);
-                                    }
-                                  }}
-                                  disabled={action_enable}
-                                  disabledOpacity={100}
-                                >
-                                  <>
-                                    {!(
-                                      swipeableListData?.item_type === 'Opinion'
-                                    ) ? null : (
-                                      <MyFavoriteOpinionSectionBlock
-                                        dataItem={swipeableListData}
-                                      />
-                                    )}
-                                  </>
-                                </Touchable>
-                                {/* Touchable 2 */}
-                                <Touchable
-                                  onPress={() => {
-                                    try {
-                                      navigation.push('ArticleDetailScreen', {
-                                        article_info_id:
-                                          swipeableListData?.item?.id,
-                                      });
-                                    } catch (err) {
-                                      console.error(err);
-                                    }
-                                  }}
-                                  disabled={action_enable}
-                                  disabledOpacity={100}
-                                >
-                                  <>
-                                    {!(
-                                      swipeableListData?.item_type !== 'Opinion'
-                                    ) ? null : (
-                                      <MyFavoriteMinuteBlock
-                                        dataItem={swipeableListData}
-                                      />
-                                    )}
-                                  </>
-                                </Touchable>
-                              </View>
+                              </>
                             </View>
                           </Touchable>
                           <SwipeableItemButton
@@ -753,6 +758,23 @@ const MineMyFavoritesDetail2Screen = props => {
               )}
             >
               <Touchable
+                onPress={() => {
+                  const handler = async () => {
+                    try {
+                      (
+                        await aceCampTestFavoritesActionPOST.mutateAsync({
+                          action: 'delete',
+                          favorite_id:
+                            props.route?.params?.id ?? defaultProps.id,
+                          favorite_item_ids: favorite_item_ids,
+                        })
+                      )?.json;
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  };
+                  handler();
+                }}
                 activeOpacity={100}
                 disabled={favorite_item_ids?.length === 0}
               >
@@ -885,6 +907,15 @@ const MineMyFavoritesDetail2Screen = props => {
         {/* Action Sheet Item 3 */}
         <ActionSheetItem
           color={theme.colors.text.strong}
+          onPress={() => {
+            try {
+              setAdd_folder_item_shown(true);
+              setFolder_input_text(new_folder_name);
+              setShow_action_menu(false);
+            } catch (err) {
+              console.error(err);
+            }
+          }}
           {...GlobalStyles.ActionSheetItemStyles(theme)['Action Sheet Item']
             .props}
           activeOpacity={100}
@@ -934,6 +965,13 @@ const MineMyFavoritesDetail2Screen = props => {
         </>
         {/* Action Sheet Item 4 */}
         <ActionSheetItem
+          onPress={() => {
+            try {
+              setShow_action_menu(false);
+            } catch (err) {
+              console.error(err);
+            }
+          }}
           {...GlobalStyles.ActionSheetItemStyles(theme)['Action Sheet Item']
             .props}
           activeOpacity={100}
@@ -1364,7 +1402,7 @@ const MineMyFavoritesDetail2Screen = props => {
                     onPress={() => {
                       const handler = async () => {
                         try {
-                          if (!favorite_ids || favorite_ids?.length === 0) {
+                          if (to_id === 0) {
                             return;
                           }
                           const result = (
@@ -1376,6 +1414,12 @@ const MineMyFavoritesDetail2Screen = props => {
                               to_favorite_id: to_id,
                             })
                           )?.json;
+                          console.log(
+                            favorite_item_ids,
+                            action,
+                            props.route?.params?.id ?? defaultProps.id,
+                            to_id
+                          );
                           if (result?.code === 200) {
                             ShowToast(
                               t(Variables, 'toast_favorite_successfully'),
@@ -1388,6 +1432,7 @@ const MineMyFavoritesDetail2Screen = props => {
                             );
                           }
 
+                          await refetchFavoritesList();
                           setShow_confirm_modal(false);
                         } catch (err) {
                           console.error(err);
@@ -1628,7 +1673,7 @@ const MineMyFavoritesDetail2Screen = props => {
                                           ),
                                           undefined
                                         );
-                                        await refetchFavorites();
+                                        await refetchFavoritesList();
                                         setIs_show_add_favorite_modal(false);
                                       } else {
                                         ShowToast(
@@ -1720,6 +1765,274 @@ const MineMyFavoritesDetail2Screen = props => {
       <Utils.CustomCodeErrorBoundary>
         <Toast.ele />
       </Utils.CustomCodeErrorBoundary>
+      {/* 修改收藏 */}
+      <Modal
+        supportedOrientations={['portrait', 'landscape']}
+        animationType={'fade'}
+        presentationStyle={'overFullScreen'}
+        transparent={true}
+        visible={add_folder_item_shown}
+      >
+        {/* 背景层 */}
+        <View
+          style={StyleSheet.applyWidth(
+            {
+              alignItems: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'center',
+            },
+            dimensions.width
+          )}
+        >
+          {/* 提示框 */}
+          <View
+            style={StyleSheet.applyWidth(
+              {
+                alignItems: 'center',
+                backgroundColor: palettes.App['Custom #ffffff'],
+                borderRadius: 5,
+                justifyContent: 'center',
+                padding: 20,
+                width: 300,
+              },
+              dimensions.width
+            )}
+          >
+            <Text
+              accessible={true}
+              selectable={false}
+              style={StyleSheet.applyWidth(
+                {
+                  fontFamily: 'System',
+                  fontSize: 15,
+                  fontWeight: '700',
+                  letterSpacing: null,
+                  lineHeight: 20,
+                  marginRight: null,
+                },
+                dimensions.width
+              )}
+            >
+              {t(Variables, 'mine_collection_edit_folder')}
+            </Text>
+            {/* Text 2 */}
+            <Text
+              accessible={true}
+              selectable={false}
+              style={StyleSheet.applyWidth(
+                {
+                  alignSelf: 'flex-start',
+                  color: palettes.App['Custom Color 59'],
+                  fontFamily: 'System',
+                  fontSize: 12,
+                  fontWeight: '400',
+                  letterSpacing: 0.2,
+                  lineHeight: 14,
+                  marginTop: 16,
+                },
+                dimensions.width
+              )}
+            >
+              {'*'}
+              <Text
+                accessible={true}
+                selectable={false}
+                style={StyleSheet.applyWidth(
+                  {
+                    color: palettes.App.appStyle_black,
+                    fontFamily: 'System',
+                    fontSize: 12,
+                    fontWeight: '400',
+                    letterSpacing: 0.2,
+                    lineHeight: 14,
+                  },
+                  dimensions.width
+                )}
+              >
+                {t(Variables, 'mine_collection_folder_name')}
+              </Text>
+            </Text>
+            {/* View 2 */}
+            <View
+              style={StyleSheet.applyWidth(
+                {
+                  borderColor: palettes.App['Custom Color 6'],
+                  borderRadius: 4,
+                  borderWidth: 1,
+                  marginTop: 16,
+                  padding: 8,
+                  width: 268,
+                },
+                dimensions.width
+              )}
+            >
+              <TextInput
+                autoCapitalize={'none'}
+                autoCorrect={true}
+                changeTextDelay={500}
+                onChangeText={newTextInputValue => {
+                  try {
+                    setFolder_input_text(newTextInputValue);
+                    setAdd_folder_error_show(false);
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+                webShowOutline={true}
+                maxLength={20}
+                placeholder={t(
+                  Variables,
+                  'mine_collection_more_input'
+                ).toString()}
+                placeholderTextColor={palettes.App['Custom Color 6']}
+                style={StyleSheet.applyWidth(
+                  {
+                    fontFamily: 'System',
+                    fontSize: 14,
+                    fontWeight: '400',
+                    letterSpacing: 0.2,
+                    lineHeight: 20,
+                  },
+                  dimensions.width
+                )}
+                value={folder_input_text}
+              />
+            </View>
+            <>
+              {!add_folder_error_show ? null : (
+                <Text
+                  accessible={true}
+                  selectable={false}
+                  style={StyleSheet.applyWidth(
+                    {
+                      alignSelf: 'flex-start',
+                      color: palettes.App['Custom Color 59'],
+                      fontFamily: 'System',
+                      fontSize: 10,
+                      fontWeight: '400',
+                      letterSpacing: 0.2,
+                      lineHeight: 14,
+                    },
+                    dimensions.width
+                  )}
+                >
+                  {t(Variables, 'mine_collection_folder_name_required')}
+                </Text>
+              )}
+            </>
+            <View
+              style={StyleSheet.applyWidth(
+                {
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginTop: 16,
+                },
+                dimensions.width
+              )}
+            >
+              <Touchable
+                onPress={() => {
+                  try {
+                    setAdd_folder_item_shown(false);
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+              >
+                <View
+                  style={StyleSheet.applyWidth(
+                    {
+                      alignItems: 'center',
+                      borderColor: palettes.App['Custom Color 6'],
+                      borderRadius: 4,
+                      borderWidth: 1,
+                      justifyContent: 'center',
+                      marginRight: 8,
+                      paddingBottom: 8,
+                      paddingTop: 8,
+                      width: 130,
+                    },
+                    dimensions.width
+                  )}
+                >
+                  <Text
+                    accessible={true}
+                    selectable={false}
+                    style={StyleSheet.applyWidth(
+                      { fontFamily: 'System', fontSize: 14, fontWeight: '400' },
+                      dimensions.width
+                    )}
+                  >
+                    {t(Variables, 'common_cancel')}
+                  </Text>
+                </View>
+              </Touchable>
+              {/* Touchable 2 */}
+              <Touchable
+                onPress={() => {
+                  const handler = async () => {
+                    try {
+                      if (folder_input_text?.length === 0) {
+                        setAdd_folder_error_show(true);
+                      } else {
+                        (
+                          await aceCampTestFavoritesEditPUT.mutateAsync({
+                            id: props.route?.params?.id ?? defaultProps.id,
+                            name: folder_input_text,
+                          })
+                        )?.json;
+                        setAdd_folder_item_shown(false);
+                        setFolder_input_text('');
+                        setNew_folder_name(folder_input_text);
+                      }
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  };
+                  handler();
+                }}
+              >
+                {/* View 2 */}
+                <View
+                  style={StyleSheet.applyWidth(
+                    {
+                      alignItems: 'center',
+                      backgroundColor: palettes.Brand.appStyle_primary,
+                      borderColor: palettes.Brand.appStyle_primary,
+                      borderRadius: 4,
+                      borderWidth: 1,
+                      justifyContent: 'center',
+                      paddingBottom: 8,
+                      paddingTop: 8,
+                      width: 130,
+                    },
+                    dimensions.width
+                  )}
+                >
+                  <Text
+                    accessible={true}
+                    selectable={false}
+                    style={StyleSheet.applyWidth(
+                      {
+                        color: palettes.App['Custom #ffffff'],
+                        fontFamily: 'System',
+                        fontSize: 14,
+                        fontWeight: '400',
+                      },
+                      dimensions.width
+                    )}
+                  >
+                    {t(Variables, 'common_yes')}
+                  </Text>
+                </View>
+              </Touchable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScreenContainer>
   );
 };

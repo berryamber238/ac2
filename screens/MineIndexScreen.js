@@ -225,198 +225,228 @@ const MineIndexScreen = props => {
                           }
                         }}
                       >
-                        {/* Img Header */}
-                        <>
-                          {!(
-                            Constants['is_login'] &&
-                            Constants['user_info']?.avatar
-                          ) ? null : (
-                            <Image
-                              {...GlobalStyles.ImageStyles(theme)['Image']
-                                .props}
-                              resizeMode={'cover'}
-                              source={imageSource(
-                                `${Constants['user_info']?.avatar}`
-                              )}
-                              style={StyleSheet.applyWidth(
-                                StyleSheet.compose(
-                                  GlobalStyles.ImageStyles(theme)['Image']
-                                    .style,
-                                  { height: 59, width: 59 }
-                                ),
-                                dimensions.width
-                              )}
-                            />
-                          )}
-                        </>
-                        {/* Img Header 2 */}
-                        <Image
-                          {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                          resizeMode={'cover'}
-                          source={
-                            imageSource(Images['icheadercompany']) ??
-                            imageSource('')
-                          }
+                        <View
                           style={StyleSheet.applyWidth(
-                            StyleSheet.compose(
-                              GlobalStyles.ImageStyles(theme)['Image'].style,
-                              { height: 59, width: 59 }
-                            ),
+                            { alignItems: 'center', flexDirection: 'row' },
                             dimensions.width
                           )}
-                        />
-                      </Touchable>
-                      {/* Header Name Title View */}
-                      <View
-                        style={StyleSheet.applyWidth(
-                          { flex: 1, justifyContent: 'center', marginLeft: 16 },
-                          dimensions.width
-                        )}
-                      >
-                        {/* Header Middle View */}
-                        <>
-                          {!Constants['is_login'] ? null : (
-                            <View
-                              style={StyleSheet.applyWidth(
-                                { alignItems: 'center', flexDirection: 'row' },
-                                dimensions.width
-                              )}
-                            >
-                              {/* Header Vip Image */}
-                              <>
-                                {!Constants['user_info']?.has_vip ? null : (
-                                  <Image
-                                    resizeMode={'cover'}
-                                    {...GlobalStyles.ImageStyles(theme)['Image']
-                                      .props}
-                                    source={imageSource(Images['icvip'])}
-                                    style={StyleSheet.applyWidth(
-                                      StyleSheet.compose(
-                                        GlobalStyles.ImageStyles(theme)['Image']
-                                          .style,
-                                        { height: 24, right: 6, width: 24 }
-                                      ),
-                                      dimensions.width
-                                    )}
-                                  />
-                                )}
-                              </>
-                              {/* Header Name Text */}
-                              <Text
-                                accessible={true}
-                                selectable={false}
-                                {...GlobalStyles.TextStyles(theme)['Text']
+                        >
+                          {/* Img Header */}
+                          <>
+                            {!(
+                              Constants['is_login'] &&
+                              Constants['user_info']?.avatar
+                            ) ? null : (
+                              <Image
+                                {...GlobalStyles.ImageStyles(theme)['Image']
                                   .props}
-                                ellipsizeMode={'tail'}
-                                numberOfLines={1}
+                                resizeMode={'cover'}
+                                source={imageSource(
+                                  `${Constants['user_info']?.avatar}`
+                                )}
                                 style={StyleSheet.applyWidth(
                                   StyleSheet.compose(
-                                    GlobalStyles.TextStyles(theme)['Text']
+                                    GlobalStyles.ImageStyles(theme)['Image']
                                       .style,
-                                    {
-                                      color: Constants['user_info']?.has_vip
-                                        ? '#ffd6a6'
-                                        : undefined,
-                                      fontSize: 22,
-                                    }
+                                    { height: 59, width: 59 }
                                   ),
                                   dimensions.width
                                 )}
-                              >
-                                {Constants['user_info']?.name}
-                              </Text>
-                            </View>
-                          )}
-                        </>
-                        {/* Header Title View */}
-                        <>
-                          {!Constants['is_login'] ? null : (
-                            <View>
-                              {/* Header Title Text */}
-                              <Text
-                                accessible={true}
-                                selectable={false}
-                                style={StyleSheet.applyWidth(
-                                  {
-                                    color: [
-                                      {
-                                        minWidth: Breakpoints.Mobile,
-                                        value: palettes.Gray[400],
-                                      },
-                                      {
-                                        minWidth: Breakpoints.Mobile,
-                                        value: Constants['user_info']?.has_vip
-                                          ? palettes.App['Custom #ffffff']
-                                          : undefined,
-                                      },
-                                    ],
-                                  },
-                                  dimensions.width
-                                )}
-                              >
-                                {getNameById(
-                                  Variables,
-                                  9,
-                                  Constants['user_info']?.organization_user
-                                    .organization.organization_type_id
-                                )}
-                              </Text>
-                            </View>
-                          )}
-                        </>
-                        <>
-                          {Constants['is_login'] ? null : (
+                              />
+                            )}
+                          </>
+                          {/* Img Header 2 */}
+                          <Image
+                            {...GlobalStyles.ImageStyles(theme)['Image'].props}
+                            resizeMode={'cover'}
+                            source={
+                              imageSource(Images['icheadercompany']) ??
+                              imageSource('')
+                            }
+                            style={StyleSheet.applyWidth(
+                              StyleSheet.compose(
+                                GlobalStyles.ImageStyles(theme)['Image'].style,
+                                { height: 59, width: 59 }
+                              ),
+                              dimensions.width
+                            )}
+                          />
+                          <View>
+                            {/* Header Name Title View */}
                             <View
                               style={StyleSheet.applyWidth(
                                 {
-                                  alignSelf: 'flex-start',
                                   flex: 1,
                                   justifyContent: 'center',
+                                  marginLeft: 16,
                                 },
                                 dimensions.width
                               )}
                             >
-                              <Touchable
-                                onPress={() => {
-                                  try {
-                                    navigation.push('BottomTabNavigator', {
-                                      screen: 'Tickets',
-                                      params: { screen: 'LoginScreen' },
-                                    });
-                                  } catch (err) {
-                                    console.error(err);
-                                  }
-                                }}
-                              >
-                                <View
-                                  style={StyleSheet.applyWidth(
-                                    { justifyContent: 'center' },
-                                    dimensions.width
-                                  )}
-                                >
-                                  <Text
-                                    accessible={true}
-                                    selectable={false}
+                              {/* Header Middle View */}
+                              <>
+                                {!Constants['is_login'] ? null : (
+                                  <View
                                     style={StyleSheet.applyWidth(
                                       {
-                                        color: palettes.Brand.itemTextNomal,
-                                        fontFamily: 'System',
-                                        fontSize: 22,
-                                        fontWeight: '700',
-                                        letterSpacing: 0.2,
-                                        lineHeight: 30,
+                                        alignItems: 'center',
+                                        flexDirection: 'row',
                                       },
                                       dimensions.width
                                     )}
                                   >
-                                    {t(Variables, 'mine_click_login')}
-                                  </Text>
-                                </View>
-                              </Touchable>
+                                    {/* Header Vip Image */}
+                                    <>
+                                      {!Constants['user_info']
+                                        ?.has_vip ? null : (
+                                        <Image
+                                          resizeMode={'cover'}
+                                          {...GlobalStyles.ImageStyles(theme)[
+                                            'Image'
+                                          ].props}
+                                          source={imageSource(Images['icvip'])}
+                                          style={StyleSheet.applyWidth(
+                                            StyleSheet.compose(
+                                              GlobalStyles.ImageStyles(theme)[
+                                                'Image'
+                                              ].style,
+                                              {
+                                                height: 24,
+                                                right: 6,
+                                                width: 24,
+                                              }
+                                            ),
+                                            dimensions.width
+                                          )}
+                                        />
+                                      )}
+                                    </>
+                                    {/* Header Name Text */}
+                                    <Text
+                                      accessible={true}
+                                      selectable={false}
+                                      {...GlobalStyles.TextStyles(theme)['Text']
+                                        .props}
+                                      ellipsizeMode={'tail'}
+                                      numberOfLines={1}
+                                      style={StyleSheet.applyWidth(
+                                        StyleSheet.compose(
+                                          GlobalStyles.TextStyles(theme)['Text']
+                                            .style,
+                                          {
+                                            color: Constants['user_info']
+                                              ?.has_vip
+                                              ? '#ffd6a6'
+                                              : undefined,
+                                            fontSize: 22,
+                                          }
+                                        ),
+                                        dimensions.width
+                                      )}
+                                    >
+                                      {Constants['user_info']?.name}
+                                    </Text>
+                                  </View>
+                                )}
+                              </>
+                              {/* Header Title View */}
+                              <>
+                                {!Constants['is_login'] ? null : (
+                                  <View>
+                                    {/* Header Title Text */}
+                                    <Text
+                                      accessible={true}
+                                      selectable={false}
+                                      style={StyleSheet.applyWidth(
+                                        {
+                                          color: [
+                                            {
+                                              minWidth: Breakpoints.Mobile,
+                                              value: palettes.Gray[400],
+                                            },
+                                            {
+                                              minWidth: Breakpoints.Mobile,
+                                              value: Constants['user_info']
+                                                ?.has_vip
+                                                ? palettes.App['Custom #ffffff']
+                                                : undefined,
+                                            },
+                                          ],
+                                        },
+                                        dimensions.width
+                                      )}
+                                    >
+                                      {getNameById(
+                                        Variables,
+                                        9,
+                                        Constants['user_info']
+                                          ?.organization_user.organization
+                                          .organization_type_id
+                                      )}
+                                    </Text>
+                                  </View>
+                                )}
+                              </>
+                              <>
+                                {Constants['is_login'] ? null : (
+                                  <View
+                                    style={StyleSheet.applyWidth(
+                                      {
+                                        alignSelf: 'flex-start',
+                                        flex: 1,
+                                        justifyContent: 'center',
+                                      },
+                                      dimensions.width
+                                    )}
+                                  >
+                                    <Touchable
+                                      onPress={() => {
+                                        try {
+                                          navigation.push(
+                                            'BottomTabNavigator',
+                                            {
+                                              screen: 'Tickets',
+                                              params: { screen: 'LoginScreen' },
+                                            }
+                                          );
+                                        } catch (err) {
+                                          console.error(err);
+                                        }
+                                      }}
+                                    >
+                                      <View
+                                        style={StyleSheet.applyWidth(
+                                          { justifyContent: 'center' },
+                                          dimensions.width
+                                        )}
+                                      >
+                                        <Text
+                                          accessible={true}
+                                          selectable={false}
+                                          style={StyleSheet.applyWidth(
+                                            {
+                                              color:
+                                                palettes.Brand.itemTextNomal,
+                                              fontFamily: 'System',
+                                              fontSize: 22,
+                                              fontWeight: '700',
+                                              letterSpacing: 0.2,
+                                              lineHeight: 30,
+                                            },
+                                            dimensions.width
+                                          )}
+                                        >
+                                          {t(Variables, 'mine_click_login')}
+                                        </Text>
+                                      </View>
+                                    </Touchable>
+                                  </View>
+                                )}
+                              </>
                             </View>
-                          )}
-                        </>
-                      </View>
+                          </View>
+                        </View>
+                      </Touchable>
                       {/* Header ProfileUrl View */}
                       <View
                         style={StyleSheet.applyWidth(
@@ -1401,6 +1431,13 @@ const MineIndexScreen = props => {
             </Touchable>
             {/* Article Summary Touchable */}
             <Touchable
+              onPress={() => {
+                try {
+                  navigation.push('MineBuyArticleScreen');
+                } catch (err) {
+                  console.error(err);
+                }
+              }}
               style={StyleSheet.applyWidth(
                 { marginBottom: 24 },
                 dimensions.width
@@ -1475,6 +1512,13 @@ const MineIndexScreen = props => {
             </Touchable>
             {/* Purchased Replays Touchable */}
             <Touchable
+              onPress={() => {
+                try {
+                  navigation.push('MineBuyLiveScreen');
+                } catch (err) {
+                  console.error(err);
+                }
+              }}
               style={StyleSheet.applyWidth(
                 { marginBottom: 24 },
                 dimensions.width
@@ -1549,6 +1593,13 @@ const MineIndexScreen = props => {
             </Touchable>
             {/* My Likes Touchable */}
             <Touchable
+              onPress={() => {
+                try {
+                  navigation.push('MineMyLikeScreen');
+                } catch (err) {
+                  console.error(err);
+                }
+              }}
               style={StyleSheet.applyWidth(
                 { marginBottom: 24 },
                 dimensions.width
@@ -1623,6 +1674,16 @@ const MineIndexScreen = props => {
             </Touchable>
             {/* My Collection Touchable */}
             <Touchable
+              onPress={() => {
+                try {
+                  navigation.push('BottomTabNavigator', {
+                    screen: 'Mine',
+                    params: { screen: 'MineMyFavoritesScreen' },
+                  });
+                } catch (err) {
+                  console.error(err);
+                }
+              }}
               style={StyleSheet.applyWidth(
                 { marginBottom: 24 },
                 dimensions.width

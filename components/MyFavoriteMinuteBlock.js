@@ -346,7 +346,7 @@ const MyFavoriteMinuteBlock = props => {
         >
           <View
             style={StyleSheet.applyWidth(
-              { alignItems: 'center', flexDirection: 'row' },
+              { alignItems: 'center', flexDirection: 'row', flexShrink: 1 },
               dimensions.width
             )}
           >
@@ -453,9 +453,12 @@ const MyFavoriteMinuteBlock = props => {
             <Text
               accessible={true}
               selectable={false}
+              ellipsizeMode={'tail'}
+              numberOfLines={1}
               style={StyleSheet.applyWidth(
                 {
                   color: palettes.App['Custom Color 4'],
+                  flexShrink: 1,
                   fontFamily: 'System',
                   fontSize: 12,
                   fontWeight: '400',
@@ -477,8 +480,10 @@ const MyFavoriteMinuteBlock = props => {
           <Text
             accessible={true}
             selectable={false}
+            numberOfLines={1}
             style={StyleSheet.applyWidth(
               {
+                alignSelf: 'flex-end',
                 color: palettes.App['Custom Color 4'],
                 fontFamily: 'System',
                 fontSize: 12,

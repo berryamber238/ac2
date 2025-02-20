@@ -262,26 +262,48 @@ const MineMyFavoritesScreen = props => {
                   renderItem={({ item, index }) => {
                     const listData = item;
                     return (
-                      <MyFavoriteBlock
-                        deleteFolder={id => {
-                          try {
-                            setDelete_folder_index(id);
-                            setDelete_folder_shown(true);
-                          } catch (err) {
-                            console.error(err);
-                          }
-                        }}
-                        editFolder={(id, folderName) => {
-                          try {
-                            setFolder_input_text(folderName);
-                            setEdit_folder_index(id);
-                            setAdd_folder_item_shown(true);
-                          } catch (err) {
-                            console.error(err);
-                          }
-                        }}
-                        item={listData}
-                      />
+                      <>
+                        <Touchable
+                          onPress={() => {
+                            try {
+                              navigation.push('BottomTabNavigator', {
+                                screen: 'Mine',
+                                params: {
+                                  screen: 'MineMyFavoritesDetail2Screen',
+                                  params: {
+                                    id: listData?.id,
+                                    folder_name: listData?.name,
+                                    is_default: listData?.default_favorite,
+                                  },
+                                },
+                              });
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          }}
+                        >
+                          <MyFavoriteBlock
+                            deleteFolder={id => {
+                              try {
+                                setDelete_folder_index(id);
+                                setDelete_folder_shown(true);
+                              } catch (err) {
+                                console.error(err);
+                              }
+                            }}
+                            editFolder={(id, folderName) => {
+                              try {
+                                setFolder_input_text(folderName);
+                                setEdit_folder_index(id);
+                                setAdd_folder_item_shown(true);
+                              } catch (err) {
+                                console.error(err);
+                              }
+                            }}
+                            item={listData}
+                          />
+                        </Touchable>
+                      </>
                     );
                   }}
                   showsHorizontalScrollIndicator={true}

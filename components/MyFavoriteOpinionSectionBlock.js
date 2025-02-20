@@ -511,6 +511,7 @@ const MyFavoriteOpinionSectionBlock = props => {
                   {
                     alignSelf: 'flex-end',
                     color: palettes.App['Custom Color 11'],
+                    flexShrink: 1,
                     fontFamily: 'System',
                     fontSize: 11,
                     fontWeight: '400',
