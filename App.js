@@ -145,9 +145,7 @@ const App = () => {
         />
       ) : null}
       {Platform.OS === 'android' ? (
-        <StatusBar
-          barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
-        />
+        <StatusBar barStyle={'dark-content'} hidden={true} translucent={true} />
       ) : null}
       <ThemeProvider
         themes={[Draftbit]}
