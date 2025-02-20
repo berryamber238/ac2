@@ -1100,6 +1100,11 @@ export const ActivityIndicatorStyles = theme =>
     'Activity Indicator': { style: { height: 36, width: 36 }, props: {} },
   });
 
+export const LottieAnimationStyles = theme =>
+  StyleSheet.create({
+    'Lottie Animation': { style: { height: 100, width: 100 }, props: {} },
+  });
+
 export const SurfaceStyles = theme =>
   StyleSheet.create({ Surface: { style: { minHeight: 40 }, props: {} } });
 

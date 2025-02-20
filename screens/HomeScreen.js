@@ -11,7 +11,7 @@ import {
   Touchable,
   withTheme,
 } from '@draftbit/ui';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import * as GlobalStyles from '../GlobalStyles.js';
 import HotBlock from '../components/HotBlock';
 import OpinionBlock from '../components/OpinionBlock';
@@ -199,27 +199,27 @@ line two` ) and will not work with special characters inside of quotes ( example
                   name={'EvilIcons/search'}
                   size={20}
                 />
-                <TextInput
-                  autoCapitalize={'none'}
-                  autoCorrect={true}
-                  changeTextDelay={500}
-                  onChangeText={newTextInputValue => {
-                    const textInputValue = newTextInputValue;
-                    try {
-                      setTextInputValue2(newTextInputValue);
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  }}
-                  webShowOutline={true}
-                  {...GlobalStyles.TextInputStyles(theme)['Login Input'].props}
-                  placeholder={t(Variables, 'events_search_default').toString()}
+                <Text
+                  accessible={true}
+                  selectable={false}
+                  {...GlobalStyles.TextStyles(theme)['Text Title'].props}
                   style={StyleSheet.applyWidth(
-                    GlobalStyles.TextInputStyles(theme)['Login Input'].style,
+                    StyleSheet.compose(
+                      GlobalStyles.TextStyles(theme)['Text Title'].style,
+                      theme.typography.body1,
+                      {
+                        color: palettes.Gray[400],
+                        fontFamily: 'System',
+                        fontSize: 12,
+                        fontWeight: '400',
+                        lineHeight: 20,
+                      }
+                    ),
                     dimensions.width
                   )}
-                  value={textInputValue2}
-                />
+                >
+                  {t(Variables, 'events_search_default')}
+                </Text>
               </View>
             </Touchable>
           </View>

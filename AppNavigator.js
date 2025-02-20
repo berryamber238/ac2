@@ -42,6 +42,7 @@ import OpinionInfoScreen from './screens/OpinionInfoScreen';
 import OrganizerScreen from './screens/OrganizerScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import SearchPageScreen from './screens/SearchPageScreen';
+import SplashScreen from './screens/SplashScreen';
 import SpotlightDetailScreen from './screens/SpotlightDetailScreen';
 import VipInfoScreen from './screens/VipInfoScreen';
 import WebViewScreen from './screens/WebViewScreen';
@@ -333,17 +334,6 @@ function Tickets({ navigation }) {
           title: 'Live',
         })}
       />
-      <Stack.Screen
-        name="LoginScreen"
-        component={LoginScreen}
-        options={({ navigation }) => ({
-          headerMode: 'screen',
-          headerShown: false,
-          headerStyle: { backgroundColor: 'transparent' },
-          headerTransparent: true,
-          title: 'Login',
-        })}
-      />
     </Stack.Navigator>
   );
 }
@@ -448,7 +438,7 @@ export default function RootAppNavigator() {
       linking={LinkingConfiguration}
     >
       <Stack.Navigator
-        initialRouteName="BottomTabNavigator"
+        initialRouteName="SplashScreen"
         presentation="card"
         screenOptions={({ navigation }) => ({
           animationEnabled: true,
@@ -521,6 +511,17 @@ export default function RootAppNavigator() {
             gestureEnabled: true,
             headerShown: false,
             title: 'Event-Detail',
+          })}
+        />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={({ navigation }) => ({
+            headerMode: 'screen',
+            headerShown: false,
+            headerStyle: { backgroundColor: 'transparent' },
+            headerTransparent: true,
+            title: 'Login',
           })}
         />
         <Stack.Screen
@@ -641,6 +642,13 @@ export default function RootAppNavigator() {
           options={({ navigation }) => ({
             headerShown: false,
             title: 'SearchPage',
+          })}
+        />
+        <Stack.Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          options={({ navigation }) => ({
+            title: 'Splash',
           })}
         />
         <Stack.Screen

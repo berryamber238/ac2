@@ -402,13 +402,7 @@ const MineIndexScreen = props => {
                                     <Touchable
                                       onPress={() => {
                                         try {
-                                          navigation.push(
-                                            'BottomTabNavigator',
-                                            {
-                                              screen: 'Tickets',
-                                              params: { screen: 'LoginScreen' },
-                                            }
-                                          );
+                                          navigation.push('BottomTabNavigator');
                                         } catch (err) {
                                           console.error(err);
                                         }

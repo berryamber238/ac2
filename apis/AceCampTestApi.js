@@ -2885,6 +2885,7 @@ export const feedsGET = async (
   Constants,
   {
     content_language_preference,
+    cursor,
     custom_sector_ids,
     follow,
     recommend_search,
@@ -2910,6 +2911,9 @@ export const feedsGET = async (
   }
   if (vip !== undefined) {
     paramsDict['vip'] = vip;
+  }
+  if (cursor !== undefined) {
+    paramsDict['cursor'] = cursor;
   }
   const url = `https://api.ca3test.com/api/v1/feeds${renderQueryString(
     paramsDict,
@@ -2987,6 +2991,7 @@ export const FetchFeedsGET = ({
   staleTime,
   timeout,
   content_language_preference,
+  cursor,
   custom_sector_ids,
   follow,
   recommend_search,
@@ -3004,6 +3009,7 @@ export const FetchFeedsGET = ({
   } = useFeedsGET(
     {
       content_language_preference,
+      cursor,
       custom_sector_ids,
       follow,
       recommend_search,

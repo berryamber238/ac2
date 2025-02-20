@@ -1578,7 +1578,7 @@ const LiveScreen = props => {
                         JSON.stringify(listData)
                       }
                       keyboardShouldPersistTaps={'never'}
-                      listKey={'TpMxUslY'}
+                      listKey={'View 2->等待视图 8->Fetch->List'}
                       nestedScrollEnabled={false}
                       numColumns={1}
                       onEndReachedThreshold={0.5}
