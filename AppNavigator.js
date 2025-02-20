@@ -8,15 +8,43 @@ import { I18nManager, Platform, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { systemWeights } from 'react-native-typography';
 import LinkingConfiguration from './LinkingConfiguration';
-import CartScreen from './screens/CartScreen';
-import CategoryDetailViewRecommendedTabScreen from './screens/CategoryDetailViewRecommendedTabScreen';
-import CategoryDetailViewTrendingTabScreen from './screens/CategoryDetailViewTrendingTabScreen';
-import CategoryRecordDetailViewScreen from './screens/CategoryRecordDetailViewScreen';
+import * as GlobalVariables from './config/GlobalVariableContext';
+import setUndefined from './global-functions/setUndefined';
+import t from './global-functions/t';
+import ArticleDetailScreen from './screens/ArticleDetailScreen';
+import CalendarScreen from './screens/CalendarScreen';
+import CompanyInfoScreen from './screens/CompanyInfoScreen';
+import CompanyListScreen from './screens/CompanyListScreen';
+import CreatePointScreen from './screens/CreatePointScreen';
+import CreateTopicScreen from './screens/CreateTopicScreen';
+import DailyUpdateScreen from './screens/DailyUpdateScreen';
+import DrawerNavScreen from './screens/DrawerNavScreen';
+import EventDetailScreen from './screens/EventDetailScreen';
 import HomeScreen from './screens/HomeScreen';
-import OrderCheckoutScreen from './screens/OrderCheckoutScreen';
-import OrderConfirmationScreen from './screens/OrderConfirmationScreen';
-import OrderPaymentMethodScreen from './screens/OrderPaymentMethodScreen';
-import OrderVouchersScreen from './screens/OrderVouchersScreen';
+import LiveScreen from './screens/LiveScreen';
+import LoginScreen from './screens/LoginScreen';
+import MessageCenterScreen from './screens/MessageCenterScreen';
+import MineBuyArticleScreen from './screens/MineBuyArticleScreen';
+import MineBuyLiveScreen from './screens/MineBuyLiveScreen';
+import MineCountryCodeListScreen from './screens/MineCountryCodeListScreen';
+import MineIdentityInfoScreen from './screens/MineIdentityInfoScreen';
+import MineIndexScreen from './screens/MineIndexScreen';
+import MineMyFansScreen from './screens/MineMyFansScreen';
+import MineMyFavoritesDetail2Screen from './screens/MineMyFavoritesDetail2Screen';
+import MineMyFavoritesDetailScreen from './screens/MineMyFavoritesDetailScreen';
+import MineMyFavoritesScreen from './screens/MineMyFavoritesScreen';
+import MineMyFollowScreen from './screens/MineMyFollowScreen';
+import MineMyLikeScreen from './screens/MineMyLikeScreen';
+import MineMyPointScreen from './screens/MineMyPointScreen';
+import MineMyTopicScreen from './screens/MineMyTopicScreen';
+import MineSettingsScreen from './screens/MineSettingsScreen';
+import OpinionInfoScreen from './screens/OpinionInfoScreen';
+import OrganizerScreen from './screens/OrganizerScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import SearchPageScreen from './screens/SearchPageScreen';
+import SpotlightDetailScreen from './screens/SpotlightDetailScreen';
+import VipInfoScreen from './screens/VipInfoScreen';
+import WebViewScreen from './screens/WebViewScreen';
 import palettes from './themes/palettes';
 import Breakpoints from './utils/Breakpoints';
 import useWindowDimensions from './utils/useWindowDimensions';
@@ -54,14 +82,32 @@ function DefaultDrawerIcon({ tintColor, navigation }) {
   );
 }
 
-function CheckoutFlowStack() {
+function Home({ navigation }) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', e => {
+      e.preventDefault();
+
+      navigation.navigate('BottomTabNavigator', {
+        screen: 'Home',
+        params: { screen: 'DrawerNavScreen' },
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   const theme = useTheme();
 
   return (
     <Stack.Navigator
-      initialRouteName="OrderCheckoutScreen"
+      initialRouteName="DrawerNavScreen"
+      presentation="card"
+      tabPressToInitialScreen={true}
       screenOptions={({ navigation }) => ({
+        animationEnabled: true,
+        cardOverlayEnabled: true,
         cardStyle: { flex: 1 },
+        gestureEnabled: true,
         headerBackImage:
           Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
         headerMode: 'none',
@@ -69,155 +115,314 @@ function CheckoutFlowStack() {
       })}
     >
       <Stack.Screen
-        name="OrderCheckoutScreen"
-        component={OrderCheckoutScreen}
+        name="DrawerNavScreen"
+        component={DrawerNavScreen}
         options={({ navigation }) => ({
-          title: 'Order Checkout Screen',
-        })}
-      />
-      <Stack.Screen
-        name="OrderConfirmationScreen"
-        component={OrderConfirmationScreen}
-        options={({ navigation }) => ({
-          title: 'Order Confirmation',
-        })}
-      />
-      <Stack.Screen
-        name="OrderPaymentMethodScreen"
-        component={OrderPaymentMethodScreen}
-        options={({ navigation }) => ({
-          title: 'Order Payment Method Screen',
-        })}
-      />
-      <Stack.Screen
-        name="OrderVouchersScreen"
-        component={OrderVouchersScreen}
-        options={({ navigation }) => ({
-          title: 'Order Vouchers Screen',
-        })}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function CartNavigators() {
-  const theme = useTheme();
-
-  return (
-    <Stack.Navigator
-      screenOptions={({ navigation }) => ({
-        cardStyle: { flex: 1 },
-        headerBackImage:
-          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-        headerMode: 'none',
-        headerShown: false,
-      })}
-    >
-      <Stack.Screen
-        name="CartScreen"
-        component={CartScreen}
-        options={({ navigation }) => ({
-          title: 'Cart Screen',
-        })}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function HomeNavigators() {
-  const theme = useTheme();
-
-  return (
-    <Stack.Navigator
-      initialRouteName="HomeScreen"
-      screenOptions={({ navigation }) => ({
-        cardStyle: { flex: 1 },
-        headerBackImage:
-          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-        headerMode: 'none',
-        headerShown: false,
-      })}
-    >
-      <Stack.Screen
-        name="CategoryDetailViewRecommendedTabScreen"
-        component={CategoryDetailViewRecommendedTabScreen}
-        options={({ navigation }) => ({
-          title: 'Category Detail View Recommended Tab',
-        })}
-      />
-      <Stack.Screen
-        name="CategoryDetailViewTrendingTabScreen"
-        component={CategoryDetailViewTrendingTabScreen}
-        options={({ navigation }) => ({
-          title: 'Category Detail View Trending Tab',
-        })}
-      />
-      <Stack.Screen
-        name="CategoryRecordDetailViewScreen"
-        component={CategoryRecordDetailViewScreen}
-        options={({ navigation }) => ({
-          title: 'Category Record Detail View',
+          title: 'DrawerNav',
         })}
       />
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
         options={({ navigation }) => ({
-          title: 'Home Screen',
+          headerShown: false,
+          headerTitle: 'home',
+          headerTransparent: false,
+          title: 'Home',
+        })}
+      />
+      <Stack.Screen
+        name="OrganizerScreen"
+        component={OrganizerScreen}
+        options={({ navigation }) => ({
+          headerShown: false,
+          title: 'Organizer',
+        })}
+      />
+      <Stack.Screen
+        name="SpotlightDetailScreen"
+        component={SpotlightDetailScreen}
+        options={({ navigation }) => ({
+          headerShown: false,
+          headerTintColor: palettes.App['Custom #ffffff'],
+          title: 'Spotlight-detail',
         })}
       />
     </Stack.Navigator>
   );
 }
 
-function PrimaryBottomNavigator() {
+function Mine({ navigation }) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', e => {
+      e.preventDefault();
+
+      navigation.navigate('BottomTabNavigator', {
+        screen: 'Mine',
+        params: { screen: 'MineIndexScreen' },
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const theme = useTheme();
+
+  const Constants = GlobalVariables.useValues();
+
+  return (
+    <Stack.Navigator
+      initialRouteName="MineIndexScreen"
+      tabPressToInitialScreen={true}
+      screenOptions={({ navigation }) => ({
+        animationEnabled: true,
+        cardStyle: { flex: 1 },
+        headerBackImage:
+          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
+        headerMode: 'none',
+        headerShown: false,
+        headerTransparent: false,
+      })}
+    >
+      <Stack.Screen
+        name="MineIdentityInfoScreen"
+        component={MineIdentityInfoScreen}
+        options={({ navigation }) => ({
+          title: 'Mine-IdentityInfo',
+        })}
+      />
+      <Stack.Screen
+        name="MineIndexScreen"
+        component={MineIndexScreen}
+        options={({ navigation }) => ({
+          title: 'Mine-index',
+        })}
+      />
+      <Stack.Screen
+        name="MineMyFavoritesDetail2Screen"
+        component={MineMyFavoritesDetail2Screen}
+        options={({ navigation }) => ({
+          animationEnabled: true,
+          gestureEnabled: true,
+          title: 'Mine-My-Favorites-Detail 2',
+        })}
+      />
+      <Stack.Screen
+        name="MineMyFavoritesScreen"
+        component={MineMyFavoritesScreen}
+        options={({ navigation }) => ({
+          title: 'Mine-My-Favorites',
+        })}
+      />
+      <Stack.Screen
+        name="MineSettingsScreen"
+        component={MineSettingsScreen}
+        options={({ navigation }) => ({
+          animationEnabled: true,
+          headerShown: false,
+          title: 'Mine-Settings',
+        })}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function Popular({ navigation }) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', e => {
+      e.preventDefault();
+
+      navigation.navigate('BottomTabNavigator', {
+        screen: 'Popular',
+        params: { screen: 'PopularScreen' },
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const theme = useTheme();
+
+  /* Navigator has no children, add a child screen or navigator to have it rendered here */
+}
+
+function Search({ navigation }) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', e => {
+      e.preventDefault();
+
+      navigation.navigate('BottomTabNavigator', {
+        screen: 'Search',
+        params: { screen: 'CompanyListScreen' },
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const theme = useTheme();
+
+  const Constants = GlobalVariables.useValues();
+
+  return (
+    <Stack.Navigator
+      initialRouteName="CompanyListScreen"
+      presentation="card"
+      tabPressToInitialScreen={true}
+      screenOptions={({ navigation }) => ({
+        cardStyle: { flex: 1, backgroundColor: palettes.App['Custom #ffffff'] },
+        headerBackImage:
+          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
+        headerMode: 'none',
+        headerShown: false,
+      })}
+    >
+      <Stack.Screen
+        name="CompanyInfoScreen"
+        component={CompanyInfoScreen}
+        options={({ navigation }) => ({
+          cardStyle: { backgroundColor: palettes.App['Custom #ffffff'] },
+          title: 'Company-Info',
+        })}
+      />
+      <Stack.Screen
+        name="CompanyListScreen"
+        component={CompanyListScreen}
+        options={({ navigation }) => ({
+          headerShown: false,
+          title: 'Company-List',
+        })}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function Tickets({ navigation }) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', e => {
+      e.preventDefault();
+
+      navigation.navigate('BottomTabNavigator', {
+        screen: 'Tickets',
+        params: { screen: 'LiveScreen' },
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const theme = useTheme();
+
+  return (
+    <Stack.Navigator
+      initialRouteName="LiveScreen"
+      tabPressToInitialScreen={true}
+      screenOptions={({ navigation }) => ({
+        cardStyle: { flex: 1 },
+        headerBackImage:
+          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
+        headerMode: 'none',
+        headerShown: false,
+      })}
+    >
+      <Stack.Screen
+        name="LiveScreen"
+        component={LiveScreen}
+        options={({ navigation }) => ({
+          headerShown: false,
+          title: 'Live',
+        })}
+      />
+      <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={({ navigation }) => ({
+          headerMode: 'screen',
+          headerShown: false,
+          headerStyle: { backgroundColor: 'transparent' },
+          headerTransparent: true,
+          title: 'Login',
+        })}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function BottomTabNavigator() {
   const theme = useTheme();
 
   const tabBarOrDrawerIcons = {
-    HomeNavigators: 'AntDesign/home',
-    CartNavigators: 'AntDesign/shoppingcart',
+    Home: 'AntDesign/home',
+    Search: 'Ionicons/search',
+    Tickets: 'MaterialCommunityIcons/ticket-confirmation',
+    Mine: 'Ionicons/person',
   };
 
   return (
     <Tab.Navigator
-      initialRouteName="HomeNavigators"
+      initialRouteName="Home"
+      backBehavior="history"
       screenOptions={({ navigation }) => ({
+        headerMode: 'screen',
         headerShown: false,
-        tabBarActiveBackgroundColor: theme.colors.background.brand,
-        tabBarActiveTintColor: palettes.Brand.Shopping_Primary,
-        tabBarInactiveBackgroundColor: theme.colors.background.brand,
-        tabBarLabelStyle: theme.typography.custom15,
-        tabBarStyle: { borderTopColor: 'transparent' },
+        headerStyle: { backgroundColor: 'transparent' },
+        headerTransparent: true,
+        tabBarActiveBackgroundColor: 'theme.colors["White"]',
+        tabBarInactiveBackgroundColor: 'theme.colors["White"]',
+        tabBarLabelPosition: 'below-icon',
+        tabBarLabelStyle: theme.typography.custom22,
+        tabBarStyle: {
+          backgroundColor: palettes.App.White,
+          borderTopColor: 'transparent',
+        },
       })}
     >
       <Tab.Screen
-        name="HomeNavigators"
-        component={HomeNavigators}
+        name="Home"
+        component={Home}
         options={({ navigation }) => ({
           tabBarIcon: ({ focused, color }) => (
-            <Icon
-              name="AntDesign/home"
-              size={25}
-              color={focused ? palettes.Brand.Shopping_Primary : color}
-            />
+            <Icon name="AntDesign/home" size={25} color={color} />
           ),
-          tabBarLabel: 'Home',
-          title: 'Home Navigators',
+          tabBarLabel: '首页',
+          title: 'Home',
         })}
       />
       <Tab.Screen
-        name="CartNavigators"
-        component={CartNavigators}
+        name="Search"
+        component={Search}
+        options={({ navigation }) => ({
+          tabBarIcon: ({ focused, color }) => (
+            <Icon name="Ionicons/search" size={25} color={color} />
+          ),
+          tabBarLabel: '公司',
+          title: 'Search',
+        })}
+      />
+      <Tab.Screen
+        name="Tickets"
+        component={Tickets}
         options={({ navigation }) => ({
           tabBarIcon: ({ focused, color }) => (
             <Icon
-              name="AntDesign/shoppingcart"
+              name="MaterialCommunityIcons/ticket-confirmation"
               size={25}
-              color={focused ? palettes.Brand.Shopping_Primary : color}
+              color={color}
             />
           ),
-          tabBarLabel: 'Cart',
-          title: 'Cart Navigators',
+          tabBarLabel: 'AI助手',
+          title: 'Tickets',
+        })}
+      />
+      <Tab.Screen
+        name="Mine"
+        component={Mine}
+        options={({ navigation }) => ({
+          tabBarIcon: ({ focused, color }) => (
+            <Icon name="Ionicons/person" size={25} color={color} />
+          ),
+          tabBarLabel: '我的',
+          title: 'Mine',
         })}
       />
     </Tab.Navigator>
@@ -226,6 +431,10 @@ function PrimaryBottomNavigator() {
 
 export default function RootAppNavigator() {
   const theme = useTheme();
+
+  const dimensions = useWindowDimensions();
+
+  const safeAreaInsets = useSafeAreaInsets();
 
   return (
     <NavigationContainer
@@ -239,27 +448,252 @@ export default function RootAppNavigator() {
       linking={LinkingConfiguration}
     >
       <Stack.Navigator
-        initialRouteName="PrimaryBottomNavigator"
+        initialRouteName="BottomTabNavigator"
+        presentation="card"
         screenOptions={({ navigation }) => ({
-          cardStyle: { flex: 1 },
+          animationEnabled: true,
+          cardStyle: {
+            flex: 1,
+            backgroundColor: palettes.App['Custom #ffffff'],
+          },
+          gestureEnabled: true,
           headerBackImage:
             Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-          headerMode: 'none',
+          headerMode: 'float',
           headerShown: false,
+          headerStyle: {
+            backgroundColor: palettes.App['Custom #ffffff'],
+            borderBottomColor: 'transparent',
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTransparent: true,
         })}
       >
         <Stack.Screen
-          name="CheckoutFlowStack"
-          component={CheckoutFlowStack}
+          name="ArticleDetailScreen"
+          component={ArticleDetailScreen}
           options={({ navigation }) => ({
-            title: 'Checkout Flow Stack',
+            animationEnabled: true,
+            gestureDirection: 'horizontal',
+            gestureEnabled: true,
+            headerShown: false,
+            title: 'Article-Detail',
           })}
         />
         <Stack.Screen
-          name="PrimaryBottomNavigator"
-          component={PrimaryBottomNavigator}
+          name="CalendarScreen"
+          component={CalendarScreen}
           options={({ navigation }) => ({
-            title: 'Primary Bottom Navigator',
+            headerShown: false,
+            title: 'Calendar',
+          })}
+        />
+        <Stack.Screen
+          name="CreatePointScreen"
+          component={CreatePointScreen}
+          options={({ navigation }) => ({
+            animationEnabled: true,
+            gestureEnabled: true,
+            headerShown: false,
+            title: 'Create-Point',
+          })}
+        />
+        <Stack.Screen
+          name="CreateTopicScreen"
+          component={CreateTopicScreen}
+          options={({ navigation }) => ({
+            title: 'Create-Topic',
+          })}
+        />
+        <Stack.Screen
+          name="DailyUpdateScreen"
+          component={DailyUpdateScreen}
+          options={({ navigation }) => ({
+            headerShown: false,
+            title: 'DailyUpdate',
+          })}
+        />
+        <Stack.Screen
+          name="EventDetailScreen"
+          component={EventDetailScreen}
+          options={({ navigation }) => ({
+            gestureEnabled: true,
+            headerShown: false,
+            title: 'Event-Detail',
+          })}
+        />
+        <Stack.Screen
+          name="MessageCenterScreen"
+          component={MessageCenterScreen}
+          options={({ navigation }) => ({
+            headerShown: false,
+            title: 'MessageCenter',
+          })}
+        />
+        <Stack.Screen
+          name="MineBuyArticleScreen"
+          component={MineBuyArticleScreen}
+          options={({ navigation }) => ({
+            title: 'Mine-Buy-Article',
+          })}
+        />
+        <Stack.Screen
+          name="MineBuyLiveScreen"
+          component={MineBuyLiveScreen}
+          options={({ navigation }) => ({
+            title: 'Mine-Buy-Live',
+          })}
+        />
+        <Stack.Screen
+          name="MineCountryCodeListScreen"
+          component={MineCountryCodeListScreen}
+          options={({ navigation }) => ({
+            animationEnabled: true,
+            headerLeft: ({ tintColor, canGoBack }) =>
+              canGoBack ? null : (
+                <View
+                  style={[styles.headerContainer, styles.headerContainerLeft]}
+                >
+                  <Icon
+                    name="AntDesign/arrowleft"
+                    size={Platform.OS === 'ios' ? 21 : 24}
+                    color={palettes.App['Custom #d8d8d8']}
+                    style={[styles.headerIcon, styles.headerIconLeft]}
+                  />
+                </View>
+              ),
+            headerMode: 'screen',
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: palettes.Brand.appStyle_primary,
+              borderBottomColor: 'transparent',
+            },
+            headerTitle: ' ',
+            headerTransparent: false,
+            title: 'Mine-CountryCodeList',
+          })}
+        />
+        <Stack.Screen
+          name="MineMyFansScreen"
+          component={MineMyFansScreen}
+          options={({ navigation }) => ({
+            title: 'Mine-My-Fans',
+          })}
+        />
+        <Stack.Screen
+          name="MineMyFavoritesDetailScreen"
+          component={MineMyFavoritesDetailScreen}
+          options={({ navigation }) => ({
+            title: 'Mine-My-Favorites-Detail',
+          })}
+        />
+        <Stack.Screen
+          name="MineMyFollowScreen"
+          component={MineMyFollowScreen}
+          options={({ navigation }) => ({
+            title: 'Mine-My-Follow',
+          })}
+        />
+        <Stack.Screen
+          name="MineMyLikeScreen"
+          component={MineMyLikeScreen}
+          options={({ navigation }) => ({
+            title: 'Mine-My-Like',
+          })}
+        />
+        <Stack.Screen
+          name="MineMyPointScreen"
+          component={MineMyPointScreen}
+          options={({ navigation }) => ({
+            title: 'Mine-MyPoint',
+          })}
+        />
+        <Stack.Screen
+          name="MineMyTopicScreen"
+          component={MineMyTopicScreen}
+          options={({ navigation }) => ({
+            title: 'Mine-MyTopic',
+          })}
+        />
+        <Stack.Screen
+          name="OpinionInfoScreen"
+          component={OpinionInfoScreen}
+          options={({ navigation }) => ({
+            animationEnabled: true,
+            cardOverlayEnabled: false,
+            gestureEnabled: true,
+            headerShown: false,
+            title: 'Opinion-Info',
+          })}
+        />
+        <Stack.Screen
+          name="RegisterScreen"
+          component={RegisterScreen}
+          options={({ navigation }) => ({
+            headerShown: false,
+            title: 'Register',
+          })}
+        />
+        <Stack.Screen
+          name="SearchPageScreen"
+          component={SearchPageScreen}
+          options={({ navigation }) => ({
+            headerShown: false,
+            title: 'SearchPage',
+          })}
+        />
+        <Stack.Screen
+          name="VipInfoScreen"
+          component={VipInfoScreen}
+          options={({ navigation }) => ({
+            title: 'Vip-Info',
+          })}
+        />
+        <Stack.Screen
+          name="WebViewScreen"
+          component={WebViewScreen}
+          options={({ navigation }) => ({
+            animationEnabled: true,
+            headerLeft: ({ tintColor, canGoBack }) =>
+              canGoBack ? null : (
+                <Touchable
+                  style={[styles.headerContainer, styles.headerContainerLeft]}
+                  onPress={() => {
+                    try {
+                      navigation.goBack();
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                >
+                  <Icon
+                    name="AntDesign/arrowleft"
+                    size={Platform.OS === 'ios' ? 21 : 24}
+                    color={tintColor}
+                    style={[styles.headerIcon, styles.headerIconLeft]}
+                  />
+                </Touchable>
+              ),
+            headerMode: 'float',
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: palettes.Brand.appStyle_primary,
+              borderBottomColor: 'transparent',
+            },
+            headerTintColor: palettes.Brand.appStyle_background,
+            headerTitle: 'APP隐私协议',
+            headerTitleAlign: 'center',
+            headerTransparent: false,
+            title: 'WebView',
+          })}
+        />
+        <Stack.Screen
+          name="BottomTabNavigator"
+          component={BottomTabNavigator}
+          options={({ navigation }) => ({
+            headerShown: false,
+            title: 'Bottom Tab Navigator',
           })}
         />
       </Stack.Navigator>

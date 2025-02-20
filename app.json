@@ -4,7 +4,13 @@
       "config": {
         "usesNonExemptEncryption": false
       },
-      "infoPlist": {},
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan barcodes on event tickets.",
+        "NSMicrophoneUsageDescription": "This app uses the microphone to enable audio chat with others",
+        "UIBackgroundModes": [
+          "audio"
+        ]
+      },
       "bundleIdentifier": "com.draftbit.untitledapp",
       "usesIcloudStorage": false,
       "buildNumber": "1.0.0",
@@ -41,21 +47,26 @@
       "themeColor": "#000000"
     },
     "icon": "./assets/app/icon.png",
-    "name": "test project",
-    "slug": "test-project",
+    "name": "Ace Camp",
+    "slug": "acecamp",
     "extra": {
       "eas": {}
     },
-    "scheme": "untitled-app",
+    "scheme": "acecamp",
     "splash": {
       "image": "./assets/app/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#CB4E43"
+      "backgroundColor": "#FFFFFF"
     },
     "android": {
       "package": "com.draftbit.untitledapp",
-      "permissions": [],
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO"
+      ],
       "adaptiveIcon": {},
+      "androidStatusBar": {},
+      "androidNavigationBar": {},
       "versionCode": 1,
       "blockedPermissions": [
         "android.permission.READ_MEDIA_IMAGES",
@@ -68,7 +79,7 @@
       "android",
       "web"
     ],
-    "description": "test\n",
+    "description": "本营app 2.0",
     "orientation": "default",
     "iosStatusBar": {},
     "notification": {

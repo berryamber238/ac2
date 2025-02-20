@@ -12,6 +12,7 @@ import {
   Text,
   TextInput,
   View,
+  useColorScheme,
 } from 'react-native';
 import {
   SafeAreaFrameContext,
@@ -93,11 +94,10 @@ const App = () => {
   const [areAssetsCached, setAreAssetsCached] = React.useState(false);
 
   const [fontsLoaded] = useFonts({
-    Cantarell_400Regular: Fonts.Cantarell_400Regular,
-    Cantarell_700Bold: Fonts.Cantarell_700Bold,
-    Inter_500Medium: Fonts.Inter_500Medium,
-    Montserrat_600SemiBold: Fonts.Montserrat_600SemiBold,
-    Montserrat_400Regular: Fonts.Montserrat_400Regular,
+    Urbanist_700Bold: Fonts.Urbanist_700Bold,
+    Urbanist_400Regular: Fonts.Urbanist_400Regular,
+    Urbanist_600SemiBold: Fonts.Urbanist_600SemiBold,
+    Urbanist_500Medium: Fonts.Urbanist_500Medium,
   });
 
   React.useEffect(() => {
@@ -115,6 +115,7 @@ const App = () => {
   }, []);
 
   const dimensions = useWindowDimensions();
+  const colorScheme = useColorScheme();
 
   // SafeAreaProvider sets the 'frame' once and does not update when the window size changes (on web).
   // This is particularly problematic for drawer navigators that depend on the frame size to render the drawer.
@@ -137,31 +138,43 @@ const App = () => {
   }
 
   return (
-    <SafeAreaProvider
-      initialMetrics={initialWindowMetrics}
-      onLayout={onLayoutRootView}
-    >
-      <SafeAreaFrameContextProvider
-        value={{
-          x: 0,
-          y: 0,
-          width: dimensions.width,
-          height: dimensions.height,
-        }}
+    <>
+      {Platform.OS === 'ios' ? (
+        <StatusBar
+          barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+        />
+      ) : null}
+      {Platform.OS === 'android' ? (
+        <StatusBar
+          barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+        />
+      ) : null}
+      <ThemeProvider
+        themes={[Draftbit]}
+        breakpoints={{}}
+        initialThemeName={'Draftbit'}
       >
-        <GlobalVariableProvider>
-          <QueryClientProvider client={queryClient}>
-            <ThemeProvider
-              themes={[Draftbit]}
-              breakpoints={{}}
-              initialThemeName={'Draftbit'}
-            >
-              <AppNavigator />
-            </ThemeProvider>
-          </QueryClientProvider>
-        </GlobalVariableProvider>
-      </SafeAreaFrameContextProvider>
-    </SafeAreaProvider>
+        <SafeAreaProvider
+          initialMetrics={initialWindowMetrics}
+          onLayout={onLayoutRootView}
+        >
+          <SafeAreaFrameContextProvider
+            value={{
+              x: 0,
+              y: 0,
+              width: dimensions.width,
+              height: dimensions.height,
+            }}
+          >
+            <GlobalVariableProvider>
+              <QueryClientProvider client={queryClient}>
+                <AppNavigator />
+              </QueryClientProvider>
+            </GlobalVariableProvider>
+          </SafeAreaFrameContextProvider>
+        </SafeAreaProvider>
+      </ThemeProvider>
+    </>
   );
 };
 

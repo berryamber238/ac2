@@ -22,11 +22,23 @@ const linking = {
   prefixes: [prefix],
   config: {
     screens: {
-      CheckoutFlowStack: { screens: {} },
-      PrimaryBottomNavigator: {
+      BottomTabNavigator: {
         screens: {
-          CartNavigators: { screens: {} },
-          HomeNavigators: { screens: {} },
+          Home: { screens: {} },
+          Mine: { screens: {} },
+          Popular: { screens: {} },
+          Search: { screens: {} },
+          Tickets: {
+            screens: {
+              LiveScreen: {
+                screens: {
+                  LiveScreen: {
+                    path: 'LiveScreen/:event_id?/:meeting_id?/:expert_id?/:expert_code?',
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
