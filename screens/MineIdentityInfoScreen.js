@@ -445,6 +445,7 @@ const MineIdentityInfoScreen = props => {
                               allowsEditing: false,
                               quality: 0.2,
                               allowsMultipleSelection: false,
+                              selectionLimit: 0,
                               outputBase64: true,
                             });
                           } catch (err) {
@@ -1212,7 +1213,7 @@ const MineIdentityInfoScreen = props => {
             inverted={false}
             keyExtractor={(listData, index) => listData?.id}
             keyboardShouldPersistTaps={'never'}
-            listKey={'mLBQJZd2'}
+            listKey={'Label Picker Modal->Popup view->List'}
             nestedScrollEnabled={false}
             onEndReachedThreshold={0.5}
             pagingEnabled={false}

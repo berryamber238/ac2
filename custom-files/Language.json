@@ -998,7 +998,8 @@
     "opinion_append":"追加",
     "opinion_comment_get_more":"获取更多",
     "opinion_comment_write":"写评论...",
-    "opinion_comment_no_more":"已全部加载"
+    "opinion_comment_no_more":"已全部加载",
+    "common_ai":"AI"
 
   }
 }

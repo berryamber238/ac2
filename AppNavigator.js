@@ -8,6 +8,7 @@ import { I18nManager, Platform, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { systemWeights } from 'react-native-typography';
 import LinkingConfiguration from './LinkingConfiguration';
+import TabBarBlock from './components/TabBarBlock';
 import * as GlobalVariables from './config/GlobalVariableContext';
 import setUndefined from './global-functions/setUndefined';
 import t from './global-functions/t';
@@ -28,6 +29,7 @@ import MineBuyArticleScreen from './screens/MineBuyArticleScreen';
 import MineBuyLiveScreen from './screens/MineBuyLiveScreen';
 import MineCountryCodeListScreen from './screens/MineCountryCodeListScreen';
 import MineIdentityInfoScreen from './screens/MineIdentityInfoScreen';
+import MineIdentityInfoScreen2 from './screens/MineIdentityInfoScreen2';
 import MineIndexScreen from './screens/MineIndexScreen';
 import MineMyFansScreen from './screens/MineMyFansScreen';
 import MineMyFavoritesDetail2Screen from './screens/MineMyFavoritesDetail2Screen';
@@ -80,6 +82,76 @@ function DefaultDrawerIcon({ tintColor, navigation }) {
         style={[styles.headerIcon, styles.headerIconLeft]}
       />
     </Touchable>
+  );
+}
+
+function AI({ navigation }) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', e => {
+      e.preventDefault();
+
+      navigation.navigate('BottomTabNavigator', {
+        screen: 'AI',
+        params: { screen: 'LiveScreen' },
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const theme = useTheme();
+
+  /* Navigator has no children, add a child screen or navigator to have it rendered here */
+}
+
+function Company({ navigation }) {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', e => {
+      e.preventDefault();
+
+      navigation.navigate('BottomTabNavigator', {
+        screen: 'Company',
+        params: { screen: 'CompanyListScreen' },
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const theme = useTheme();
+
+  const Constants = GlobalVariables.useValues();
+
+  return (
+    <Stack.Navigator
+      initialRouteName="CompanyListScreen"
+      presentation="card"
+      tabPressToInitialScreen={true}
+      screenOptions={({ navigation }) => ({
+        cardStyle: { flex: 1, backgroundColor: palettes.App['Custom #ffffff'] },
+        headerBackImage:
+          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
+        headerMode: 'none',
+        headerShown: false,
+      })}
+    >
+      <Stack.Screen
+        name="CompanyInfoScreen"
+        component={CompanyInfoScreen}
+        options={({ navigation }) => ({
+          cardStyle: { backgroundColor: palettes.App['Custom #ffffff'] },
+          title: 'Company-Info',
+        })}
+      />
+      <Stack.Screen
+        name="CompanyListScreen"
+        component={CompanyListScreen}
+        options={({ navigation }) => ({
+          headerShown: false,
+          title: 'Company-List',
+        })}
+      />
+    </Stack.Navigator>
   );
 }
 
@@ -232,129 +304,40 @@ function Mine({ navigation }) {
   );
 }
 
-function Popular({ navigation }) {
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('tabPress', e => {
-      e.preventDefault();
-
-      navigation.navigate('BottomTabNavigator', {
-        screen: 'Popular',
-        params: { screen: 'PopularScreen' },
-      });
-    });
-
-    return unsubscribe;
-  }, [navigation]);
-
-  const theme = useTheme();
-
-  /* Navigator has no children, add a child screen or navigator to have it rendered here */
-}
-
-function Search({ navigation }) {
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('tabPress', e => {
-      e.preventDefault();
-
-      navigation.navigate('BottomTabNavigator', {
-        screen: 'Search',
-        params: { screen: 'CompanyListScreen' },
-      });
-    });
-
-    return unsubscribe;
-  }, [navigation]);
-
-  const theme = useTheme();
-
-  const Constants = GlobalVariables.useValues();
-
-  return (
-    <Stack.Navigator
-      initialRouteName="CompanyListScreen"
-      presentation="card"
-      tabPressToInitialScreen={true}
-      screenOptions={({ navigation }) => ({
-        cardStyle: { flex: 1, backgroundColor: palettes.App['Custom #ffffff'] },
-        headerBackImage:
-          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-        headerMode: 'none',
-        headerShown: false,
-      })}
-    >
-      <Stack.Screen
-        name="CompanyInfoScreen"
-        component={CompanyInfoScreen}
-        options={({ navigation }) => ({
-          cardStyle: { backgroundColor: palettes.App['Custom #ffffff'] },
-          title: 'Company-Info',
-        })}
-      />
-      <Stack.Screen
-        name="CompanyListScreen"
-        component={CompanyListScreen}
-        options={({ navigation }) => ({
-          headerShown: false,
-          title: 'Company-List',
-        })}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function Tickets({ navigation }) {
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('tabPress', e => {
-      e.preventDefault();
-
-      navigation.navigate('BottomTabNavigator', {
-        screen: 'Tickets',
-        params: { screen: 'LiveScreen' },
-      });
-    });
-
-    return unsubscribe;
-  }, [navigation]);
-
-  const theme = useTheme();
-
-  return (
-    <Stack.Navigator
-      initialRouteName="LiveScreen"
-      tabPressToInitialScreen={true}
-      screenOptions={({ navigation }) => ({
-        cardStyle: { flex: 1 },
-        headerBackImage:
-          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-        headerMode: 'none',
-        headerShown: false,
-      })}
-    >
-      <Stack.Screen
-        name="LiveScreen"
-        component={LiveScreen}
-        options={({ navigation }) => ({
-          headerShown: false,
-          title: 'Live',
-        })}
-      />
-    </Stack.Navigator>
-  );
-}
-
 function BottomTabNavigator() {
   const theme = useTheme();
 
+  const safeAreaInsets = useSafeAreaInsets();
+
   const tabBarOrDrawerIcons = {
     Home: 'AntDesign/home',
-    Search: 'Ionicons/search',
-    Tickets: 'MaterialCommunityIcons/ticket-confirmation',
+    Company: 'Ionicons/search',
+    AI: 'MaterialCommunityIcons/ticket-confirmation',
     Mine: 'Ionicons/person',
   };
 
   return (
     <Tab.Navigator
       initialRouteName="Home"
+      tabBar={({ state, descriptors }) => {
+        const mapRoute = route => {
+          const descriptor = descriptors[route.key];
+          return {
+            name: route.name,
+            label: descriptor.options.tabBarLabel ?? route.name,
+            icon: tabBarOrDrawerIcons[route.name] ?? '',
+          };
+        };
+        const routes = state.routes.map(mapRoute);
+        const currentRoute = mapRoute(
+          state.routes.find((_, index) => index === state.index)
+        );
+        return (
+          <View style={{ marginBottom: safeAreaInsets.bottom }}>
+            <TabBarBlock routes={routes} currentRoute={currentRoute} />
+          </View>
+        );
+      }}
       backBehavior="history"
       screenOptions={({ navigation }) => ({
         headerMode: 'screen',
@@ -383,19 +366,19 @@ function BottomTabNavigator() {
         })}
       />
       <Tab.Screen
-        name="Search"
-        component={Search}
+        name="Company"
+        component={Company}
         options={({ navigation }) => ({
           tabBarIcon: ({ focused, color }) => (
             <Icon name="Ionicons/search" size={25} color={color} />
           ),
           tabBarLabel: '公司',
-          title: 'Search',
+          title: 'Company',
         })}
       />
       <Tab.Screen
-        name="Tickets"
-        component={Tickets}
+        name="AI"
+        component={AI}
         options={({ navigation }) => ({
           tabBarIcon: ({ focused, color }) => (
             <Icon
@@ -405,7 +388,7 @@ function BottomTabNavigator() {
             />
           ),
           tabBarLabel: 'AI助手',
-          title: 'Tickets',
+          title: 'AI',
         })}
       />
       <Tab.Screen
@@ -425,6 +408,8 @@ function BottomTabNavigator() {
 
 export default function RootAppNavigator() {
   const theme = useTheme();
+
+  const Constants = GlobalVariables.useValues();
 
   const dimensions = useWindowDimensions();
 
@@ -453,7 +438,7 @@ export default function RootAppNavigator() {
           gestureEnabled: true,
           headerBackImage:
             Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-          headerMode: 'float',
+          headerMode: 'screen',
           headerShown: false,
           headerStyle: {
             backgroundColor: palettes.App['Custom #ffffff'],
@@ -518,6 +503,14 @@ export default function RootAppNavigator() {
           })}
         />
         <Stack.Screen
+          name="LiveScreen"
+          component={LiveScreen}
+          options={({ navigation }) => ({
+            headerShown: false,
+            title: 'Live',
+          })}
+        />
+        <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
           options={({ navigation }) => ({
@@ -577,6 +570,14 @@ export default function RootAppNavigator() {
             headerTitle: ' ',
             headerTransparent: false,
             title: 'Mine-CountryCodeList',
+          })}
+        />
+        <Stack.Screen
+          name="MineIdentityInfoScreen2"
+          component={MineIdentityInfoScreen2}
+          options={({ navigation }) => ({
+            headerShown: false,
+            title: 'Mine-Identity-Info',
           })}
         />
         <Stack.Screen

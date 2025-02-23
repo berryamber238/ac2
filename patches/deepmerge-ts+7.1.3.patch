@@ -1,0 +1,80 @@
+diff --git a/node_modules/deepmerge-ts/dist/index.cjs b/node_modules/deepmerge-ts/dist/index.cjs
+index 4565cd0..9a6e403 100644
+--- a/node_modules/deepmerge-ts/dist/index.cjs
++++ b/node_modules/deepmerge-ts/dist/index.cjs
+@@ -223,7 +223,7 @@ function mergeMaps$1(values) {
+  * Get the last non-undefined value in the given array.
+  */
+ function mergeOthers$1(values) {
+-    return values.at(-1);
++    return values.length > 0 ? values[values.length - 1] : undefined;
+ }
+ /**
+  * The merge functions.
+@@ -265,7 +265,7 @@ function getUtils(options, customizedDeepmerge) {
+         mergeFunctions: {
+             ...mergeFunctions,
+             ...Object.fromEntries(Object.entries(options)
+-                .filter(([key, option]) => Object.hasOwn(mergeFunctions, key))
++                .filter(([key, option]) => mergeFunctions.hasOwnProperty(key))
+                 .map(([key, option]) => (option === false ? [key, mergeFunctions.mergeOthers] : [key, option]))),
+         },
+         metaDataUpdater: (options.metaDataUpdater ?? defaultMetaDataUpdater),
+@@ -462,7 +462,7 @@ function mergeMapsInto$1(m_target, values) {
+  * Set the target to the last non-undefined value.
+  */
+ function mergeOthersInto$1(m_target, values) {
+-    m_target.value = values.at(-1);
++    m_target.value = values.length > 0 ? values[values.length - 1] : undefined;
+ }
+ /**
+  * The merge functions.
+@@ -499,7 +499,7 @@ function getIntoUtils(options, customizedDeepmergeInto) {
+         mergeFunctions: {
+             ...mergeIntoFunctions,
+             ...Object.fromEntries(Object.entries(options)
+-                .filter(([key, option]) => Object.hasOwn(mergeIntoFunctions, key))
++                .filter(([key, option]) => mergeIntoFunctions.hasOwnProperty(key))
+                 .map(([key, option]) => (option === false ? [key, mergeIntoFunctions.mergeOthers] : [key, option]))),
+         },
+         metaDataUpdater: (options.metaDataUpdater ?? defaultMetaDataUpdater),
+diff --git a/node_modules/deepmerge-ts/dist/index.mjs b/node_modules/deepmerge-ts/dist/index.mjs
+index 47aaf76..4d2d023 100644
+--- a/node_modules/deepmerge-ts/dist/index.mjs
++++ b/node_modules/deepmerge-ts/dist/index.mjs
+@@ -221,7 +221,7 @@ function mergeMaps$1(values) {
+  * Get the last non-undefined value in the given array.
+  */
+ function mergeOthers$1(values) {
+-    return values.at(-1);
++    return values.length > 0 ? values[values.length - 1] : undefined;
+ }
+ /**
+  * The merge functions.
+@@ -263,7 +263,7 @@ function getUtils(options, customizedDeepmerge) {
+         mergeFunctions: {
+             ...mergeFunctions,
+             ...Object.fromEntries(Object.entries(options)
+-                .filter(([key, option]) => Object.hasOwn(mergeFunctions, key))
++                .filter(([key, option]) => mergeFunctions.hasOwnProperty(key))
+                 .map(([key, option]) => (option === false ? [key, mergeFunctions.mergeOthers] : [key, option]))),
+         },
+         metaDataUpdater: (options.metaDataUpdater ?? defaultMetaDataUpdater),
+@@ -460,7 +460,7 @@ function mergeMapsInto$1(m_target, values) {
+  * Set the target to the last non-undefined value.
+  */
+ function mergeOthersInto$1(m_target, values) {
+-    m_target.value = values.at(-1);
++    m_target.value = values.length > 0 ? values[values.length - 1] : undefined;
+ }
+ /**
+  * The merge functions.
+@@ -497,7 +497,7 @@ function getIntoUtils(options, customizedDeepmergeInto) {
+         mergeFunctions: {
+             ...mergeIntoFunctions,
+             ...Object.fromEntries(Object.entries(options)
+-                .filter(([key, option]) => Object.hasOwn(mergeIntoFunctions, key))
++                .filter(([key, option]) => mergeIntoFunctions.hasOwnProperty(key))
+                 .map(([key, option]) => (option === false ? [key, mergeIntoFunctions.mergeOthers] : [key, option]))),
+         },
+         metaDataUpdater: (options.metaDataUpdater ?? defaultMetaDataUpdater),

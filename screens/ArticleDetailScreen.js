@@ -23,6 +23,7 @@ import * as AceCampTestApi from '../apis/AceCampTestApi.js';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import * as AudioPlayerExpo from '../custom-files/AudioPlayerExpo';
 import * as gf from '../custom-files/gf';
+import JumpToPageByType from '../global-functions/JumpToPageByType';
 import arrayIdToString from '../global-functions/arrayIdToString';
 import fromUnixTimestamp from '../global-functions/fromUnixTimestamp';
 import getArticleType from '../global-functions/getArticleType';
@@ -37,7 +38,7 @@ import * as StyleSheet from '../utils/StyleSheet';
 import imageSource from '../utils/imageSource';
 import useWindowDimensions from '../utils/useWindowDimensions';
 
-const defaultProps = { article_info_id: 70548038 };
+const defaultProps = { article_info_id: 2070502066 };
 
 const ArticleDetailScreen = props => {
   const { theme, navigation } = props;
@@ -93,10 +94,10 @@ const ArticleDetailScreen = props => {
     //   style: { color: 'red' },
     // });
   };
-  const aceCampTestFollowOrganizationPOST =
-    AceCampTestApi.useFollowOrganizationPOST();
   const aceCampTestUnfollowOrganizationPOST =
     AceCampTestApi.useUnfollowOrganizationPOST();
+  const aceCampTestFollowOrganizationPOST =
+    AceCampTestApi.useFollowOrganizationPOST();
 
   return (
     <ScreenContainer
@@ -126,10 +127,7 @@ const ArticleDetailScreen = props => {
                     setCurrent_tab(0);
                   }
                 } else {
-                  navigation.push('BottomTabNavigator', {
-                    screen: 'Tickets',
-                    params: { screen: 'LoginScreen' },
-                  });
+                  navigation.push('LoginScreen');
                 }
               } catch (err) {
                 console.error(err);
@@ -909,7 +907,9 @@ const ArticleDetailScreen = props => {
                                     index?.toString() ??
                                     JSON.stringify(flashListData)
                                   }
-                                  listKey={'dW83Ui4X'}
+                                  listKey={
+                                    'Container->Fetch->Scroll View->内容->内容->原始纪要->FlashList'
+                                  }
                                   numColumns={1}
                                   onEndReachedThreshold={0.5}
                                   renderItem={({ item, index }) => {
@@ -1360,12 +1360,11 @@ const ArticleDetailScreen = props => {
                               handlers={{
                                 onData: fetchData => {
                                   try {
-                                    const valueCwg3JNfw = splitList(
+                                    const result = splitList(
                                       fetchData?.data,
                                       5
                                     );
-                                    const result = valueCwg3JNfw;
-                                    setRecommand_data_list(valueCwg3JNfw);
+                                    setRecommand_data_list(result);
                                     console.log(result);
                                   } catch (err) {
                                     console.error(err);
@@ -1412,7 +1411,9 @@ const ArticleDetailScreen = props => {
                                       index?.toString() ??
                                       JSON.stringify(swiperData)
                                     }
-                                    listKey={'jgd1P0LX'}
+                                    listKey={
+                                      'Container->Fetch->Scroll View->内容->内容->相关推荐->Fetch->Swiper'
+                                    }
                                     minDistanceForAction={0.2}
                                     minDistanceToCapture={5}
                                     renderItem={({ item, index }) => {
@@ -1442,13 +1443,14 @@ const ArticleDetailScreen = props => {
                                                 <Touchable
                                                   onPress={() => {
                                                     try {
-                                                      navigation.push(
-                                                        'ArticleDetailScreen',
-                                                        {
-                                                          article_info_id:
-                                                            flashListData?.source_id,
-                                                        }
+                                                      JumpToPageByType(
+                                                        navigation,
+                                                        flashListData?.source_type,
+                                                        flashListData?.source_id,
+                                                        Constants['base_url']
                                                       );
+                                                      /* hidden 'If/Else' action */
+                                                      /* hidden 'Navigate' action */
                                                     } catch (err) {
                                                       console.error(err);
                                                     }
@@ -1594,6 +1596,7 @@ const ArticleDetailScreen = props => {
                                               true
                                             }
                                             showsVerticalScrollIndicator={true}
+                                            scrollEnabled={false}
                                           />
                                         </SwiperItem>
                                       );
@@ -1686,12 +1689,11 @@ const ArticleDetailScreen = props => {
                               handlers={{
                                 onData: fetchData => {
                                   try {
-                                    const valueNvAxlC6F = splitList(
+                                    const result = splitList(
                                       fetchData?.data?.feeds,
                                       5
                                     );
-                                    const result = valueNvAxlC6F;
-                                    setHot_data_list(valueNvAxlC6F);
+                                    setHot_data_list(result);
                                     /* hidden 'Log to Console' action */
                                   } catch (err) {
                                     console.error(err);
@@ -1734,7 +1736,9 @@ const ArticleDetailScreen = props => {
                                       index?.toString() ??
                                       JSON.stringify(swiperData)
                                     }
-                                    listKey={'CjYt6pc3'}
+                                    listKey={
+                                      'Container->Fetch->Scroll View->内容->内容->热门内容->Fetch->Swiper'
+                                    }
                                     minDistanceForAction={0.2}
                                     minDistanceToCapture={5}
                                     renderItem={({ item, index }) => {
@@ -1764,15 +1768,13 @@ const ArticleDetailScreen = props => {
                                                 <Touchable
                                                   onPress={() => {
                                                     try {
-                                                      console.log(
-                                                        flashListData?.source_id
-                                                      );
-                                                      navigation.push(
-                                                        'ArticleDetailScreen',
-                                                        {
-                                                          article_info_id:
-                                                            flashListData?.source_id,
-                                                        }
+                                                      /* hidden 'Log to Console' action */
+                                                      /* hidden 'Navigate' action */
+                                                      JumpToPageByType(
+                                                        navigation,
+                                                        flashListData?.source_type,
+                                                        flashListData?.source_id,
+                                                        Constants['base_url']
                                                       );
                                                     } catch (err) {
                                                       console.error(err);
@@ -1919,6 +1921,7 @@ const ArticleDetailScreen = props => {
                                               true
                                             }
                                             showsVerticalScrollIndicator={true}
+                                            scrollEnabled={false}
                                           />
                                         </SwiperItem>
                                       );

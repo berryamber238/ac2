@@ -5333,6 +5333,74 @@ export const FetchOrdersHistoryGET = ({
   return children({ loading, data, error, refetchOrdersHistory: refetch });
 };
 
+export const organizationUsersDismissPUT = async (
+  Constants,
+  { id },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/organization_users/${encodeQueryParam(
+    id
+  )}/dismiss/`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'PUT',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useOrganizationUsersDismissPUT = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args =>
+      organizationUsersDismissPUT(
+        Constants,
+        { ...initialArgs, ...args },
+        handlers
+      ),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
 export const organizerInfoGET = async (
   Constants,
   { organization_id },
@@ -5941,23 +6009,7 @@ export const requestCodePOST = async (
   handlers,
   timeout
 ) => {
-  const paramsDict = {};
-  paramsDict['country_code_id'] =
-    country_code_id !== undefined ? country_code_id : '';
-  paramsDict['scene'] = scene !== undefined ? scene : '';
-  if (code_scope !== undefined) {
-    paramsDict['code_scope'] = code_scope;
-  }
-  if (phone_number !== undefined) {
-    paramsDict['phone_number'] = phone_number;
-  }
-  if (email !== undefined) {
-    paramsDict['email'] = email;
-  }
-  const url = `https://api.ca3test.com/api/v1/users/request_code${renderQueryString(
-    paramsDict,
-    'brackets'
-  )}`;
+  const url = `https://api.ca3test.com/api/v1/users/request_code`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
@@ -5969,9 +6021,17 @@ export const requestCodePOST = async (
   }
   try {
     const res = await fetch(url, {
-      body: JSON.stringify({ key: 'value' }),
+      body: JSON.stringify({
+        country_code_id: country_code_id,
+        scene: scene,
+        code_scope: code_scope,
+        phone_number: phone_number,
+        email: email,
+      }),
       headers: cleanHeaders({
         Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
         'User-Agent': Constants['user-agent'],
       }),
       method: 'POST',

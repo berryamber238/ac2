@@ -2,7 +2,7 @@ import * as HttpClient from '../custom-files/HttpClient';
 import * as ShakeAnimation from '../custom-files/ShakeAnimation';
 import * as gf from '../custom-files/gf';
 
-const uploadImage = async (fileInfo, scope) => {
+const uploadImage2 = async (fileInfo, scope) => {
   try {
     const data = fileInfo.split(',')[1];
     // 将 Base64 编码的文件转换为二进制数据
@@ -15,7 +15,6 @@ const uploadImage = async (fileInfo, scope) => {
     );
     const responseData = await HttpClient.fetcher(url, endpoint.method, null);
     const response = await responseData.json();
-    console.log('token response   ' + response);
     const AccessKeyId = response.data.id;
     const AccessKeySecret = response.data.secret;
     const SecurityToken = response.data.token;
@@ -54,7 +53,7 @@ ${canonicalizedResource}`;
         'x-oss-security-token': SecurityToken,
         Authorization: authorization,
         Date: date,
-        Host: 'ace-file-staging.oss-accelerate.aliyuncs.com',
+        Host: bucketName + '.oss-accelerate.aliyuncs.com',
         'User-Agent':
           'aliyun-sdk-android/2.9.3(Linux/Android 11/sdk_gphone_x86;RSR1.201013.001)',
       };
@@ -81,4 +80,4 @@ ${canonicalizedResource}`;
   }
 };
 
-export default uploadImage;
+export default uploadImage2;

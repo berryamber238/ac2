@@ -30,6 +30,7 @@ import * as AceCampTestApi from '../apis/AceCampTestApi.js';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import * as CoverView from '../custom-files/CoverView';
 import * as Toast from '../custom-files/Toast';
+import JumpToPageByType from '../global-functions/JumpToPageByType';
 import LabelPickerCancelBtnPress from '../global-functions/LabelPickerCancelBtnPress';
 import LabelPickerConfirmBtnPress from '../global-functions/LabelPickerConfirmBtnPress';
 import ShowToast from '../global-functions/ShowToast';
@@ -198,7 +199,7 @@ const EventDetailScreen = props => {
                         dimensions.width
                       )}
                     >
-                      {fetchData?.data?.name}
+                      {null}
                     </Text>
                     {/* 分享Btn */}
                     <IconButton
@@ -1148,20 +1149,15 @@ const EventDetailScreen = props => {
                       )}
                     />
                   </View>
-                  {/* 相关推荐 */}
-                  <View
-                    style={StyleSheet.applyWidth(
-                      { paddingLeft: 16, paddingRight: 16 },
-                      dimensions.width
-                    )}
-                  >
+                  {/* 相关推荐 2 */}
+                  <View>
                     <AceCampTestApi.FetchArticleInfoSimilarGET
                       handlers={{
                         onData: fetchData => {
                           try {
                             const result = splitList(fetchData?.data, 5);
                             setRecommand_data_list(result);
-                            /* hidden 'Log to Console' action */
+                            console.log(result);
                           } catch (err) {
                             console.error(err);
                           }
@@ -1203,7 +1199,7 @@ const EventDetailScreen = props => {
                               JSON.stringify(swiperData)
                             }
                             listKey={
-                              'Fetch->Scroll View->View->相关推荐->Fetch->Swiper'
+                              'Fetch->Scroll View->View->相关推荐 2->Fetch->Swiper'
                             }
                             minDistanceForAction={0.2}
                             minDistanceToCapture={5}
@@ -1231,14 +1227,14 @@ const EventDetailScreen = props => {
                                         <Touchable
                                           onPress={() => {
                                             try {
-                                              /* 'If/Else' action requires configuration: select If Condition */
-                                              navigation.push(
-                                                'ArticleDetailScreen',
-                                                {
-                                                  article_info_id:
-                                                    flashListData?.source_id,
-                                                }
+                                              JumpToPageByType(
+                                                navigation,
+                                                flashListData?.source_type,
+                                                flashListData?.source_id,
+                                                Constants['base_url']
                                               );
+                                              /* hidden 'If/Else' action */
+                                              /* hidden 'Navigate' action */
                                             } catch (err) {
                                               console.error(err);
                                             }
@@ -1287,8 +1283,10 @@ const EventDetailScreen = props => {
                                                   dimensions.width
                                                 )}
                                               >
-                                                {flashListData?.source.title}
-                                                {'ll'}
+                                                {flashListData?.source_type ===
+                                                'Event'
+                                                  ? flashListData?.source.name
+                                                  : flashListData?.source.title}
                                               </Text>
                                             </View>
                                             {/* View 2 */}
@@ -1375,6 +1373,7 @@ const EventDetailScreen = props => {
                                     }}
                                     showsHorizontalScrollIndicator={true}
                                     showsVerticalScrollIndicator={true}
+                                    scrollEnabled={false}
                                   />
                                 </SwiperItem>
                               );

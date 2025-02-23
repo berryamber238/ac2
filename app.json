@@ -83,15 +83,19 @@
     ],
     "description": "本营app 2.0",
     "orientation": "default",
-    "iosStatusBar": {},
+    "iosStatusBar": {
+      "hidden": false,
+      "barStyle": "light-content",
+      "networkActivityIndicatorVisible": true
+    },
     "notification": {
       "androidMode": "default"
     },
     "backgroundColor": "#FFFFFF",
-    "allowFontScaling": true,
+    "allowFontScaling": false,
     "androidStatusBar": {
-      "hidden": true,
-      "barStyle": "dark-content",
+      "hidden": false,
+      "barStyle": "light-content",
       "translucent": true
     },
     "userInterfaceStyle": "automatic",

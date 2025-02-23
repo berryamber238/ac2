@@ -4,6 +4,389 @@ import Breakpoints from './utils/Breakpoints';
 
 import palettes from './themes/palettes';
 
+export const TextStyles = theme =>
+  StyleSheet.create({
+    '12 Regular': {
+      style: {
+        fontFamily: 'System',
+        fontSize: 12,
+        fontWeight: '400',
+        letterSpacing: 0.2,
+        lineHeight: 14,
+      },
+      props: {},
+    },
+    '14 Regular': {
+      style: {
+        fontFamily: 'System',
+        fontSize: 14,
+        fontWeight: '400',
+        letterSpacing: 0.2,
+        lineHeight: 16,
+      },
+      props: {},
+    },
+    '15 Regular': {
+      style: {
+        fontFamily: 'System',
+        fontSize: 15,
+        fontWeight: '400',
+        letterSpacing: 0.2,
+        lineHeight: 17,
+      },
+      props: {},
+    },
+    '16_Title': {
+      style: {
+        color: palettes.App['Custom Color 5'],
+        fontFamily: 'Urbanist_600SemiBold',
+        fontSize: 16,
+        letterSpacing: 0.2,
+        lineHeight: 19.6,
+      },
+      props: {},
+    },
+    '16_Title 2': {
+      style: {
+        color: palettes.App['Custom Color 4'],
+        fontFamily: 'Urbanist_600SemiBold',
+        fontSize: 14,
+        letterSpacing: 0.2,
+        lineHeight: 19.6,
+        marginLeft: 4,
+      },
+      props: {},
+    },
+    '18_Title': {
+      style: {
+        color: palettes.App.appStyle_greyscale_800,
+        fontFamily: 'Urbanist_600SemiBold',
+        fontSize: 18,
+        letterSpacing: 0.2,
+        lineHeight: 19.6,
+      },
+      props: {},
+    },
+    'Body L Bold': {
+      style: {
+        color: theme.colors.branding.primary,
+        fontFamily: 'Urbanist_700Bold',
+        fontSize: 16,
+        letterSpacing: 0.2,
+        lineHeight: 22.4,
+      },
+      props: {},
+    },
+    'Body L Medium': {
+      style: {
+        color: palettes.App.appStyle_greyscale_800,
+        fontFamily: 'Urbanist_500Medium',
+        fontSize: 16,
+        letterSpacing: 0.2,
+        lineHeight: 22.4,
+      },
+      props: {},
+    },
+    'Body L Regular': {
+      style: {
+        color: 'theme.colors["Greyscale 600"]',
+        fontFamily: 'Urbanist_400Regular',
+        fontSize: 16,
+        letterSpacing: 0.2,
+        lineHeight: 22.4,
+      },
+      props: {},
+    },
+    'Body L Semibold': {
+      style: {
+        color: theme.colors.branding.primary,
+        fontFamily: 'Urbanist_600SemiBold',
+        fontSize: 16,
+        letterSpacing: 0.2,
+        lineHeight: 22.4,
+      },
+      props: {},
+    },
+    'Body M Medium': {
+      style: {
+        color: palettes.Brand.appStyle_greyscale_700,
+        fontFamily: 'Urbanist_500Medium',
+        letterSpacing: 0.2,
+        lineHeight: 19.6,
+      },
+      props: {},
+    },
+    'Body M Regular': {
+      style: {
+        color: palettes.App.appStyle_greyscale_800,
+        fontFamily: 'Urbanist_400Regular',
+        letterSpacing: 0.2,
+        lineHeight: 19.6,
+      },
+      props: {},
+    },
+    'Body M Semibold': {
+      style: {
+        color: palettes.Brand.appStyle_primary,
+        fontFamily: 'Urbanist_600SemiBold',
+        letterSpacing: 0.2,
+        lineHeight: 19.6,
+      },
+      props: {},
+    },
+    'Body S Medium': {
+      style: {
+        alignSelf: 'auto',
+        color: palettes.Brand.appStyle_greyscale_700,
+        fontFamily: 'Urbanist_500Medium',
+        fontSize: 14,
+      },
+      props: {},
+    },
+    'Body S Semibold': {
+      style: {
+        color: palettes.Brand.appStyle_primary,
+        fontFamily: 'Urbanist_600SemiBold',
+        fontSize: 12,
+        letterSpacing: 0.2,
+        lineHeight: 14.4,
+        marginBottom: 8,
+      },
+      props: {},
+    },
+    'Body XL Bold': {
+      style: {
+        color: palettes.Brand.appStyle_greyscale_900,
+        fontFamily: 'Urbanist_700Bold',
+        fontSize: 18,
+        letterSpacing: 0.2,
+        lineHeight: 25.2,
+      },
+      props: {},
+    },
+    'Body XL Medium': {
+      style: {
+        color: palettes.Brand.appStyle_greyscale_700,
+        fontFamily: 'Urbanist_500Medium',
+        fontSize: 18,
+        letterSpacing: 0.2,
+        lineHeight: 25.2,
+      },
+      props: {},
+    },
+    'Body XL Semibold': {
+      style: {
+        color: palettes.Brand.appStyle_greyscale_900,
+        flex: 1,
+        fontFamily: 'Urbanist_600SemiBold',
+        fontSize: 18,
+        letterSpacing: 0.2,
+        lineHeight: 25.2,
+      },
+      props: {},
+    },
+    'Body XS Bold': {
+      style: {
+        color: theme.colors.branding.primary,
+        fontFamily: 'Urbanist_700Bold',
+        fontSize: 10,
+        letterSpacing: 0.2,
+        lineHeight: 12,
+      },
+      props: {},
+    },
+    'Body XS Medium': {
+      style: {
+        color: 'theme.colors["Greyscale 500"]',
+        fontFamily: 'Urbanist_500Medium',
+        fontSize: 10,
+        letterSpacing: 0.2,
+        lineHeight: 12,
+      },
+      props: {},
+    },
+    'Body XS Semibold': {
+      style: {
+        color: 'theme.colors["White"]',
+        fontFamily: 'Urbanist_600SemiBold',
+        fontSize: 10,
+        letterSpacing: 0.2,
+        lineHeight: 12,
+      },
+      props: {},
+    },
+    'Company List Menu': {
+      style: {
+        color: palettes.App['Custom Color 23'],
+        fontFamily: 'System',
+        fontSize: 14,
+        fontWeight: '600',
+        letterSpacing: 0.2,
+        lineHeight: 20,
+      },
+      props: {},
+    },
+    'Create Opinion Label': {
+      style: {
+        color: palettes.App['Custom Color 2'],
+        fontFamily: 'System',
+        fontSize: 15,
+        fontWeight: '600',
+        letterSpacing: 0.2,
+        lineHeight: 20,
+      },
+      props: {},
+    },
+    'Daily Update Title': {
+      style: {
+        color: palettes.App['Custom #ffffff'],
+        fontFamily: 'System',
+        fontSize: 15,
+        fontWeight: '600',
+        letterSpacing: 0.2,
+        lineHeight: 22,
+        marginLeft: 16,
+        marginRight: 0,
+      },
+      props: {},
+    },
+    'Event Confirm Info': {
+      style: {
+        color: 'rgb(0, 0, 0)',
+        fontFamily: 'System',
+        fontSize: 16,
+        fontWeight: '700',
+        letterSpacing: 0.2,
+        lineHeight: 32,
+        marginRight: 10,
+      },
+      props: {},
+    },
+    'Event Text': {
+      style: {
+        color: palettes.App['Custom Color 41'],
+        fontFamily: 'System',
+        fontSize: 14,
+        fontWeight: '600',
+        letterSpacing: 0.2,
+        lineHeight: 19,
+      },
+      props: {},
+    },
+    'Form Label': { style: { fontSize: 14, paddingTop: 16 }, props: {} },
+    H3: {
+      style: {
+        color: palettes.Brand.appStyle_greyscale_900,
+        fontFamily: 'Urbanist_700Bold',
+        fontSize: 32,
+        lineHeight: 38.4,
+      },
+      props: {},
+    },
+    H4: {
+      style: {
+        color: palettes.Brand.appStyle_greyscale_900,
+        fontFamily: 'Urbanist_700Bold',
+        fontSize: 24,
+        lineHeight: 28.8,
+      },
+      props: {},
+    },
+    H5: {
+      style: {
+        color: palettes.Brand.appStyle_greyscale_900,
+        fontFamily: 'Urbanist_700Bold',
+        fontSize: 20,
+        lineHeight: 24,
+      },
+      props: {},
+    },
+    H6: {
+      style: {
+        color: palettes.Brand.appStyle_greyscale_900,
+        fontFamily: 'Urbanist_700Bold',
+        fontSize: 18,
+        lineHeight: 21.6,
+      },
+      props: {},
+    },
+    'Search Hot Normal': {
+      style: {
+        fontFamily: 'System',
+        fontSize: 14,
+        fontWeight: '400',
+        letterSpacing: 0.3,
+        lineHeight: 25,
+      },
+      props: {},
+    },
+    'Search Hot Top': {
+      style: {
+        color: palettes.App['Custom Color 12'],
+        fontFamily: 'System',
+        fontSize: 14,
+        fontWeight: '600',
+        letterSpacing: 0.3,
+        lineHeight: 25,
+      },
+      props: {},
+    },
+    Text: { style: { color: theme.colors.text.strong }, props: {} },
+    'Text 2111': { style: {}, props: {} },
+    'Text 2113': {
+      style: {
+        color: palettes.App.appStyle_greyscale_800,
+        fontFamily: 'Urbanist_600SemiBold',
+        fontSize: 15,
+        letterSpacing: 0.2,
+        lineHeight: 19.6,
+      },
+      props: {},
+    },
+    'Text Form Label': {
+      style: {
+        color: palettes.App.appStyle_greyscale_800,
+        fontFamily: 'Urbanist_600SemiBold',
+        fontSize: 16,
+        letterSpacing: 0.2,
+        lineHeight: 19.6,
+      },
+      props: {},
+    },
+    'Text Form Label 2': {
+      style: {
+        color: palettes.Brand.appStyle_primary,
+        fontFamily: 'Urbanist_400Regular',
+        fontSize: 14,
+        letterSpacing: 0.2,
+        lineHeight: 19.6,
+      },
+      props: {},
+    },
+    'Text Tip': {
+      style: {
+        color: palettes.Brand.itemTextNomal,
+        fontFamily: 'Urbanist_400Regular',
+        fontSize: 14,
+        letterSpacing: 0.2,
+        lineHeight: 19.6,
+      },
+      props: {},
+    },
+    'Text Title': {
+      style: {
+        color: 'rgb(0, 0, 0)',
+        fontFamily: 'System',
+        fontSize: 18,
+        fontWeight: '700',
+        letterSpacing: 0.2,
+        lineHeight: 32,
+        marginRight: 10,
+      },
+      props: {},
+    },
+  });
+
 export const DividerStyles = theme =>
   StyleSheet.create({ Divider: { style: {}, props: {} } });
 
@@ -449,359 +832,6 @@ export const TouchableStyles = theme =>
 
 export const FetchStyles = theme =>
   StyleSheet.create({ Fetch: { style: { minHeight: 40 }, props: {} } });
-
-export const TextStyles = theme =>
-  StyleSheet.create({
-    '16_Title': {
-      style: {
-        color: palettes.App['Custom Color 5'],
-        fontFamily: 'Urbanist_600SemiBold',
-        fontSize: 16,
-        letterSpacing: 0.2,
-        lineHeight: 19.6,
-      },
-      props: {},
-    },
-    '16_Title 2': {
-      style: {
-        color: palettes.App['Custom Color 4'],
-        fontFamily: 'Urbanist_600SemiBold',
-        fontSize: 14,
-        letterSpacing: 0.2,
-        lineHeight: 19.6,
-        marginLeft: 4,
-      },
-      props: {},
-    },
-    '18_Title': {
-      style: {
-        color: palettes.App.appStyle_greyscale_800,
-        fontFamily: 'Urbanist_600SemiBold',
-        fontSize: 18,
-        letterSpacing: 0.2,
-        lineHeight: 19.6,
-      },
-      props: {},
-    },
-    'Body L Bold': {
-      style: {
-        color: theme.colors.branding.primary,
-        fontFamily: 'Urbanist_700Bold',
-        fontSize: 16,
-        letterSpacing: 0.2,
-        lineHeight: 22.4,
-      },
-      props: {},
-    },
-    'Body L Medium': {
-      style: {
-        color: palettes.App.appStyle_greyscale_800,
-        fontFamily: 'Urbanist_500Medium',
-        fontSize: 16,
-        letterSpacing: 0.2,
-        lineHeight: 22.4,
-      },
-      props: {},
-    },
-    'Body L Regular': {
-      style: {
-        color: 'theme.colors["Greyscale 600"]',
-        fontFamily: 'Urbanist_400Regular',
-        fontSize: 16,
-        letterSpacing: 0.2,
-        lineHeight: 22.4,
-      },
-      props: {},
-    },
-    'Body L Semibold': {
-      style: {
-        color: theme.colors.branding.primary,
-        fontFamily: 'Urbanist_600SemiBold',
-        fontSize: 16,
-        letterSpacing: 0.2,
-        lineHeight: 22.4,
-      },
-      props: {},
-    },
-    'Body M Medium': {
-      style: {
-        color: palettes.Brand.appStyle_greyscale_700,
-        fontFamily: 'Urbanist_500Medium',
-        letterSpacing: 0.2,
-        lineHeight: 19.6,
-      },
-      props: {},
-    },
-    'Body M Regular': {
-      style: {
-        color: palettes.App.appStyle_greyscale_800,
-        fontFamily: 'Urbanist_400Regular',
-        letterSpacing: 0.2,
-        lineHeight: 19.6,
-      },
-      props: {},
-    },
-    'Body M Semibold': {
-      style: {
-        color: palettes.Brand.appStyle_primary,
-        fontFamily: 'Urbanist_600SemiBold',
-        letterSpacing: 0.2,
-        lineHeight: 19.6,
-      },
-      props: {},
-    },
-    'Body S Medium': {
-      style: {
-        alignSelf: 'auto',
-        color: palettes.Brand.appStyle_greyscale_700,
-        fontFamily: 'Urbanist_500Medium',
-        fontSize: 14,
-      },
-      props: {},
-    },
-    'Body S Semibold': {
-      style: {
-        color: palettes.Brand.appStyle_primary,
-        fontFamily: 'Urbanist_600SemiBold',
-        fontSize: 12,
-        letterSpacing: 0.2,
-        lineHeight: 14.4,
-        marginBottom: 8,
-      },
-      props: {},
-    },
-    'Body XL Bold': {
-      style: {
-        color: palettes.Brand.appStyle_greyscale_900,
-        fontFamily: 'Urbanist_700Bold',
-        fontSize: 18,
-        letterSpacing: 0.2,
-        lineHeight: 25.2,
-      },
-      props: {},
-    },
-    'Body XL Medium': {
-      style: {
-        color: palettes.Brand.appStyle_greyscale_700,
-        fontFamily: 'Urbanist_500Medium',
-        fontSize: 18,
-        letterSpacing: 0.2,
-        lineHeight: 25.2,
-      },
-      props: {},
-    },
-    'Body XL Semibold': {
-      style: {
-        color: palettes.Brand.appStyle_greyscale_900,
-        flex: 1,
-        fontFamily: 'Urbanist_600SemiBold',
-        fontSize: 18,
-        letterSpacing: 0.2,
-        lineHeight: 25.2,
-      },
-      props: {},
-    },
-    'Body XS Bold': {
-      style: {
-        color: theme.colors.branding.primary,
-        fontFamily: 'Urbanist_700Bold',
-        fontSize: 10,
-        letterSpacing: 0.2,
-        lineHeight: 12,
-      },
-      props: {},
-    },
-    'Body XS Medium': {
-      style: {
-        color: 'theme.colors["Greyscale 500"]',
-        fontFamily: 'Urbanist_500Medium',
-        fontSize: 10,
-        letterSpacing: 0.2,
-        lineHeight: 12,
-      },
-      props: {},
-    },
-    'Body XS Semibold': {
-      style: {
-        color: 'theme.colors["White"]',
-        fontFamily: 'Urbanist_600SemiBold',
-        fontSize: 10,
-        letterSpacing: 0.2,
-        lineHeight: 12,
-      },
-      props: {},
-    },
-    'Company List Menu': {
-      style: {
-        color: palettes.App['Custom Color 23'],
-        fontFamily: 'System',
-        fontSize: 14,
-        fontWeight: '600',
-        letterSpacing: 0.2,
-        lineHeight: 20,
-      },
-      props: {},
-    },
-    'Create Opinion Label': {
-      style: {
-        color: palettes.App['Custom Color 2'],
-        fontFamily: 'System',
-        fontSize: 15,
-        fontWeight: '600',
-        letterSpacing: 0.2,
-        lineHeight: 20,
-      },
-      props: {},
-    },
-    'Daily Update Title': {
-      style: {
-        color: palettes.App['Custom #ffffff'],
-        fontFamily: 'System',
-        fontSize: 15,
-        fontWeight: '600',
-        letterSpacing: 0.2,
-        lineHeight: 22,
-        marginLeft: 16,
-        marginRight: 0,
-      },
-      props: {},
-    },
-    'Event Confirm Info': {
-      style: {
-        color: 'rgb(0, 0, 0)',
-        fontFamily: 'System',
-        fontSize: 16,
-        fontWeight: '700',
-        letterSpacing: 0.2,
-        lineHeight: 32,
-        marginRight: 10,
-      },
-      props: {},
-    },
-    'Event Text': {
-      style: {
-        color: palettes.App['Custom Color 41'],
-        fontFamily: 'System',
-        fontSize: 14,
-        fontWeight: '600',
-        letterSpacing: 0.2,
-        lineHeight: 19,
-      },
-      props: {},
-    },
-    'Form Label': { style: { fontSize: 14, paddingTop: 16 }, props: {} },
-    H3: {
-      style: {
-        color: palettes.Brand.appStyle_greyscale_900,
-        fontFamily: 'Urbanist_700Bold',
-        fontSize: 32,
-        lineHeight: 38.4,
-      },
-      props: {},
-    },
-    H4: {
-      style: {
-        color: palettes.Brand.appStyle_greyscale_900,
-        fontFamily: 'Urbanist_700Bold',
-        fontSize: 24,
-        lineHeight: 28.8,
-      },
-      props: {},
-    },
-    H5: {
-      style: {
-        color: palettes.Brand.appStyle_greyscale_900,
-        fontFamily: 'Urbanist_700Bold',
-        fontSize: 20,
-        lineHeight: 24,
-      },
-      props: {},
-    },
-    H6: {
-      style: {
-        color: palettes.Brand.appStyle_greyscale_900,
-        fontFamily: 'Urbanist_700Bold',
-        fontSize: 18,
-        lineHeight: 21.6,
-      },
-      props: {},
-    },
-    'Search Hot Normal': {
-      style: {
-        fontFamily: 'System',
-        fontSize: 14,
-        fontWeight: '400',
-        letterSpacing: 0.3,
-        lineHeight: 25,
-      },
-      props: {},
-    },
-    'Search Hot Top': {
-      style: {
-        color: palettes.App['Custom Color 12'],
-        fontFamily: 'System',
-        fontSize: 14,
-        fontWeight: '600',
-        letterSpacing: 0.3,
-        lineHeight: 25,
-      },
-      props: {},
-    },
-    Text: { style: { color: theme.colors.text.strong }, props: {} },
-    'Text 2111': { style: {}, props: {} },
-    'Text 2113': {
-      style: {
-        color: palettes.App.appStyle_greyscale_800,
-        fontFamily: 'Urbanist_600SemiBold',
-        fontSize: 15,
-        letterSpacing: 0.2,
-        lineHeight: 19.6,
-      },
-      props: {},
-    },
-    'Text Form Label': {
-      style: {
-        color: palettes.App.appStyle_greyscale_800,
-        fontFamily: 'Urbanist_600SemiBold',
-        fontSize: 16,
-        letterSpacing: 0.2,
-        lineHeight: 19.6,
-      },
-      props: {},
-    },
-    'Text Form Label 2': {
-      style: {
-        color: palettes.Brand.appStyle_primary,
-        fontFamily: 'Urbanist_400Regular',
-        fontSize: 14,
-        letterSpacing: 0.2,
-        lineHeight: 19.6,
-      },
-      props: {},
-    },
-    'Text Tip': {
-      style: {
-        color: palettes.Brand.itemTextNomal,
-        fontFamily: 'Urbanist_400Regular',
-        fontSize: 14,
-        letterSpacing: 0.2,
-        lineHeight: 19.6,
-      },
-      props: {},
-    },
-    'Text Title': {
-      style: {
-        color: 'rgb(0, 0, 0)',
-        fontFamily: 'System',
-        fontSize: 18,
-        fontWeight: '700',
-        letterSpacing: 0.2,
-        lineHeight: 32,
-        marginRight: 10,
-      },
-      props: {},
-    },
-  });
 
 export const SVGStyles = theme =>
   StyleSheet.create({ SVG: { style: { height: 100, width: 100 }, props: {} } });

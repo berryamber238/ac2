@@ -126,6 +126,12 @@ const App = () => {
   const SafeAreaFrameContextProvider =
     Platform.OS === 'web' ? SafeAreaFrameContext.Provider : React.Fragment;
 
+  Text.defaultProps = Text.defaultProps || {};
+  Text.defaultProps.allowFontScaling = false;
+
+  TextInput.defaultProps = TextInput.defaultProps || {};
+  TextInput.defaultProps.allowFontScaling = false;
+
   const isReady = areAssetsCached && fontsLoaded;
   const onLayoutRootView = React.useCallback(async () => {
     if (isReady) {
@@ -141,11 +147,17 @@ const App = () => {
     <>
       {Platform.OS === 'ios' ? (
         <StatusBar
-          barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+          barStyle={'light-content'}
+          hidden={false}
+          networkActivityIndicatorVisible={true}
         />
       ) : null}
       {Platform.OS === 'android' ? (
-        <StatusBar barStyle={'dark-content'} hidden={true} translucent={true} />
+        <StatusBar
+          barStyle={'light-content'}
+          hidden={false}
+          translucent={true}
+        />
       ) : null}
       <ThemeProvider
         themes={[Draftbit]}

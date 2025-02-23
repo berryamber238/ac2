@@ -599,7 +599,7 @@ const MyOpinionSectionBlock = props => {
               transitionTiming={'ease-in-out'}
               {...GlobalStyles.ExpoImageStyles(theme)['Image 2'].props}
               source={imageSource(
-                'https://nimg.ws.126.net/?url=http%3A%2F%2Fcms-bucket.ws.126.net%2F2025%2F0116%2F81c6881aj00sq5vid0018c000cl0069c.jpg&thumbnail=280y140&quality=100&type=jpg'
+                `${(props.item ?? defaultProps.item)?.cover_image}`
               )}
               style={StyleSheet.applyWidth(
                 StyleSheet.compose(

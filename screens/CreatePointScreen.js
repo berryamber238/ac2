@@ -1025,7 +1025,12 @@ const CreatePointScreen = props => {
             point_type_id === 'industry' ? relation_stock_id : undefined,
           cover_image: cover_img,
           expected_trend: point_personal_id,
-          id: loaded_id ?? props.route?.params?.id ?? undefined,
+          id:
+            loaded_id && loaded_id > 0
+              ? loaded_id
+              : props.route?.params?.id
+              ? props.route?.params?.id
+              : undefined,
           industry_ids:
             point_type_id === 'industry' ? point_industry_id : undefined,
           state: 'draft',
@@ -1034,7 +1039,7 @@ const CreatePointScreen = props => {
           type: point_type_id,
         })
       )?.json;
-
+      console.log(result);
       setConfirm_modal_visiable(false);
       navigation.goBack();
     } catch (err) {
@@ -1131,6 +1136,7 @@ const CreatePointScreen = props => {
       );
       const responseData = await HttpClient.fetcher(url, endpoint.method, null);
       const response = await responseData.json();
+      console.log(response);
       const AccessKeyId = response.data.id;
       const AccessKeySecret = response.data.secret;
       const SecurityToken = response.data.token;

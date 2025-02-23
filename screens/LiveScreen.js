@@ -413,9 +413,10 @@ const LiveScreen = props => {
           StyleSheet.compose(
             GlobalStyles.ImageBackgroundStyles(theme)['Image Background'].style,
             {
-              height: dimensions.height,
+              bottom: 0,
+              flex: null,
+              height: '100%',
               position: 'absolute',
-              top: 0,
               width: dimensions.width,
             }
           ),
