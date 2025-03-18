@@ -6,6 +6,18 @@ import palettes from './themes/palettes';
 
 export const TextStyles = theme =>
   StyleSheet.create({
+    12: {
+      style: {
+        color: 'rgb(0, 0, 0)',
+        fontFamily: 'System',
+        fontSize: 18,
+        fontWeight: '700',
+        letterSpacing: 0.2,
+        lineHeight: 32,
+        marginRight: 10,
+      },
+      props: {},
+    },
     '12 Regular': {
       style: {
         fontFamily: 'System',
@@ -13,6 +25,17 @@ export const TextStyles = theme =>
         fontWeight: '400',
         letterSpacing: 0.2,
         lineHeight: 14,
+      },
+      props: {},
+    },
+    '13 Regular': {
+      style: {
+        color: 'rgb(0, 0, 0)',
+        fontFamily: 'System',
+        fontSize: 13,
+        fontWeight: '400',
+        letterSpacing: 0.2,
+        lineHeight: 15,
       },
       props: {},
     },
@@ -212,6 +235,27 @@ export const TextStyles = theme =>
         fontSize: 10,
         letterSpacing: 0.2,
         lineHeight: 12,
+      },
+      props: {},
+    },
+    'Company Form Tip': {
+      style: {
+        color: palettes.App['Custom Color 59'],
+        fontFamily: 'System',
+        fontSize: 12,
+        fontWeight: '400',
+        lineHeight: 14,
+        marginTop: 4,
+      },
+      props: {},
+    },
+    'Company Form Title': {
+      style: {
+        fontFamily: 'System',
+        fontSize: 12,
+        fontWeight: '400',
+        letterSpacing: 0.2,
+        lineHeight: 14,
       },
       props: {},
     },
@@ -1053,6 +1097,18 @@ export const ButtonStyles = theme =>
 
 export const TextInputStyles = theme =>
   StyleSheet.create({
+    'Company Form Input': {
+      style: {
+        fontFamily: 'System',
+        fontSize: 14,
+        fontWeight: '400',
+        letterSpacing: 0.2,
+        lineHeight: 16,
+        paddingBottom: 6,
+        paddingTop: 8,
+      },
+      props: { placeholderTextColor: palettes.App['Custom Color 4'] },
+    },
     'Login Input': {
       style: {
         backgroundColor: 'theme.colors["Greyscale 50"]',
@@ -1069,6 +1125,21 @@ export const TextInputStyles = theme =>
         width: 40,
       },
       props: { placeholderTextColor: palettes.Brand.appStyle_greyscale_400 },
+    },
+    'Text Area': {
+      style: {
+        borderBottomWidth: 1,
+        borderColor: theme.colors.border.base,
+        borderLeftWidth: 1,
+        borderRadius: 8,
+        borderRightWidth: 1,
+        borderTopWidth: 1,
+        paddingBottom: 8,
+        paddingLeft: 8,
+        paddingRight: 8,
+        paddingTop: 8,
+      },
+      props: {},
     },
     'Text Input': {
       style: {
@@ -1087,6 +1158,9 @@ export const TextInputStyles = theme =>
       props: { placeholderTextColor: palettes.Brand.appStyle_greyscale_400 },
     },
   });
+
+export const DatePickerStyles = theme =>
+  StyleSheet.create({ 'Date Picker': { style: {}, props: {} } });
 
 export const TextFieldStyles = theme =>
   StyleSheet.create({
@@ -1111,6 +1185,7 @@ export const TextFieldStyles = theme =>
         placeholderTextColor: palettes.App['Custom Color 4'],
       },
     },
+    'Styled Text Field': { style: {}, props: {} },
   });
 
 export const TimerStyles = theme =>
@@ -1144,6 +1219,14 @@ export const BlurViewStyles = theme =>
       style: { flexBasis: 0, flexGrow: 1, flexShrink: 1 },
       props: {},
     },
+  });
+
+export const ExpoImageStyles = theme =>
+  StyleSheet.create({
+    'Image 2': { style: {}, props: {} },
+    'Image 3': { style: {}, props: {} },
+    'Image 4': { style: {}, props: {} },
+    'SVG 2': { style: { height: 100, width: 100 }, props: {} },
   });
 
 export const SwipeableItemStyles = theme =>
@@ -1194,9 +1277,13 @@ export const CircleStyles = theme =>
     },
   });
 
-export const ExpoImageStyles = theme =>
+export const PickerStyles = theme =>
+  StyleSheet.create({ Picker: { style: {}, props: {} } });
+
+export const TableStyles = theme =>
+  StyleSheet.create({ Table: { style: { flex: 1 }, props: {} } });
+
+export const TableCellStyles = theme =>
   StyleSheet.create({
-    'Image 2': { style: {}, props: {} },
-    'Image 3': { style: {}, props: {} },
-    'SVG 2': { style: { height: 100, width: 100 }, props: {} },
+    'Table Cell': { style: { flex: 1, flexDirection: 'row' }, props: {} },
   });

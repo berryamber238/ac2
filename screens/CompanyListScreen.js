@@ -14,7 +14,7 @@ import {
   withTheme,
 } from '@draftbit/ui';
 import { useIsFocused } from '@react-navigation/native';
-import { ActivityIndicator, Image, Text, View } from 'react-native';
+import { ActivityIndicator, Image, StatusBar, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fetch } from 'react-request';
 import * as GlobalStyles from '../GlobalStyles.js';
@@ -54,6 +54,19 @@ const CompanyListScreen = props => {
   };
   const safeAreaInsets = useSafeAreaInsets();
   const aceCampTestSnsActionsDoPOST = AceCampTestApi.useSnsActionsDoPOST();
+  const isFocused = useIsFocused();
+  React.useEffect(() => {
+    try {
+      if (!isFocused) {
+        return;
+      }
+
+      const entry = StatusBar.pushStackEntry?.({ barStyle: 'dark-content' });
+      return () => StatusBar.popStackEntry?.(entry);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isFocused]);
 
   return (
     <ScreenContainer
@@ -422,7 +435,7 @@ const CompanyListScreen = props => {
                       flashListData?.corporation_id
                     }
                     keyboardShouldPersistTaps={'never'}
-                    listKey={'CLVD6KBN'}
+                    listKey={'Fetch->Container->View->FlashList'}
                     nestedScrollEnabled={false}
                     numColumns={1}
                     onEndReached={() => {
@@ -467,7 +480,7 @@ const CompanyListScreen = props => {
                           onPress={() => {
                             try {
                               navigation.push('BottomTabNavigator', {
-                                screen: 'Search',
+                                screen: 'Company',
                                 params: {
                                   screen: 'CompanyInfoScreen',
                                   params: {

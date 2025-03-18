@@ -25,7 +25,7 @@ const linking = {
       LiveScreen: {
         screens: {
           LiveScreen: {
-            path: 'LiveScreen/:event_id?/:meeting_id?/:expert_id?/:expert_code?',
+            path: 'LiveScreen/:meeting_id?',
           },
         },
       },

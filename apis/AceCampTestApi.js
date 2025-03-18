@@ -19,6 +19,914 @@ import * as GlobalVariables from '../config/GlobalVariableContext';
 const cleanHeaders = headers =>
   Object.fromEntries(Object.entries(headers).filter(kv => kv[1] != null));
 
+export const addPhonePUT = async (
+  Constants,
+  { code, country_code_id, user_code, user_country_code_id, user_phone_number },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/users/change_phone_number`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        user_code: user_code,
+        user_country_code_id: user_country_code_id,
+        user_phone_number: user_phone_number,
+        country_code_id: country_code_id,
+        phone_number: country_code_id,
+        code: code,
+        main_phone: false,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'PUT',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useAddPhonePUT = (initialArgs = {}, { handlers = {} } = {}) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => addPhonePUT(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
+export const aiSchedulersPOST = async (
+  Constants,
+  {
+    area_code,
+    autocall,
+    country_code_id,
+    password,
+    schedule_time,
+    source_type,
+    tel,
+    title,
+  },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/ai_schedulers`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        source_type: source_type,
+        title: title,
+        source_params: {
+          schedule_time: schedule_time,
+          country_code_id: country_code_id,
+          area_code: area_code,
+          tel: tel,
+          password: password,
+          autocall: autocall,
+        },
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useAiSchedulersPOST = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => aiSchedulersPOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('ai', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('ai');
+        queryClient.invalidateQueries('ais');
+      },
+    }
+  );
+};
+
+export const FetchAiSchedulersPOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  area_code,
+  autocall,
+  country_code_id,
+  password,
+  schedule_time,
+  source_type,
+  tel,
+  title,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useAiSchedulersPOST(
+    {
+      area_code,
+      autocall,
+      country_code_id,
+      password,
+      schedule_time,
+      source_type,
+      tel,
+      title,
+    },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchAiSchedulers: refetch });
+};
+
+export const aiTranslatesPOST = async (
+  Constants,
+  {
+    action,
+    ai_translate_glossary_id,
+    article_id,
+    content,
+    source_type,
+    target,
+    title,
+  },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/ai_translates`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        target: target,
+        action: action,
+        content: content,
+        title: title,
+        source_type: source_type,
+        ai_translate_glossary_id: ai_translate_glossary_id,
+        article_id: article_id,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useAiTranslatesPOST = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => aiTranslatesPOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('ai', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('ai');
+        queryClient.invalidateQueries('ais');
+      },
+    }
+  );
+};
+
+export const FetchAiTranslatesPOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  action,
+  ai_translate_glossary_id,
+  article_id,
+  content,
+  source_type,
+  target,
+  title,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useAiTranslatesPOST(
+    {
+      action,
+      ai_translate_glossary_id,
+      article_id,
+      content,
+      source_type,
+      target,
+      title,
+    },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchAiTranslates: refetch });
+};
+
+export const aiTranslatesDetailGET = async (
+  Constants,
+  { id },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/ai_translates/${encodeQueryParam(
+    id
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useAiTranslatesDetailGET = (
+  args = {},
+  {
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    refetchOnReconnect,
+    retry,
+    staleTime,
+    timeout,
+    handlers = {},
+  } = {}
+) => {
+  const Constants = GlobalVariables.useValues();
+  const queryClient = useQueryClient();
+  return useQuery(
+    ['aceCampTestAiTranslatesDetailGET', args],
+    () => aiTranslatesDetailGET(Constants, args, handlers, timeout),
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      onSuccess: () =>
+        queryClient.invalidateQueries(['aceCampTestAiTranslatesDetailGETS']),
+    }
+  );
+};
+
+export const FetchAiTranslatesDetailGET = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  id,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    refetch,
+  } = useAiTranslatesDetailGET(
+    { id },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchAiTranslatesDetail: refetch });
+};
+
+export const aiTranslatesGlossariesGET = async (
+  Constants,
+  _args,
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/ai_translates/glossaries`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useAiTranslatesGlossariesGET = (
+  args = {},
+  {
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    refetchOnReconnect,
+    retry,
+    staleTime,
+    timeout,
+    handlers = {},
+  } = {}
+) => {
+  const Constants = GlobalVariables.useValues();
+  return useQuery(
+    ['ais', args],
+    () => aiTranslatesGlossariesGET(Constants, args, handlers, timeout),
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+    }
+  );
+};
+
+export const FetchAiTranslatesGlossariesGET = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    refetch,
+  } = useAiTranslatesGlossariesGET(
+    {},
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({
+    loading,
+    data,
+    error,
+    refetchAiTranslatesGlossaries: refetch,
+  });
+};
+
+export const aiTranslatesListGET = async (
+  Constants,
+  { page, per_page, refresh },
+  handlers,
+  timeout
+) => {
+  const paramsDict = {};
+  if (page !== undefined) {
+    paramsDict['page'] = page;
+  }
+  if (per_page !== undefined) {
+    paramsDict['per_page'] = per_page;
+  }
+  if (refresh !== undefined) {
+    paramsDict['refresh'] = refresh;
+  }
+  const url = `https://api.ca3test.com/api/v1/ai_translates${renderQueryString(
+    paramsDict,
+    'brackets'
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useAiTranslatesListGET = (
+  args = {},
+  {
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    refetchOnReconnect,
+    retry,
+    staleTime,
+    timeout,
+    handlers = {},
+  } = {}
+) => {
+  const Constants = GlobalVariables.useValues();
+  return useQuery(
+    ['ais', args],
+    () => aiTranslatesListGET(Constants, args, handlers, timeout),
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+    }
+  );
+};
+
+export const FetchAiTranslatesListGET = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  page,
+  per_page,
+  refresh,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    refetch,
+  } = useAiTranslatesListGET(
+    { page, per_page, refresh },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchAiTranslatesList: refetch });
+};
+
+export const appointmentTicketsPOST = async (
+  Constants,
+  {
+    appointment_type,
+    company,
+    contact,
+    contact_type,
+    name,
+    resource_id,
+    resource_type,
+    source_type,
+  },
+  handlers,
+  timeout
+) => {
+  const paramsDict = {};
+  if (appointment_type !== undefined) {
+    paramsDict['appointment_type'] = appointment_type;
+  }
+  if (contact !== undefined) {
+    paramsDict['contact'] = contact;
+  }
+  if (contact_type !== undefined) {
+    paramsDict['contact_type'] = contact_type;
+  }
+  if (source_type !== undefined) {
+    paramsDict['source_type'] = source_type;
+  }
+  if (name !== undefined) {
+    paramsDict['name'] = name;
+  }
+  if (company !== undefined) {
+    paramsDict['company'] = company;
+  }
+  if (resource_id !== undefined) {
+    paramsDict['resource_id'] = resource_id;
+  }
+  if (resource_type !== undefined) {
+    paramsDict['resource_type'] = resource_type;
+  }
+  const url = `https://api.ca3test.com/api/v1/appointment_tickets${renderQueryString(
+    paramsDict,
+    'brackets'
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useAppointmentTicketsPOST = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args =>
+      appointmentTicketsPOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
+export const FetchAppointmentTicketsPOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  appointment_type,
+  company,
+  contact,
+  contact_type,
+  name,
+  resource_id,
+  resource_type,
+  source_type,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useAppointmentTicketsPOST(
+    {
+      appointment_type,
+      company,
+      contact,
+      contact_type,
+      name,
+      resource_id,
+      resource_type,
+      source_type,
+    },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchAppointmentTickets: refetch });
+};
+
 export const articleInfoGET = async (
   Constants,
   { id, locale },
@@ -548,6 +1456,620 @@ export const FetchArticleInfoSimilarGET = ({
     }
   }, [error]);
   return children({ loading, data, error, refetchArticleInfoSimilar: refetch });
+};
+
+export const articleListGET = async (
+  Constants,
+  { mine, page, per_page, state, title },
+  handlers,
+  timeout
+) => {
+  const paramsDict = {};
+  if (mine !== undefined) {
+    paramsDict['mine'] = mine;
+  }
+  if (state !== undefined) {
+    paramsDict['state'] = state;
+  }
+  if (title !== undefined) {
+    paramsDict['title'] = title;
+  }
+  if (page !== undefined) {
+    paramsDict['page'] = page;
+  }
+  if (per_page !== undefined) {
+    paramsDict['per_page'] = per_page;
+  }
+  const url = `https://api.ca3test.com/api/v1/organization_articles/article_list${renderQueryString(
+    paramsDict,
+    'brackets'
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useArticleListGET = (
+  args = {},
+  {
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    refetchOnReconnect,
+    retry,
+    staleTime,
+    timeout,
+    handlers = {},
+  } = {}
+) => {
+  const Constants = GlobalVariables.useValues();
+  return useQuery(
+    ['organizations', args],
+    () => articleListGET(Constants, args, handlers, timeout),
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+    }
+  );
+};
+
+export const FetchArticleListGET = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  mine,
+  page,
+  per_page,
+  state,
+  title,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    refetch,
+  } = useArticleListGET(
+    { mine, page, per_page, state, title },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchArticleList: refetch });
+};
+
+export const assetsInfoGET = async (Constants, { id }, handlers, timeout) => {
+  const url = `https://api.ca3test.com/api/v1/users/resumes/${encodeQueryParam(
+    id
+  )}/assets_info`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useAssetsInfoGET = (
+  args = {},
+  {
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    refetchOnReconnect,
+    retry,
+    staleTime,
+    timeout,
+    handlers = {},
+  } = {}
+) => {
+  const Constants = GlobalVariables.useValues();
+  const queryClient = useQueryClient();
+  return useQuery(
+    ['user', args],
+    () => assetsInfoGET(Constants, args, handlers, timeout),
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      onSuccess: () => queryClient.invalidateQueries(['users']),
+    }
+  );
+};
+
+export const FetchAssetsInfoGET = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  id,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    refetch,
+  } = useAssetsInfoGET(
+    { id },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchAssetsInfo: refetch });
+};
+
+export const buyMeetingPOST = async (
+  Constants,
+  { goods_id, user_card_sncode },
+  handlers,
+  timeout
+) => {
+  const paramsDict = {};
+  paramsDict['goods_type'] = 'Meeting';
+  if (goods_id !== undefined) {
+    paramsDict['goods_id'] = goods_id;
+  }
+  if (user_card_sncode !== undefined) {
+    paramsDict['user_card_sncode'] = user_card_sncode;
+  }
+  const url = `https://api.ca3test.com/api/v1/orders${renderQueryString(
+    paramsDict,
+    'brackets'
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useBuyMeetingPOST = (initialArgs = {}, { handlers = {} } = {}) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => buyMeetingPOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('event', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('event');
+        queryClient.invalidateQueries('events');
+      },
+    }
+  );
+};
+
+export const FetchBuyMeetingPOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  goods_id,
+  user_card_sncode,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useBuyMeetingPOST(
+    { goods_id, user_card_sncode },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchBuyMeeting: refetch });
+};
+
+export const changeEmailPUT = async (
+  Constants,
+  {
+    code,
+    email,
+    password,
+    user_code,
+    user_country_code_id,
+    user_email,
+    user_phone_number,
+  },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/users/change_email`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        user_country_code_id: user_country_code_id,
+        user_phone_number: user_phone_number,
+        user_email: user_email,
+        user_code: user_code,
+        password: password,
+        email: email,
+        code: code,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'PUT',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useChangeEmailPUT = (initialArgs = {}, { handlers = {} } = {}) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => changeEmailPUT(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
+export const changePasswordPUT = async (
+  Constants,
+  {
+    code,
+    country_code_id,
+    email,
+    old_password,
+    password,
+    password_confirmation,
+    phone_number,
+  },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/users/change_password`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        country_code_id: country_code_id,
+        phone_number: phone_number,
+        email: email,
+        code: code,
+        old_password: old_password,
+        password: password,
+        password_confirmation: password_confirmation,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'PUT',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useChangePasswordPUT = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => changePasswordPUT(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
+export const changePhoneNumberPUT = async (
+  Constants,
+  {
+    code,
+    country_code_id,
+    main_phone,
+    password,
+    phone_number,
+    user_code,
+    user_country_code_id,
+    user_phone_number,
+  },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/users/change_phone_number`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        user_code: user_code,
+        user_country_code_id: user_country_code_id,
+        user_phone_number: user_phone_number,
+        country_code_id: country_code_id,
+        phone_number: phone_number,
+        code: code,
+        main_phone: main_phone,
+        password: password,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'PUT',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useChangePhoneNumberPUT = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args =>
+      changePhoneNumberPUT(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
 };
 
 export const commentListGET = async (
@@ -1289,6 +2811,133 @@ export const FetchCorporationsListGET = ({
   return children({ loading, data, error, refetchCorporationsList: refetch });
 };
 
+export const createTranscribesPOST = async (
+  Constants,
+  { ai_assistant_language, industry_ids, source_type, source_url, title },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/transcribes`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        source_url: source_url,
+        ai_assistant_language: ai_assistant_language,
+        industry_ids: industry_ids,
+        aigc_type: 'standard',
+        title: title,
+        source_type: source_type,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useCreateTranscribesPOST = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args =>
+      createTranscribesPOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('ai', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('ai');
+        queryClient.invalidateQueries('ais');
+      },
+    }
+  );
+};
+
+export const FetchCreateTranscribesPOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  ai_assistant_language,
+  industry_ids,
+  source_type,
+  source_url,
+  title,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useCreateTranscribesPOST(
+    { ai_assistant_language, industry_ids, source_type, source_url, title },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchCreateTranscribes: refetch });
+};
+
 export const customerServiceGET = async (
   Constants,
   { Wechat_Appid, Wechat_Code },
@@ -1696,6 +3345,271 @@ export const FetchDailyupdateSpotlightGET = ({
   });
 };
 
+export const deleteAccountPOST = async (
+  Constants,
+  { description, reasons, user_code, user_country_code_id, user_phone_number },
+  handlers,
+  timeout
+) => {
+  const paramsDict = {};
+  if (user_country_code_id !== undefined) {
+    paramsDict['user_country_code_id'] = user_country_code_id;
+  }
+  if (user_phone_number !== undefined) {
+    paramsDict['user_phone_number'] = user_phone_number;
+  }
+  if (user_code !== undefined) {
+    paramsDict['user_code'] = user_code;
+  }
+  if (reasons !== undefined) {
+    paramsDict['reasons'] = reasons;
+  }
+  if (description !== undefined) {
+    paramsDict['description'] = description;
+  }
+  const url = `https://api.ca3test.com/api/v1/users/delete_account${renderQueryString(
+    paramsDict,
+    'brackets'
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useDeleteAccountPOST = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => deleteAccountPOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
+export const FetchDeleteAccountPOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  description,
+  reasons,
+  user_code,
+  user_country_code_id,
+  user_phone_number,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useDeleteAccountPOST(
+    {
+      description,
+      reasons,
+      user_code,
+      user_country_code_id,
+      user_phone_number,
+    },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchDeleteAccount: refetch });
+};
+
+export const deleteAccountReasonGET = async (
+  Constants,
+  _args,
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/users/resumes/delete_account_reason`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useDeleteAccountReasonGET = (
+  args = {},
+  {
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    refetchOnReconnect,
+    retry,
+    staleTime,
+    timeout,
+    handlers = {},
+  } = {}
+) => {
+  const Constants = GlobalVariables.useValues();
+  return useQuery(
+    ['users', args],
+    () => deleteAccountReasonGET(Constants, args, handlers, timeout),
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+    }
+  );
+};
+
+export const FetchDeleteAccountReasonGET = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    refetch,
+  } = useDeleteAccountReasonGET(
+    {},
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({
+    loading,
+    data,
+    error,
+    refetchDeleteAccountReason: refetch,
+  });
+};
+
 export const deleteOpinionDELETE = async (
   Constants,
   { id },
@@ -1761,6 +3675,72 @@ export const useDeleteOpinionDELETE = (
       onSettled: () => {
         queryClient.invalidateQueries('opinion');
         queryClient.invalidateQueries('opinions');
+      },
+    }
+  );
+};
+
+export const deleteOtherPhoneDELETE = async (
+  Constants,
+  { country_code_id, phone_number },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/users/other_phone`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        phone_number: phone_number,
+        country_code_id: country_code_id,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'DELETE',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useDeleteOtherPhoneDELETE = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args =>
+      deleteOtherPhoneDELETE(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -3288,6 +5268,494 @@ export const FetchFollowOrganizationPOST = ({
   return children({ loading, data, error, refetchFollowOrganization: refetch });
 };
 
+export const getPrepayGET = async (Constants, _args, handlers, timeout) => {
+  const paramsDict = {};
+  paramsDict['card_type'] = 'prepay';
+  const url = `https://api.ca3test.com/api/v1/users/cards${renderQueryString(
+    paramsDict,
+    'brackets'
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useGetPrepayGET = (
+  args = {},
+  {
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    refetchOnReconnect,
+    retry,
+    staleTime,
+    timeout,
+    handlers = {},
+  } = {}
+) => {
+  const Constants = GlobalVariables.useValues();
+  const queryClient = useQueryClient();
+  return useQuery(
+    ['user', args],
+    () => getPrepayGET(Constants, args, handlers, timeout),
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      onSuccess: () => queryClient.invalidateQueries(['users']),
+    }
+  );
+};
+
+export const FetchGetPrepayGET = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    refetch,
+  } = useGetPrepayGET(
+    {},
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchGetPrepay: refetch });
+};
+
+export const getTranscribesGET = async (
+  Constants,
+  { id },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/transcribes/${encodeQueryParam(
+    id
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useGetTranscribesGET = (
+  args = {},
+  {
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    refetchOnReconnect,
+    retry,
+    staleTime,
+    timeout,
+    handlers = {},
+  } = {}
+) => {
+  const Constants = GlobalVariables.useValues();
+  const queryClient = useQueryClient();
+  return useQuery(
+    ['ai', args],
+    () => getTranscribesGET(Constants, args, handlers, timeout),
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      onSuccess: () => queryClient.invalidateQueries(['ais']),
+    }
+  );
+};
+
+export const FetchGetTranscribesGET = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  id,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    refetch,
+  } = useGetTranscribesGET(
+    { id },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchGetTranscribes: refetch });
+};
+
+export const getTranscribesKeynumbersGET = async (
+  Constants,
+  { id },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/transcribes/${encodeQueryParam(
+    id
+  )}/keynumbers`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useGetTranscribesKeynumbersGET = (
+  args = {},
+  {
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    refetchOnReconnect,
+    retry,
+    staleTime,
+    timeout,
+    handlers = {},
+  } = {}
+) => {
+  const Constants = GlobalVariables.useValues();
+  const queryClient = useQueryClient();
+  return useQuery(
+    ['ai', args],
+    () => getTranscribesKeynumbersGET(Constants, args, handlers, timeout),
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      onSuccess: () => queryClient.invalidateQueries(['ais']),
+    }
+  );
+};
+
+export const FetchGetTranscribesKeynumbersGET = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  id,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    refetch,
+  } = useGetTranscribesKeynumbersGET(
+    { id },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({
+    loading,
+    data,
+    error,
+    refetchGetTranscribesKeynumbers: refetch,
+  });
+};
+
+export const goAuthPOST = async (
+  Constants,
+  { business_card, company_name, name, work_email },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/organization_users/create_organization_user_lead`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        business_card: business_card,
+        name: name,
+        work_email: work_email,
+        company_name: company_name,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useGoAuthPOST = (initialArgs = {}, { handlers = {} } = {}) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => goAuthPOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
+export const FetchGoAuthPOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  business_card,
+  company_name,
+  name,
+  work_email,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useGoAuthPOST(
+    { business_card, company_name, name, work_email },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchGoAuth: refetch });
+};
+
 export const hotGET = async (
   Constants,
   {
@@ -3550,7 +6018,7 @@ export const FetchIgnoreAllPOST = ({
   return children({ loading, data, error, refetchIgnoreAll: refetch });
 };
 
-export const liveTokenGET = async (
+export const liveTokenPOST = async (
   Constants,
   { live_id },
   handlers,
@@ -3570,11 +6038,19 @@ export const liveTokenGET = async (
   }
   try {
     const res = await fetch(url, {
+      body: JSON.stringify({
+        user_type: 'user',
+        demo: true,
+        get_canceled: true,
+        re_registration: false,
+      }),
       headers: cleanHeaders({
         Accept: 'application/json',
+        'Content-Type': 'application/json',
         Cookie: Constants['cookie'],
         'User-Agent': Constants['user-agent'],
       }),
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
@@ -3589,37 +6065,26 @@ export const liveTokenGET = async (
   }
 };
 
-export const useLiveTokenGET = (
-  args = {},
-  {
-    refetchInterval,
-    refetchOnWindowFocus,
-    refetchOnMount,
-    refetchOnReconnect,
-    retry,
-    staleTime,
-    timeout,
-    handlers = {},
-  } = {}
-) => {
-  const Constants = GlobalVariables.useValues();
+export const useLiveTokenPOST = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
-  return useQuery(
-    ['life', args],
-    () => liveTokenGET(Constants, args, handlers, timeout),
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => liveTokenPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
-      refetchInterval,
-      refetchOnWindowFocus,
-      refetchOnMount,
-      refetchOnReconnect,
-      retry,
-      staleTime,
-      onSuccess: () => queryClient.invalidateQueries(['lives']),
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('lives', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('life');
+        queryClient.invalidateQueries('lives');
+      },
     }
   );
 };
 
-export const FetchLiveTokenGET = ({
+export const FetchLiveTokenPOST = ({
   children,
   onData = () => {},
   handlers = {},
@@ -3640,8 +6105,8 @@ export const FetchLiveTokenGET = ({
     isLoading: loading,
     data,
     error,
-    refetch,
-  } = useLiveTokenGET(
+    mutate: refetch,
+  } = useLiveTokenPOST(
     { live_id },
     {
       refetchInterval,
@@ -5333,6 +7798,77 @@ export const FetchOrdersHistoryGET = ({
   return children({ loading, data, error, refetchOrdersHistory: refetch });
 };
 
+export const organizationUpdatePUT = async (
+  Constants,
+  { country_code_id, id, organization_user, password, phone_number, user_code },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/organization_users/${encodeQueryParam(
+    id
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        country_code_id: country_code_id,
+        organization_user: organization_user,
+        password: password,
+        phone_number: phone_number,
+        user_code: user_code,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'PUT',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useOrganizationUpdatePUT = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args =>
+      organizationUpdatePUT(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('organization', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('organization');
+        queryClient.invalidateQueries('organizations');
+      },
+    }
+  );
+};
+
 export const organizationUsersDismissPUT = async (
   Constants,
   { id },
@@ -5825,6 +8361,137 @@ export const FetchOrganizerSpotlightsGET = ({
   });
 };
 
+export const ossDownloadUrlGET = async (
+  Constants,
+  { event_id, file_url },
+  handlers,
+  timeout
+) => {
+  const paramsDict = {};
+  if (event_id !== undefined) {
+    paramsDict['event_id'] = event_id;
+  }
+  if (file_url !== undefined) {
+    paramsDict['file_url'] = file_url;
+  }
+  const url = `https://api.ca3test.com/api/v1/oss/get_download_url${renderQueryString(
+    paramsDict,
+    'brackets'
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useOssDownloadUrlGET = (
+  args = {},
+  {
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    refetchOnReconnect,
+    retry,
+    staleTime,
+    timeout,
+    handlers = {},
+  } = {}
+) => {
+  const Constants = GlobalVariables.useValues();
+  const queryClient = useQueryClient();
+  return useQuery(
+    ['event', args],
+    () => ossDownloadUrlGET(Constants, args, handlers, timeout),
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      onSuccess: () => queryClient.invalidateQueries(['events']),
+    }
+  );
+};
+
+export const FetchOssDownloadUrlGET = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  event_id,
+  file_url,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    refetch,
+  } = useOssDownloadUrlGET(
+    { event_id, file_url },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchOssDownloadUrl: refetch });
+};
+
 export const readMessagePUT = async (Constants, { id }, handlers, timeout) => {
   const url = `https://api.ca3test.com/api/v1/user_notifications/${encodeQueryParam(
     id
@@ -6003,6 +8670,128 @@ export const FetchRegionsGET = ({
   return children({ loading, data, error, refetchRegions: refetch });
 };
 
+export const remindBuyPOST = async (
+  Constants,
+  { resource_id, resource_type },
+  handlers,
+  timeout
+) => {
+  const paramsDict = {};
+  if (resource_type !== undefined) {
+    paramsDict['resource_type'] = resource_type;
+  }
+  if (resource_id !== undefined) {
+    paramsDict['resource_id'] = resource_id;
+  }
+  const url = `https://api.ca3test.com/api/v1/ordering_reminds${renderQueryString(
+    paramsDict,
+    'brackets'
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useRemindBuyPOST = (initialArgs = {}, { handlers = {} } = {}) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => remindBuyPOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
+export const FetchRemindBuyPOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  resource_id,
+  resource_type,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useRemindBuyPOST(
+    { resource_id, resource_type },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchRemindBuy: refetch });
+};
+
 export const requestCodePOST = async (
   Constants,
   { code_scope, country_code_id, email, phone_number, scene },
@@ -6135,6 +8924,198 @@ export const FetchRequestCodePOST = ({
     }
   }, [error]);
   return children({ loading, data, error, refetchRequestCode: refetch });
+};
+
+export const resumeAddPOST = async (
+  Constants,
+  { company_name, content, ended_at, position_name, started_at },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/users/resumes`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        company_name: company_name,
+        position_name: position_name,
+        started_at: started_at,
+        ended_at: ended_at,
+        content: content,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useResumeAddPOST = (initialArgs = {}, { handlers = {} } = {}) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => resumeAddPOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
+export const FetchResumeAddPOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  company_name,
+  content,
+  ended_at,
+  position_name,
+  started_at,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useResumeAddPOST(
+    { company_name, content, ended_at, position_name, started_at },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchResumeAdd: refetch });
+};
+
+export const resumeUpdatePUT = async (
+  Constants,
+  { company_name, content, ended_at, id, position_name, started_at },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/users/resumes/${encodeQueryParam(
+    id
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        company_name: company_name,
+        position_name: position_name,
+        started_at: started_at,
+        ended_at: ended_at,
+        content: content,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'PUT',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useResumeUpdatePUT = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => resumeUpdatePUT(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
 };
 
 export const searchGET = async (
@@ -6544,6 +9525,110 @@ export const FetchSearchTrendsGET = ({
     }
   }, [error]);
   return children({ loading, data, error, refetchSearchTrends: refetch });
+};
+
+export const signOutPOST = async (Constants, _args, handlers, timeout) => {
+  const url = `https://api.ca3test.com/api/v1/users/sign_out`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useSignOutPOST = (initialArgs = {}, { handlers = {} } = {}) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => signOutPOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
+export const FetchSignOutPOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useSignOutPOST(
+    {},
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchSignOut: refetch });
 };
 
 export const snsActionsDoPOST = async (
@@ -7984,6 +11069,83 @@ export const FetchSpotlightsGET = ({
   return children({ loading, data, error, refetchSpotlights: refetch });
 };
 
+export const switchMainPhonePUT = async (
+  Constants,
+  {
+    country_code_id,
+    password,
+    phone_number,
+    user_code,
+    user_country_code_id,
+    user_phone_number,
+  },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/users/switch_main_phone`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        user_code: user_code,
+        user_country_code_id: user_country_code_id,
+        user_phone_number: user_phone_number,
+        phone_number: phone_number,
+        country_code_id: country_code_id,
+        password: password,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'PUT',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useSwitchMainPhonePUT = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args =>
+      switchMainPhonePUT(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
 export const topicDeleteDELETE = async (
   Constants,
   { id },
@@ -8596,6 +11758,135 @@ export const useTopicToDraftPUT = (
   );
 };
 
+export const transcribesListGET = async (
+  Constants,
+  { page, per_page },
+  handlers,
+  timeout
+) => {
+  const paramsDict = {};
+  if (page !== undefined) {
+    paramsDict['page'] = page;
+  }
+  if (per_page !== undefined) {
+    paramsDict['per_page'] = per_page;
+  }
+  const url = `https://api.ca3test.com/api/v1/transcribes${renderQueryString(
+    paramsDict,
+    'brackets'
+  )}`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useTranscribesListGET = (
+  args = {},
+  {
+    refetchInterval,
+    refetchOnWindowFocus,
+    refetchOnMount,
+    refetchOnReconnect,
+    retry,
+    staleTime,
+    timeout,
+    handlers = {},
+  } = {}
+) => {
+  const Constants = GlobalVariables.useValues();
+  return useQuery(
+    ['ais', args],
+    () => transcribesListGET(Constants, args, handlers, timeout),
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+    }
+  );
+};
+
+export const FetchTranscribesListGET = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  page,
+  per_page,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    refetch,
+  } = useTranscribesListGET(
+    { page, per_page },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchTranscribesList: refetch });
+};
+
 export const unfollowOrganizationPOST = async (
   Constants,
   { organization_id },
@@ -8974,4 +12265,246 @@ export const FetchUsersLoginPOST = ({
     }
   }, [error]);
   return children({ loading, data, error, refetchUsersLogin: refetch });
+};
+
+export const verifyCodePOST = async (
+  Constants,
+  { code_scope, user_code, user_country_code_id, user_phone_number },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/users/verify_code`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        user_code: user_code,
+        user_country_code_id: user_country_code_id,
+        user_phone_number: user_phone_number,
+        code_scope: code_scope,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useVerifyCodePOST = (initialArgs = {}, { handlers = {} } = {}) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => verifyCodePOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
+export const FetchVerifyCodePOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  code_scope,
+  user_code,
+  user_country_code_id,
+  user_phone_number,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useVerifyCodePOST(
+    { code_scope, user_code, user_country_code_id, user_phone_number },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchVerifyCode: refetch });
+};
+
+export const verifyPasswordPOST = async (
+  Constants,
+  { password, user_country_code_id, user_phone_number },
+  handlers,
+  timeout
+) => {
+  const url = `https://api.ca3test.com/api/v1/users/verify_password`;
+  const controller = new AbortController();
+  let timeoutObj;
+  if (timeout) {
+    timeoutObj = setTimeout(() => {
+      const err = new Error(`Timeout after ${timeout}ms`);
+      err.__type = 'TIMEOUT';
+      controller.abort(err);
+    }, timeout);
+  }
+  try {
+    const res = await fetch(url, {
+      body: JSON.stringify({
+        password: password,
+        user_country_code_id: user_country_code_id,
+        user_phone_number: user_phone_number,
+      }),
+      headers: cleanHeaders({
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
+      }),
+      method: 'POST',
+      signal: controller.signal,
+    });
+    timeoutObj && clearTimeout(timeoutObj);
+    return handleResponse(res, handlers);
+  } catch (e) {
+    if (e.__type === 'TIMEOUT') {
+      handlers.onTimeout?.();
+    } else if (timeoutObj) {
+      clearTimeout(timeoutObj);
+    }
+    throw e;
+  }
+};
+
+export const useVerifyPasswordPOST = (
+  initialArgs = {},
+  { handlers = {} } = {}
+) => {
+  const queryClient = useQueryClient();
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args =>
+      verifyPasswordPOST(Constants, { ...initialArgs, ...args }, handlers),
+    {
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('user', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+};
+
+export const FetchVerifyPasswordPOST = ({
+  children,
+  onData = () => {},
+  handlers = {},
+  refetchInterval,
+  refetchOnWindowFocus,
+  refetchOnMount,
+  refetchOnReconnect,
+  retry,
+  staleTime,
+  timeout,
+  password,
+  user_country_code_id,
+  user_phone_number,
+}) => {
+  const Constants = GlobalVariables.useValues();
+  const isFocused = useIsFocused();
+  const prevIsFocused = usePrevious(isFocused);
+
+  const {
+    isLoading: loading,
+    data,
+    error,
+    mutate: refetch,
+  } = useVerifyPasswordPOST(
+    { password, user_country_code_id, user_phone_number },
+    {
+      refetchInterval,
+      refetchOnWindowFocus,
+      refetchOnMount,
+      refetchOnReconnect,
+      retry,
+      staleTime,
+      timeout,
+      handlers: { onData, ...handlers },
+    }
+  );
+
+  React.useEffect(() => {
+    if (!prevIsFocused && isFocused && refetchOnWindowFocus !== false) {
+      refetch();
+    }
+  }, [isFocused, prevIsFocused, refetchOnWindowFocus]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.error(error);
+      if (error.status) {
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
+      }
+    }
+  }, [error]);
+  return children({ loading, data, error, refetchVerifyPassword: refetch });
 };

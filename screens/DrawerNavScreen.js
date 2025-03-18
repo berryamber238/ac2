@@ -1,14 +1,16 @@
 import React from 'react';
-import { ScreenContainer, Touchable, withTheme } from '@draftbit/ui';
+import { Button, ScreenContainer, Touchable, withTheme } from '@draftbit/ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
+import * as reactNativeToastMessage from 'react-native-toast-message';
 import { Fetch } from 'react-request';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import * as DrawerNav from '../custom-files/DrawerNav';
 import * as HttpClient from '../custom-files/HttpClient';
+import * as Toast from '../custom-files/Toast';
 import palettes from '../themes/palettes';
 import * as Utils from '../utils';
 import Breakpoints from '../utils/Breakpoints';
@@ -64,6 +66,18 @@ line two` ) and will not work with special characters inside of quotes ( example
         break;
     }
   };
+
+  const show = () => {
+    reactNativeToastMessage.default.show({
+      type: 'success',
+      text1: 'Hello',
+      text2: 'This is some something 👋',
+    });
+  };
+  React.useEffect(() => {
+    console.log('=============');
+    console.log(Variables.customer_info);
+  }, [Variables.customer_info]);
   React.useEffect(() => {
     const getUserInfo = async () => {
       const url = HttpClient.apiEndpoints['me_info'];
@@ -95,6 +109,51 @@ line two` ) and will not work with special characters inside of quotes ( example
           key: 'ace_dic',
           value: result,
         });
+        const customer_info_data = (
+          await AceCampTestApi.customerServiceGET(Constants, {
+            Wechat_Appid: Constants['wechat_app_id'],
+            Wechat_Code: Constants['wechat_app_code'],
+          })
+        )?.json;
+        setGlobalVariableValue({
+          key: 'customer_info',
+          value:
+            customer_info_data?.data?.length > 0
+              ? customer_info_data?.data
+              : [
+                  {
+                    name: 'Lu Yu',
+                    email: 'luyu@acecamptech.com',
+                    avatar:
+                      'https://wework.qpic.cn/wwpic3az/654320_Q8xGVqwjTXqivOC_1727064850/0',
+                    phone_number: '+8613261690696',
+                    customer_service_url:
+                      'https://work.weixin.qq.com/kfid/kfc4932588fb2a00cf5',
+                  },
+                ],
+        });
+        const my_info = (await AceCampTestApi.myInfoGET(Constants))?.json;
+        if (my_info?.data) {
+          setGlobalVariableValue({
+            key: 'user_info',
+            value: my_info?.data,
+          });
+          setGlobalVariableValue({
+            key: 'is_login',
+            value: true,
+          });
+          setGlobalVariableValue({
+            key: 'is_vip',
+            value: true,
+          });
+        } else {
+          setGlobalVariableValue({
+            key: 'is_login',
+            value: false,
+          });
+        }
+
+        /* hidden 'Log to Console' action */
       } catch (err) {
         console.error(err);
       }
@@ -102,25 +161,23 @@ line two` ) and will not work with special characters inside of quotes ( example
     handler();
   }, []);
   const isFocused = useIsFocused();
-  React.useEffect(() => {
-    try {
-      if (!isFocused) {
-        return;
-      }
 
-      const entry = StatusBar.pushStackEntry?.({ barStyle: 'dark-content' });
-      return () => StatusBar.popStackEntry?.(entry);
-    } catch (err) {
-      console.error(err);
+  React.useEffect(() => {
+    if (!isFocused) {
+      return;
     }
+    const entry = StatusBar.pushStackEntry?.({ barStyle: 'dark-content' });
+    return () => StatusBar.popStackEntry?.(entry);
   }, [isFocused]);
 
   return (
     <ScreenContainer hasSafeArea={false} scrollable={false}>
       <Utils.CustomCodeErrorBoundary>
-        <DrawerNav.CustomDrawer
-          gotoScreen={gotoScreen}
-        ></DrawerNav.CustomDrawer>
+        <>
+          <DrawerNav.CustomDrawer
+            gotoScreen={gotoScreen}
+          ></DrawerNav.CustomDrawer>
+        </>
       </Utils.CustomCodeErrorBoundary>
       {/* Fetch component: no endpoint configured */ null}
     </ScreenContainer>

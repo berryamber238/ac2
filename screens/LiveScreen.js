@@ -38,13 +38,7 @@ import * as StyleSheet from '../utils/StyleSheet';
 import imageSource from '../utils/imageSource';
 import useWindowDimensions from '../utils/useWindowDimensions';
 
-const defaultProps = {
-  event_id: null,
-  expert_code: null,
-  expert_id: null,
-  live_id: 1117943,
-  meeting_id: 10001376,
-};
+const defaultProps = { meeting_id: 10001376, url: null };
 
 const LiveScreen = props => {
   const { theme, navigation } = props;
@@ -301,82 +295,73 @@ const LiveScreen = props => {
   };
   const safeAreaInsets = useSafeAreaInsets();
   React.useEffect(() => {
-    const cookie =
-      'aceid=1728914880.f2086a4ea71e; user_token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDAwMDQxMiwicmVmcmVzaF9hdCI6MTczNjE0MzQ1My44MjQwMTIsImV4cGlyZXNfaW4iOjMxNTU2OTUyfQ.dsoFzt6QBoRmKRoq12qihnaZQj8oBtP4h32UUvHJiDw; meeting_token=eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MTAwMDA0MTIsInVzZXJfdHlwZSI6InVzZXIiLCJsaXZlX2lkIjoxMTE3OTQyfQ.LDVCcc_KOLpuCWNJp5n4QQOD6Xm42NZWRdzPD8CDGak; _ace_camp_tech_testing_session=t6BO7r0drhSylac%2F8%2BEI5LclxrAqJBF5olZYeO1MrcfvD67hNIQHy34Om9fukiN2sZYZm%2BcvxX1FpgHme4UFtVXNlNse5nW3DXxz5oHA7B0QZqeutfmIE4QNVRW%2FTe3CTTRa30vqxIufw6pLNw9WgqE%2FnCU76GmX143Fl0CUB%2Buqyd6%2Fk4gyqSei3IawgG3i8APmkkaKNJ2eMeRT9pFwHJyeGAFtpsk4lZZOipPFU%2Bo3i6voRTAL0hHPVDrYPmkAATSxqFBxW9x8ig%3D%3D--yjRE2n22o5IYxp1m--i3fbfy4coDnScMheqhlPcA%3D%3D';
-    setGlobalVariableValue({
-      key: 'cookie',
-      value: cookie,
-    });
-
-    if (!(props.route?.params?.expert_id ?? defaultProps.expert_id)) {
-      setUser_type('user');
-    } else {
-      setUser_type('expert');
-    }
-
-    const initUi = async code => {
-      switch (code) {
-        case 10005: //直播未开始
-          initLiveUI(7);
-          break;
-        case 10006: //未报名
-          initLiveUI(6);
-          break;
-        case 10007: //未登陆
-          initLiveUI(5);
-          break;
-        case 10008: //直播结束
-          initLiveUI(3);
-          break;
-        case 10009: //密码错误
-          ToastUtil.showToastError(getString(R.string.live_wrong_psd));
-          break;
-        case 10018: //被踢掉
-          mPresenter.getMeetingPrice(meetingId);
-          break;
-        case 10029: //完善信息
-          mPresenter.getEventInfo(eventId);
-          break;
-        case 10031: //活动取消
-          initLiveUI(12);
-          break;
-      }
-    };
-
-    const getToken = async () => {
+    // if(!(props.route?.params?.expert_id ?? defaultProps.expert_id))
+    // {setUser_type("user")}
+    // else{
+    // setUser_type("expert")}
+    // const initUi = async (code) => {
+    //   switch (code) {
+    //             case 10005: //直播未开始
+    //                 initLiveUI(7);
+    //                 break;
+    //             case 10006: //未报名
+    //                 initLiveUI(6);
+    //                 break;
+    //             case 10007: //未登陆
+    //                 initLiveUI(5);
+    //                 break;
+    //             case 10008: //直播结束
+    //                 initLiveUI(3);
+    //                 break;
+    //             case 10009: //密码错误
+    //                 ToastUtil.showToastError(getString(R.string.live_wrong_psd));
+    //                 break;
+    //             case 10018: //被踢掉
+    //                 mPresenter.getMeetingPrice(meetingId);
+    //                 break;
+    //             case 10029: //完善信息
+    //                 mPresenter.getEventInfo(eventId);
+    //                 break;
+    //             case 10031://活动取消
+    //                 initLiveUI(12);
+    //                 break;
+    //         }
+    // }
+    //     const getToken = async () => {
+    //       try {
+    //         await AsyncStorage.setItem('cookies', Variables.cookie)
+    //         const url = HttpClient.apiEndpoints["liveToken"]
+    //         const data = {user_type: user_type, demo: true, get_canceled: true, re_registration: false}
+    //         const response = await HttpClient.fetcher(url.url.replace("{{live_id}}",props.route?.params?.live_id),url.method,data);
+    //         setGlobalVariableValue({
+    //         key: 'cookie',
+    //         value: await AsyncStorage.getItem('cookies'),
+    //       });
+    //       const result = response.json()
+    //       if(result.code !== 200) {
+    //         initUi(result.code)
+    //       }
+    //         setToken(result.data)
+    //       } catch (err) {
+    //         console.log(err)
+    //         setError(err);
+    //       } finally {
+    //         setLoading(false);
+    //       }
+    //     };
+    //     getToken();
+  }, []);
+  const aceCampTestLiveTokenPOST = AceCampTestApi.useLiveTokenPOST();
+  React.useEffect(() => {
+    const handler = async () => {
       try {
-        await AsyncStorage.setItem('cookies', Variables.cookie);
-        const url = HttpClient.apiEndpoints['liveToken'];
-        const data = {
-          user_type: user_type,
-          demo: true,
-          get_canceled: true,
-          re_registration: false,
-        };
-        const response = await HttpClient.fetcher(
-          url.url.replace('{{live_id}}', props.route?.params?.live_id),
-          url.method,
-          data
-        );
-
-        setGlobalVariableValue({
-          key: 'cookie',
-          value: await AsyncStorage.getItem('cookies'),
-        });
-        const result = response.json();
-        if (result.code !== 200) {
-          initUi(result.code);
-        }
-        setToken(result.data);
+        const result = (await aceCampTestLiveTokenPOST.mutateAsync({}))?.json;
+        setToken(result?.data);
       } catch (err) {
-        console.log(err);
-        setError(err);
-      } finally {
-        setLoading(false);
+        console.error(err);
       }
     };
-
-    getToken();
+    handler();
   }, []);
   const isFocused = useIsFocused();
   React.useEffect(() => {
@@ -385,12 +370,17 @@ const LiveScreen = props => {
         return;
       }
       /* hidden 'Set Variable' action */
-
-      const entry = StatusBar.pushStackEntry?.({ barStyle: 'light-content' });
-      return () => StatusBar.popStackEntry?.(entry);
     } catch (err) {
       console.error(err);
     }
+  }, [isFocused]);
+
+  React.useEffect(() => {
+    if (!isFocused) {
+      return;
+    }
+    const entry = StatusBar.pushStackEntry?.({ barStyle: 'light-content' });
+    return () => StatusBar.popStackEntry?.(entry);
   }, [isFocused]);
 
   return (
@@ -769,7 +759,7 @@ const LiveScreen = props => {
           !token?.meeting?.id ||
           token?.meeting?.free ||
           token?.meeting?.has_paid ||
-          (props.route?.params?.expert_id ?? defaultProps.expert_id) ||
+          undefined ||
           token?.state === 'stopped' ? null : (
             <View
               style={StyleSheet.applyWidth(

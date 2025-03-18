@@ -4,7 +4,18 @@ import * as gf from '../custom-files/gf';
 
 const uploadImage = async (fileInfo, scope) => {
   try {
-    const data = fileInfo.split(',')[1];
+    let name = '';
+    let data;
+    let contentType = 'image/jpeg';
+    if (fileInfo.name) {
+      name = fileInfo.name;
+      data = fileInfo.value.split(',')[1];
+      contentType = getContentType(name);
+    } else {
+      data = fileInfo.split(',')[1];
+      contentType = fileInfo.split(',')[0].split(';')[0].split(':')[1]; //data:image/jpeg;base6
+    }
+    console.log('contentType = ' + contentType);
     // 将 Base64 编码的文件转换为二进制数据
     const binaryFile = gf.Buffer.from(data, 'base64');
     const endpoint = HttpClient.apiEndpoints['oss_token'];
@@ -28,7 +39,7 @@ const uploadImage = async (fileInfo, scope) => {
       // 构建待签名字符串
       const method = 'PUT';
       const contentMd5 = '';
-      const contentType = 'image/jpeg';
+      // const contentType = 'image/jpeg';
       const date = new Date().toUTCString();
       const canonicalizedOSSHeaders = `x-oss-security-token:${SecurityToken}`;
       const canonicalizedResource = `/${bucketName}/${fileName}`;
@@ -78,6 +89,37 @@ ${canonicalizedResource}`;
   } catch (err) {
     console.log(err);
   } finally {
+  }
+
+  function getContentType(fileName) {
+    const extension = fileName.split('.').pop().toLowerCase();
+    const mimeTypes = {
+      txt: 'text/plain',
+      html: 'text/html',
+      htm: 'text/html',
+      css: 'text/css',
+      js: 'application/javascript',
+      json: 'application/json',
+      xml: 'application/xml',
+      jpg: 'image/jpeg',
+      jpeg: 'image/jpeg',
+      png: 'image/png',
+      gif: 'image/gif',
+      bmp: 'image/bmp',
+      webp: 'image/webp',
+      svg: 'image/svg+xml',
+      ico: 'image/x-icon',
+      pdf: 'application/pdf',
+      zip: 'application/zip',
+      rar: 'application/x-rar-compressed',
+      mp3: 'audio/mpeg',
+      wav: 'audio/wav',
+      mp4: 'video/mp4',
+      avi: 'video/x-msvideo',
+      // 添加更多需要的 MIME 类型
+    };
+
+    return mimeTypes[extension] || 'application/octet-stream';
   }
 };
 

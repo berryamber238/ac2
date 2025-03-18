@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const DeviceVariables = {
   cookie:
-    'aceid=1728914880.f2086a4ea71e; Hm_lvt_8b0b90b98a9a419fb90141d00647118e=1737214039,1739125317,1739346112; HMACCOUNT=82C625BCCCAAED83; Hm_lpvt_8b0b90b98a9a419fb90141d00647118e=1739732174; user_token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDAwMDQxMiwicmVmcmVzaF9hdCI6MTczOTg5ODc1My40MjIwNzAzLCJleHBpcmVzX2luIjozMTU1Njk1Mn0.yIJbOV_a7CSEqP367plLZN9ZVcj3mwcDkLsRDQNaPUc; _ace_camp_tech_testing_session=odsSbm72eu%2B8bIEb9%2F11GReGRQtuQc7QjXiNjaM7gXJIjLv7aJ2oOjyfpXBynL87BIRAq5S0XxGvZ5i5sT9rlxBEOlAy6%2BF7Z5hMUFUqe0LkuaapDvcKfDvbDgLqqcoQuugXH6AC6ORRdxdnbVCpnepHV4fnhkbE3GyE4nB9BlJ2hUojM9%2FYsi1hwmQZDSow%2BBI326jT--oxdbFRGt9ZGrQzE3--xZ1wsGUObtkMcv5pfHw6rQ%3D%3D',
+    'aceid=1728914880.f2086a4ea71e; Hm_lvt_8b0b90b98a9a419fb90141d00647118e=1739973940,1740344530,1740923914,1741336604; HMACCOUNT=82C625BCCCAAED83; user_token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDAwMDQxMiwicmVmcmVzaF9hdCI6MTc0MTk1NzU3NS4zMjY0MTY3LCJleHBpcmVzX2luIjozMTU1Njk1Mn0.vjgUQj70fmCNaRR4kJf2EEKMhtKS-5Hoscw1DEnHxs8; Hm_lpvt_8b0b90b98a9a419fb90141d00647118e=1742033593; _ace_camp_tech_testing_session=TD%2Bnk6hISf9Vul%2Fof4Gz2vfmVsESuae05lmCvwkz77YbQqHDHRoT8vVuVGnV5CZ%2BoAFY102Ldyhbof4RbU0QKcqvgbnr06DPHzEOvKMZ9WiLP%2F5m3kIHRa9Pjw6qNPV6h%2B1UDbYuOCa1EkI2eGG26IB%2FNSAblmVd1w1sznIYBfFf7SHGsqDMZ4JM9%2F3n78OZY7jxQYrhGxY8efC4uZAz6u4YU5m972DdIDsxxk%2B%2BiCaYj2dk2sorULtZIMg6TV6kamvI9xeMurwDKA%3D%3D--lQbrCqYkow5pSm5%2F--s4FJAIzqb6kE4EXVY1MMWw%3D%3D',
   country: [
     'United States',
     'Canada',
@@ -15,6 +15,26 @@ export const DeviceVariables = {
   ],
   country_code: ['🇺🇸', '🇨🇦', '🇧🇷', '🇩🇪', '🇩🇴'],
   current_lang: 'CN',
+  customer_info: [
+    {
+      name: 'Lu Yu',
+      email: 'luyu@acecamptech.com',
+      avatar:
+        'https://wework.qpic.cn/wwpic3az/654320_Q8xGVqwjTXqivOC_1727064850/0',
+      phone_number: '+8613261690696',
+      customer_service_url:
+        'https://work.weixin.qq.com/kfid/kfc4932588fb2a00cf5',
+    },
+    {
+      name: 'Lu Yu1',
+      email: 'luyu@acecamptech.com',
+      avatar:
+        'https://wework.qpic.cn/wwpic3az/654320_Q8xGVqwjTXqivOC_1727064850/0',
+      phone_number: '+8613261690696',
+      customer_service_url:
+        'https://work.weixin.qq.com/kfid/kfc4932588fb2a00cf5',
+    },
+  ],
   gender_picker: ['Male', 'Female', 'Neutral'],
   is_login: true,
   is_vip: true,

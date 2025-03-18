@@ -678,6 +678,7 @@ const OpinionInfoScreen = props => {
                                   : `${t(Variables, 'live_load_fail')}:${
                                       result?.code
                                     }`,
+                                undefined,
                                 undefined
                               );
                               setIs_following(false);
@@ -3819,6 +3820,7 @@ const OpinionInfoScreen = props => {
                                           Variables,
                                           'live_load_fail'
                                         )}`,
+                                        undefined,
                                         undefined
                                       );
                                       setIs_comment_submiting(false);
@@ -3834,7 +3836,8 @@ const OpinionInfoScreen = props => {
                                         Variables,
                                         'toast_submitted_successfully'
                                       ),
-                                      'top'
+                                      'top',
+                                      undefined
                                     );
                                     setRefresh(!refresh);
                                     setReply_to_id(setUndefined());
@@ -4293,13 +4296,15 @@ const OpinionInfoScreen = props => {
                           if (result?.code === 200) {
                             ShowToast(
                               t(Variables, 'toast_favorite_successfully'),
-                              'top'
+                              'top',
+                              undefined
                             );
                             setIs_favorite(true);
                           } else {
                             ShowToast(
                               t(Variables, 'common_network_error'),
-                              'top'
+                              'top',
+                              undefined
                             );
                           }
 
@@ -4541,6 +4546,7 @@ const OpinionInfoScreen = props => {
                                             Variables,
                                             'toast_operated_successfully'
                                           ),
+                                          undefined,
                                           undefined
                                         );
                                         await refetchFavorites();
@@ -4551,7 +4557,8 @@ const OpinionInfoScreen = props => {
                                             Variables,
                                             'common_network_error'
                                           )}:${result?.code}`,
-                                          'top'
+                                          'top',
+                                          undefined
                                         );
                                       }
 

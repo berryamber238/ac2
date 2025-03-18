@@ -94,9 +94,9 @@ const App = () => {
   const [areAssetsCached, setAreAssetsCached] = React.useState(false);
 
   const [fontsLoaded] = useFonts({
-    Urbanist_700Bold: Fonts.Urbanist_700Bold,
     Urbanist_400Regular: Fonts.Urbanist_400Regular,
     Urbanist_600SemiBold: Fonts.Urbanist_600SemiBold,
+    Urbanist_700Bold: Fonts.Urbanist_700Bold,
     Urbanist_500Medium: Fonts.Urbanist_500Medium,
   });
 

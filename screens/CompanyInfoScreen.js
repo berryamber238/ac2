@@ -75,6 +75,10 @@ line two` ) and will not work with special characters inside of quotes ( example
         break;
       case 'Spotlight':
         navigation.push('SpotlightDetailScreen', { spotlightId: id });
+
+        break;
+      case 'Opinion':
+        navigation.push('OpinionInfoScreen', { id: id });
         break;
     }
   };
@@ -158,7 +162,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
                       GlobalStyles.ImageStyles(theme)['Image'].style,
-                      { height: 24, width: 24 }
+                      { height: 20, width: 20 }
                     ),
                     dimensions.width
                   )}
@@ -190,10 +194,10 @@ line two` ) and will not work with special characters inside of quotes ( example
                   alignSelf: 'flex-start',
                   flexShrink: 1,
                   fontFamily: 'System',
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: '600',
                   letterSpacing: 0.2,
-                  lineHeight: 32,
+                  lineHeight: 18,
                   marginLeft: 10,
                   marginRight: 10,
                   textAlign: 'center',
@@ -209,7 +213,11 @@ line two` ) and will not work with special characters inside of quotes ( example
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
                     GlobalStyles.TextStyles(theme)['Text Title'].style,
-                    { color: palettes.App['Custom Color 27'] }
+                    {
+                      color: palettes.App['Custom Color 27'],
+                      fontSize: 16,
+                      lineHeight: 18,
+                    }
                   ),
                   dimensions.width
                 )}
@@ -253,11 +261,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                 {is_following ? null : (
                   <View
                     style={StyleSheet.applyWidth(
-                      {
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        marginTop: 4,
-                      },
+                      { alignItems: 'center', flexDirection: 'row' },
                       dimensions.width
                     )}
                   >
@@ -298,7 +302,6 @@ line two` ) and will not work with special characters inside of quotes ( example
                       {
                         backgroundColor: palettes.App['Custom Color 27'],
                         borderRadius: 8,
-                        marginTop: 4,
                       },
                       dimensions.width
                     )}
@@ -562,6 +565,7 @@ line two` ) and will not work with special characters inside of quotes ( example
             handlers={{
               onData: fetch2Data => {
                 try {
+                  console.log(fetch2Data);
                   if (source_type === 'Model') {
                     return;
                   }

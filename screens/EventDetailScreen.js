@@ -2,11 +2,13 @@ import React from 'react';
 import {
   Button,
   Divider,
+  ExpoImage,
   Icon,
   IconButton,
   LinearGradient,
   ScreenContainer,
   SimpleStyleFlashList,
+  SimpleStyleFlatList,
   SimpleStyleScrollView,
   Swiper,
   SwiperItem,
@@ -15,6 +17,7 @@ import {
 } from '@draftbit/ui';
 import { useIsFocused } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
+import * as WebBrowser from 'expo-web-browser';
 import {
   ActivityIndicator,
   Image,
@@ -27,14 +30,24 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fetch } from 'react-request';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
+import EventContactActionSheetBlock from '../components/EventContactActionSheetBlock';
+import PayForLiveDialogBlock from '../components/PayForLiveDialogBlock';
+import TryVipDialogBlock from '../components/TryVipDialogBlock';
+import UpgradeVipDialogBlock from '../components/UpgradeVipDialogBlock';
 import * as GlobalVariables from '../config/GlobalVariableContext';
+import Images from '../config/Images';
+import * as ConfirmDialog from '../custom-files/ConfirmDialog';
 import * as CoverView from '../custom-files/CoverView';
+import * as HighlightTextWithAction from '../custom-files/HighlightTextWithAction';
 import * as Toast from '../custom-files/Toast';
+import * as gf from '../custom-files/gf';
 import JumpToPageByType from '../global-functions/JumpToPageByType';
 import LabelPickerCancelBtnPress from '../global-functions/LabelPickerCancelBtnPress';
 import LabelPickerConfirmBtnPress from '../global-functions/LabelPickerConfirmBtnPress';
 import ShowToast from '../global-functions/ShowToast';
+import StringFormat from '../global-functions/StringFormat';
 import arrayIdToString from '../global-functions/arrayIdToString';
+import eventUserStatus from '../global-functions/eventUserStatus';
 import fromUnixTimestamp from '../global-functions/fromUnixTimestamp';
 import getArticleType from '../global-functions/getArticleType';
 import getMonthStr from '../global-functions/getMonthStr';
@@ -48,7 +61,7 @@ import * as StyleSheet from '../utils/StyleSheet';
 import imageSource from '../utils/imageSource';
 import useWindowDimensions from '../utils/useWindowDimensions';
 
-const defaultProps = { event_id: 10001038 };
+const defaultProps = { event_id: 10001081 };
 
 const EventDetailScreen = props => {
   const { theme, navigation } = props;
@@ -57,29 +70,922 @@ const EventDetailScreen = props => {
   const Variables = Constants;
   const setGlobalVariableValue = GlobalVariables.useSetValue();
   const [bottomSheetTitle, setBottomSheetTitle] = React.useState('');
+  const [btnColor, setBtnColor] = React.useState('');
+  const [btnText, setBtnText] = React.useState('');
+  const [confirm_modal_visiable, setConfirm_modal_visiable] =
+    React.useState(false);
+  const [content, setContent] = React.useState('');
+  const [dialog_type, setDialog_type] = React.useState(1);
   const [event_id, setEvent_id] = React.useState('');
+  const [has_vip, setHas_vip] = React.useState(false);
   const [id, setId] = React.useState('');
+  const [isExpanded, setIsExpanded] = React.useState(false);
   const [isFollowed, setIsFollowed] = React.useState(false);
+  const [lines, setLines] = React.useState(0);
+  const [meeting, setMeeting] = React.useState({
+    id: 10001470,
+    free: true,
+    state: 'finished',
+    living: false,
+    capacity: 10,
+    con_call: 'unlimited',
+    end_time: 1740731400,
+    event_id: 10001081,
+    has_paid: false,
+    playback: false,
+    paid_info: null,
+    region_id: null,
+    co_host_id: 20001164,
+    region_ids: [],
+    start_time: 1740728700,
+    time_state: 'finished',
+    interactive: true,
+    meeting_way: 'default_online',
+    online_type: null,
+    co_host_info: { id: 20001164, name: '个人崔bil' },
+    language_ids: [1],
+    meeting_type: 'public',
+    time_zone_id: 1,
+    current_price: 0,
+    hide_con_call: false,
+    meeting_notes: [],
+    broadcaster_id: 20001156,
+    has_registered: false,
+    original_price: 0,
+    broadcaster_info: { id: 20001156, name: '崔-分析师' },
+    registration_info: null,
+    region_with_parents: {},
+  });
+  const [meeting_id, setMeeting_id] = React.useState(0);
+  const [meetings, setMeetings] = React.useState([
+    {
+      id: 10001470,
+      free: true,
+      state: 'finished',
+      living: false,
+      capacity: 10,
+      con_call: 'unlimited',
+      end_time: 1740731400,
+      event_id: 10001081,
+      has_paid: false,
+      playback: false,
+      paid_info: null,
+      region_id: null,
+      co_host_id: 20001164,
+      region_ids: [],
+      start_time: 1740728700,
+      time_state: 'finished',
+      interactive: true,
+      meeting_way: 'default_online',
+      online_type: null,
+      co_host_info: { id: 20001164, name: '个人崔bil' },
+      language_ids: [1],
+      meeting_type: 'public',
+      time_zone_id: 1,
+      current_price: 0,
+      hide_con_call: false,
+      meeting_notes: [],
+      broadcaster_id: 20001156,
+      has_registered: false,
+      original_price: 0,
+      broadcaster_info: { id: 20001156, name: '崔-分析师' },
+      registration_info: null,
+      region_with_parents: {},
+    },
+    {
+      id: 10001472,
+      free: true,
+      state: 'finished',
+      living: true,
+      capacity: 10,
+      con_call: 'unlimited',
+      end_time: 1740731400,
+      event_id: 10001081,
+      has_paid: false,
+      playback: false,
+      paid_info: null,
+      region_id: null,
+      co_host_id: 20001164,
+      region_ids: [],
+      start_time: 1740728700,
+      time_state: 'finished',
+      interactive: true,
+      meeting_way: 'default_online',
+      online_type: null,
+      co_host_info: { id: 20001164, name: '个人崔bil' },
+      language_ids: [1],
+      meeting_type: 'public',
+      time_zone_id: 1,
+      current_price: 0,
+      hide_con_call: false,
+      meeting_notes: [],
+      broadcaster_id: 20001156,
+      has_registered: false,
+      original_price: 0,
+      broadcaster_info: { id: 20001156, name: '崔-分析师' },
+      registration_info: null,
+      region_with_parents: {},
+    },
+    {
+      id: 10001473,
+      free: true,
+      state: 'finished',
+      living: true,
+      capacity: 10,
+      con_call: 'unlimited',
+      end_time: 1740731400,
+      event_id: 10001081,
+      has_paid: false,
+      playback: false,
+      paid_info: null,
+      region_id: null,
+      co_host_id: 20001164,
+      region_ids: [],
+      start_time: 1740728700,
+      time_state: 'finished',
+      interactive: true,
+      meeting_way: 'default_online',
+      online_type: null,
+      co_host_info: { id: 20001164, name: '个人崔bil' },
+      language_ids: [1],
+      meeting_type: 'public',
+      time_zone_id: 1,
+      current_price: 0,
+      hide_con_call: false,
+      meeting_notes: [],
+      broadcaster_id: 20001156,
+      has_registered: false,
+      original_price: 0,
+      broadcaster_info: { id: 20001156, name: '崔-分析师' },
+      registration_info: null,
+      region_with_parents: {},
+    },
+    {
+      id: 10001474,
+      free: true,
+      state: 'finished',
+      living: true,
+      capacity: 10,
+      con_call: 'unlimited',
+      end_time: 1740731400,
+      event_id: 10001081,
+      has_paid: false,
+      playback: false,
+      paid_info: null,
+      region_id: null,
+      co_host_id: 20001164,
+      region_ids: [],
+      start_time: 1740728700,
+      time_state: 'finished',
+      interactive: true,
+      meeting_way: 'default_online',
+      online_type: null,
+      co_host_info: { id: 20001164, name: '个人崔bil' },
+      language_ids: [1],
+      meeting_type: 'public',
+      time_zone_id: 1,
+      current_price: 0,
+      hide_con_call: false,
+      meeting_notes: [],
+      broadcaster_id: 20001156,
+      has_registered: false,
+      original_price: 0,
+      broadcaster_info: { id: 20001156, name: '崔-分析师' },
+      registration_info: null,
+      region_with_parents: {},
+    },
+    {
+      id: 10001475,
+      free: true,
+      state: 'finished',
+      living: true,
+      capacity: 10,
+      con_call: 'unlimited',
+      end_time: 1740731400,
+      event_id: 10001081,
+      has_paid: false,
+      playback: false,
+      paid_info: null,
+      region_id: null,
+      co_host_id: 20001164,
+      region_ids: [],
+      start_time: 1740728700,
+      time_state: 'finished',
+      interactive: true,
+      meeting_way: 'default_online',
+      online_type: null,
+      co_host_info: { id: 20001164, name: '个人崔bil' },
+      language_ids: [1],
+      meeting_type: 'public',
+      time_zone_id: 1,
+      current_price: 0,
+      hide_con_call: false,
+      meeting_notes: [],
+      broadcaster_id: 20001156,
+      has_registered: false,
+      original_price: 0,
+      broadcaster_info: { id: 20001156, name: '崔-分析师' },
+      registration_info: null,
+      region_with_parents: {},
+    },
+    {
+      id: 10001476,
+      free: true,
+      state: 'finished',
+      living: true,
+      capacity: 10,
+      con_call: 'unlimited',
+      end_time: 1740731400,
+      event_id: 10001081,
+      has_paid: false,
+      playback: false,
+      paid_info: null,
+      region_id: null,
+      co_host_id: 20001164,
+      region_ids: [],
+      start_time: 1740728700,
+      time_state: 'finished',
+      interactive: true,
+      meeting_way: 'default_online',
+      online_type: null,
+      co_host_info: { id: 20001164, name: '个人崔bil' },
+      language_ids: [1],
+      meeting_type: 'public',
+      time_zone_id: 1,
+      current_price: 0,
+      hide_con_call: false,
+      meeting_notes: [],
+      broadcaster_id: 20001156,
+      has_registered: false,
+      original_price: 0,
+      broadcaster_info: { id: 20001156, name: '崔-分析师' },
+      registration_info: null,
+      region_with_parents: {},
+    },
+  ]);
+  const [prepay, setPrepay] = React.useState(0);
+  const [price, setPrice] = React.useState('');
+  const [priceColor, setPriceColor] = React.useState('');
   const [recommand_data_list, setRecommand_data_list] = React.useState([]);
+  const [showBtn, setShowBtn] = React.useState(false);
   const [showConfirmModal, setShowConfirmModal] = React.useState(false);
+  const [tipList, setTipList] = React.useState([]);
+  const [tip_modal_visiable, setTip_modal_visiable] = React.useState(false);
+  const [tips, setTips] = React.useState('');
+  const getConfirmBtnData = eventInfo => {
+    const subText01 = Variables.user_info.has_vip
+      ? t(Variables, 'mine_upgrade_vip')
+      : t(Variables, 'live_try_vip');
+    const subText02 =
+      t(Variables, 'live_user_pay') +
+      meeting.current_price +
+      t(Variables, 'live_user_a_currency');
+    let text01;
+
+    text01 =
+      t(Variables, 'event_detail_sure_after') +
+      subText01 +
+      t(Variables, 'live_or') +
+      subText02;
+
+    setTips(text01);
+    setTipList([
+      {
+        word: subText01,
+        style: {
+          color: '#E1AC6F',
+          fontFamily: 'System',
+          fontSize: 12,
+          fontWeight: '400',
+          letterSpacing: 0.2,
+          lineHeight: 14,
+        },
+        onPress: () => {
+          if (Variables.user_info.has_vip) {
+            setDialog_type(2);
+          } else {
+            setDialog_type(3);
+          }
+          actionSheetRef.current?.show();
+        },
+      },
+      {
+        word: subText02,
+        style: {
+          color: '#2B33E6',
+          fontFamily: 'System',
+          fontSize: 12,
+          fontWeight: '400',
+          letterSpacing: 0.2,
+          lineHeight: 14,
+        },
+        onPress: () => {
+          setDialog_type(4);
+          actionSheetRef.current?.show();
+        },
+      },
+    ]);
+
+    if (eventInfo.allow_guest) {
+      if (meeting.time_state === 'finished') {
+        if (meeting.live) {
+          //有回放
+          setBtnText(t(Variables, 'event_detail_playback'));
+          setBtnColor('#2B33E6');
+          // tv_bottom_right.setOnClickListener(view -> {
+          //     Intent intent = new Intent(this, WebActivity.class);
+          //     intent.putExtra("title", "AceCamp");
+          //     intent.putExtra("url", Constants.BASE_URL_WEB + "/playback/" + meeting.getLive().getId());
+          //     startActivity(intent);
+          // });
+        } else {
+          setBtnText(t(Variables, 'mine_events_pass'));
+          setBtnColor('#C6D0D9');
+        }
+      } else {
+        setBtnText(t(Variables, 'event_detail_join_meeting'));
+        setBtnColor('#2B33E6');
+        // tv_bottom_right.setOnClickListener(view -> jumpMeeting(meeting));
+      }
+    } else {
+      switch (eventUserStatus(Variables)) {
+        case 0: //已认证
+        case 2: //未认证
+        case 3: //审核中
+          if (eventInfo.can_register) {
+            switch (meeting.state) {
+              case 'registered': //已报名
+                if (meeting.time_state === 'finished') {
+                  if (meeting.live) {
+                    //有回放
+
+                    setBtnText(t(Variables, 'event_detail_playback'));
+                    setBtnColor('#2B33E6');
+                    // tv_bottom_right.setOnClickListener(view -> {
+                    //     Intent intent = new Intent(this, WebActivity.class);
+                    //     intent.putExtra("title", "AceCamp");
+                    //     intent.putExtra("url", Constants.BASE_URL_WEB + "/playback/" + meeting.getLive().getId());
+                    //     startActivity(intent);
+                    // });
+                  } else {
+                    setBtnText(t(Variables, 'mine_events_pass'));
+                    setBtnColor('#C6D0D9');
+                  }
+                } else {
+                  if (meeting.meeting_way === 'offline') {
+                    //线下报名
+                    setBtnText(t(Variables, 'common_registered'));
+                    setBtnColor('#C6D0D9');
+                    if (!meeting.free && !meeting.has_paid)
+                      initTips(6, meeting);
+                  } else {
+                    //线上报名
+                    if (meeting.online_password) {
+                      //参会方式
+                      setBtnText(t(Variables, 'event_detail_join_style'));
+                      setBtnColor('#2B33E6');
+                      // tv_bottom_right.setOnClickListener(view -> {
+                      //     EventJoinStyleDialog.newInstance(meeting.getOnline_address(), meeting.getOnline_password()).setConvertListener(string -> {
+                      //         jumpMeeting(meeting);
+                      //     }).show(this);
+                      // });
+                    } else {
+                      //进入会议
+                      setBtnText(t(Variables, 'event_detail_join_meeting'));
+                      setBtnColor('#2B33E6');
+                      // tv_bottom_right.setOnClickListener(view -> jumpMeeting(meeting));
+                    }
+                    if (!meeting.free && !meeting.has_paid)
+                      initTips(5, meeting);
+                  }
+                }
+                break;
+              case 'pending': //审核中
+                setBtnText(t(Variables, 'event_detail_pending'));
+                setBtnColor('#C6D0D9');
+
+                if (!meeting.free && !meeting.has_paid && !eventInfo.has_vip) {
+                  if (meeting.meeting_way === 'offline') {
+                    //线下
+                    initTips(4, meeting);
+                  } else {
+                    //线上
+                    initTips(3, meeting);
+                  }
+                }
+                break;
+              case 'finished': //已结束
+                if (meeting.live) {
+                  //有回放
+                  setBtnText(t(Variables, 'event_detail_playback'));
+                  setBtnColor('#2b33e6');
+                  // tv_bottom_right.setOnClickListener(view -> {
+                  //     Intent intent = new Intent(this, WebActivity.class);
+                  //     intent.putExtra("title", "AceCamp");
+                  //     intent.putExtra("url", Constants.BASE_URL_WEB + "/playback/" + meeting.getLive().getId());
+                  //     startActivity(intent);
+                  // });
+                } else {
+                  setBtnText(t(Variables, 'mine_events_pass'));
+                  setBtnColor('#C6D0D9');
+                }
+                break;
+              case 'full': //已报满
+                setBtnText(t(Variables, 'dialog_sign_up_now'));
+                setBtnColor('#C6D0D9');
+
+                break;
+              case 'normal': //可以报名
+                setBtnText(t(Variables, 'dialog_sign_up_now'));
+                setBtnColor('#2B33E6');
+                // tv_bottom_right.setOnClickListener(view -> {//去报名
+                //     if(!meeting.isFree()&&userInfo.getOrganization_user().getOrganization()!=null
+                //             &&userInfo.getOrganization_user().getOrganization().getBelongs_organization_id()!=null){
+                //         String content;
+                //         if(userInfo.getOrganization_user().getOrganization().getBelongs_organization_contact()!=null){
+                //             content = String.format(getString(R.string.event_detail_other_buy),userInfo.getOrganization_user().getOrganization().getBelongs_organization_name())+userInfo.getOrganization_user().getOrganization().getBelongs_organization_contact();
+                //         }else {
+                //             content = String.format(getString(R.string.event_detail_other_buy),userInfo.getOrganization_user().getOrganization().getBelongs_organization_name());
+                //         }
+                //         DefaultDialog.newInstance(content,
+                //                 getString(R.string.common_cancel),
+                //                 getString(R.string.common_ok_more),
+                //                 false).setConvertListener(position -> {
+
+                //         }).show(this);
+                //     }else {
+                //         if(meeting.getMeeting_type().equals("private")){
+                //             EventWarningDialog.newInstance(getString(R.string.event_detail_sure_warning_title),
+                //                     getString(R.string.event_detail_sure_warning_content),
+                //                     getString(R.string.event_detail_give_up),getString(R.string.common_ok_more)).setConvertListener(position -> {
+                //                 mPresenter.eventRegister(eventId, meeting.getId());
+                //             }).show(this);
+                //         }else {
+                //             mPresenter.eventRegister(eventId, meeting.getId());
+                //         }
+                //     }
+                // });
+                break;
+            }
+          } else {
+            //event不能报名
+            if (eventUserStatus(Variables) == 2) {
+              //未认证且不在范围
+              setBtnText(t(Variables, 'dialog_sign_up_now'));
+              setBtnColor('#2B33E6');
+              // tv_bottom_right.setOnClickListener(view -> {//弹框提示身份未认证
+              //     EventNoAuthDialog.newInstance().setConvertListener(string -> {
+              //         startActivity(new Intent(this, AuthActivity.class));
+              //     }).show(this);
+              // });
+            } else {
+              if (eventInfo.can_registration_online) {
+                //开放线上报名，不能报名
+                switch (meeting.state) {
+                  case 'registered': //已报名
+                    if (meeting.time_state === 'finished') {
+                      if (meeting.live) {
+                        //有回放
+                        setBtnText(t(Variables, 'event_detail_playback'));
+                        setBtnColor('#2B33E6');
+                        //  tv_bottom_right.setOnClickListener(view -> {
+                        //     Intent intent = new Intent(this, WebActivity.class);
+                        //     intent.putExtra("title", "AceCamp");
+                        //     intent.putExtra("url", Constants.BASE_URL_WEB + "/playback/" + meeting.getLive().getId());
+                        //     startActivity(intent);
+                        // });
+                      } else {
+                        setBtnText(t(Variables, 'mine_events_pass'));
+                        setBtnColor('#C6D0D9');
+                      }
+                    } else {
+                      if (meeting.meeting_way === 'offline') {
+                        //线下报名
+                        setBtnText(t(Variables, 'common_registered'));
+                        setBtnColor('#C6D0D9');
+
+                        if (!meeting.free && !meeting.has_paid)
+                          initTips(6, meeting);
+                      } else {
+                        if (meeting.online_password) {
+                          //参会方式
+                          setBtnText(t(Variables, 'event_detail_join_style'));
+                          setBtnColor('#2B33E6');
+                          // tv_bottom_right.setOnClickListener(view -> {
+                          //     EventJoinStyleDialog.newInstance(meeting.getOnline_address(), meeting.getOnline_password()).setConvertListener(string -> {
+                          //         jumpMeeting(meeting);
+                          //     }).show(this);
+                          // });
+                        } else {
+                          //进入会议
+                          setBtnText(t(Variables, 'event_detail_join_meeting'));
+                          setBtnColor('#2B33E6');
+                          // tv_bottom_right.setOnClickListener(view -> jumpMeeting(meeting));
+                        }
+                        if (!meeting.free && !meeting.has_paid)
+                          initTips(5, meeting);
+                      }
+                    }
+                    break;
+                  case 'pending': //审核中
+                    setBtnText(t(Variables, 'event_detail_pending'));
+                    setBtnColor('#C6D0D9');
+
+                    if (
+                      !meeting.free &&
+                      !meeting.has_paid &&
+                      !eventInfo.has_vip
+                    ) {
+                      if (meeting.meeting_way === 'offline') {
+                        //线下
+                        initTips(4, meeting);
+                      } else {
+                        //线上
+                        initTips(3, meeting);
+                      }
+                    }
+                    break;
+                  case 'finished': //已结束
+                    if (meeting.live) {
+                      //有回放
+                      setBtnText(t(Variables, 'event_detail_playback'));
+                      setBtnColor('#2B33E6');
+                      // tv_bottom_right.setOnClickListener(view -> {
+                      //     Intent intent = new Intent(this, WebActivity.class);
+                      //     intent.putExtra("title", "AceCamp");
+                      //     intent.putExtra("url", Constants.BASE_URL_WEB + "/playback/" + meeting.getLive().getId());
+                      //     startActivity(intent);
+                      // });
+                    } else {
+                      console.log('=========');
+                      setBtnText(t(Variables, 'mine_events_pass'));
+                      setBtnColor('#C6D0D9');
+                    }
+                    break;
+                  case 'full': //已报满
+                    setBtnText(t(Variables, 'dialog_sign_up_now'));
+                    setBtnColor('#C6D0D9');
+                    break;
+                  default: //
+                    if (eventInfo.has_registered) {
+                      //允许报一场
+                      setBtnText(t(Variables, 'dialog_sign_up_now'));
+                      setBtnColor('#C6D0D9');
+                      initTips(1, meeting);
+                    } else {
+                      //定向邀请
+                      setBtnText(t(Variables, 'event_detail_only_limit'));
+                      setBtnColor('#C6D0D9');
+                    }
+                    break;
+                }
+              } else {
+                //活动不开放线上报名
+                setBtnText(t(Variables, 'dialog_sign_up_now'));
+                setBtnColor('#C6D0D9');
+                initTips(2, meeting);
+              }
+            }
+          }
+          break;
+        case 1: //未登录
+          setBtnText(t(Variables, 'dialog_sign_up_now'));
+          setBtnColor('#2B33E6');
+          // tv_bottom_right.setOnClickListener(view -> {//去登陆
+          //     startActivity(new Intent(this, LoginActivity.class));
+          // });
+          break;
+      }
+    }
+  };
+
+  const getFiletypeImg = fileName => {
+    // imageSource(Images['icdoc'])
+    if (fileName.endsWith('.pdf')) {
+      return imageSource(Images['icpdf']);
+    } else if (fileName.endsWith('.doc') || fileName.endsWith('.docx')) {
+      return imageSource(Images['icdoc']);
+    } else if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
+      return imageSource(Images['icxls']);
+    } else if (fileName.endsWith('.ppt') || fileName.endsWith('.pptx')) {
+      return imageSource(Images['icppt']);
+    } else {
+      return imageSource(Images['icotherlink']);
+    }
+  };
+
+  const getPriceTxt = has_vip => {
+    if (meeting.free) {
+      //免费
+      setPrice(t(Variables, 'mine_vip_free'));
+      setPriceColor('#ff4b4b');
+    } else {
+      //付费
+      if (meeting.has_paid) {
+        //已付费
+        if (
+          meeting.paid_info.card_type === 'vip' ||
+          meeting.paid_info.card_type === 'camp_vip'
+        ) {
+          //vip支付
+          setPrice(t(Variables, 'live_vip_free'));
+          setPriceColor('#ffd6a6');
+        } else {
+          //A币支付
+          setPrice(
+            t(Variables, 'live_has_paid') +
+              meeting.paid_info.actual_paid +
+              t(Variables, 'mine_a_currency')
+          );
+          setPriceColor('#ff4b4b');
+        }
+      } else {
+        //未付费
+        if (meeting.state === 'pending' && has_vip) {
+          setPrice(t(Variables, 'live_vip_free'));
+          setPriceColor('#ffda6a');
+        } else {
+          setPrice(meeting.current_price + t(Variables, 'mine_a_currency'));
+          setPriceColor('#ff4b4b');
+        }
+      }
+    }
+  };
+
+  const initTips = type => {
+    // tv_tips.setVisibility(View.VISIBLE);
+    switch (type) {
+      case 1: //活动仅可报名一个场次
+        setTips(t(Variables, 'event_detail_only_one'));
+        break;
+      case 2: //未开放线上报名
+        setTips(
+          t(Variables, 'event_detail_interest') +
+            t(Variables, 'event_detail_contact_host')
+        );
+        // String text1 = getString(R.string.event_detail_interest) + getString(R.string.event_detail_contact_host);
+        const subText1 = t(Variables, 'event_detail_contact_host');
+
+        setTipList([
+          {
+            word: subText1,
+            style: {
+              color: '#2B33E6',
+              fontFamily: 'System',
+              fontSize: 12,
+              fontWeight: '400',
+              letterSpacing: 0.2,
+              lineHeight: 14,
+            },
+            onPress: () => {
+              setDialog_type(1);
+              actionSheetRef.current?.show();
+            },
+          },
+        ]);
+
+        // String text1 = getString(R.string.event_detail_interest) + getString(R.string.event_detail_contact_host);
+        // String subText1 = getString(R.string.event_detail_contact_host);
+        // ClickableSpan clickableSpan1 = new ClickableSpan() {
+        //     @Override
+        //     public void onClick(@NonNull View view) {
+        //         EventContactDialog.newInstance(eventInfo.getContacts()).show(EventDetailActivity.this);
+        //     }
+        // };
+        // List<SpanInfo> list = new ArrayList<SpanInfo>();
+        // list.add(
+        //         new SpanInfo(
+        //                 subText1,
+        //                 -1,
+        //                 Color.parseColor("#2B33E6"),
+        //                 clickableSpan1, false, true
+        //         )
+        // );
+        // tv_tips.setText(TextColorSizeHelper.getTextSpan(this, text1, list));
+        // tv_tips.setMovementMethod(LinkMovementMethod.getInstance());
+        break;
+      case 3: //待确认-未付费-线上
+      case 4: //待确认-未付费-线下
+      case 5: //已报名-未付费-线上
+      case 6: //已报名-未付费-线下
+        const subText01 = Variables.user_info.has_vip
+          ? t(Variables, 'mine_upgrade_vip')
+          : t(Variables, 'live_try_vip');
+        const subText02 =
+          t(Variables, 'live_user_pay') +
+          meeting.current_price +
+          t(Variables, 'live_user_a_currency');
+        let text01;
+        if (type == 3) {
+          text01 =
+            t(Variables, 'event_detail_sure_after') +
+            subText01 +
+            t(Variables, 'live_or') +
+            subText02;
+        } else if (type == 5) {
+          text01 =
+            t(Variables, 'live_for_free_five_min') +
+            subText01 +
+            t(Variables, 'live_or') +
+            subText02;
+        } else {
+          text01 =
+            t(Variables, 'event_detail_need_pay') +
+            subText01 +
+            t(Variables, 'live_or') +
+            subText02;
+        }
+        setTips(text01);
+        setTipList([
+          {
+            word: subText01,
+            style: {
+              color: '#E1AC6F',
+              fontFamily: 'System',
+              fontSize: 12,
+              fontWeight: '400',
+              letterSpacing: 0.2,
+              lineHeight: 14,
+            },
+            onPress: () => {
+              if (Variables.user_info.has_vip) {
+                setDialog_type(2);
+              } else {
+                setDialog_type(3);
+              }
+              actionSheetRef.current?.show();
+            },
+          },
+          {
+            word: subText02,
+            style: {
+              color: '#2B33E6',
+              fontFamily: 'System',
+              fontSize: 12,
+              fontWeight: '400',
+              letterSpacing: 0.2,
+              lineHeight: 14,
+            },
+            onPress: () => {
+              setDialog_type(4);
+              actionSheetRef.current?.show();
+            },
+          },
+        ]);
+        // ClickableSpan clickableSpan01 = new ClickableSpan() {
+        //     @Override
+        //     public void onClick(@NonNull View view) {
+        //         if(AppUtil.isVip()){
+        //             UpgradeVipDialog.newInstance("upgrade_vip").show(EventDetailActivity.this);
+        //         }else {
+        //             TryVipDialog.newInstance(mPresenter,meetingId).show(EventDetailActivity.this);
+        //         }
+
+        //     }
+        // };
+        // ClickableSpan clickableSpan02 = new ClickableSpan() {
+        //     @Override
+        //     public void onClick(@NonNull View view) {
+        //         payForACurrency(meeting);
+        //     }
+        // };
+        // List<SpanInfo> list01 = new ArrayList<SpanInfo>();
+        // list01.add(
+        //         new SpanInfo(
+        //                 subText01,
+        //                 -1,
+        //                 Color.parseColor("#E1AC6F"),
+        //                 clickableSpan01, false, true
+        //         )
+        // );
+        // list01.add(
+        //         new SpanInfo(
+        //                 subText02,
+        //                 -1,
+        //                 Color.parseColor("#2B33E6"),
+        //                 clickableSpan02, false, true
+        //         )
+        // );
+        // tv_tips.setText(TextColorSizeHelper.getTextSpan(this, text01, list01));
+        // tv_tips.setMovementMethod(LinkMovementMethod.getInstance());
+        break;
+    }
+  };
+
+  const isDocFileType = filename => {
+    return (
+      filename.endsWith('.pdf') ||
+      filename.endsWith('.doc') ||
+      filename.endsWith('.docx') ||
+      filename.endsWith('.xls') ||
+      filename.endsWith('.xlsx') ||
+      filename.endsWith('.ppt') ||
+      filename.endsWith('.pptx')
+    );
+  };
+
+  const payForLiveCallback = async (position, snCode) => {
+    actionSheetRef.current?.hide();
+    if (position === 1) {
+      navigation.push('WebViewScreen', {
+        url: Constants['base_url'] + '/recharge?platform=android',
+      });
+    } else {
+      const result = (
+        await aceCampTestBuyMeetingPOST.mutateAsync({
+          goods_id: meeting?.id,
+          user_card_sncode: snCode,
+        })
+      )?.json;
+      console.log(result);
+    }
+  };
+
+  const show = () => {
+    gf.SheetManager.show('pay-for-live', {
+      payload: {
+        paynum: meeting.current_price,
+        prepay: prepay,
+      },
+    });
+  };
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const txtLayout = e => {
+    if (e.nativeEvent.lines.length > 3) {
+      setShowBtn(true);
+    }
+  };
+  React.useEffect(() => {
+    if (!meeting) {
+      return;
+    }
+    if (meeting.free) {
+      //免费
+      setPrice(t(Variables, 'mine_vip_free'));
+      setPriceColor('#ff4b4b');
+    } else {
+      //付费
+      if (meeting.has_paid) {
+        //已付费
+        if (
+          meeting.paid_info.card_type === 'vip' ||
+          meeting.paid_info.card_type === 'camp_vip'
+        ) {
+          //vip支付
+          setPrice(t(Variables, 'live_vip_free'));
+          setPriceColor('#ffd6a6');
+        } else {
+          //A币支付
+          setPrice(
+            t(Variables, 'live_has_paid') +
+              meeting.paid_info.actual_paid +
+              t(Variables, 'mine_a_currency')
+          );
+          setPriceColor('#ff4b4b');
+        }
+      } else {
+        //未付费
+        if (meeting.state === 'pending' && has_vip) {
+          setPrice(t(Variables, 'live_vip_free'));
+          setPriceColor('#ffda6a');
+        } else {
+          setPrice(meeting.current_price + t(Variables, 'mine_a_currency'));
+          setPriceColor('#ff4b4b');
+        }
+      }
+    }
+  }, [meeting, has_vip]);
+  const actionSheetRef = React.useRef();
   const safeAreaInsets = useSafeAreaInsets();
   const aceCampTestUnfollowOrganizationPOST =
     AceCampTestApi.useUnfollowOrganizationPOST();
   const aceCampTestFollowOrganizationPOST =
     AceCampTestApi.useFollowOrganizationPOST();
   const aceCampTestEventsRegisterPOST = AceCampTestApi.useEventsRegisterPOST();
-  const isFocused = useIsFocused();
+  const aceCampTestBuyMeetingPOST = AceCampTestApi.useBuyMeetingPOST();
   React.useEffect(() => {
-    try {
-      if (!isFocused) {
-        return;
+    const handler = async () => {
+      try {
+        const result = (await AceCampTestApi.getPrepayGET(Constants))?.json;
+        setPrepay(result?.data);
+      } catch (err) {
+        console.error(err);
       }
+    };
+    handler();
+  }, []);
+  const isFocused = useIsFocused();
 
-      const entry = StatusBar.pushStackEntry?.({ barStyle: 'light-content' });
-      return () => StatusBar.popStackEntry?.(entry);
-    } catch (err) {
-      console.error(err);
+  React.useEffect(() => {
+    if (!isFocused) {
+      return;
     }
+    const entry = StatusBar.pushStackEntry?.({ barStyle: 'light-content' });
+    return () => StatusBar.popStackEntry?.(entry);
   }, [isFocused]);
 
   return (
@@ -92,6 +998,10 @@ const EventDetailScreen = props => {
               setIsFollowed(fetchData?.data?.organization?.followed);
               setEvent_id(fetchData?.data?.id);
               setId(fetchData?.data?.meetings?.[0]?.id);
+              setMeeting_id(fetchData?.data?.meetings?.[0]?.id);
+              setMeeting(fetchData?.data?.meetings?.[0]);
+              setHas_vip(fetchData?.data?.has_vip);
+              getConfirmBtnData(fetchData?.data);
             } catch (err) {
               console.error(err);
             }
@@ -543,147 +1453,203 @@ const EventDetailScreen = props => {
                     dimensions.width
                   )}
                 >
-                  {/* 时间选择 */}
-                  <View
+                  {/* List 2 */}
+                  <SimpleStyleFlatList
+                    data={fetchData?.data?.meetings}
+                    decelerationRate={'normal'}
+                    inverted={false}
+                    keyExtractor={(list2Data, index) =>
+                      list2Data?.id ??
+                      list2Data?.uuid ??
+                      index?.toString() ??
+                      JSON.stringify(list2Data)
+                    }
+                    keyboardShouldPersistTaps={'never'}
+                    listKey={'Fetch->Scroll View->View->List 2'}
+                    nestedScrollEnabled={false}
+                    numColumns={1}
+                    onEndReachedThreshold={0.5}
+                    pagingEnabled={false}
+                    renderItem={({ item, index }) => {
+                      const list2Data = item;
+                      return (
+                        <Touchable
+                          onPress={() => {
+                            try {
+                              setMeeting_id(list2Data?.id);
+                              setMeeting(list2Data);
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          }}
+                        >
+                          {/* 时间选择 */}
+                          <View
+                            style={StyleSheet.applyWidth(
+                              {
+                                alignItems: 'center',
+                                backgroundColor:
+                                  palettes.App['Custom Color 14'],
+                                borderColor: [
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value: palettes.Brand.appStyle_primary,
+                                  },
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value:
+                                      meeting_id === list2Data?.id
+                                        ? palettes.Brand.appStyle_primary
+                                        : palettes.App['Custom Color 14'],
+                                  },
+                                ],
+                                borderRadius: 6,
+                                borderWidth: 1,
+                                flexDirection: 'row',
+                                height: 70,
+                                justifyContent: 'center',
+                                marginLeft: 16,
+                                marginTop: 16,
+                                overflow: 'hidden',
+                                width: 120,
+                              },
+                              dimensions.width
+                            )}
+                          >
+                            <View
+                              style={StyleSheet.applyWidth(
+                                {
+                                  backgroundColor: 'rgb(227, 234, 253)',
+                                  borderBottomRightRadius: 3,
+                                  left: 0,
+                                  padding: 4,
+                                  position: 'absolute',
+                                  top: 0,
+                                  zIndex: 100,
+                                },
+                                dimensions.width
+                              )}
+                            >
+                              <Text
+                                accessible={true}
+                                selectable={false}
+                                style={StyleSheet.applyWidth(
+                                  {
+                                    color: palettes.Brand.appStyle_primary,
+                                    fontFamily: 'System',
+                                    fontSize: 10,
+                                    fontWeight: '400',
+                                  },
+                                  dimensions.width
+                                )}
+                              >
+                                {fetchData?.data?.meetings?.[0]?.meeting_way ===
+                                'default_online'
+                                  ? t(Variables, 'event_detail_online')
+                                  : t(Variables, 'event_detail_offline')}
+                              </Text>
+                            </View>
+                            {/* View 2 */}
+                            <View
+                              style={StyleSheet.applyWidth(
+                                {
+                                  alignItems: 'center',
+                                  backgroundColor:
+                                    palettes.App['Custom #ffffff'],
+                                  borderRadius: 4,
+                                  padding: 4,
+                                },
+                                dimensions.width
+                              )}
+                            >
+                              <Text
+                                accessible={true}
+                                selectable={false}
+                                style={StyleSheet.applyWidth(
+                                  {
+                                    color: 'rgb(165, 175, 185)',
+                                    fontFamily: 'System',
+                                    fontSize: 12,
+                                    fontWeight: '400',
+                                    letterSpacing: 0.2,
+                                    lineHeight: 14,
+                                  },
+                                  dimensions.width
+                                )}
+                              >
+                                {getMonthStr(
+                                  Variables,
+                                  fromUnixTimestamp(
+                                    Variables,
+                                    fetchData?.data?.meetings?.[0]?.start_time,
+                                    'MM'
+                                  )
+                                )}
+                              </Text>
+                              {/* Text 2 */}
+                              <Text
+                                accessible={true}
+                                selectable={false}
+                                style={StyleSheet.applyWidth(
+                                  {
+                                    fontFamily: 'System',
+                                    fontSize: 14,
+                                    fontWeight: '400',
+                                    letterSpacing: 0.2,
+                                    lineHeight: 16,
+                                  },
+                                  dimensions.width
+                                )}
+                              >
+                                {fromUnixTimestamp(
+                                  Variables,
+                                  fetchData?.data?.meetings?.[0]?.start_time,
+                                  'DD'
+                                )}
+                              </Text>
+                            </View>
+                            {/* View 3 */}
+                            <View
+                              style={StyleSheet.applyWidth(
+                                { marginLeft: 8 },
+                                dimensions.width
+                              )}
+                            >
+                              <Text
+                                accessible={true}
+                                selectable={false}
+                                style={StyleSheet.applyWidth(
+                                  {
+                                    color: palettes.Brand.appStyle_primary,
+                                    fontFamily: 'System',
+                                    fontSize: 14,
+                                    fontWeight: '400',
+                                    letterSpacing: 0.2,
+                                    lineHeight: 19,
+                                  },
+                                  dimensions.width
+                                )}
+                              >
+                                {fromUnixTimestamp(
+                                  Variables,
+                                  fetchData?.data?.meetings?.[0]?.start_time,
+                                  'HH:mm'
+                                )}
+                              </Text>
+                            </View>
+                          </View>
+                        </Touchable>
+                      );
+                    }}
+                    snapToAlignment={'start'}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
                     style={StyleSheet.applyWidth(
-                      {
-                        alignItems: 'center',
-                        backgroundColor: 'rgb(246, 247, 248)',
-                        borderColor: palettes.Brand.appStyle_primary,
-                        borderRadius: 6,
-                        borderWidth: 2,
-                        flexDirection: 'row',
-                        height: 70,
-                        justifyContent: 'center',
-                        marginLeft: 16,
-                        marginTop: 16,
-                        overflow: 'hidden',
-                        width: 120,
-                      },
+                      { paddingRight: 16 },
                       dimensions.width
                     )}
-                  >
-                    <View
-                      style={StyleSheet.applyWidth(
-                        {
-                          backgroundColor: 'rgb(227, 234, 253)',
-                          borderBottomRightRadius: 3,
-                          left: 0,
-                          padding: 4,
-                          position: 'absolute',
-                          top: 0,
-                          zIndex: 100,
-                        },
-                        dimensions.width
-                      )}
-                    >
-                      <Text
-                        accessible={true}
-                        selectable={false}
-                        style={StyleSheet.applyWidth(
-                          {
-                            color: palettes.Brand.appStyle_primary,
-                            fontFamily: 'System',
-                            fontSize: 10,
-                            fontWeight: '400',
-                          },
-                          dimensions.width
-                        )}
-                      >
-                        {fetchData?.data?.meetings?.[0]?.meeting_way ===
-                        'default_online'
-                          ? t(Variables, 'event_detail_online')
-                          : t(Variables, 'event_detail_offline')}
-                      </Text>
-                    </View>
-                    {/* View 2 */}
-                    <View
-                      style={StyleSheet.applyWidth(
-                        {
-                          alignItems: 'center',
-                          backgroundColor: palettes.App['Custom #ffffff'],
-                          borderRadius: 4,
-                          padding: 4,
-                        },
-                        dimensions.width
-                      )}
-                    >
-                      <Text
-                        accessible={true}
-                        selectable={false}
-                        style={StyleSheet.applyWidth(
-                          {
-                            color: 'rgb(165, 175, 185)',
-                            fontFamily: 'System',
-                            fontSize: 12,
-                            fontWeight: '400',
-                            letterSpacing: 0.2,
-                            lineHeight: 14,
-                          },
-                          dimensions.width
-                        )}
-                      >
-                        {getMonthStr(
-                          Variables,
-                          fromUnixTimestamp(
-                            Variables,
-                            fetchData?.data?.meetings?.[0]?.start_time,
-                            'MM'
-                          )
-                        )}
-                      </Text>
-                      {/* Text 2 */}
-                      <Text
-                        accessible={true}
-                        selectable={false}
-                        style={StyleSheet.applyWidth(
-                          {
-                            fontFamily: 'System',
-                            fontSize: 14,
-                            fontWeight: '400',
-                            letterSpacing: 0.2,
-                            lineHeight: 16,
-                          },
-                          dimensions.width
-                        )}
-                      >
-                        {fromUnixTimestamp(
-                          Variables,
-                          fetchData?.data?.meetings?.[0]?.start_time,
-                          'DD'
-                        )}
-                      </Text>
-                    </View>
-                    {/* View 3 */}
-                    <View
-                      style={StyleSheet.applyWidth(
-                        { marginLeft: 8 },
-                        dimensions.width
-                      )}
-                    >
-                      <Text
-                        accessible={true}
-                        selectable={false}
-                        style={StyleSheet.applyWidth(
-                          {
-                            color: palettes.Brand.appStyle_primary,
-                            fontFamily: 'System',
-                            fontSize: 14,
-                            fontWeight: '400',
-                            letterSpacing: 0.2,
-                            lineHeight: 19,
-                          },
-                          dimensions.width
-                        )}
-                      >
-                        {fromUnixTimestamp(
-                          Variables,
-                          fetchData?.data?.meetings?.[0]?.start_time,
-                          'HH:mm'
-                        )}
-                      </Text>
-                    </View>
-                  </View>
+                  />
                   {/* 会议时间 */}
                   <View
                     style={StyleSheet.applyWidth(
@@ -736,21 +1702,17 @@ const EventDetailScreen = props => {
                       >
                         {fromUnixTimestamp(
                           Variables,
-                          fetchData?.data?.meetings?.[0]?.start_time,
+                          meeting?.start_time,
                           'YYYY/MM/DD HH:mm'
                         )}
                         {'-'}
                         {fromUnixTimestamp(
                           Variables,
-                          fetchData?.data?.meetings?.[0]?.end_time,
+                          meeting?.end_time,
                           'HH:mm'
                         )}
                         {'\n'}
-                        {getNameById(
-                          Variables,
-                          1,
-                          fetchData?.data?.meetings?.[0]?.time_zone_id
-                        )}
+                        {getNameById(Variables, 1, meeting?.time_zone_id)}
                       </Text>
                     </View>
                   </View>
@@ -815,7 +1777,7 @@ const EventDetailScreen = props => {
                   <View
                     style={StyleSheet.applyWidth(
                       {
-                        alignItems: 'flex-start',
+                        alignItems: 'center',
                         flexDirection: 'row',
                         marginTop: 16,
                         paddingLeft: 16,
@@ -850,25 +1812,230 @@ const EventDetailScreen = props => {
                         {t(Variables, 'event_detail_style')}
                       </Text>
                     </View>
-                    {/* View 3 */}
-                    <View>
-                      <Text
-                        accessible={true}
-                        selectable={false}
-                        {...GlobalStyles.TextStyles(theme)['Event Text'].props}
-                        style={StyleSheet.applyWidth(
-                          StyleSheet.compose(
-                            GlobalStyles.TextStyles(theme)['Event Text'].style,
-                            { color: palettes.App['Custom Color 4'] }
-                          ),
-                          dimensions.width
-                        )}
-                      >
-                        {fetchData?.data?.meetings?.[0]?.has_registered
-                          ? t(Variables, 'event_detail_online_group')
-                          : t(Variables, 'event_detail_after_look')}
-                      </Text>
-                    </View>
+                    {/* 参会方式-线上 */}
+                    <>
+                      {meeting?.meeting_way === 'offline' ? null : (
+                        <View
+                          style={StyleSheet.applyWidth(
+                            { justifyContent: 'center' },
+                            dimensions.width
+                          )}
+                        >
+                          {/* 报名 */}
+                          <>
+                            {!meeting?.has_registered ? null : (
+                              <Text
+                                accessible={true}
+                                selectable={false}
+                                {...GlobalStyles.TextStyles(theme)['Event Text']
+                                  .props}
+                                style={StyleSheet.applyWidth(
+                                  StyleSheet.compose(
+                                    GlobalStyles.TextStyles(theme)['Event Text']
+                                      .style,
+                                    { color: palettes.App['Custom Color 4'] }
+                                  ),
+                                  dimensions.width
+                                )}
+                              >
+                                {meeting?.state === 'pending'
+                                  ? t(Variables, 'event_detail_after_look')
+                                  : undefined}
+                              </Text>
+                            )}
+                          </>
+                          {/* 未报名 */}
+                          <>
+                            {meeting?.has_registered ? null : (
+                              <Text
+                                accessible={true}
+                                selectable={false}
+                                {...GlobalStyles.TextStyles(theme)['Event Text']
+                                  .props}
+                                style={StyleSheet.applyWidth(
+                                  StyleSheet.compose(
+                                    GlobalStyles.TextStyles(theme)['Event Text']
+                                      .style,
+                                    { color: palettes.App['Custom Color 4'] }
+                                  ),
+                                  dimensions.width
+                                )}
+                              >
+                                {t(Variables, 'event_detail_after_look')}
+                              </Text>
+                            )}
+                          </>
+                          <>
+                            {!meeting?.has_registered ? null : (
+                              <View>
+                                <>
+                                  {!(
+                                    meeting?.state !== 'pending' &&
+                                    meeting?.online_password
+                                  ) ? null : (
+                                    <Touchable>
+                                      {/* 查看详情 */}
+                                      <View
+                                        style={StyleSheet.applyWidth(
+                                          {
+                                            borderColor:
+                                              palettes.Brand.appStyle_primary,
+                                            borderRadius: 4,
+                                            borderWidth: 1,
+                                            paddingBottom: 1,
+                                            paddingLeft: 4,
+                                            paddingRight: 4,
+                                            paddingTop: 1,
+                                          },
+                                          dimensions.width
+                                        )}
+                                      >
+                                        <Text
+                                          accessible={true}
+                                          selectable={false}
+                                          {...GlobalStyles.TextStyles(theme)[
+                                            '12 Regular'
+                                          ].props}
+                                          style={StyleSheet.applyWidth(
+                                            StyleSheet.compose(
+                                              GlobalStyles.TextStyles(theme)[
+                                                '12 Regular'
+                                              ].style,
+                                              {
+                                                color:
+                                                  palettes.Brand
+                                                    .appStyle_primary,
+                                                fontFamily: 'System',
+                                                fontSize: 13,
+                                                fontWeight: '700',
+                                                lineHeight: 15,
+                                              }
+                                            ),
+                                            dimensions.width
+                                          )}
+                                        >
+                                          {t(
+                                            Variables,
+                                            'event_detail_look_info'
+                                          )}
+                                        </Text>
+                                      </View>
+                                    </Touchable>
+                                  )}
+                                </>
+                                {/* Touchable 2 */}
+                                <>
+                                  {!(
+                                    meeting?.state !== 'pending' &&
+                                    !meeting?.online_password
+                                  ) ? null : (
+                                    <Touchable>
+                                      {/* 进入会议 */}
+                                      <View
+                                        style={StyleSheet.applyWidth(
+                                          {
+                                            borderColor:
+                                              palettes.Brand.appStyle_primary,
+                                            borderRadius: 4,
+                                            borderWidth: 1,
+                                            paddingBottom: 1,
+                                            paddingLeft: 4,
+                                            paddingRight: 4,
+                                            paddingTop: 1,
+                                          },
+                                          dimensions.width
+                                        )}
+                                      >
+                                        <Text
+                                          accessible={true}
+                                          selectable={false}
+                                          {...GlobalStyles.TextStyles(theme)[
+                                            '12 Regular'
+                                          ].props}
+                                          style={StyleSheet.applyWidth(
+                                            StyleSheet.compose(
+                                              GlobalStyles.TextStyles(theme)[
+                                                '12 Regular'
+                                              ].style,
+                                              {
+                                                color:
+                                                  palettes.Brand
+                                                    .appStyle_primary,
+                                                fontFamily: 'System',
+                                                fontSize: 13,
+                                                fontWeight: '700',
+                                                lineHeight: 15,
+                                              }
+                                            ),
+                                            dimensions.width
+                                          )}
+                                        >
+                                          {t(
+                                            Variables,
+                                            'event_detail_join_meeting'
+                                          )}
+                                        </Text>
+                                      </View>
+                                    </Touchable>
+                                  )}
+                                </>
+                              </View>
+                            )}
+                          </>
+                        </View>
+                      )}
+                    </>
+                    {/* 参会方式-线下 */}
+                    <>
+                      {!(meeting?.meeting_way === 'offline') ? null : (
+                        <View>
+                          {/* 报名 */}
+                          <>
+                            {!meeting?.has_registered ? null : (
+                              <Text
+                                accessible={true}
+                                selectable={false}
+                                {...GlobalStyles.TextStyles(theme)['Event Text']
+                                  .props}
+                                style={StyleSheet.applyWidth(
+                                  StyleSheet.compose(
+                                    GlobalStyles.TextStyles(theme)['Event Text']
+                                      .style,
+                                    { color: palettes.App['Custom Color 4'] }
+                                  ),
+                                  dimensions.width
+                                )}
+                              >
+                                {meeting?.state === 'pending'
+                                  ? 'event_detail_after_look_info'?.t
+                                  : meeting?.offline_address}
+                              </Text>
+                            )}
+                          </>
+                          {/* 未报名 */}
+                          <>
+                            {meeting?.has_registered ? null : (
+                              <Text
+                                accessible={true}
+                                selectable={false}
+                                {...GlobalStyles.TextStyles(theme)['Event Text']
+                                  .props}
+                                style={StyleSheet.applyWidth(
+                                  StyleSheet.compose(
+                                    GlobalStyles.TextStyles(theme)['Event Text']
+                                      .style,
+                                    { color: palettes.App['Custom Color 4'] }
+                                  ),
+                                  dimensions.width
+                                )}
+                              >
+                                {t(Variables, 'event_detail_after_look_info')}
+                              </Text>
+                            )}
+                          </>
+                        </View>
+                      )}
+                    </>
                   </View>
                   {/* 语言 */}
                   <View
@@ -931,7 +2098,7 @@ const EventDetailScreen = props => {
                   </View>
                   {/* 不可以提问 */}
                   <>
-                    {fetchData?.data?.meetings?.[0]?.interactive ? null : (
+                    {meeting?.interactive ? null : (
                       <View
                         style={StyleSheet.applyWidth(
                           {
@@ -963,6 +2130,47 @@ const EventDetailScreen = props => {
                             {t(Variables, 'event_detail_not_request')}
                           </Text>
                         </View>
+                      </View>
+                    )}
+                  </>
+                  {/* View 2 */}
+                  <>
+                    {!(
+                      fetchData?.data?.exists_need_pay_meeting &&
+                      !Constants['user_info']?.has_vip
+                    ) ? null : (
+                      <View
+                        style={StyleSheet.applyWidth(
+                          { marginTop: 16, paddingLeft: 16, paddingRight: 16 },
+                          dimensions.width
+                        )}
+                      >
+                        <ExpoImage
+                          allowDownscaling={true}
+                          cachePolicy={'disk'}
+                          contentPosition={'center'}
+                          transitionDuration={300}
+                          transitionEffect={'cross-dissolve'}
+                          transitionTiming={'ease-in-out'}
+                          {...GlobalStyles.ExpoImageStyles(theme)['SVG 2']
+                            .props}
+                          resizeMode={'contain'}
+                          source={imageSource(
+                            `${
+                              Constants['current_lang'] === 'CN'
+                                ? 'https://static.acecamptech.com/system/vip/sc_vip-trial_h5.png'
+                                : 'https://static.acecamptech.com/system/vip/en_vip-trial_h5.png'
+                            }`
+                          )}
+                          style={StyleSheet.applyWidth(
+                            StyleSheet.compose(
+                              GlobalStyles.ExpoImageStyles(theme)['SVG 2']
+                                .style,
+                              { height: 80, width: '100%' }
+                            ),
+                            dimensions.width
+                          )}
+                        />
                       </View>
                     )}
                   </>
@@ -1026,24 +2234,804 @@ const EventDetailScreen = props => {
                       dimensions.width
                     )}
                   >
-                    <Text
-                      accessible={true}
-                      selectable={false}
-                      style={StyleSheet.applyWidth(
-                        {
-                          color: 'rgb(60, 60, 60)',
-                          fontFamily: 'System',
-                          fontSize: 14,
-                          fontWeight: '400',
-                          letterSpacing: 0.2,
-                          lineHeight: 24,
-                        },
-                        dimensions.width
-                      )}
-                    >
-                      {fetchData?.data?.description}
-                    </Text>
+                    <Utils.CustomCodeErrorBoundary>
+                      <Text
+                        accessible={true}
+                        selectable={false}
+                        style={StyleSheet.applyWidth(
+                          {
+                            color: 'rgb(60, 60, 60)',
+                            fontFamily: 'System',
+                            fontSize: 14,
+                            fontWeight: '400',
+                            letterSpacing: 0.2,
+                            lineHeight: 24,
+                          },
+                          dimensions.width
+                        )}
+                        numberOfLines={isExpanded ? null : 3}
+                        onTextLayout={txtLayout}
+                      >
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                        {fetchData?.data?.description}
+                      </Text>
+                    </Utils.CustomCodeErrorBoundary>
                   </View>
+                  <>
+                    {!(
+                      (showBtn ||
+                        fetchData?.data?.attachments?.length > 0 ||
+                        fetchData?.data?.links?.length > 0) &&
+                      !isExpanded
+                    ) ? null : (
+                      <View
+                        style={StyleSheet.applyWidth(
+                          {
+                            alignItems: 'center',
+                            height: 75,
+                            justifyContent: 'flex-end',
+                          },
+                          dimensions.width
+                        )}
+                      >
+                        <LinearGradient
+                          endY={100}
+                          startY={0}
+                          {...GlobalStyles.LinearGradientStyles(theme)[
+                            'Linear Gradient'
+                          ].props}
+                          color1={palettes.App['Custom Color 92']}
+                          color2={palettes.App['Custom #ffffff']}
+                          endX={50}
+                          startX={50}
+                          style={StyleSheet.applyWidth(
+                            StyleSheet.compose(
+                              GlobalStyles.LinearGradientStyles(theme)[
+                                'Linear Gradient'
+                              ].style,
+                              {
+                                alignItems: 'center',
+                                justifyContent: 'flex-end',
+                              }
+                            ),
+                            dimensions.width
+                          )}
+                        >
+                          <Touchable
+                            onPress={() => {
+                              try {
+                                toggleExpand();
+                              } catch (err) {
+                                console.error(err);
+                              }
+                            }}
+                          >
+                            <View
+                              style={StyleSheet.applyWidth(
+                                {
+                                  alignItems: 'center',
+                                  backgroundColor:
+                                    palettes.App['Custom Color 14'],
+                                  borderRadius: 4,
+                                  flexDirection: 'row',
+                                  justifyContent: 'center',
+                                  paddingBottom: 6,
+                                  paddingLeft: 24,
+                                  paddingRight: 16,
+                                  paddingTop: 6,
+                                },
+                                dimensions.width
+                              )}
+                            >
+                              <Text
+                                accessible={true}
+                                selectable={false}
+                                {...GlobalStyles.TextStyles(theme)['14 Regular']
+                                  .props}
+                                style={StyleSheet.applyWidth(
+                                  StyleSheet.compose(
+                                    GlobalStyles.TextStyles(theme)['14 Regular']
+                                      .style,
+                                    theme.typography.body1,
+                                    {
+                                      color: palettes.Brand.itemTextNomal,
+                                      fontFamily: 'System',
+                                      fontWeight: '700',
+                                    }
+                                  ),
+                                  dimensions.width
+                                )}
+                              >
+                                {t(Variables, 'event_detail_open')}
+                              </Text>
+                              <ExpoImage
+                                allowDownscaling={true}
+                                cachePolicy={'disk'}
+                                contentPosition={'center'}
+                                resizeMode={'cover'}
+                                transitionDuration={300}
+                                transitionEffect={'cross-dissolve'}
+                                transitionTiming={'ease-in-out'}
+                                {...GlobalStyles.ExpoImageStyles(theme)['SVG 2']
+                                  .props}
+                                source={imageSource(Images['icopeninfo'])}
+                                style={StyleSheet.applyWidth(
+                                  StyleSheet.compose(
+                                    GlobalStyles.ExpoImageStyles(theme)['SVG 2']
+                                      .style,
+                                    { height: 18, marginLeft: 6, width: 18 }
+                                  ),
+                                  dimensions.width
+                                )}
+                              />
+                            </View>
+                          </Touchable>
+                        </LinearGradient>
+                      </View>
+                    )}
+                  </>
+                  {/* 文档 */}
+                  <>
+                    {!(
+                      isExpanded && fetchData?.data?.attachments?.length > 0
+                    ) ? null : (
+                      <View>
+                        {/* View 2 */}
+                        <View
+                          style={StyleSheet.applyWidth(
+                            {
+                              backgroundColor: palettes.App['Custom Color 14'],
+                              height: 5,
+                            },
+                            dimensions.width
+                          )}
+                        />
+                        {/* 文档标题 */}
+                        <View
+                          style={StyleSheet.applyWidth(
+                            {
+                              alignItems: 'center',
+                              borderBottomWidth: 1,
+                              borderColor: palettes.Slate[100],
+                              flexDirection: 'row',
+                              paddingBottom: 8,
+                              paddingTop: 8,
+                            },
+                            dimensions.width
+                          )}
+                        >
+                          <View
+                            style={StyleSheet.applyWidth(
+                              {
+                                backgroundColor:
+                                  palettes.Brand.appStyle_primary,
+                                borderBottomRightRadius: 3,
+                                borderTopRightRadius: 3,
+                                height: 22,
+                                marginRight: 10,
+                                width: 3,
+                              },
+                              dimensions.width
+                            )}
+                          />
+                          <Text
+                            accessible={true}
+                            selectable={false}
+                            {...GlobalStyles.TextStyles(theme)['Text Title']
+                              .props}
+                            style={StyleSheet.applyWidth(
+                              StyleSheet.compose(
+                                GlobalStyles.TextStyles(theme)['Text Title']
+                                  .style,
+                                { fontSize: 16, lineHeight: 24 }
+                              ),
+                              dimensions.width
+                            )}
+                          >
+                            {t(Variables, 'live_menu_file')}
+                          </Text>
+                        </View>
+                        <SimpleStyleFlatList
+                          data={fetchData?.data?.attachments}
+                          decelerationRate={'normal'}
+                          horizontal={false}
+                          inverted={false}
+                          keyExtractor={(listData, index) =>
+                            listData?.id ??
+                            listData?.uuid ??
+                            index?.toString() ??
+                            JSON.stringify(listData)
+                          }
+                          keyboardShouldPersistTaps={'never'}
+                          listKey={'Fetch->Scroll View->View->文档->List'}
+                          nestedScrollEnabled={false}
+                          numColumns={1}
+                          onEndReachedThreshold={0.5}
+                          pagingEnabled={false}
+                          renderItem={({ item, index }) => {
+                            const listData = item;
+                            return (
+                              <Touchable
+                                onPress={() => {
+                                  const handler = async () => {
+                                    try {
+                                      if (fetchData?.data?.has_registered) {
+                                        if (isDocFileType(listData?.name)) {
+                                          const result = (
+                                            await AceCampTestApi.ossDownloadUrlGET(
+                                              Constants,
+                                              {
+                                                event_id: fetchData?.data?.id,
+                                                file_url: listData?.url,
+                                              }
+                                            )
+                                          )?.json;
+                                          await WebBrowser.openBrowserAsync(
+                                            `${result?.download_url}`
+                                          );
+                                        } else {
+                                          navigation.push('WebViewScreen', {
+                                            url: listData?.url,
+                                          });
+                                        }
+                                      } else {
+                                        ShowToast(
+                                          t(
+                                            Variables,
+                                            'event_detail_after_look'
+                                          ),
+                                          undefined,
+                                          undefined
+                                        );
+                                      }
+                                    } catch (err) {
+                                      console.error(err);
+                                    }
+                                  };
+                                  handler();
+                                }}
+                              >
+                                <View
+                                  style={StyleSheet.applyWidth(
+                                    {
+                                      alignItems: 'center',
+                                      backgroundColor:
+                                        palettes.App['Custom Color 14'],
+                                      flexDirection: 'row',
+                                      height: 51,
+                                      marginTop: 8,
+                                      padding: 8,
+                                    },
+                                    dimensions.width
+                                  )}
+                                >
+                                  {/* pdf */}
+                                  <ExpoImage
+                                    allowDownscaling={true}
+                                    cachePolicy={'disk'}
+                                    contentPosition={'center'}
+                                    resizeMode={'cover'}
+                                    transitionDuration={300}
+                                    transitionEffect={'cross-dissolve'}
+                                    transitionTiming={'ease-in-out'}
+                                    {...GlobalStyles.ExpoImageStyles(theme)[
+                                      'SVG 2'
+                                    ].props}
+                                    source={imageSource(
+                                      getFiletypeImg(listData?.name)
+                                    )}
+                                    style={StyleSheet.applyWidth(
+                                      StyleSheet.compose(
+                                        GlobalStyles.ExpoImageStyles(theme)[
+                                          'SVG 2'
+                                        ].style,
+                                        { height: 18, width: 18 }
+                                      ),
+                                      dimensions.width
+                                    )}
+                                  />
+                                  <Text
+                                    accessible={true}
+                                    selectable={false}
+                                    {...GlobalStyles.TextStyles(theme)[
+                                      '14 Regular'
+                                    ].props}
+                                    style={StyleSheet.applyWidth(
+                                      StyleSheet.compose(
+                                        GlobalStyles.TextStyles(theme)[
+                                          '14 Regular'
+                                        ].style,
+                                        theme.typography.body1,
+                                        {
+                                          fontFamily: 'System',
+                                          fontWeight: '700',
+                                          marginLeft: 8,
+                                        }
+                                      ),
+                                      dimensions.width
+                                    )}
+                                  >
+                                    {listData?.name}
+                                  </Text>
+                                </View>
+                              </Touchable>
+                            );
+                          }}
+                          showsHorizontalScrollIndicator={true}
+                          showsVerticalScrollIndicator={true}
+                          snapToAlignment={'start'}
+                        />
+                      </View>
+                    )}
+                  </>
+                  {/* 相关链接 */}
+                  <>
+                    {!(
+                      isExpanded && fetchData?.data?.links?.length > 0
+                    ) ? null : (
+                      <View>
+                        {/* View 2 */}
+                        <View
+                          style={StyleSheet.applyWidth(
+                            {
+                              backgroundColor: palettes.App['Custom Color 14'],
+                              height: 5,
+                            },
+                            dimensions.width
+                          )}
+                        />
+                        {/* 文档标题 */}
+                        <View
+                          style={StyleSheet.applyWidth(
+                            {
+                              alignItems: 'center',
+                              borderBottomWidth: 1,
+                              borderColor: palettes.Slate[100],
+                              flexDirection: 'row',
+                              paddingBottom: 8,
+                              paddingTop: 8,
+                            },
+                            dimensions.width
+                          )}
+                        >
+                          <View
+                            style={StyleSheet.applyWidth(
+                              {
+                                backgroundColor:
+                                  palettes.Brand.appStyle_primary,
+                                borderBottomRightRadius: 3,
+                                borderTopRightRadius: 3,
+                                height: 22,
+                                marginRight: 10,
+                                width: 3,
+                              },
+                              dimensions.width
+                            )}
+                          />
+                          <Text
+                            accessible={true}
+                            selectable={false}
+                            {...GlobalStyles.TextStyles(theme)['Text Title']
+                              .props}
+                            style={StyleSheet.applyWidth(
+                              StyleSheet.compose(
+                                GlobalStyles.TextStyles(theme)['Text Title']
+                                  .style,
+                                { fontSize: 16, lineHeight: 24 }
+                              ),
+                              dimensions.width
+                            )}
+                          >
+                            {t(Variables, 'event_detail_about_link')}
+                          </Text>
+                        </View>
+                        <SimpleStyleFlatList
+                          data={fetchData?.data?.links}
+                          decelerationRate={'normal'}
+                          horizontal={false}
+                          inverted={false}
+                          keyExtractor={(listData, index) =>
+                            listData?.id ??
+                            listData?.uuid ??
+                            index?.toString() ??
+                            JSON.stringify(listData)
+                          }
+                          keyboardShouldPersistTaps={'never'}
+                          listKey={'Fetch->Scroll View->View->相关链接->List'}
+                          nestedScrollEnabled={false}
+                          numColumns={1}
+                          onEndReachedThreshold={0.5}
+                          pagingEnabled={false}
+                          renderItem={({ item, index }) => {
+                            const listData = item;
+                            return (
+                              <Touchable
+                                onPress={() => {
+                                  const handler = async () => {
+                                    try {
+                                      if (fetchData?.data?.has_registered) {
+                                        if (isDocFileType(listData?.name)) {
+                                          const result = (
+                                            await AceCampTestApi.ossDownloadUrlGET(
+                                              Constants,
+                                              {
+                                                event_id: fetchData?.data?.id,
+                                                file_url: listData?.url,
+                                              }
+                                            )
+                                          )?.json;
+                                          await WebBrowser.openBrowserAsync(
+                                            `${result?.download_url}`
+                                          );
+                                        } else {
+                                          navigation.push('WebViewScreen', {
+                                            url: listData?.url,
+                                          });
+                                        }
+                                      } else {
+                                        ShowToast(
+                                          t(
+                                            Variables,
+                                            'event_detail_after_look'
+                                          ),
+                                          undefined,
+                                          undefined
+                                        );
+                                      }
+                                    } catch (err) {
+                                      console.error(err);
+                                    }
+                                  };
+                                  handler();
+                                }}
+                              >
+                                <View
+                                  style={StyleSheet.applyWidth(
+                                    {
+                                      alignItems: 'center',
+                                      backgroundColor:
+                                        palettes.App['Custom Color 14'],
+                                      flexDirection: 'row',
+                                      height: 51,
+                                      marginTop: 8,
+                                      padding: 8,
+                                    },
+                                    dimensions.width
+                                  )}
+                                >
+                                  {/* pdf */}
+                                  <ExpoImage
+                                    allowDownscaling={true}
+                                    cachePolicy={'disk'}
+                                    contentPosition={'center'}
+                                    resizeMode={'cover'}
+                                    transitionDuration={300}
+                                    transitionEffect={'cross-dissolve'}
+                                    transitionTiming={'ease-in-out'}
+                                    {...GlobalStyles.ExpoImageStyles(theme)[
+                                      'SVG 2'
+                                    ].props}
+                                    source={imageSource(
+                                      getFiletypeImg(listData?.name)
+                                    )}
+                                    style={StyleSheet.applyWidth(
+                                      StyleSheet.compose(
+                                        GlobalStyles.ExpoImageStyles(theme)[
+                                          'SVG 2'
+                                        ].style,
+                                        { height: 18, width: 18 }
+                                      ),
+                                      dimensions.width
+                                    )}
+                                  />
+                                  <Text
+                                    accessible={true}
+                                    selectable={false}
+                                    {...GlobalStyles.TextStyles(theme)[
+                                      '14 Regular'
+                                    ].props}
+                                    style={StyleSheet.applyWidth(
+                                      StyleSheet.compose(
+                                        GlobalStyles.TextStyles(theme)[
+                                          '14 Regular'
+                                        ].style,
+                                        theme.typography.body1,
+                                        {
+                                          fontFamily: 'System',
+                                          fontWeight: '700',
+                                          marginLeft: 8,
+                                        }
+                                      ),
+                                      dimensions.width
+                                    )}
+                                  >
+                                    {listData?.name}
+                                  </Text>
+                                </View>
+                              </Touchable>
+                            );
+                          }}
+                          showsHorizontalScrollIndicator={true}
+                          showsVerticalScrollIndicator={true}
+                          snapToAlignment={'start'}
+                        />
+                      </View>
+                    )}
+                  </>
+                  <>
+                    {!isExpanded ? null : (
+                      <View
+                        style={StyleSheet.applyWidth(
+                          {
+                            alignItems: 'center',
+                            height: 75,
+                            justifyContent: 'flex-end',
+                          },
+                          dimensions.width
+                        )}
+                      >
+                        <LinearGradient
+                          endY={100}
+                          startY={0}
+                          {...GlobalStyles.LinearGradientStyles(theme)[
+                            'Linear Gradient'
+                          ].props}
+                          color1={palettes.App['Custom Color 92']}
+                          color2={palettes.App['Custom #ffffff']}
+                          endX={50}
+                          startX={50}
+                          style={StyleSheet.applyWidth(
+                            StyleSheet.compose(
+                              GlobalStyles.LinearGradientStyles(theme)[
+                                'Linear Gradient'
+                              ].style,
+                              {
+                                alignItems: 'center',
+                                justifyContent: 'flex-end',
+                              }
+                            ),
+                            dimensions.width
+                          )}
+                        >
+                          <Touchable
+                            onPress={() => {
+                              try {
+                                toggleExpand();
+                              } catch (err) {
+                                console.error(err);
+                              }
+                            }}
+                          >
+                            <View
+                              style={StyleSheet.applyWidth(
+                                {
+                                  alignItems: 'center',
+                                  backgroundColor:
+                                    palettes.App['Custom Color 14'],
+                                  borderRadius: 4,
+                                  flexDirection: 'row',
+                                  justifyContent: 'center',
+                                  paddingBottom: 6,
+                                  paddingLeft: 24,
+                                  paddingRight: 16,
+                                  paddingTop: 6,
+                                },
+                                dimensions.width
+                              )}
+                            >
+                              <Text
+                                accessible={true}
+                                selectable={false}
+                                {...GlobalStyles.TextStyles(theme)['14 Regular']
+                                  .props}
+                                style={StyleSheet.applyWidth(
+                                  StyleSheet.compose(
+                                    GlobalStyles.TextStyles(theme)['14 Regular']
+                                      .style,
+                                    theme.typography.body1,
+                                    {
+                                      color: palettes.Brand.itemTextNomal,
+                                      fontFamily: 'System',
+                                      fontWeight: '700',
+                                    }
+                                  ),
+                                  dimensions.width
+                                )}
+                              >
+                                {t(Variables, 'event_detail_close')}
+                              </Text>
+                              <ExpoImage
+                                allowDownscaling={true}
+                                cachePolicy={'disk'}
+                                contentPosition={'center'}
+                                resizeMode={'cover'}
+                                transitionDuration={300}
+                                transitionEffect={'cross-dissolve'}
+                                transitionTiming={'ease-in-out'}
+                                {...GlobalStyles.ExpoImageStyles(theme)['SVG 2']
+                                  .props}
+                                source={imageSource(Images['iccloseinfo'])}
+                                style={StyleSheet.applyWidth(
+                                  StyleSheet.compose(
+                                    GlobalStyles.ExpoImageStyles(theme)['SVG 2']
+                                      .style,
+                                    { height: 18, marginLeft: 6, width: 18 }
+                                  ),
+                                  dimensions.width
+                                )}
+                              />
+                            </View>
+                          </Touchable>
+                        </LinearGradient>
+                      </View>
+                    )}
+                  </>
                   {/* 本营专家一对一 */}
                   <View
                     style={StyleSheet.applyWidth(
@@ -1403,8 +3391,9 @@ const EventDetailScreen = props => {
                 style={StyleSheet.applyWidth(
                   {
                     alignItems: 'center',
-                    flexDirection: 'row-reverse',
-                    justifyContent: 'space-between',
+                    backgroundColor: palettes.App['Custom #ffffff'],
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
                     marginBottom: safeAreaInsets.bottom,
                     paddingBottom: 10,
                     paddingLeft: 10,
@@ -1414,62 +3403,499 @@ const EventDetailScreen = props => {
                 )}
               >
                 <View
-                  style={StyleSheet.applyWidth({ flex: 1 }, dimensions.width)}
-                >
-                  <Button
-                    accessible={true}
-                    iconPosition={'left'}
-                    onPress={() => {
-                      try {
-                        setShowConfirmModal(true);
-                      } catch (err) {
-                        console.error(err);
-                      }
-                    }}
-                    {...GlobalStyles.ButtonStyles(theme)['Button (default)']
-                      .props}
-                    style={StyleSheet.applyWidth(
-                      StyleSheet.compose(
-                        GlobalStyles.ButtonStyles(theme)['Button (default)']
-                          .style,
-                        {
-                          backgroundColor: palettes.Brand.appStyle_primary,
-                          borderRadius: null,
-                          color: palettes.App['Custom #ffffff'],
-                          fontSize: 18,
-                          letterSpacing: 0.5,
-                          lineHeight: 26,
-                          paddingBottom: 10,
-                          paddingTop: 10,
-                        }
-                      ),
-                      dimensions.width
-                    )}
-                    title={`${t(Variables, 'dialog_sign_up_now')}`}
-                  />
-                </View>
-
-                <Text
-                  accessible={true}
-                  selectable={false}
                   style={StyleSheet.applyWidth(
                     {
-                      color: palettes.App['Custom Color_11'],
-                      fontFamily: 'System',
-                      fontSize: 16,
-                      fontWeight: '600',
-                      letterSpacing: 0.2,
-                      lineHeight: 24,
-                      marginLeft: 32,
-                      marginRight: 32,
+                      alignItems: 'center',
+                      backgroundColor: palettes.App['Custom Color 93'],
+                      justifyContent: 'center',
+                      padding: 8,
+                      width: '100%',
                     },
                     dimensions.width
                   )}
                 >
-                  {fetchData?.data?.meetings?.[0]?.current_price}
-                  {t(Variables, 'mine_a_currency')}
-                </Text>
+                  <Utils.CustomCodeErrorBoundary>
+                    <HighlightTextWithAction.action
+                      text={tips}
+                      highlights={tipList}
+                      textstyle={{
+                        fontFamily: 'System',
+                        fontSize: 12,
+                        fontWeight: '400',
+                        letterSpacing: 0.2,
+                        lineHeight: 14,
+                      }}
+                    />
+                  </Utils.CustomCodeErrorBoundary>
+                </View>
+                {/* View 2 */}
+                <View
+                  style={StyleSheet.applyWidth(
+                    {
+                      alignItems: 'center',
+                      flexDirection: 'row-reverse',
+                      justifyContent: 'space-between',
+                    },
+                    dimensions.width
+                  )}
+                >
+                  <View
+                    style={StyleSheet.applyWidth({ flex: 1 }, dimensions.width)}
+                  >
+                    <>
+                      {!fetchData?.data?.allow_guest ? null : (
+                        <Button
+                          accessible={true}
+                          iconPosition={'left'}
+                          onPress={() => {
+                            try {
+                              if (fetchData?.data?.allow_guest) {
+                                if (meeting?.time_state === 'finished') {
+                                  if (meeting?.live) {
+                                    navigation.push('WebViewScreen', {
+                                      url:
+                                        Constants['base_url'] +
+                                        '/playback/' +
+                                        meeting?.live.id,
+                                    });
+                                  } else {
+                                  }
+                                } else {
+                                  navigation.push('LiveScreen', {
+                                    url: meeting,
+                                  });
+                                }
+                              } else {
+                              }
+
+                              /* hidden 'Set Variable' action */
+                              /* hidden 'Run a Custom Function' action */
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          }}
+                          {...GlobalStyles.ButtonStyles(theme)[
+                            'Button (default)'
+                          ].props}
+                          style={StyleSheet.applyWidth(
+                            StyleSheet.compose(
+                              GlobalStyles.ButtonStyles(theme)[
+                                'Button (default)'
+                              ].style,
+                              {
+                                backgroundColor: [
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value: palettes.Brand.appStyle_primary,
+                                  },
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value: btnColor,
+                                  },
+                                ],
+                                borderRadius: null,
+                                color: palettes.App['Custom #ffffff'],
+                                fontSize: 18,
+                                letterSpacing: 0.5,
+                                lineHeight: 26,
+                                paddingBottom: 10,
+                                paddingTop: 10,
+                              }
+                            ),
+                            dimensions.width
+                          )}
+                          title={`${btnText}`}
+                        />
+                      )}
+                    </>
+                    {/* Button 2 */}
+                    <>
+                      {!(
+                        !fetchData?.data?.allow_guest &&
+                        [0, 2, 3].includes(eventUserStatus(Variables)) &&
+                        fetchData?.data?.can_register
+                      ) ? null : (
+                        <Button
+                          accessible={true}
+                          iconPosition={'left'}
+                          onPress={() => {
+                            const handler = async () => {
+                              try {
+                                if (meeting?.state === 'registered') {
+                                  if (meeting?.time_state === 'finished') {
+                                    if (meeting?.live) {
+                                      navigation.push('WebViewScreen', {
+                                        url:
+                                          Constants['base_url'] +
+                                          '/playback/' +
+                                          meeting?.live.id,
+                                      });
+                                    } else {
+                                    }
+                                  } else {
+                                    if (meeting?.meeting_way === 'offline') {
+                                    } else {
+                                      if (meeting?.online_password) {
+                                        console.log(
+                                          'show event join style dialog'
+                                        );
+                                      } else {
+                                        navigation.push('LiveScreen', {
+                                          url: meeting?.online_address,
+                                        });
+                                      }
+                                    }
+
+                                    /* hidden 'Navigate' action */
+                                  }
+                                } else {
+                                }
+
+                                if (meeting?.state === 'finished') {
+                                  navigation.push('WebViewScreen', {
+                                    url:
+                                      Constants['base_url'] +
+                                      '/playback/' +
+                                      meeting?.live?.id,
+                                  });
+                                } else {
+                                }
+
+                                if (meeting?.state === 'normal') {
+                                  if (
+                                    !meeting?.free &&
+                                    Constants['user_info']?.organization_user
+                                      ?.organization?.belongs_organization_id
+                                  ) {
+                                    if (
+                                      Constants['user_info']?.organization_user
+                                        ?.organization
+                                        ?.belongs_organization_contact
+                                    ) {
+                                      setContent(
+                                        StringFormat(
+                                          t(
+                                            Variables,
+                                            'event_detail_other_buy'
+                                          ),
+                                          [].concat([
+                                            Constants['user_info']
+                                              ?.organization_user?.organization
+                                              ?.belongs_organization_name,
+                                          ])
+                                        ) +
+                                          Constants['user_info']
+                                            ?.organization_user?.organization
+                                            ?.belongs_organization_contact
+                                      );
+                                    } else {
+                                      setContent(
+                                        StringFormat(
+                                          t(
+                                            Variables,
+                                            'event_detail_other_buy'
+                                          ),
+                                          [].concat([
+                                            Constants['user_info']
+                                              ?.organization_user?.organization
+                                              ?.belongs_organization_name,
+                                          ])
+                                        )
+                                      );
+                                    }
+
+                                    setTip_modal_visiable(true);
+                                  } else {
+                                    if (meeting?.meeting_type === 'private') {
+                                      setConfirm_modal_visiable(true);
+                                    } else {
+                                      (
+                                        await aceCampTestEventsRegisterPOST.mutateAsync(
+                                          {
+                                            event_id: fetchData?.data?.id,
+                                            id: meeting?.id,
+                                          }
+                                        )
+                                      )?.json;
+                                    }
+                                  }
+                                } else {
+                                }
+
+                                /* hidden 'Set Variable' action */
+                                /* hidden 'Run a Custom Function' action */
+                              } catch (err) {
+                                console.error(err);
+                              }
+                            };
+                            handler();
+                          }}
+                          {...GlobalStyles.ButtonStyles(theme)[
+                            'Button (default)'
+                          ].props}
+                          style={StyleSheet.applyWidth(
+                            StyleSheet.compose(
+                              GlobalStyles.ButtonStyles(theme)[
+                                'Button (default)'
+                              ].style,
+                              {
+                                backgroundColor: [
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value: palettes.Brand.appStyle_primary,
+                                  },
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value: btnColor,
+                                  },
+                                ],
+                                borderRadius: null,
+                                color: palettes.App['Custom #ffffff'],
+                                fontSize: 18,
+                                letterSpacing: 0.5,
+                                lineHeight: 26,
+                                paddingBottom: 10,
+                                paddingTop: 10,
+                              }
+                            ),
+                            dimensions.width
+                          )}
+                          title={`${btnText}`}
+                        />
+                      )}
+                    </>
+                    {/* Button 3 */}
+                    <>
+                      {!(
+                        !fetchData?.data?.allow_guest &&
+                        [0, 2, 3].includes(eventUserStatus(Variables)) &&
+                        !fetchData?.data?.can_register
+                      ) ? null : (
+                        <Button
+                          accessible={true}
+                          iconPosition={'left'}
+                          onPress={() => {
+                            try {
+                              if (eventUserStatus(Variables) === 2) {
+                                navigation.push('MineAuthScreen');
+                              } else {
+                                if (fetchData?.data?.can_registration_online) {
+                                  if (meeting?.state === 'registered') {
+                                    if (meeting?.time_state === 'finished') {
+                                      if (meeting?.live) {
+                                        navigation.push('WebViewScreen', {
+                                          url:
+                                            Constants['base_url'] +
+                                            '/playback/' +
+                                            meeting?.live.id,
+                                        });
+                                      } else {
+                                      }
+                                    } else {
+                                      if (meeting?.meeting_way === 'offline') {
+                                      } else {
+                                        if (meeting?.online_password) {
+                                          console.log('password');
+                                        } else {
+                                          navigation.push('LiveScreen', {
+                                            url: meeting?.online_address,
+                                          });
+                                        }
+                                      }
+                                    }
+                                  } else {
+                                  }
+
+                                  if (
+                                    meeting?.state === 'finished' &&
+                                    meeting?.live
+                                  ) {
+                                    navigation.push('WebViewScreen', {
+                                      url:
+                                        Constants['base_url'] +
+                                        '/playback/' +
+                                        meeting?.live?.id,
+                                    });
+                                  } else {
+                                  }
+                                } else {
+                                  navigation.push('LiveScreen');
+                                }
+                              }
+
+                              /* hidden 'Set Variable' action */
+                              /* hidden 'Run a Custom Function' action */
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          }}
+                          {...GlobalStyles.ButtonStyles(theme)[
+                            'Button (default)'
+                          ].props}
+                          style={StyleSheet.applyWidth(
+                            StyleSheet.compose(
+                              GlobalStyles.ButtonStyles(theme)[
+                                'Button (default)'
+                              ].style,
+                              {
+                                backgroundColor: [
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value: palettes.Brand.appStyle_primary,
+                                  },
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value: btnColor,
+                                  },
+                                ],
+                                borderRadius: null,
+                                color: palettes.App['Custom #ffffff'],
+                                fontSize: 18,
+                                letterSpacing: 0.5,
+                                lineHeight: 26,
+                                paddingBottom: 10,
+                                paddingTop: 10,
+                              }
+                            ),
+                            dimensions.width
+                          )}
+                          title={`${btnText}`}
+                        />
+                      )}
+                    </>
+                    {/* Button 4 */}
+                    <>
+                      {!(
+                        !fetchData?.data?.allow_guest &&
+                        eventUserStatus(Variables) === 1
+                      ) ? null : (
+                        <Button
+                          accessible={true}
+                          iconPosition={'left'}
+                          onPress={() => {
+                            try {
+                              navigation.push('LoginScreen');
+                              /* hidden 'Set Variable' action */
+                              /* hidden 'Run a Custom Function' action */
+                              /* hidden 'API Request' action */
+                              /* hidden 'Navigate' action */
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          }}
+                          {...GlobalStyles.ButtonStyles(theme)[
+                            'Button (default)'
+                          ].props}
+                          style={StyleSheet.applyWidth(
+                            StyleSheet.compose(
+                              GlobalStyles.ButtonStyles(theme)[
+                                'Button (default)'
+                              ].style,
+                              {
+                                backgroundColor: [
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value: palettes.Brand.appStyle_primary,
+                                  },
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value: btnColor,
+                                  },
+                                ],
+                                borderRadius: null,
+                                color: palettes.App['Custom #ffffff'],
+                                fontSize: 18,
+                                letterSpacing: 0.5,
+                                lineHeight: 26,
+                                paddingBottom: 10,
+                                paddingTop: 10,
+                              }
+                            ),
+                            dimensions.width
+                          )}
+                          title={`${btnText}`}
+                        />
+                      )}
+                    </>
+                  </View>
+
+                  <Text
+                    accessible={true}
+                    selectable={false}
+                    style={StyleSheet.applyWidth(
+                      {
+                        color: [
+                          {
+                            minWidth: Breakpoints.Mobile,
+                            value: palettes.App['Custom Color_11'],
+                          },
+                          { minWidth: Breakpoints.Mobile, value: priceColor },
+                        ],
+                        fontFamily: 'System',
+                        fontSize: 16,
+                        fontWeight: '600',
+                        letterSpacing: 0.2,
+                        lineHeight: 24,
+                        marginLeft: 32,
+                        marginRight: 32,
+                      },
+                      dimensions.width
+                    )}
+                  >
+                    {price}
+                  </Text>
+                </View>
               </View>
+              <Utils.CustomCodeErrorBoundary>
+                <gf.ActionSheet
+                  indicatorStyle={{
+                    marginTop: 10,
+                    width: 150,
+                  }}
+                  gestureEnabled
+                  drawUnderStatusBar
+                  ref={actionSheetRef}
+                >
+                  <>
+                    {!(dialog_type === 1) ? null : (
+                      <EventContactActionSheetBlock
+                        contacts={fetchData?.data?.contacts}
+                      />
+                    )}
+                  </>
+                  <>
+                    {!(dialog_type === 3) ? null : (
+                      <TryVipDialogBlock
+                        resource_id={meeting?.id}
+                        resource_type={'Meeting'}
+                      />
+                    )}
+                  </>
+                  <>
+                    {!(dialog_type === 2) ? null : (
+                      <UpgradeVipDialogBlock type={'upgrade_vip'} />
+                    )}
+                  </>
+                  <>
+                    {!(dialog_type === 4) ? null : (
+                      <PayForLiveDialogBlock
+                        callback={(position, sncode) => {
+                          const handler = async () => {
+                            try {
+                              await payForLiveCallback(position, sncode);
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          };
+                          handler();
+                        }}
+                        payNum={meeting?.current_price}
+                        prepay={prepay}
+                      />
+                    )}
+                  </>
+                </gf.ActionSheet>
+              </Utils.CustomCodeErrorBoundary>
             </>
           );
         }}
@@ -1745,11 +4171,12 @@ const EventDetailScreen = props => {
                   if (result?.code === 200) {
                     ShowToast(
                       t(Variables, 'event_detail_register_success'),
+                      undefined,
                       undefined
                     );
                     setShowConfirmModal(false);
                   } else {
-                    ShowToast(result?.msg, undefined);
+                    ShowToast(result?.msg, undefined, undefined);
                   }
                 } catch (err) {
                   console.error(err);
@@ -1773,6 +4200,43 @@ const EventDetailScreen = props => {
       </Modal>
       <Utils.CustomCodeErrorBoundary>
         <Toast.ele />
+      </Utils.CustomCodeErrorBoundary>
+      {/* 提示 */}
+      <Utils.CustomCodeErrorBoundary>
+        <ConfirmDialog.ConfirmDialog
+          title={t(Variables, 'common_tips')}
+          message={content}
+          cancelBtn={t(Variables, 'common_cancel')}
+          confirmBtn={t(Variables, 'common_yes')}
+          onConfirm={() => {
+            setTip_modal_visiable(false);
+          }}
+          onCancel={() => {
+            setTip_modal_visiable(false);
+          }}
+          visible={tip_modal_visiable}
+        />
+      </Utils.CustomCodeErrorBoundary>
+      {/* 确认 */}
+      <Utils.CustomCodeErrorBoundary>
+        <ConfirmDialog.ConfirmDialog
+          title={t(Variables, 'event_detail_sure_warning_title')}
+          message={t(Variables, 'event_detail_sure_warning_content')}
+          cancelBtn={t(Variables, 'event_detail_give_up')}
+          confirmBtn={t(Variables, 'common_ok_more')}
+          onConfirm={async () => {
+            (
+              await aceCampTestEventsRegisterPOST.mutateAsync({
+                event_id: fetchData?.data?.id,
+                id: meeting?.id,
+              })
+            )?.json;
+          }}
+          onCancel={() => {
+            setConfirm_modal_visiable(false);
+          }}
+          visible={confirm_modal_visiable}
+        />
       </Utils.CustomCodeErrorBoundary>
     </ScreenContainer>
   );

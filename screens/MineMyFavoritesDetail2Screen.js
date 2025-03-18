@@ -1423,12 +1423,14 @@ const MineMyFavoritesDetail2Screen = props => {
                           if (result?.code === 200) {
                             ShowToast(
                               t(Variables, 'toast_favorite_successfully'),
-                              'top'
+                              'top',
+                              undefined
                             );
                           } else {
                             ShowToast(
                               t(Variables, 'common_network_error'),
-                              'top'
+                              'top',
+                              undefined
                             );
                           }
 
@@ -1671,6 +1673,7 @@ const MineMyFavoritesDetail2Screen = props => {
                                             Variables,
                                             'toast_operated_successfully'
                                           ),
+                                          undefined,
                                           undefined
                                         );
                                         await refetchFavoritesList();
@@ -1681,7 +1684,8 @@ const MineMyFavoritesDetail2Screen = props => {
                                             Variables,
                                             'common_network_error'
                                           )}:${result?.code}`,
-                                          'top'
+                                          'top',
+                                          undefined
                                         );
                                       }
 

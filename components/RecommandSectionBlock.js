@@ -1,6 +1,7 @@
 import React from 'react';
 import { Divider, Icon, IconButton, Touchable, withTheme } from '@draftbit/ui';
 import { useNavigation } from '@react-navigation/native';
+import { BlurView } from 'expo-blur';
 import { Image, Platform, Text, View } from 'react-native';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as GlobalVariables from '../config/GlobalVariableContext';
@@ -17,114 +18,8 @@ import imageSource from '../utils/imageSource';
 import useWindowDimensions from '../utils/useWindowDimensions';
 
 const defaultProps = {
-  dataItem: {
-    id: 70502081,
-    free: false,
-    type: 'minute',
-    user: {
-      id: 10000130,
-      name: '测试账号',
-      avatar:
-        'https://image.ca3test.com/avatar/10000130/0.00024054243143667442.JPG',
-      deleted: false,
-      is_self: false,
-      identity: 'unreal',
-      nickname: '测试账号',
-      position: 'Executive Director',
-      fund_type_ids: [1, 7],
-      sns_career_name: '长线基金 Executive Director',
-      organization_name: '',
-      tournament_winner: null,
-      management_scale_id: null,
-      organization_type_id: 5,
-      organization_identity: 'hide',
-    },
-    likes: 1,
-    state: 'passed',
-    title: '自动驾驶2025年行业展望及头部车企研发进展对比【Michael调研纪要】',
-    views: 518,
-    content:
-      '<p>相关公司：特斯拉（TSLA.US），理想汽车（2015.HK），小鹏汽车（9868.HK），蔚来（9866.HK），赛力斯（601127.SH），地平线机器人（9660.HK），英伟达（NVDA.US），高通（QCOM.US），极氪（ZK.US），零跑汽车（9863.HK），小米集团（01810.HK），比亚迪（002594.SZ），上汽集团（600104.SH），长城汽车（601633.SH），长安汽车（000625.SZ），吉利汽车（00175.HK），广汽集团（601238.SH）</p><p>&nbsp;</p><p>以下为访谈专家根据市场公开信息的个人观点及推断</p><p>&nbsp;</p><p><strong style="color: rgb(0, 112, 192);"><em>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自动驾驶行业在未来1至2年的技术路线的关键趋势</em></strong></p><p>自动驾驶行业在未来1至2年的技术路线主要集中于以下几个方面：</p><p>i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;端到端技术：目前全球范围内，端到端的技术路线已基本明确，其核心优势是泛化能力强。国内如小鹏、理想、蔚来和华为等企业已开始推广分段式的“感知端到端+规控端到端”方案，而真正实现一体化端到端的仅有特斯拉。特别是在复杂城市场景中，传统规则驱动的规控方式逐渐被淘汰，规控模块的“全场景泛化”成为研发重点。</p><p>ii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Occupancy占用网络：Occupancy占用网格已成为感知模块中的主流算法，是实现中高阶算力功能的重要组成部分，各家车企均将其作为标配。</p><p>iii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOA功能发展：NOA（Navigate on Autopilot）分为高速场景和城市场景两类。从2025年起，高速NOA预计将在中国市场快速普及，目前搭载率约为7%，预计两年内渗透率可达30%以上。同时，城市NOA也逐步成为头部车企竞争焦点，但由于城市场景复杂性更高，其普及面临较大挑战。</p><p>&nbsp;相关公司：特斯拉（TSLA.US），理想汽车（2015.HK），小鹏汽车（9868.HK），蔚来（9866.HK），赛力斯（601127.SH），地平线机器人（9660.HK），英伟达（NVDA.US），高通（QCOM.US），极氪（ZK.US），零跑汽车（9863.HK），小米集团（01810.HK），比亚迪（002594.SZ），上汽集团（600104.SH），长城汽车（601633.SH），长安汽车（000625.SZ），吉利汽车（00175.HK），广汽集团（601238.SH）</p><p>&nbsp;</p><p>以下为访谈专家根据市场公开信息的个人观点及推断</p><p>&nbsp;</p><p><strong style="color: rgb(0, 112, 192);"><em>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自动驾驶行业在未来1至2年的技术路线的关键趋势</em></strong></p><p>自动驾驶行业在未来1至2年的技术路线主要集中于以下几个方面：</p><p>i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;端到端技术：目前全球范围内，端到端的技术路线已基本明确，其核心优势是泛化能力强。国内如小鹏、理想、蔚来和华为等企业已开始推广分段式的“感知端到端+规控端到端”方案，而真正实现一体化端到端的仅有特斯拉。特别是在复杂城市场景中，传统规则驱动的规控方式逐渐被淘汰，规控模块的“全场景泛化”成为研发重点。</p><p>ii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Occupancy占用网络：Occupancy占用网格已成为感知模块中的主流算法，是实现中高阶算力功能的重要组成部分，各家车企均将其作为标配。</p><p>iii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOA功能发展：NOA（Navigate on Autopilot）分为高速场景和城市场景两类。从2025年起，高速NOA预计将在中国市场快速普及，目前搭载率约为7%，预计两年内渗透率可达30%以上。同时，城市NOA也逐步成为头部车企竞争焦点，但由于城市场景复杂性更高，其普及面临较大挑战。</p><p>&nbsp;相关公司：特斯拉（TSLA.US），理想汽车（2015.HK），小鹏汽车（9868.HK），蔚来（9866.HK），赛力斯（601127.SH），地平线机器人（9660.HK），英伟达（NVDA.US），高通（QCOM.US），极氪（ZK.US），零跑汽车（9863.HK），小米集团（01810.HK），比亚迪（002594.SZ），上汽集团（600104.SH），长城汽车（601633.SH），长安汽车（000625.SZ），吉利汽车（00175.HK），广汽集团（601238.SH）</p><p>&nbsp;</p><p>以下为访谈专家根据市场公开信息的个人观点及推断</p><p>&nbsp;</p><p><strong style="color: rgb(0, 112, 192);"><em>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自动驾驶行业在未来1至2年的技术路线的关键趋势</em></strong></p><p>自动驾驶行业在未来1至2年的技术路线主要集中于以下几个方面：</p><p>i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;端到端技术：目前全球范围内，端到端的技术路线已基本明确，其核心优势是泛化能力强。国内如小鹏、理想、蔚来和华为等企业已开始推广分段式的“感知端到端+规控端到端”方案，而真正实现一体化端到端的仅有特斯拉。特别是在复杂城市场景中，传统规则驱动的规控方式逐渐被淘汰，规控模块的“全场景泛化”成为研发重点。</p><p>ii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Occupancy占用网络：Occupancy占用网格已成为感知模块中的主流算法，是实现中高阶算力功能的重要组成部分，各家车企均将其作为标配。</p><p>iii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOA功能发展：NOA（Navigate on Autopilot）分为高速场景和城市场景两类。从2025年起，高速NOA预计将在中国市场快速普及，目前搭载率约为7%，预计两年内渗透率可达30%以上。同时，城市NOA也逐步成为头部车企竞争焦点，但由于城市场景复杂性更高，其普及面临较大挑战。</p><p>&nbsp;</p>',
-    summary:
-      '主要看点：\n1.\t自动驾驶行业在未来1至2年的技术路线的关键趋势，高速和城市NOA的发展现状及难点\n2.\t当前国内主机厂智能驾驶方面的竞争格局，传统主机厂的布局策略与特点\n3.\t无图方案的应用前景，智能驾驶行业的格局演变\n4.\t智驾普及的趋势下，智驾系统软硬件的成本变化趋势\n5.\tDeepSeek对智驾系统的影响',
-    hashtags: [],
-    favorites: 0,
-    is_deleted: false,
-    corporations: [
-      {
-        id: 2,
-        tel: '86-755-2560-6666',
-        logo: 'https://image.acecamptech.com/logos/2/ae2f8d00-12fa-4d86-bf1b-409c416e3d52.png',
-        name: '万科A',
-        delist: null,
-        ticker: 'SZ.000002',
-        en_name: 'China Vanke Co.,Ltd.',
-        sc_name: '万科A',
-        tc_name: null,
-        website: 'www.vanke.com',
-        currency: 'CNY',
-        exchange: 'Shenzhen',
-        following: null,
-        is_active: true,
-        deleted_at: null,
-        can_destroy: false,
-        description:
-          '万科企业股份有限公司于1984年在深圳经济特区成立,1988年经深圳市人民政府“深府办(1988)1509号”文批准,公司实施股份制改革;1991年1月29日,公司发行的A股在深交所上市;1993年5月28日,公司发行的B股在深交所上市;2014年6月25日,公司B股以介绍方式转换上市地在联交所主板(H股)上市。公司的主要业务为开发用于出售及出租的房地产产品。企业荣誉:公司连续第十年蝉联"中国物业服务百强企业综合实力TOP1",连续第六年蝉联"中国房地产开发企业500强首选物业品牌"榜首,连续三年获得"中国特色物业服务领先企业——企业总部基地"荣誉称号,并蝉联中国物业服务品牌价值榜首。报告期内,本集团新增加开发项目147个,按万科权益计算的规划建筑面积约2,478.4万平方米,总建筑面积约3,716.5万平方米。',
-        industry_id: 6010,
-        en_description:
-          'China Vanke Co., Ltd. operates real estate development businesses.  The Company provides housing renovation, housing loans, real estate brokerage, and other businesses. China Vanke also operates logistics, material supply, and other businesses.',
-        sc_description:
-          '万科企业股份有限公司于1984年在深圳经济特区成立,1988年经深圳市人民政府“深府办(1988)1509号”文批准,公司实施股份制改革;1991年1月29日,公司发行的A股在深交所上市;1993年5月28日,公司发行的B股在深交所上市;2014年6月25日,公司B股以介绍方式转换上市地在联交所主板(H股)上市。公司的主要业务为开发用于出售及出租的房地产产品。企业荣誉:公司连续第十年蝉联"中国物业服务百强企业综合实力TOP1",连续第六年蝉联"中国房地产开发企业500强首选物业品牌"榜首,连续三年获得"中国特色物业服务领先企业——企业总部基地"荣誉称号,并蝉联中国物业服务品牌价值榜首。报告期内,本集团新增加开发项目147个,按万科权益计算的规划建筑面积约2,478.4万平方米,总建筑面积约3,716.5万平方米。',
-        tc_description: null,
-        registration_location: null,
-      },
-    ],
-    industry_ids: [6010],
-    organization: {
-      id: 10000014,
-      irm: false,
-      tel: null,
-      logo: null,
-      name: '华兴泛亚1',
-      score: 0,
-      state: 'passed',
-      ticker: null,
-      en_name: 'China Renaissance FanYa1',
-      sc_name: '华兴泛亚1',
-      tc_name: '華興泛亞1',
-      website: null,
-      celebrity: false,
-      deleted_at: null,
-      dms_vendor: false,
-      description:
-        '基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文',
-      industry_id: null,
-      is_producer: true,
-      state_events: [],
-      fund_type_ids: [1, 7],
-      self_employed: true,
-      en_description:
-        'ENENENEN ENENENENEN ENEN ENENENENENENENEN ENENENENEN ENEN ENENENENENENENEN ENENENENEN ENEN ENENENENENENENEN ENENENENEN ENEN ENENENENENENENEN ENENENENEN ENEN ENENENENENENENEN ENENENENEN ENEN ENENENEN',
-      public_contact: false,
-      sc_description:
-        '基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文',
-      tc_description: null,
-      need_allocation: false,
-      dms_vendor_contact: null,
-      share_display_name: '华兴泛亚1',
-      management_scale_id: 6,
-      allow_public_contact: true,
-      blocked_expert_roles: [],
-      organization_type_id: 5,
-      sator_organization_id: 112,
-      belongs_organization_id: null,
-      belongs_organization_name: null,
-      belongs_organization_contact: null,
-    },
-    release_time: 1739430450,
-    corporation_ids: [2],
-    custom_sector_ids: [2],
-  },
+  dataItem:
+    '{\n  "id": 70502081,\n  "free": false,\n  "type": "minute",\n  "user": {\n    "id": 10000130,\n    "name": "测试账号",\n    "avatar": "https://image.ca3test.com/avatar/10000130/0.00024054243143667442.JPG",\n    "deleted": false,\n    "is_self": false,\n    "identity": "unreal",\n    "nickname": "测试账号",\n    "position": "Executive Director",\n    "fund_type_ids": [\n      1,\n      7\n    ],\n    "sns_career_name": "长线基金 Executive Director",\n    "organization_name": "",\n    "tournament_winner": null,\n    "management_scale_id": null,\n    "organization_type_id": 5,\n    "organization_identity": "hide"\n  },\n  "likes": 1,\n  "state": "passed",\n  "title": "自动驾驶2025年行业展望及头部车企研发进展对比【Michael调研纪要】",\n  "views": 518,\n  "content": "<p>相关公司：特斯拉（TSLA.US），理想汽车（2015.HK），小鹏汽车（9868.HK），蔚来（9866.HK），赛力斯（601127.SH），地平线机器人（9660.HK），英伟达（NVDA.US），高通（QCOM.US），极氪（ZK.US），零跑汽车（9863.HK），小米集团（01810.HK），比亚迪（002594.SZ），上汽集团（600104.SH），长城汽车（601633.SH），长安汽车（000625.SZ），吉利汽车（00175.HK），广汽集团（601238.SH）</p><p>&nbsp;</p><p>以下为访谈专家根据市场公开信息的个人观点及推断</p><p>&nbsp;</p><p><strong style=\\"color: rgb(0, 112, 192);\\"><em>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自动驾驶行业在未来1至2年的技术路线的关键趋势</em></strong></p><p>自动驾驶行业在未来1至2年的技术路线主要集中于以下几个方面：</p><p>i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;端到端技术：目前全球范围内，端到端的技术路线已基本明确，其核心优势是泛化能力强。国内如小鹏、理想、蔚来和华为等企业已开始推广分段式的“感知端到端+规控端到端”方案，而真正实现一体化端到端的仅有特斯拉。特别是在复杂城市场景中，传统规则驱动的规控方式逐渐被淘汰，规控模块的“全场景泛化”成为研发重点。</p><p>ii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Occupancy占用网络：Occupancy占用网格已成为感知模块中的主流算法，是实现中高阶算力功能的重要组成部分，各家车企均将其作为标配。</p><p>iii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOA功能发展：NOA（Navigate on Autopilot）分为高速场景和城市场景两类。从2025年起，高速NOA预计将在中国市场快速普及，目前搭载率约为7%，预计两年内渗透率可达30%以上。同时，城市NOA也逐步成为头部车企竞争焦点，但由于城市场景复杂性更高，其普及面临较大挑战。</p><p>&nbsp;相关公司：特斯拉（TSLA.US），理想汽车（2015.HK），小鹏汽车（9868.HK），蔚来（9866.HK），赛力斯（601127.SH），地平线机器人（9660.HK），英伟达（NVDA.US），高通（QCOM.US），极氪（ZK.US），零跑汽车（9863.HK），小米集团（01810.HK），比亚迪（002594.SZ），上汽集团（600104.SH），长城汽车（601633.SH），长安汽车（000625.SZ），吉利汽车（00175.HK），广汽集团（601238.SH）</p><p>&nbsp;</p><p>以下为访谈专家根据市场公开信息的个人观点及推断</p><p>&nbsp;</p><p><strong style=\\"color: rgb(0, 112, 192);\\"><em>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自动驾驶行业在未来1至2年的技术路线的关键趋势</em></strong></p><p>自动驾驶行业在未来1至2年的技术路线主要集中于以下几个方面：</p><p>i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;端到端技术：目前全球范围内，端到端的技术路线已基本明确，其核心优势是泛化能力强。国内如小鹏、理想、蔚来和华为等企业已开始推广分段式的“感知端到端+规控端到端”方案，而真正实现一体化端到端的仅有特斯拉。特别是在复杂城市场景中，传统规则驱动的规控方式逐渐被淘汰，规控模块的“全场景泛化”成为研发重点。</p><p>ii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Occupancy占用网络：Occupancy占用网格已成为感知模块中的主流算法，是实现中高阶算力功能的重要组成部分，各家车企均将其作为标配。</p><p>iii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOA功能发展：NOA（Navigate on Autopilot）分为高速场景和城市场景两类。从2025年起，高速NOA预计将在中国市场快速普及，目前搭载率约为7%，预计两年内渗透率可达30%以上。同时，城市NOA也逐步成为头部车企竞争焦点，但由于城市场景复杂性更高，其普及面临较大挑战。</p><p>&nbsp;相关公司：特斯拉（TSLA.US），理想汽车（2015.HK），小鹏汽车（9868.HK），蔚来（9866.HK），赛力斯（601127.SH），地平线机器人（9660.HK），英伟达（NVDA.US），高通（QCOM.US），极氪（ZK.US），零跑汽车（9863.HK），小米集团（01810.HK），比亚迪（002594.SZ），上汽集团（600104.SH），长城汽车（601633.SH），长安汽车（000625.SZ），吉利汽车（00175.HK），广汽集团（601238.SH）</p><p>&nbsp;</p><p>以下为访谈专家根据市场公开信息的个人观点及推断</p><p>&nbsp;</p><p><strong style=\\"color: rgb(0, 112, 192);\\"><em>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自动驾驶行业在未来1至2年的技术路线的关键趋势</em></strong></p><p>自动驾驶行业在未来1至2年的技术路线主要集中于以下几个方面：</p><p>i.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;端到端技术：目前全球范围内，端到端的技术路线已基本明确，其核心优势是泛化能力强。国内如小鹏、理想、蔚来和华为等企业已开始推广分段式的“感知端到端+规控端到端”方案，而真正实现一体化端到端的仅有特斯拉。特别是在复杂城市场景中，传统规则驱动的规控方式逐渐被淘汰，规控模块的“全场景泛化”成为研发重点。</p><p>ii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Occupancy占用网络：Occupancy占用网格已成为感知模块中的主流算法，是实现中高阶算力功能的重要组成部分，各家车企均将其作为标配。</p><p>iii.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOA功能发展：NOA（Navigate on Autopilot）分为高速场景和城市场景两类。从2025年起，高速NOA预计将在中国市场快速普及，目前搭载率约为7%，预计两年内渗透率可达30%以上。同时，城市NOA也逐步成为头部车企竞争焦点，但由于城市场景复杂性更高，其普及面临较大挑战。</p><p>&nbsp;</p>",\n  "summary": "主要看点：\\n1.\\t自动驾驶行业在未来1至2年的技术路线的关键趋势，高速和城市NOA的发展现状及难点\\n2.\\t当前国内主机厂智能驾驶方面的竞争格局，传统主机厂的布局策略与特点\\n3.\\t无图方案的应用前景，智能驾驶行业的格局演变\\n4.\\t智驾普及的趋势下，智驾系统软硬件的成本变化趋势\\n5.\\tDeepSeek对智驾系统的影响",\n  "hashtags": [],\n  "favorites": 0,\n  "is_deleted": false,\n  "corporations": [\n    {\n      "id": 2,\n      "tel": "86-755-2560-6666",\n      "logo": "https://image.acecamptech.com/logos/2/ae2f8d00-12fa-4d86-bf1b-409c416e3d52.png",\n      "name": "万科A",\n      "delist": null,\n      "ticker": "SZ.000002",\n      "en_name": "China Vanke Co.,Ltd.",\n      "sc_name": "万科A",\n      "tc_name": null,\n      "website": "www.vanke.com",\n      "currency": "CNY",\n      "exchange": "Shenzhen",\n      "following": null,\n      "is_active": true,\n      "deleted_at": null,\n      "can_destroy": false,\n      "description": "万科企业股份有限公司于1984年在深圳经济特区成立,1988年经深圳市人民政府“深府办(1988)1509号”文批准,公司实施股份制改革;1991年1月29日,公司发行的A股在深交所上市;1993年5月28日,公司发行的B股在深交所上市;2014年6月25日,公司B股以介绍方式转换上市地在联交所主板(H股)上市。公司的主要业务为开发用于出售及出租的房地产产品。企业荣誉:公司连续第十年蝉联\\"中国物业服务百强企业综合实力TOP1\\",连续第六年蝉联\\"中国房地产开发企业500强首选物业品牌\\"榜首,连续三年获得\\"中国特色物业服务领先企业——企业总部基地\\"荣誉称号,并蝉联中国物业服务品牌价值榜首。报告期内,本集团新增加开发项目147个,按万科权益计算的规划建筑面积约2,478.4万平方米,总建筑面积约3,716.5万平方米。",\n      "industry_id": 6010,\n      "en_description": "China Vanke Co., Ltd. operates real estate development businesses.  The Company provides housing renovation, housing loans, real estate brokerage, and other businesses. China Vanke also operates logistics, material supply, and other businesses.",\n      "sc_description": "万科企业股份有限公司于1984年在深圳经济特区成立,1988年经深圳市人民政府“深府办(1988)1509号”文批准,公司实施股份制改革;1991年1月29日,公司发行的A股在深交所上市;1993年5月28日,公司发行的B股在深交所上市;2014年6月25日,公司B股以介绍方式转换上市地在联交所主板(H股)上市。公司的主要业务为开发用于出售及出租的房地产产品。企业荣誉:公司连续第十年蝉联\\"中国物业服务百强企业综合实力TOP1\\",连续第六年蝉联\\"中国房地产开发企业500强首选物业品牌\\"榜首,连续三年获得\\"中国特色物业服务领先企业——企业总部基地\\"荣誉称号,并蝉联中国物业服务品牌价值榜首。报告期内,本集团新增加开发项目147个,按万科权益计算的规划建筑面积约2,478.4万平方米,总建筑面积约3,716.5万平方米。",\n      "tc_description": null,\n      "registration_location": null\n    }\n  ],\n  "industry_ids": [\n    6010\n  ],\n  "organization": {\n    "id": 10000014,\n    "irm": false,\n    "tel": null,\n    "logo": null,\n    "name": "华兴泛亚1",\n    "score": 0,\n    "state": "passed",\n    "ticker": null,\n    "en_name": "China Renaissance FanYa1",\n    "sc_name": "华兴泛亚1",\n    "tc_name": "華興泛亞1",\n    "website": null,\n    "celebrity": false,\n    "deleted_at": null,\n    "dms_vendor": false,\n    "description": "基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文",\n    "industry_id": null,\n    "is_producer": true,\n    "state_events": [],\n    "fund_type_ids": [\n      1,\n      7\n    ],\n    "self_employed": true,\n    "en_description": "ENENENEN ENENENENEN ENEN ENENENENENENENEN ENENENENEN ENEN ENENENENENENENEN ENENENENEN ENEN ENENENENENENENEN ENENENENEN ENEN ENENENENENENENEN ENENENENEN ENEN ENENENENENENENEN ENENENENEN ENEN ENENENEN",\n    "public_contact": false,\n    "sc_description": "基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文基金介绍（中文",\n    "tc_description": null,\n    "need_allocation": false,\n    "dms_vendor_contact": null,\n    "share_display_name": "华兴泛亚1",\n    "management_scale_id": 6,\n    "allow_public_contact": true,\n    "blocked_expert_roles": [],\n    "organization_type_id": 5,\n    "sator_organization_id": 112,\n    "belongs_organization_id": null,\n    "belongs_organization_name": null,\n    "belongs_organization_contact": null\n  },\n  "release_time": 1739430450,\n  "corporation_ids": [\n    2\n  ],\n  "custom_sector_ids": [\n    2\n  ],\n  visible:true\n}',
   gotoScreen: () => {},
   hideMenu: false,
   highlight: null,
@@ -158,12 +53,12 @@ line two` ) and will not work with special characters inside of quotes ( example
 
   const setLines = a => {
     if (a.nativeEvent.layout) {
-      const numberOfLines = Math.ceil((a.nativeEvent.layout.height * 1.2) / 32);
+      const numberOfLines = Math.ceil((a.nativeEvent.layout.height * 1.2) / 24);
       setNumberOfLines(numberOfLines);
     } else {
       a.nativeEvent.target.measure((x, y, width, height, pageX, pageY) => {
         // 计算行数
-        const numberOfLines = Math.ceil(height / 32);
+        const numberOfLines = Math.ceil(height / 24);
         setNumberOfLines(numberOfLines);
       });
     }
@@ -240,14 +135,16 @@ line two` ) and will not work with special characters inside of quotes ( example
                       <View
                         style={StyleSheet.applyWidth(
                           {
+                            alignItems: 'center',
                             backgroundColor: 'rgb(209, 243, 232)',
-                            borderRadius: 3,
-                            paddingBottom: 1,
+                            borderRadius: 2,
+                            height: 18,
+                            justifyContent: 'center',
+                            marginBottom: 4,
+                            marginTop: 4,
                             paddingLeft: 4,
                             paddingRight: 4,
-                            paddingTop: 1,
                             position: 'absolute',
-                            top: 3,
                           },
                           dimensions.width
                         )}
@@ -265,8 +162,10 @@ line two` ) and will not work with special characters inside of quotes ( example
                               ].style,
                               {
                                 color: 'rgb(63, 202, 185)',
-                                fontFamily: 'Urbanist_700Bold',
+                                fontFamily: 'System',
                                 fontSize: 12,
+                                fontWeight: '600',
+                                lineHeight: 14,
                               }
                             ),
                             dimensions.width
@@ -288,14 +187,16 @@ line two` ) and will not work with special characters inside of quotes ( example
                       <View
                         style={StyleSheet.applyWidth(
                           {
+                            alignItems: 'center',
                             backgroundColor: 'rgb(236, 236, 236)',
-                            borderRadius: 3,
-                            paddingBottom: 1,
+                            borderRadius: 2,
+                            height: 18,
+                            justifyContent: 'center',
+                            marginBottom: 4,
+                            marginTop: 4,
                             paddingLeft: 4,
                             paddingRight: 4,
-                            paddingTop: 1,
                             position: 'absolute',
-                            top: 3,
                           },
                           dimensions.width
                         )}
@@ -315,7 +216,8 @@ line two` ) and will not work with special characters inside of quotes ( example
                                 color: 'rgb(140, 140, 140)',
                                 fontFamily: 'System',
                                 fontSize: 12,
-                                fontWeight: '700',
+                                fontWeight: '600',
+                                lineHeight: 14,
                               }
                             ),
                             dimensions.width
@@ -333,14 +235,16 @@ line two` ) and will not work with special characters inside of quotes ( example
                       <View
                         style={StyleSheet.applyWidth(
                           {
+                            alignItems: 'center',
                             backgroundColor: 'rgba(43, 51, 230, 0.1)',
-                            borderRadius: 3,
-                            paddingBottom: 1,
+                            borderRadius: 2,
+                            height: 18,
+                            justifyContent: 'center',
+                            marginBottom: 4,
+                            marginTop: 4,
                             paddingLeft: 4,
                             paddingRight: 4,
-                            paddingTop: 1,
                             position: 'absolute',
-                            top: 3,
                           },
                           dimensions.width
                         )}
@@ -360,7 +264,8 @@ line two` ) and will not work with special characters inside of quotes ( example
                                 color: palettes.Brand.appStyle_primary,
                                 fontFamily: 'System',
                                 fontSize: 12,
-                                fontWeight: '700',
+                                fontWeight: '600',
+                                lineHeight: 14,
                               }
                             ),
                             dimensions.width
@@ -379,7 +284,12 @@ line two` ) and will not work with special characters inside of quotes ( example
                     ) ? null : (
                       <View
                         style={StyleSheet.applyWidth(
-                          { borderRadius: 3, position: 'absolute', top: 3 },
+                          {
+                            alignItems: 'center',
+                            borderRadius: 2,
+                            justifyContent: 'center',
+                            position: 'absolute',
+                          },
                           dimensions.width
                         )}
                       >
@@ -392,7 +302,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                           style={StyleSheet.applyWidth(
                             StyleSheet.compose(
                               GlobalStyles.ImageStyles(theme)['Image'].style,
-                              { height: 24, width: 45 }
+                              { height: 22, width: 45 }
                             ),
                             dimensions.width
                           )}
@@ -404,12 +314,11 @@ line two` ) and will not work with special characters inside of quotes ( example
                   <Utils.CustomCodeErrorBoundary>
                     <HighlightText.Component
                       style={{
-                        fontSize: 16,
+                        fontSize: 18,
                         fontFamily: 'System',
                         fontWeight: '700',
                         lineHeight: 24,
                         letterSpacing: 0.2,
-                        marginTop: 2,
                       }}
                       text={`${
                         Platform.OS === 'ios'
@@ -436,9 +345,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                         {
                           color: 'rgb(151, 151, 151)',
                           fontFamily: 'System',
-                          fontSize: 13,
-                          fontWeight: '600',
-                          marginTop: 8,
+                          fontSize: 12,
+                          fontWeight: '400',
+                          marginTop: 4,
                         }
                       ),
                       dimensions.width
@@ -457,13 +366,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                   {!(type?.length < 10) ? null : (
                     <View
                       style={StyleSheet.applyWidth(
-                        {
-                          borderRadius: 4,
-                          height: 75,
-                          marginLeft: 4,
-                          marginTop: 3,
-                          width: 100,
-                        },
+                        { borderRadius: 4, marginLeft: 4, marginTop: 3 },
                         dimensions.width
                       )}
                     >
@@ -479,7 +382,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
                             GlobalStyles.ImageStyles(theme)['Image'].style,
-                            { borderRadius: 6, height: 75, width: 100 }
+                            { borderRadius: 4, height: 67, width: 100 }
                           ),
                           dimensions.width
                         )}
@@ -516,7 +419,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         alignItems: 'center',
                         alignSelf: 'center',
                         borderColor: 'rgb(150, 150, 150)',
-                        borderRadius: 4,
+                        borderRadius: 2,
                         borderWidth: 1,
                         justifyContent: 'center',
                         marginRight: 8,
@@ -539,9 +442,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                             alignSelf: 'center',
                             color: 'rgb(150, 150, 150)',
                             fontFamily: 'System',
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: '400',
-                            lineHeight: 16,
+                            lineHeight: 14,
                           }
                         ),
                         dimensions.width
@@ -562,7 +465,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                             alignSelf: 'center',
                             backgroundColor: 'rgb(254, 249, 239)',
                             borderColor: 'rgb(184, 148, 108)',
-                            borderRadius: 4,
+                            borderRadius: 2,
                             borderWidth: 1,
                             justifyContent: 'center',
                             marginRight: 8,
@@ -587,9 +490,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                                 alignSelf: 'center',
                                 color: 'rgb(184, 148, 106)',
                                 fontFamily: 'System',
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: '400',
-                                lineHeight: 16,
+                                lineHeight: 14,
                               }
                             ),
                             dimensions.width
@@ -616,8 +519,8 @@ line two` ) and will not work with special characters inside of quotes ( example
                         {
                           color: palettes.App['Custom Color 5'],
                           fontFamily: 'System',
-                          fontSize: 13,
-                          fontWeight: '700',
+                          fontSize: 12,
+                          fontWeight: '600',
                         }
                       ),
                       dimensions.width
@@ -664,7 +567,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                 {props.isLatest ?? defaultProps.isLatest ? null : (
                   <Divider
                     {...GlobalStyles.DividerStyles(theme)['Divider'].props}
-                    color={palettes.App['Custom Color 4']}
+                    color={palettes.App['Custom Color 10']}
                     style={StyleSheet.applyWidth(
                       GlobalStyles.DividerStyles(theme)['Divider'].style,
                       dimensions.width
@@ -1037,7 +940,16 @@ line two` ) and will not work with special characters inside of quotes ( example
               >
                 {/* 标题 */}
                 <View
-                  style={StyleSheet.applyWidth({ flex: 1 }, dimensions.width)}
+                  style={StyleSheet.applyWidth(
+                    {
+                      flex: 1,
+                      padding: (props.dataItem ?? defaultProps.dataItem)
+                        ?.visible
+                        ? undefined
+                        : 5,
+                    },
+                    dimensions.width
+                  )}
                 >
                   <View
                     onLayout={event => {
@@ -1082,10 +994,12 @@ line two` ) and will not work with special characters inside of quotes ( example
                     <Utils.CustomCodeErrorBoundary>
                       <HighlightText.Component
                         style={{
-                          fontSize: 16,
+                          fontSize: 18,
                           fontFamily: 'System',
-                          fontWeight: '600',
-                          lineHeight: 22,
+                          fontWeight: '700',
+                          lineHeight: 24,
+                          letterSpacing: 0.2,
+                          flex: 1,
                         }}
                         text={`${
                           (props.dataItem ?? defaultProps.dataItem)?.source
@@ -1109,7 +1023,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                         color: 'rgb(151, 151, 151)',
                         fontFamily: 'System',
                         fontWeight: '400',
-                        marginTop: 8,
+                        fontSize: 12,
+                        marginTop: 4,
+                        flex: 1,
                       }}
                       text={`${replace(
                         (props.dataItem ?? defaultProps.dataItem)?.source
@@ -1120,6 +1036,32 @@ line two` ) and will not work with special characters inside of quotes ( example
                       numberOfLines={numberOfLines === 1 ? 2 : 1}
                     />
                   </Utils.CustomCodeErrorBoundary>
+                  <>
+                    {(props.dataItem ?? defaultProps.dataItem)
+                      ?.visible ? null : (
+                      <BlurView
+                        {...GlobalStyles.BlurViewStyles(theme)['Blur View']
+                          .props}
+                        experimentalBlurMethod={'dimezisBlurView'}
+                        intensity={15}
+                        style={StyleSheet.applyWidth(
+                          StyleSheet.compose(
+                            GlobalStyles.BlurViewStyles(theme)['Blur View']
+                              .style,
+                            {
+                              bottom: 0,
+                              left: 0,
+                              position: 'absolute',
+                              right: 0,
+                              top: 0,
+                            }
+                          ),
+                          dimensions.width
+                        )}
+                        tint={'light'}
+                      />
+                    )}
+                  </>
                 </View>
               </View>
               {/* 类别与作者 */}
@@ -1130,7 +1072,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     marginBottom: 10,
-                    marginTop: 10,
+                    marginTop: 6,
                   },
                   dimensions.width
                 )}
@@ -1150,7 +1092,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         alignItems: 'center',
                         alignSelf: 'center',
                         borderColor: 'rgb(150, 150, 150)',
-                        borderRadius: 4,
+                        borderRadius: 2,
                         borderWidth: 1,
                         justifyContent: 'center',
                         marginRight: 8,
@@ -1173,9 +1115,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                             alignSelf: 'center',
                             color: 'rgb(150, 150, 150)',
                             fontFamily: 'System',
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: '400',
-                            lineHeight: 16,
+                            lineHeight: 14,
                           }
                         ),
                         dimensions.width
@@ -1196,7 +1138,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                             alignSelf: 'center',
                             backgroundColor: 'rgb(254, 249, 239)',
                             borderColor: 'rgb(184, 148, 108)',
-                            borderRadius: 4,
+                            borderRadius: 2,
                             borderWidth: 1,
                             justifyContent: 'center',
                             marginRight: 8,
@@ -1221,9 +1163,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                                 alignSelf: 'center',
                                 color: 'rgb(184, 148, 106)',
                                 fontFamily: 'System',
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: '400',
-                                lineHeight: 16,
+                                lineHeight: 14,
                               }
                             ),
                             dimensions.width
@@ -1302,8 +1244,8 @@ line two` ) and will not work with special characters inside of quotes ( example
                             alignSelf: 'flex-end',
                             color: palettes.App['Custom Color 11'],
                             fontFamily: 'System',
-                            fontSize: 13,
-                            fontWeight: '700',
+                            fontSize: 12,
+                            fontWeight: '400',
                           }
                         ),
                         dimensions.width
@@ -1342,7 +1284,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                 {props.isLatest ?? defaultProps.isLatest ? null : (
                   <Divider
                     {...GlobalStyles.DividerStyles(theme)['Divider'].props}
-                    color={palettes.App['Custom Color 4']}
+                    color={palettes.App['Custom Color 10']}
                     style={StyleSheet.applyWidth(
                       GlobalStyles.DividerStyles(theme)['Divider'].style,
                       dimensions.width
@@ -1383,7 +1325,16 @@ line two` ) and will not work with special characters inside of quotes ( example
               >
                 {/* 标题 */}
                 <View
-                  style={StyleSheet.applyWidth({ flex: 1 }, dimensions.width)}
+                  style={StyleSheet.applyWidth(
+                    {
+                      flex: 1,
+                      padding: (props.dataItem ?? defaultProps.dataItem)
+                        ?.visible
+                        ? undefined
+                        : 5,
+                    },
+                    dimensions.width
+                  )}
                 >
                   <View
                     onLayout={event => {
@@ -1398,22 +1349,6 @@ line two` ) and will not work with special characters inside of quotes ( example
                       dimensions.width
                     )}
                   >
-                    <>
-                      {!(
-                        (props.dataItem ?? defaultProps.dataItem)?.source
-                          ?.badges?.[0] === 'hot'
-                      ) ? null : (
-                        <Icon
-                          color={palettes.App['Custom Color 12']}
-                          name={'MaterialCommunityIcons/fire'}
-                          size={24}
-                          style={StyleSheet.applyWidth(
-                            { position: 'absolute', top: 1 },
-                            dimensions.width
-                          )}
-                        />
-                      )}
-                    </>
                     {/* 观点主题 */}
                     <Utils.CustomCodeErrorBoundary>
                       <HighlightText.Component
@@ -1423,7 +1358,6 @@ line two` ) and will not work with special characters inside of quotes ( example
                           fontWeight: '700',
                           lineHeight: 24,
                           letterSpacing: 0.2,
-                          marginTop: 2,
                         }}
                         text={`${
                           (props.dataItem ?? defaultProps.dataItem)?.source
@@ -1447,7 +1381,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         color: 'rgb(151, 151, 151)',
                         fontFamily: 'System',
                         fontWeight: '400',
-                        marginTop: 8,
+                        marginTop: 4,
                       }}
                       text={`${replace(
                         (props.dataItem ?? defaultProps.dataItem)?.source
@@ -1458,6 +1392,32 @@ line two` ) and will not work with special characters inside of quotes ( example
                       numberOfLines={numberOfLines === 1 ? 2 : 1}
                     />
                   </Utils.CustomCodeErrorBoundary>
+                  <>
+                    {(props.dataItem ?? defaultProps.dataItem)
+                      ?.visible ? null : (
+                      <BlurView
+                        {...GlobalStyles.BlurViewStyles(theme)['Blur View']
+                          .props}
+                        experimentalBlurMethod={'dimezisBlurView'}
+                        intensity={15}
+                        style={StyleSheet.applyWidth(
+                          StyleSheet.compose(
+                            GlobalStyles.BlurViewStyles(theme)['Blur View']
+                              .style,
+                            {
+                              bottom: 0,
+                              left: 0,
+                              position: 'absolute',
+                              right: 0,
+                              top: 0,
+                            }
+                          ),
+                          dimensions.width
+                        )}
+                        tint={'light'}
+                      />
+                    )}
+                  </>
                 </View>
               </View>
               {/* 类别与作者 */}
@@ -1677,7 +1637,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                 {props.isLatest ?? defaultProps.isLatest ? null : (
                   <Divider
                     {...GlobalStyles.DividerStyles(theme)['Divider'].props}
-                    color={palettes.App['Custom Color 4']}
+                    color={palettes.App['Custom Color 10']}
                     style={StyleSheet.applyWidth(
                       GlobalStyles.DividerStyles(theme)['Divider'].style,
                       dimensions.width
@@ -1713,9 +1673,11 @@ line two` ) and will not work with special characters inside of quotes ( example
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'flex-start',
+                    alignItems: 'center',
                     flexDirection: 'row',
-                    justifyContent: 'space-between',
+                    justifyContent: 'flex-start',
+                    paddingBottom: 2,
+                    paddingTop: 2,
                   },
                   dimensions.width
                 )}
@@ -1723,7 +1685,13 @@ line two` ) and will not work with special characters inside of quotes ( example
                 {/* 标题 */}
                 <View
                   style={StyleSheet.applyWidth(
-                    { flex: 1, flexDirection: 'row' },
+                    {
+                      flexDirection: 'row',
+                      padding: (props.dataItem ?? defaultProps.dataItem)
+                        ?.visible
+                        ? undefined
+                        : 5,
+                    },
                     dimensions.width
                   )}
                 >
@@ -1740,12 +1708,11 @@ line two` ) and will not work with special characters inside of quotes ( example
                             backgroundColor: palettes.App['Custom Color 21'],
                             borderRadius: 3,
                             flexDirection: 'row',
-                            height: 24,
                             marginRight: 4,
-                            paddingBottom: 0,
-                            paddingLeft: 5,
-                            paddingRight: 5,
-                            paddingTop: 0,
+                            paddingBottom: 2,
+                            paddingLeft: 4,
+                            paddingRight: 4,
+                            paddingTop: 2,
                           },
                           dimensions.width
                         )}
@@ -1753,7 +1720,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         <Icon
                           color={palettes.App.White}
                           name={'Feather/trending-down'}
-                          size={12}
+                          size={10}
                           style={StyleSheet.applyWidth(
                             { marginRight: 3 },
                             dimensions.width
@@ -1774,7 +1741,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                                 color: palettes.App.White,
                                 fontFamily: 'System',
                                 fontSize: 12,
-                                fontWeight: '400',
+                                fontWeight: '600',
                                 lineHeight: 14,
                               }
                             ),
@@ -1799,12 +1766,11 @@ line two` ) and will not work with special characters inside of quotes ( example
                             backgroundColor: palettes.App['Custom Color 12'],
                             borderRadius: 2,
                             flexDirection: 'row',
-                            height: 24,
                             marginRight: 4,
-                            paddingBottom: 0,
-                            paddingLeft: 5,
-                            paddingRight: 5,
-                            paddingTop: 0,
+                            paddingBottom: 2,
+                            paddingLeft: 4,
+                            paddingRight: 4,
+                            paddingTop: 2,
                           },
                           dimensions.width
                         )}
@@ -1812,7 +1778,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         <Icon
                           color={palettes.App.White}
                           name={'Feather/trending-up'}
-                          size={12}
+                          size={10}
                           style={StyleSheet.applyWidth(
                             { marginRight: 3 },
                             dimensions.width
@@ -1858,12 +1824,11 @@ line two` ) and will not work with special characters inside of quotes ( example
                             backgroundColor: palettes.App['Custom Color 22'],
                             borderRadius: 2,
                             flexDirection: 'row',
-                            height: 24,
                             marginRight: 4,
-                            paddingBottom: 0,
-                            paddingLeft: 5,
-                            paddingRight: 5,
-                            paddingTop: 0,
+                            paddingBottom: 2,
+                            paddingLeft: 4,
+                            paddingRight: 4,
+                            paddingTop: 2,
                           },
                           dimensions.width
                         )}
@@ -1871,7 +1836,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         <Icon
                           color={palettes.App.White}
                           name={'Feather/activity'}
-                          size={12}
+                          size={10}
                           style={StyleSheet.applyWidth(
                             { marginRight: 3 },
                             dimensions.width
@@ -1904,42 +1869,88 @@ line two` ) and will not work with special characters inside of quotes ( example
                       </View>
                     )}
                   </>
-                  <View
-                    onLayout={event => {
-                      try {
-                        setLines(event);
-                      } catch (err) {
-                        console.error(err);
-                      }
-                    }}
-                    style={StyleSheet.applyWidth(
-                      { alignItems: 'flex-start', flexDirection: 'row' },
-                      dimensions.width
-                    )}
-                  >
-                    {/* 本营观点主题 */}
-                    <Utils.CustomCodeErrorBoundary>
-                      <HighlightText.Component
-                        style={{
-                          fontSize: 16,
-                          fontFamily: 'System',
-                          fontWeight: '700',
-                          lineHeight: 24,
-                          letterSpacing: 0.2,
-                        }}
-                        text={`${replace(
-                          (props.dataItem ?? defaultProps.dataItem)?.source
-                            ?.title,
-                          '</?span[^>]*>'
-                        )}`}
-                        highlight={props.highlight}
-                        numberOfLines={2}
+                  <>
+                    {(props.dataItem ?? defaultProps.dataItem)
+                      ?.visible ? null : (
+                      <BlurView
+                        {...GlobalStyles.BlurViewStyles(theme)['Blur View']
+                          .props}
+                        experimentalBlurMethod={'dimezisBlurView'}
+                        intensity={15}
+                        style={StyleSheet.applyWidth(
+                          StyleSheet.compose(
+                            GlobalStyles.BlurViewStyles(theme)['Blur View']
+                              .style,
+                            {
+                              bottom: 0,
+                              left: 0,
+                              position: 'absolute',
+                              right: 0,
+                              top: 0,
+                            }
+                          ),
+                          dimensions.width
+                        )}
+                        tint={'light'}
                       />
-                    </Utils.CustomCodeErrorBoundary>
-                  </View>
+                    )}
+                  </>
                 </View>
 
-                <View>
+                <View
+                  onLayout={event => {
+                    try {
+                      setLines(event);
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                  style={StyleSheet.applyWidth(
+                    {
+                      alignItems: 'flex-start',
+                      alignSelf: 'flex-start',
+                      flex: 1,
+                      flexDirection: 'row',
+                      paddingTop: (props.dataItem ?? defaultProps.dataItem)
+                        ?.visible
+                        ? undefined
+                        : 5,
+                    },
+                    dimensions.width
+                  )}
+                >
+                  {/* 本营观点主题 */}
+                  <Utils.CustomCodeErrorBoundary>
+                    <HighlightText.Component
+                      style={{
+                        fontSize: 18,
+                        fontFamily: 'System',
+                        fontWeight: '700',
+                        lineHeight: 24,
+                        letterSpacing: 0.2,
+                      }}
+                      text={`${replace(
+                        (props.dataItem ?? defaultProps.dataItem)?.source
+                          ?.title,
+                        '</?span[^>]*>'
+                      )}`}
+                      highlight={props.highlight}
+                      numberOfLines={2}
+                    />
+                  </Utils.CustomCodeErrorBoundary>
+                </View>
+
+                <View
+                  style={StyleSheet.applyWidth(
+                    {
+                      padding: (props.dataItem ?? defaultProps.dataItem)
+                        ?.visible
+                        ? undefined
+                        : 5,
+                    },
+                    dimensions.width
+                  )}
+                >
                   <Text
                     accessible={true}
                     selectable={false}
@@ -1966,7 +1977,6 @@ line two` ) and will not work with special characters inside of quotes ( example
                             },
                           ],
                           fontFamily: 'System',
-                          fontSize: 14,
                           fontWeight: '400',
                           lineHeight: 24,
                           marginRight: null,
@@ -1981,12 +1991,44 @@ line two` ) and will not work with special characters inside of quotes ( example
                     }
                     {'%'}
                   </Text>
+                  <>
+                    {(props.dataItem ?? defaultProps.dataItem)
+                      ?.visible ? null : (
+                      <BlurView
+                        {...GlobalStyles.BlurViewStyles(theme)['Blur View']
+                          .props}
+                        experimentalBlurMethod={'dimezisBlurView'}
+                        intensity={15}
+                        style={StyleSheet.applyWidth(
+                          StyleSheet.compose(
+                            GlobalStyles.BlurViewStyles(theme)['Blur View']
+                              .style,
+                            {
+                              bottom: 0,
+                              left: 0,
+                              position: 'absolute',
+                              right: 0,
+                              top: 0,
+                            }
+                          ),
+                          dimensions.width
+                        )}
+                        tint={'light'}
+                      />
+                    )}
+                  </>
                 </View>
               </View>
               {/* 简介 */}
               <View
                 style={StyleSheet.applyWidth(
-                  { paddingTop: 10 },
+                  {
+                    padding: (props.dataItem ?? defaultProps.dataItem)?.visible
+                      ? undefined
+                      : 5,
+                    paddingBottom: 10,
+                    paddingTop: 10,
+                  },
                   dimensions.width
                 )}
               >
@@ -1997,6 +2039,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                       color: 'rgb(116, 133, 147)',
                       fontFamily: 'System',
                       fontWeight: '400',
+                      fontSize: 12,
                     }}
                     text={`${replace(
                       (props.dataItem ?? defaultProps.dataItem)?.source
@@ -2007,6 +2050,29 @@ line two` ) and will not work with special characters inside of quotes ( example
                     numberOfLines={2}
                   />
                 </Utils.CustomCodeErrorBoundary>
+                <>
+                  {(props.dataItem ?? defaultProps.dataItem)?.visible ? null : (
+                    <BlurView
+                      {...GlobalStyles.BlurViewStyles(theme)['Blur View'].props}
+                      experimentalBlurMethod={'dimezisBlurView'}
+                      intensity={15}
+                      style={StyleSheet.applyWidth(
+                        StyleSheet.compose(
+                          GlobalStyles.BlurViewStyles(theme)['Blur View'].style,
+                          {
+                            bottom: 0,
+                            left: 0,
+                            position: 'absolute',
+                            right: 0,
+                            top: 0,
+                          }
+                        ),
+                        dimensions.width
+                      )}
+                      tint={'light'}
+                    />
+                  )}
+                </>
               </View>
               {/* 类别与作者 */}
               <View
@@ -2016,7 +2082,6 @@ line two` ) and will not work with special characters inside of quotes ( example
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     marginBottom: 10,
-                    marginTop: 10,
                   },
                   dimensions.width
                 )}
@@ -2036,7 +2101,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         alignItems: 'center',
                         alignSelf: 'center',
                         borderColor: 'rgb(150, 150, 150)',
-                        borderRadius: 4,
+                        borderRadius: 2,
                         borderWidth: 1,
                         justifyContent: 'center',
                         marginRight: 8,
@@ -2059,8 +2124,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                             alignSelf: 'center',
                             color: 'rgb(150, 150, 150)',
                             fontFamily: 'System',
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: '400',
+                            lineHeight: 14,
                           }
                         ),
                         dimensions.width
@@ -2134,8 +2200,10 @@ line two` ) and will not work with special characters inside of quotes ( example
                             alignSelf: 'flex-end',
                             color: palettes.App['Custom Color 11'],
                             fontFamily: 'System',
-                            fontSize: 13,
-                            fontWeight: '700',
+                            fontSize: 12,
+                            fontWeight: '400',
+                            lineHeight: 14,
+                            textAlign: 'left',
                           }
                         ),
                         dimensions.width
@@ -2175,7 +2243,7 @@ line two` ) and will not work with special characters inside of quotes ( example
               {props.isLatest ?? defaultProps.isLatest ? null : (
                 <Divider
                   {...GlobalStyles.DividerStyles(theme)['Divider'].props}
-                  color={palettes.App['Custom Color 4']}
+                  color={palettes.App['Custom Color 10']}
                   style={StyleSheet.applyWidth(
                     GlobalStyles.DividerStyles(theme)['Divider'].style,
                     dimensions.width

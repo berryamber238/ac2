@@ -161,7 +161,7 @@ line two` ) and will not work with special characters inside of quotes ( example
         handlers={{
           onData: fetchData => {
             try {
-              console.log('load first');
+              console.log(fetchData);
               setDataList(fetchData?.data?.feeds);
               setCursor(
                 (() => {

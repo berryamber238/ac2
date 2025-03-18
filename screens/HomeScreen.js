@@ -3,6 +3,7 @@ import {
   ActionSheet,
   ActionSheetCancel,
   ActionSheetItem,
+  ExpoImage,
   Icon,
   IconButton,
   Link,
@@ -18,6 +19,7 @@ import OpinionBlock from '../components/OpinionBlock';
 import RecommendBlock from '../components/RecommendBlock';
 import SpotlightBlock from '../components/SpotlightBlock';
 import * as GlobalVariables from '../config/GlobalVariableContext';
+import Images from '../config/Images';
 import * as CTabView from '../custom-files/CTabView';
 import * as DataContext from '../custom-files/DataContext';
 import * as DrawerNav from '../custom-files/DrawerNav';
@@ -26,6 +28,7 @@ import palettes from '../themes/palettes';
 import * as Utils from '../utils';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
+import imageSource from '../utils/imageSource';
 import useWindowDimensions from '../utils/useWindowDimensions';
 
 const HomeScreen = props => {
@@ -133,7 +136,7 @@ line two` ) and will not work with special characters inside of quotes ( example
             dimensions.width
           )}
         >
-          <IconButton
+          <Touchable
             onPress={() => {
               try {
                 go('Calendar');
@@ -141,13 +144,29 @@ line two` ) and will not work with special characters inside of quotes ( example
                 console.error(err);
               }
             }}
-            color={palettes.Brand.appStyle_primary}
-            icon={'MaterialCommunityIcons/calendar-month-outline'}
-            size={24}
-            style={StyleSheet.applyWidth({ marginRight: 8 }, dimensions.width)}
-          />
-          {/* Icon Button 2 */}
-          <IconButton
+          >
+            {/* calendar */}
+            <ExpoImage
+              allowDownscaling={true}
+              cachePolicy={'disk'}
+              contentPosition={'center'}
+              resizeMode={'cover'}
+              transitionDuration={300}
+              transitionEffect={'cross-dissolve'}
+              transitionTiming={'ease-in-out'}
+              {...GlobalStyles.ExpoImageStyles(theme)['SVG 2'].props}
+              source={imageSource(Images['calendar'])}
+              style={StyleSheet.applyWidth(
+                StyleSheet.compose(
+                  GlobalStyles.ExpoImageStyles(theme)['SVG 2'].style,
+                  { height: 22, marginRight: 8, width: 22 }
+                ),
+                dimensions.width
+              )}
+            />
+          </Touchable>
+          {/* Touchable 2 */}
+          <Touchable
             onPress={() => {
               try {
                 go('MessageCenter');
@@ -155,10 +174,28 @@ line two` ) and will not work with special characters inside of quotes ( example
                 console.error(err);
               }
             }}
-            color={palettes.Brand.appStyle_primary}
-            icon={'MaterialCommunityIcons/chat-alert-outline'}
-            size={24}
-          />
+          >
+            {/* message */}
+            <ExpoImage
+              allowDownscaling={true}
+              cachePolicy={'disk'}
+              contentPosition={'center'}
+              resizeMode={'cover'}
+              transitionDuration={300}
+              transitionEffect={'cross-dissolve'}
+              transitionTiming={'ease-in-out'}
+              {...GlobalStyles.ExpoImageStyles(theme)['SVG 2'].props}
+              source={imageSource(Images['message'])}
+              style={StyleSheet.applyWidth(
+                StyleSheet.compose(
+                  GlobalStyles.ExpoImageStyles(theme)['SVG 2'].style,
+                  { height: 22, width: 22 }
+                ),
+                dimensions.width
+              )}
+            />
+          </Touchable>
+
           <View
             style={StyleSheet.applyWidth(
               {
@@ -190,7 +227,11 @@ line two` ) and will not work with special characters inside of quotes ( example
             >
               <View
                 style={StyleSheet.applyWidth(
-                  { alignItems: 'center', flexDirection: 'row' },
+                  {
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    paddingRight: 8,
+                  },
                   dimensions.width
                 )}
               >
@@ -198,11 +239,17 @@ line two` ) and will not work with special characters inside of quotes ( example
                   color={palettes.App['Custom Color 9']}
                   name={'EvilIcons/search'}
                   size={20}
+                  style={StyleSheet.applyWidth(
+                    { marginTop: -4 },
+                    dimensions.width
+                  )}
                 />
                 <Text
                   accessible={true}
                   selectable={false}
                   {...GlobalStyles.TextStyles(theme)['Text Title'].props}
+                  ellipsizeMode={'tail'}
+                  numberOfLines={1}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
                       GlobalStyles.TextStyles(theme)['Text Title'].style,
@@ -212,7 +259,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         fontFamily: 'System',
                         fontSize: 12,
                         fontWeight: '400',
-                        lineHeight: 20,
+                        lineHeight: 19.6,
                       }
                     ),
                     dimensions.width
@@ -239,7 +286,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                 color: palettes.Brand.appStyle_primary,
                 fontFamily: 'System',
                 fontSize: 14,
-                fontWeight: '600',
+                fontWeight: '700',
               }),
               dimensions.width
             )}

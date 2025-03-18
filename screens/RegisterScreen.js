@@ -301,11 +301,13 @@ ${canonicalizedResource}`;
       shakeAnimationRef.current.startShake();
     }
   };
-  const vcodeInputn7G9XZKtRef = React.useRef();
-  const nameInputzmIHA68ZRef = React.useRef();
-  const workingMailInputS6phqLzGRef = React.useRef();
-  const companyNameInputkR8CHfppRef = React.useRef();
-  const timerHuGZitnfRef = React.useRef();
+  const keyboardAwareScrollViewLoginFormFormItemVcodeInputRef = React.useRef();
+  const keyboardAwareScrollViewLoginFormItemNameInputRef = React.useRef();
+  const keyboardAwareScrollViewLoginFormItemWorkingMailInputRef =
+    React.useRef();
+  const keyboardAwareScrollViewLoginFormItemCompanyNameInputRef =
+    React.useRef();
+  const timerRef = React.useRef();
 
   return (
     <ScreenContainer
@@ -637,7 +639,7 @@ ${canonicalizedResource}`;
                     }}
                     onSubmitEditing={() => {
                       try {
-                        vcodeInputn7G9XZKtRef.current.focus();
+                        keyboardAwareScrollViewLoginFormFormItemVcodeInputRef.current.focus();
                       } catch (err) {
                         console.error(err);
                       }
@@ -872,7 +874,7 @@ ${canonicalizedResource}`;
                     }}
                     onSubmitEditing={() => {
                       try {
-                        nameInputzmIHA68ZRef.current.focus();
+                        keyboardAwareScrollViewLoginFormItemNameInputRef.current.focus();
                       } catch (err) {
                         console.error(err);
                       }
@@ -887,7 +889,7 @@ ${canonicalizedResource}`;
                         'login_enter_verification_code'
                       ).toString() ?? 'Email'
                     }
-                    ref={vcodeInputn7G9XZKtRef}
+                    ref={keyboardAwareScrollViewLoginFormFormItemVcodeInputRef}
                     returnKeyType={'next'}
                     style={StyleSheet.applyWidth(
                       StyleSheet.compose(
@@ -912,9 +914,9 @@ ${canonicalizedResource}`;
                       onPress={() => {
                         const handler = async () => {
                           try {
-                            timerHuGZitnfRef.current?.reset(120000);
+                            timerRef.current?.reset(120000);
 
-                            timerHuGZitnfRef.current?.start();
+                            timerRef.current?.start();
 
                             setSentVCodeBtn(120);
                             setVCodeStatus('waiting');
@@ -1097,6 +1099,7 @@ ${canonicalizedResource}`;
                       allowsEditing: false,
                       quality: 1,
                       allowsMultipleSelection: false,
+                      selectionLimit: 0,
                       outputBase64: true,
                     });
 
@@ -1244,7 +1247,7 @@ ${canonicalizedResource}`;
                   }}
                   onSubmitEditing={() => {
                     try {
-                      workingMailInputS6phqLzGRef.current.focus();
+                      keyboardAwareScrollViewLoginFormItemWorkingMailInputRef.current.focus();
                     } catch (err) {
                       console.error(err);
                     }
@@ -1256,7 +1259,7 @@ ${canonicalizedResource}`;
                     t(Variables, 'register_enter_your_name').toString() ??
                     'Email'
                   }
-                  ref={nameInputzmIHA68ZRef}
+                  ref={keyboardAwareScrollViewLoginFormItemNameInputRef}
                   returnKeyType={'next'}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
@@ -1374,7 +1377,7 @@ ${canonicalizedResource}`;
                   }}
                   onSubmitEditing={() => {
                     try {
-                      companyNameInputkR8CHfppRef.current.focus();
+                      keyboardAwareScrollViewLoginFormItemCompanyNameInputRef.current.focus();
                     } catch (err) {
                       console.error(err);
                     }
@@ -1386,7 +1389,7 @@ ${canonicalizedResource}`;
                     t(Variables, 'register_enter_your_work_email').toString() ??
                     'Email'
                   }
-                  ref={workingMailInputS6phqLzGRef}
+                  ref={keyboardAwareScrollViewLoginFormItemWorkingMailInputRef}
                   returnKeyType={'next'}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
@@ -1518,7 +1521,7 @@ ${canonicalizedResource}`;
                       'register_enter_your_company_name'
                     ).toString() ?? 'Email'
                   }
-                  ref={companyNameInputkR8CHfppRef}
+                  ref={keyboardAwareScrollViewLoginFormItemCompanyNameInputRef}
                   returnKeyType={'done'}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
@@ -1632,7 +1635,7 @@ ${canonicalizedResource}`;
                   if (navigation.canGoBack()) {
                     navigation.popToTop();
                   }
-                  navigation.replace('Tickets');
+                  navigation.replace('AI');
                 } catch (err) {
                   console.error(err);
                 }
@@ -1764,9 +1767,8 @@ ${canonicalizedResource}`;
       <Timer
         onTimerChange={newTimerValue => {
           try {
-            const valuejAlbb02C = sentVCodeBtn - 1;
-            const result = valuejAlbb02C;
-            setSentVCodeBtn(valuejAlbb02C);
+            const result = sentVCodeBtn - 1;
+            setSentVCodeBtn(result);
           } catch (err) {
             console.error(err);
           }
@@ -1784,7 +1786,7 @@ ${canonicalizedResource}`;
         countDirection={'down'}
         format={'ss:ms'}
         initialTime={60000}
-        ref={timerHuGZitnfRef}
+        ref={timerRef}
         style={StyleSheet.applyWidth(
           StyleSheet.compose(GlobalStyles.TimerStyles(theme)['Timer'].style, {
             opacity: 0,

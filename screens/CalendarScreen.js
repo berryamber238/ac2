@@ -211,7 +211,7 @@ const CalendarScreen = props => {
             JSON.stringify(listData)
           }
           keyboardShouldPersistTaps={'never'}
-          listKey={'sackVwR5'}
+          listKey={'View 2->List'}
           nestedScrollEnabled={false}
           numColumns={1}
           onEndReachedThreshold={0.5}

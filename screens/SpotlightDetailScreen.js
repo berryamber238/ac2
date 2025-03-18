@@ -127,17 +127,13 @@ const SpotlightDetailScreen = props => {
   };
   const safeAreaInsets = useSafeAreaInsets();
   const isFocused = useIsFocused();
-  React.useEffect(() => {
-    try {
-      if (!isFocused) {
-        return;
-      }
 
-      const entry = StatusBar.pushStackEntry?.({ barStyle: 'light-content' });
-      return () => StatusBar.popStackEntry?.(entry);
-    } catch (err) {
-      console.error(err);
+  React.useEffect(() => {
+    if (!isFocused) {
+      return;
     }
+    const entry = StatusBar.pushStackEntry?.({ barStyle: 'light-content' });
+    return () => StatusBar.popStackEntry?.(entry);
   }, [isFocused]);
 
   return (

@@ -37,6 +37,8 @@ const styles = StyleSheet.create({
     // marginTop: 8,
   },
   highlight: {
-    color: '#2b33e6', // 高亮背景色
+    color: '#ffffff', // 高亮背景色
+    backgroundColor: '#2b33e6',
+    borderRadius: 4,
   },
 });
