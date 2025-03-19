@@ -1,7 +1,7 @@
 import * as gf from '../custom-files/gf';
 
 const fromUnixTimestamp = (Variables, ts, formatStr) => {
-  const date = new Date(ts * 1000);
+  const date = ts ? new Date(ts * 1000) : new Date();
   const format = formatStr ? formatStr : 'YYYY/MM/DD W HH:mm';
   const dayOfWeek = date.getDay();
 

@@ -505,10 +505,7 @@ const CreateTopicScreen = props => {
   const [edit_link_value, setEdit_link_value] = React.useState('');
   const [edit_vote_index, setEdit_vote_index] = React.useState(-1);
   const [focus_search_input, setFocus_search_input] = React.useState(false);
-  const [information_links, setInformation_links] = React.useState([
-    'htttp://sdkljflksdf.com',
-    'https://lskdjflk.dom',
-  ]);
+  const [information_links, setInformation_links] = React.useState([]);
   const [init_data, setInit_data] = React.useState({
     type: 'stock',
     state: 'draft',

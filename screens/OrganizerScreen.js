@@ -374,6 +374,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         }}
                       >
                         <BlurView
+                          experimentalBlurMethod={'none'}
                           {...GlobalStyles.BlurViewStyles(theme)['Blur View']
                             .props}
                           intensity={50}

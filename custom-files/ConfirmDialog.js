@@ -13,7 +13,11 @@ export const ConfirmDialog = ({
   onNegative,
   type,
   id,
+  txtAlign,
 }) => {
+  const dynamicStyle = {
+    textAlign: txtAlign ? txtAlign : 'center', // alignment 变量可以是 'left', 'center', 'right'
+  };
   return (
     <Modal
       transparent={true}
@@ -25,14 +29,16 @@ export const ConfirmDialog = ({
       <View style={styles.overlay}>
         <View style={styles.dialog}>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.message}>{message}</Text>
+          <Text style={[styles.message, dynamicStyle]}>{message}</Text>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={[styles.button, styles.cancelButton]}
-              onPress={onCancel}
-            >
-              <Text style={styles.buttonText}>{cancelBtn}</Text>
-            </TouchableOpacity>
+            {cancelBtn ? (
+              <TouchableOpacity
+                style={[styles.button, styles.cancelButton]}
+                onPress={onCancel}
+              >
+                <Text style={styles.cancelButtonText}>{cancelBtn}</Text>
+              </TouchableOpacity>
+            ) : null}
             {negativeBtn ? (
               <TouchableOpacity
                 style={[styles.button, styles.negativeButton]}
@@ -79,6 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
     textAlign: 'center',
+    color: '#596a7a',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -93,7 +100,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cancelButton: {
-    backgroundColor: 'gray',
+    backgroundColor: 'white',
+    borderColor: '#e2e4e7',
+    borderRadius: 4,
+    borderWidth: 1,
   },
   confirmButton: {
     backgroundColor: '#2B33E6',
@@ -103,6 +113,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+    fontWeight: 'bold',
+  },
+  cancelButtonText: {
+    color: 'black',
     fontWeight: 'bold',
   },
 });

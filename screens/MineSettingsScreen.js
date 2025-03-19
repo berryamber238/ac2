@@ -1,8 +1,9 @@
 import React from "react";
 import { Icon, ScreenContainer, Touchable, withTheme } from "@draftbit/ui";
-import * as WebBrowser from "expo-web-browser";
-import { Image, Modal, Text, View } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
+import { Image, Modal, StatusBar, Text, View } from "react-native";
 import * as GlobalStyles from "../GlobalStyles.js";
+import * as AceCampTestApi from "../apis/AceCampTestApi.js";
 import * as GlobalVariables from "../config/GlobalVariableContext";
 import Images from "../config/Images";
 import palettes from "../themes/palettes";
@@ -22,6 +23,16 @@ const MineSettingsScreen = (props) => {
   const [numberInputThree, setNumberInputThree] = React.useState("");
   const [numberInputTwo, setNumberInputTwo] = React.useState("");
   const [ticket_success_modal, setTicket_success_modal] = React.useState(false);
+  const aceCampTestSignOutPOST = AceCampTestApi.useSignOutPOST();
+  const isFocused = useIsFocused();
+
+  React.useEffect(() => {
+    if (!isFocused) {
+      return;
+    }
+    const entry = StatusBar.pushStackEntry?.({ barStyle: "dark-content" });
+    return () => StatusBar.popStackEntry?.(entry);
+  }, [isFocused]);
 
   return (
     <ScreenContainer
@@ -118,7 +129,19 @@ const MineSettingsScreen = (props) => {
             dimensions.width
           )}
         >
-          <Touchable>
+          <Touchable
+            onPress={() => {
+              try {
+                if (Constants["is_login"]) {
+                  navigation.push("SettingAccountSafeScreen");
+                } else {
+                  navigation.push("LoginScreen");
+                }
+              } catch (err) {
+                console.error(err);
+              }
+            }}
+          >
             <View
               style={StyleSheet.applyWidth(
                 {
@@ -186,14 +209,13 @@ const MineSettingsScreen = (props) => {
           {/* Touchable 3 */}
           <Touchable
             onPress={() => {
-              const handler = async () => {
-                try {
-                  await WebBrowser.openBrowserAsync("https://www.google.com");
-                } catch (err) {
-                  console.error(err);
-                }
-              };
-              handler();
+              try {
+                navigation.push("WebViewScreen", {
+                  url: "https://terms.acecamptech.com/agreement/index.html",
+                });
+              } catch (err) {
+                console.error(err);
+              }
             }}
           >
             <View
@@ -228,7 +250,17 @@ const MineSettingsScreen = (props) => {
             </View>
           </Touchable>
           {/* Touchable 4 */}
-          <Touchable>
+          <Touchable
+            onPress={() => {
+              try {
+                navigation.push("WebViewScreen", {
+                  url: "https://terms.acecamptech.com/privacy/20210726/index.html",
+                });
+              } catch (err) {
+                console.error(err);
+              }
+            }}
+          >
             <View
               style={StyleSheet.applyWidth(
                 {
@@ -329,66 +361,74 @@ const MineSettingsScreen = (props) => {
         </View>
       </View>
       {/* Continue Button */}
-      <View
-        {...GlobalStyles.ViewStyles(theme)["Bottom Button"].props}
-        style={StyleSheet.applyWidth(
-          GlobalStyles.ViewStyles(theme)["Bottom Button"].style,
-          dimensions.width
-        )}
-      >
-        {/* Button Touchable */}
-        <Touchable
-          onPress={() => {
-            try {
-              setGlobalVariableValue({
-                key: "is_login",
-                value: false,
-              });
-              if (navigation.canGoBack()) {
-                navigation.popToTop();
-              }
-              navigation.replace("Mine");
-            } catch (err) {
-              console.error(err);
-            }
-          }}
-          style={StyleSheet.applyWidth({ width: "100%" }, dimensions.width)}
-        >
-          {/* Button View */}
+      <>
+        {!Constants["is_login"] ? null : (
           <View
+            {...GlobalStyles.ViewStyles(theme)["Bottom Button"].props}
             style={StyleSheet.applyWidth(
-              {
-                alignItems: "center",
-                backgroundColor: "rgba(0, 0, 0, 0)",
-                borderColor: palettes.Red[500],
-                borderWidth: 1,
-                height: 50,
-                justifyContent: "center",
-                paddingLeft: 18,
-                paddingRight: 18,
-                width: "100%",
-              },
+              GlobalStyles.ViewStyles(theme)["Bottom Button"].style,
               dimensions.width
             )}
           >
-            {/* Button Text */}
-            <Text
-              accessible={true}
-              selectable={false}
-              {...GlobalStyles.TextStyles(theme)["Body L Bold"].props}
-              style={StyleSheet.applyWidth(
-                StyleSheet.compose(
-                  GlobalStyles.TextStyles(theme)["Body L Bold"].style,
-                  { color: palettes.Red[600] }
-                ),
-                dimensions.width
-              )}
+            {/* Button Touchable */}
+            <Touchable
+              onPress={() => {
+                const handler = async () => {
+                  try {
+                    setGlobalVariableValue({
+                      key: "is_login",
+                      value: false,
+                    });
+                    (await aceCampTestSignOutPOST.mutateAsync())?.json;
+                    if (navigation.canGoBack()) {
+                      navigation.popToTop();
+                    }
+                    navigation.replace("Mine");
+                  } catch (err) {
+                    console.error(err);
+                  }
+                };
+                handler();
+              }}
+              style={StyleSheet.applyWidth({ width: "100%" }, dimensions.width)}
             >
-              {"退出登录"}
-            </Text>
+              {/* Button View */}
+              <View
+                style={StyleSheet.applyWidth(
+                  {
+                    alignItems: "center",
+                    backgroundColor: "rgba(0, 0, 0, 0)",
+                    borderColor: palettes.Red[500],
+                    borderWidth: 1,
+                    height: 50,
+                    justifyContent: "center",
+                    paddingLeft: 18,
+                    paddingRight: 18,
+                    width: "100%",
+                  },
+                  dimensions.width
+                )}
+              >
+                {/* Button Text */}
+                <Text
+                  accessible={true}
+                  selectable={false}
+                  {...GlobalStyles.TextStyles(theme)["Body L Bold"].props}
+                  style={StyleSheet.applyWidth(
+                    StyleSheet.compose(
+                      GlobalStyles.TextStyles(theme)["Body L Bold"].style,
+                      { color: palettes.Red[600] }
+                    ),
+                    dimensions.width
+                  )}
+                >
+                  {"退出登录"}
+                </Text>
+              </View>
+            </Touchable>
           </View>
-        </Touchable>
-      </View>
+        )}
+      </>
     </ScreenContainer>
   );
 };

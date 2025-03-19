@@ -1,6 +1,6 @@
 const removeEleFromArray = (arr, eleForDelete) => {
   return arr.filter(item => {
-    return !arr.includes(eleForDelete);
+    return item !== eleForDelete;
   });
 };
 

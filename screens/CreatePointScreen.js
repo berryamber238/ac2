@@ -1252,17 +1252,13 @@ ${canonicalizedResource}`;
     }
   }, []);
   const isFocused = useIsFocused();
-  React.useEffect(() => {
-    try {
-      if (!isFocused) {
-        return;
-      }
 
-      const entry = StatusBar.pushStackEntry?.({ barStyle: 'dark-content' });
-      return () => StatusBar.popStackEntry?.(entry);
-    } catch (err) {
-      console.error(err);
+  React.useEffect(() => {
+    if (!isFocused) {
+      return;
     }
+    const entry = StatusBar.pushStackEntry?.({ barStyle: 'dark-content' });
+    return () => StatusBar.popStackEntry?.(entry);
   }, [isFocused]);
 
   return (

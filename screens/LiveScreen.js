@@ -232,6 +232,25 @@ const LiveScreen = (props) => {
     };
     handler();
   }, []);
+  const isFocused = useIsFocused();
+  React.useEffect(() => {
+    try {
+      if (!isFocused) {
+        return;
+      }
+      /* hidden 'Set Variable' action */
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isFocused]);
+
+  React.useEffect(() => {
+    if (!isFocused) {
+      return;
+    }
+    const entry = StatusBar.pushStackEntry?.({ barStyle: "light-content" });
+    return () => StatusBar.popStackEntry?.(entry);
+  }, [isFocused]);
 
   return (
     <ScreenContainer

@@ -41,7 +41,8 @@ const MessageCenterScreen = props => {
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
-  const [refreshing80AcuoMS, setRefreshing80AcuoMS] = React.useState(false);
+  const [refreshingFetchScrollView, setRefreshingFetchScrollView] =
+    React.useState(false);
   const safeAreaInsets = useSafeAreaInsets();
   const aceCampTestIgnoreAllPOST = AceCampTestApi.useIgnoreAllPOST();
   const aceCampTestReadMessagePUT = AceCampTestApi.useReadMessagePUT();
@@ -183,16 +184,16 @@ const MessageCenterScreen = props => {
                     nestedScrollEnabled={false}
                     refreshControl={
                       <RefreshControl
-                        refreshing={refreshing80AcuoMS}
+                        refreshing={refreshingFetchScrollView}
                         onRefresh={() => {
                           const handler = async () => {
                             try {
-                              setRefreshing80AcuoMS(true);
+                              setRefreshingFetchScrollView(true);
                               await refetchUserNotifications();
-                              setRefreshing80AcuoMS(false);
+                              setRefreshingFetchScrollView(false);
                             } catch (err) {
                               console.error(err);
-                              setRefreshing80AcuoMS(false);
+                              setRefreshingFetchScrollView(false);
                             }
                           };
                           handler();
@@ -212,7 +213,7 @@ const MessageCenterScreen = props => {
                       horizontal={false}
                       inverted={false}
                       keyExtractor={(flashListData, index) => flashListData?.id}
-                      listKey={'UUqziNNw'}
+                      listKey={'Fetch->Scroll View->FlashList'}
                       numColumns={1}
                       onEndReachedThreshold={0.5}
                       renderItem={({ item, index }) => {
@@ -401,8 +402,7 @@ const MessageCenterScreen = props => {
                                             {
                                               screen: 'Mine',
                                               params: {
-                                                screen:
-                                                  'MineIdentityInfoScreen',
+                                                screen: 'MineUserInfoScreen',
                                               },
                                             }
                                           );

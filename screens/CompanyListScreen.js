@@ -14,7 +14,7 @@ import {
   withTheme,
 } from "@draftbit/ui";
 import { useIsFocused } from "@react-navigation/native";
-import { ActivityIndicator, Image, Text, View } from "react-native";
+import { ActivityIndicator, Image, StatusBar, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Fetch } from "react-request";
 import * as GlobalStyles from "../GlobalStyles.js";
@@ -67,6 +67,19 @@ const CompanyListScreen = (props) => {
   }, [isFocused]);
   const safeAreaInsets = useSafeAreaInsets();
   const aceCampTestSnsActionsDoPOST = AceCampTestApi.useSnsActionsDoPOST();
+  const isFocused = useIsFocused();
+  React.useEffect(() => {
+    try {
+      if (!isFocused) {
+        return;
+      }
+
+      const entry = StatusBar.pushStackEntry?.({ barStyle: "dark-content" });
+      return () => StatusBar.popStackEntry?.(entry);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isFocused]);
 
   return (
     <ScreenContainer

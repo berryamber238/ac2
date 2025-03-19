@@ -13,8 +13,16 @@ import * as GlobalVariables from './config/GlobalVariableContext';
 import setUndefined from './global-functions/setUndefined';
 import t from './global-functions/t';
 import AIAssistantScreen from './screens/AIAssistantScreen';
+import AITranscribeDetailScreen from './screens/AITranscribeDetailScreen';
+import AITranslateDetailScreen from './screens/AITranslateDetailScreen';
+import AccountCancellationCheckScreen from './screens/AccountCancellationCheckScreen';
+import AccountCancellationReasonScreen from './screens/AccountCancellationReasonScreen';
+import AccountCancellationScreen from './screens/AccountCancellationScreen';
+import AccountCancellationSubmitScreen from './screens/AccountCancellationSubmitScreen';
 import ArticleDetailScreen from './screens/ArticleDetailScreen';
 import CalendarScreen from './screens/CalendarScreen';
+import ChangeUserEmailScreen from './screens/ChangeUserEmailScreen';
+import ChangeUserPhoneScreen from './screens/ChangeUserPhoneScreen';
 import CompanyInfoScreen from './screens/CompanyInfoScreen';
 import CompanyListScreen from './screens/CompanyListScreen';
 import CreatePointScreen from './screens/CreatePointScreen';
@@ -26,11 +34,11 @@ import HomeScreen from './screens/HomeScreen';
 import LiveScreen from './screens/LiveScreen';
 import LoginScreen from './screens/LoginScreen';
 import MessageCenterScreen from './screens/MessageCenterScreen';
+import MineAuthScreen from './screens/MineAuthScreen';
 import MineBuyArticleScreen from './screens/MineBuyArticleScreen';
 import MineBuyLiveScreen from './screens/MineBuyLiveScreen';
 import MineCountryCodeListScreen from './screens/MineCountryCodeListScreen';
 import MineIdentityInfoScreen from './screens/MineIdentityInfoScreen';
-import MineIdentityInfoScreen2 from './screens/MineIdentityInfoScreen2';
 import MineIndexScreen from './screens/MineIndexScreen';
 import MineMyFansScreen from './screens/MineMyFansScreen';
 import MineMyFavoritesDetail2Screen from './screens/MineMyFavoritesDetail2Screen';
@@ -41,10 +49,14 @@ import MineMyLikeScreen from './screens/MineMyLikeScreen';
 import MineMyPointScreen from './screens/MineMyPointScreen';
 import MineMyTopicScreen from './screens/MineMyTopicScreen';
 import MineSettingsScreen from './screens/MineSettingsScreen';
+import MineUserInfoScreen from './screens/MineUserInfoScreen';
 import OpinionInfoScreen from './screens/OpinionInfoScreen';
 import OrganizerScreen from './screens/OrganizerScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import SearchPageScreen from './screens/SearchPageScreen';
+import SettingAccountSafeScreen from './screens/SettingAccountSafeScreen';
+import SettingChangePasswordScreen from './screens/SettingChangePasswordScreen';
+import SettingUserPhoneScreen from './screens/SettingUserPhoneScreen';
 import SplashScreen from './screens/SplashScreen';
 import SpotlightDetailScreen from './screens/SpotlightDetailScreen';
 import VipInfoScreen from './screens/VipInfoScreen';
@@ -194,6 +206,9 @@ function Home({ navigation }) {
 
   const theme = useTheme();
 
+  const Constants = GlobalVariables.useValues();
+  const setGlobalVariableValue = GlobalVariables.useSetValue();
+
   return (
     <Stack.Navigator
       initialRouteName="DrawerNavScreen"
@@ -264,8 +279,6 @@ function Mine({ navigation }) {
 
   const theme = useTheme();
 
-  const Constants = GlobalVariables.useValues();
-
   return (
     <Stack.Navigator
       initialRouteName="MineIndexScreen"
@@ -280,13 +293,6 @@ function Mine({ navigation }) {
         headerTransparent: false,
       })}
     >
-      <Stack.Screen
-        name="MineIdentityInfoScreen"
-        component={MineIdentityInfoScreen}
-        options={({ navigation }) => ({
-          title: 'Mine-IdentityInfo',
-        })}
-      />
       <Stack.Screen
         name="MineIndexScreen"
         component={MineIndexScreen}
@@ -321,6 +327,13 @@ function Mine({ navigation }) {
           animationEnabled: true,
           headerShown: false,
           title: 'Mine-Settings',
+        })}
+      />
+      <Stack.Screen
+        name="MineUserInfoScreen"
+        component={MineUserInfoScreen}
+        options={({ navigation }) => ({
+          title: 'Mine-UserInfo',
         })}
       />
     </Stack.Navigator>
@@ -473,6 +486,48 @@ export default function RootAppNavigator() {
         })}
       >
         <Stack.Screen
+          name="AITranscribeDetailScreen"
+          component={AITranscribeDetailScreen}
+          options={({ navigation }) => ({
+            title: 'AI-Transcribe-Detail',
+          })}
+        />
+        <Stack.Screen
+          name="AITranslateDetailScreen"
+          component={AITranslateDetailScreen}
+          options={({ navigation }) => ({
+            title: 'AI-Translate-Detail',
+          })}
+        />
+        <Stack.Screen
+          name="AccountCancellationCheckScreen"
+          component={AccountCancellationCheckScreen}
+          options={({ navigation }) => ({
+            title: 'Account-Cancellation-Check',
+          })}
+        />
+        <Stack.Screen
+          name="AccountCancellationReasonScreen"
+          component={AccountCancellationReasonScreen}
+          options={({ navigation }) => ({
+            title: 'Account-Cancellation-Reason',
+          })}
+        />
+        <Stack.Screen
+          name="AccountCancellationScreen"
+          component={AccountCancellationScreen}
+          options={({ navigation }) => ({
+            title: 'Account-Cancellation',
+          })}
+        />
+        <Stack.Screen
+          name="AccountCancellationSubmitScreen"
+          component={AccountCancellationSubmitScreen}
+          options={({ navigation }) => ({
+            title: 'Account-Cancellation-Submit',
+          })}
+        />
+        <Stack.Screen
           name="ArticleDetailScreen"
           component={ArticleDetailScreen}
           options={({ navigation }) => ({
@@ -489,6 +544,20 @@ export default function RootAppNavigator() {
           options={({ navigation }) => ({
             headerShown: false,
             title: 'Calendar',
+          })}
+        />
+        <Stack.Screen
+          name="ChangeUserEmailScreen"
+          component={ChangeUserEmailScreen}
+          options={({ navigation }) => ({
+            title: 'Change-User-email',
+          })}
+        />
+        <Stack.Screen
+          name="ChangeUserPhoneScreen"
+          component={ChangeUserPhoneScreen}
+          options={({ navigation }) => ({
+            title: 'Change-User-Phone',
           })}
         />
         <Stack.Screen
@@ -553,6 +622,13 @@ export default function RootAppNavigator() {
           })}
         />
         <Stack.Screen
+          name="MineAuthScreen"
+          component={MineAuthScreen}
+          options={({ navigation }) => ({
+            title: 'Mine-Auth',
+          })}
+        />
+        <Stack.Screen
           name="MineBuyArticleScreen"
           component={MineBuyArticleScreen}
           options={({ navigation }) => ({
@@ -596,11 +672,11 @@ export default function RootAppNavigator() {
           })}
         />
         <Stack.Screen
-          name="MineIdentityInfoScreen2"
-          component={MineIdentityInfoScreen2}
+          name="MineIdentityInfoScreen"
+          component={MineIdentityInfoScreen}
           options={({ navigation }) => ({
             headerShown: false,
-            title: 'Mine-Identity-Info',
+            title: 'Mine-IdentityInfo',
           })}
         />
         <Stack.Screen
@@ -670,6 +746,27 @@ export default function RootAppNavigator() {
           options={({ navigation }) => ({
             headerShown: false,
             title: 'SearchPage',
+          })}
+        />
+        <Stack.Screen
+          name="SettingAccountSafeScreen"
+          component={SettingAccountSafeScreen}
+          options={({ navigation }) => ({
+            title: 'Setting-Account-Safe',
+          })}
+        />
+        <Stack.Screen
+          name="SettingChangePasswordScreen"
+          component={SettingChangePasswordScreen}
+          options={({ navigation }) => ({
+            title: 'Setting-Change-Password',
+          })}
+        />
+        <Stack.Screen
+          name="SettingUserPhoneScreen"
+          component={SettingUserPhoneScreen}
+          options={({ navigation }) => ({
+            title: 'Setting-User-Phone',
           })}
         />
         <Stack.Screen

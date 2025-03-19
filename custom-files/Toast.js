@@ -15,7 +15,11 @@ const toastConfig = {
     Overwrite 'error' type,
     by modifying the existing `ErrorToast` component
   */
-  error: props => <ErrorToast {...props} />,
+  error: ({ text1 }) => (
+    <View style={styles.containererr}>
+      <Text style={styles.text}>{text1}</Text>
+    </View>
+  ),
   /*
     Or create a completely new type - `tomatoToast`,
     building the layout from scratch.
@@ -38,9 +42,9 @@ export const ele = () => {
   );
 };
 
-export const showToast = (msg, position) => {
+export const showToast = (msg, position, type) => {
   Toast.show({
-    type: 'tomatoToast',
+    type: type ? type : 'tomatoToast',
     text1: msg,
     bottomOffset: 50,
     position: position ? position : 'bottom',
@@ -50,8 +54,18 @@ export const showToast = (msg, position) => {
 const styles = StyleSheet.create({
   container: {
     width: '80%',
-    height: 30,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderRadius: 4,
+    zIndex: 1001,
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  containererr: {
+    width: '80%',
+    backgroundColor: '#f0645499',
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
@@ -60,5 +74,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
+    paddingTop: 8,
+    paddingBottom: 8,
   },
 });

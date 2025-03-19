@@ -1,7 +1,9 @@
 import React from "react";
 import {
   Divider,
+  ExpoImage,
   Icon,
+  LinearGradient,
   ScreenContainer,
   SimpleStyleScrollView,
   Touchable,
@@ -15,12 +17,15 @@ import {
   Text,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Fetch } from "react-request";
 import * as GlobalStyles from "../GlobalStyles.js";
 import * as AceCampTestApi from "../apis/AceCampTestApi.js";
 import * as GlobalVariables from "../config/GlobalVariableContext";
 import Images from "../config/Images";
+import * as gf from "../custom-files/gf";
 import getNameById from "../global-functions/getNameById";
+import isCanShowCommunity from "../global-functions/isCanShowCommunity";
 import t from "../global-functions/t";
 import palettes from "../themes/palettes";
 import Breakpoints from "../utils/Breakpoints";
@@ -35,6 +40,7 @@ const MineIndexScreen = (props) => {
   const Variables = Constants;
   const setGlobalVariableValue = GlobalVariables.useSetValue();
   const [darkModeSwitch, setDarkModeSwitch] = React.useState(false);
+  const [header_height, setHeader_height] = React.useState(0);
   const [sns_data, setSns_data] = React.useState({
     topic_count: 0,
     opinion_count: 0,
@@ -42,12 +48,33 @@ const MineIndexScreen = (props) => {
     follower_count: 0,
     following_count: 5,
   });
-  React.useEffect(() => {
+  const [visible_scale, setVisible_scale] = React.useState(0);
+  const changeStatusBar = () => {
     try {
+      if (!isFocused) {
+        return;
+      }
+
+      const entry = Variables.user_info.has_vip
+        ? gf.StatusBar.pushStackEntry?.({ barStyle: "light-content" })
+        : gf.StatusBar.pushStackEntry?.({ barStyle: "dark-content" });
+      return () => gf.StatusBar.popStackEntry?.(entry);
     } catch (err) {
       console.error(err);
     }
-  }, []);
+  };
+  const safeAreaInsets = useSafeAreaInsets();
+  const isFocused = useIsFocused();
+  React.useEffect(() => {
+    try {
+      if (!isFocused) {
+        return;
+      }
+      changeStatusBar();
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isFocused]);
 
   return (
     <ScreenContainer
@@ -59,9 +86,128 @@ const MineIndexScreen = (props) => {
         dimensions.width
       )}
     >
+      <>
+        {!(visible_scale > 0) ? null : (
+          <View
+            style={StyleSheet.applyWidth(
+              {
+                left: 0,
+                opacity: visible_scale,
+                position: "absolute",
+                right: 0,
+                top: 0,
+                zIndex: 1000,
+              },
+              dimensions.width
+            )}
+          >
+            <LinearGradient
+              endX={100}
+              endY={100}
+              startX={0}
+              startY={0}
+              {...GlobalStyles.LinearGradientStyles(theme)["Linear Gradient"]
+                .props}
+              color1={
+                (Constants["user_info"]?.has_vip
+                  ? palettes.App["Custom Color 88"]
+                  : "#f6f6fd") ?? palettes.App["Custom Color 88"]
+              }
+              color2={
+                (Constants["user_info"]?.has_vip
+                  ? palettes.App["Custom Color_22"]
+                  : "#f6f6fd") ?? palettes.App["Custom Color_22"]
+              }
+              style={StyleSheet.applyWidth(
+                StyleSheet.compose(
+                  GlobalStyles.LinearGradientStyles(theme)["Linear Gradient"]
+                    .style,
+                  { bottom: 0, left: 0, position: "absolute", right: 0, top: 0 }
+                ),
+                dimensions.width
+              )}
+            />
+            <View
+              style={StyleSheet.applyWidth(
+                {
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingBottom: 10,
+                  paddingLeft: 16,
+                  paddingRight: 16,
+                  paddingTop: safeAreaInsets.top + 12,
+                },
+                dimensions.width
+              )}
+            >
+              <Text
+                accessible={true}
+                selectable={false}
+                style={StyleSheet.applyWidth(
+                  {
+                    color: [
+                      {
+                        minWidth: Breakpoints.Mobile,
+                        value: palettes.App["Custom #ffffff"],
+                      },
+                      {
+                        minWidth: Breakpoints.Mobile,
+                        value: Constants["user_info"]?.has_vip
+                          ? "#FFD6A6"
+                          : palettes.App.appStyle_black,
+                      },
+                    ],
+                    fontFamily: "System",
+                    fontSize: 22,
+                    fontWeight: "700",
+                    letterSpacing: 0.2,
+                    lineHeight: 24,
+                  },
+                  dimensions.width
+                )}
+              >
+                {Constants["user_info"]?.name}
+              </Text>
+
+              <Touchable
+                onPress={() => {
+                  try {
+                    navigation.push("BottomTabNavigator", {
+                      screen: "Mine",
+                      params: { screen: "MineSettingsScreen" },
+                    });
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+              >
+                <Icon
+                  color={
+                    Constants["user_info"]?.has_vip
+                      ? palettes.App["Custom #ffffff"]
+                      : "000000"
+                  }
+                  name={"Ionicons/settings-outline"}
+                  size={22}
+                />
+              </Touchable>
+            </View>
+          </View>
+        )}
+      </>
       <SimpleStyleScrollView
         horizontal={false}
         keyboardShouldPersistTaps={"never"}
+        onScroll={(event) => {
+          try {
+            const tmp =
+              (event?.nativeEvent.contentOffset.y * 2) /
+              (header_height - safeAreaInsets.top - 46);
+            setVisible_scale(tmp);
+          } catch (err) {
+            console.error(err);
+          }
+        }}
         bounces={false}
         nestedScrollEnabled={true}
         showsHorizontalScrollIndicator={false}
@@ -118,6 +264,14 @@ const MineIndexScreen = (props) => {
               />
               {/* Profile Top View */}
               <View
+                onLayout={(event) => {
+                  try {
+                    /* hidden 'Log to Console' action */
+                    setHeader_height(event?.nativeEvent.layout.height);
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
                 style={StyleSheet.applyWidth(
                   {
                     backgroundColor: "rgba(0, 0, 0, 0)",
@@ -155,7 +309,6 @@ const MineIndexScreen = (props) => {
                         justifyContent: "space-between",
                         paddingBottom: 12,
                         paddingLeft: 12,
-                        paddingRight: 12,
                         width: "100%",
                       },
                       dimensions.width
@@ -173,28 +326,36 @@ const MineIndexScreen = (props) => {
                       {" "}
                     </Text>
                     {/* More Button Touchable */}
-                    <Touchable
-                      onPress={() => {
-                        try {
-                          navigation.navigate("BottomTabNavigator", {
-                            screen: "Mine",
-                            params: { screen: "MineSettingsScreen" },
-                          });
-                        } catch (err) {
-                          console.error(err);
-                        }
-                      }}
-                    >
-                      <Icon
-                        color={
-                          Constants["user_info"]?.has_vip
-                            ? palettes.App["Custom #ffffff"]
-                            : undefined
-                        }
-                        name={"Ionicons/settings-outline"}
-                        size={24}
-                      />
-                    </Touchable>
+                    <>
+                      {visible_scale > 0 ? null : (
+                        <Touchable
+                          onPress={() => {
+                            try {
+                              navigation.navigate("BottomTabNavigator", {
+                                screen: "Mine",
+                                params: { screen: "MineSettingsScreen" },
+                              });
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          }}
+                        >
+                          <Icon
+                            color={
+                              Constants["user_info"]?.has_vip
+                                ? palettes.App["Custom #ffffff"]
+                                : "000000"
+                            }
+                            name={"Ionicons/settings-outline"}
+                            size={22}
+                            style={StyleSheet.applyWidth(
+                              { marginTop: 12 },
+                              dimensions.width
+                            )}
+                          />
+                        </Touchable>
+                      )}
+                    </>
                   </View>
                 </View>
                 {/* Profile Header View */}
@@ -215,7 +376,7 @@ const MineIndexScreen = (props) => {
                       try {
                         navigation.navigate("BottomTabNavigator", {
                           screen: "Mine",
-                          params: { screen: "MineIdentityInfoScreen" },
+                          params: { screen: "MineUserInfoScreen" },
                         });
                       } catch (err) {
                         console.error(err);
@@ -291,27 +452,6 @@ const MineIndexScreen = (props) => {
                                   dimensions.width
                                 )}
                               >
-                                {/* Header Vip Image */}
-                                <>
-                                  {!Constants["user_info"]?.has_vip ? null : (
-                                    <Image
-                                      resizeMode={"cover"}
-                                      {...GlobalStyles.ImageStyles(theme)[
-                                        "Image"
-                                      ].props}
-                                      source={imageSource(Images["icvip"])}
-                                      style={StyleSheet.applyWidth(
-                                        StyleSheet.compose(
-                                          GlobalStyles.ImageStyles(theme)[
-                                            "Image"
-                                          ].style,
-                                          { height: 24, right: 6, width: 24 }
-                                        ),
-                                        dimensions.width
-                                      )}
-                                    />
-                                  )}
-                                </>
                                 {/* Header Name Text */}
                                 <Text
                                   accessible={true}
@@ -329,49 +469,156 @@ const MineIndexScreen = (props) => {
                                           ? "#ffd6a6"
                                           : undefined,
                                         fontSize: 22,
+                                        paddingRight: 6,
                                       }
                                     ),
                                     dimensions.width
                                   )}
                                 >
-                                  {Constants["user_info"]?.name}
+                                  {Constants["user_info"]?.name ||
+                                    t(Variables, "mine_nick_name")}
                                 </Text>
+                                {/* Header Vip Image */}
+                                <>
+                                  {!Constants["user_info"]?.has_vip ? null : (
+                                    <Image
+                                      resizeMode={"cover"}
+                                      {...GlobalStyles.ImageStyles(theme)[
+                                        "Image"
+                                      ].props}
+                                      source={imageSource(Images["icvip"])}
+                                      style={StyleSheet.applyWidth(
+                                        StyleSheet.compose(
+                                          GlobalStyles.ImageStyles(theme)[
+                                            "Image"
+                                          ].style,
+                                          { height: 24, width: 24 }
+                                        ),
+                                        dimensions.width
+                                      )}
+                                    />
+                                  )}
+                                </>
                               </View>
                             )}
                           </>
                           {/* Header Title View */}
                           <>
                             {!Constants["is_login"] ? null : (
-                              <View>
-                                {/* Header Title Text */}
-                                <Text
-                                  accessible={true}
-                                  selectable={false}
-                                  style={StyleSheet.applyWidth(
-                                    {
-                                      color: [
-                                        {
-                                          minWidth: Breakpoints.Mobile,
-                                          value: palettes.Gray[400],
-                                        },
-                                        {
-                                          minWidth: Breakpoints.Mobile,
-                                          value: Constants["user_info"]?.has_vip
-                                            ? palettes.App["Custom #ffffff"]
-                                            : undefined,
-                                        },
-                                      ],
-                                    },
-                                    dimensions.width
-                                  )}
-                                >
-                                  {getNameById(
-                                    Variables,
-                                    9,
+                              <View
+                                style={StyleSheet.applyWidth(
+                                  {
+                                    alignItems: "center",
+                                    flexDirection: "row",
+                                  },
+                                  dimensions.width
+                                )}
+                              >
+                                {/* tv_industry */}
+                                <>
+                                  {!(
                                     Constants["user_info"]?.organization_user
-                                      .organization.organization_type_id
+                                      ?.state === "passed" &&
+                                    !Constants["user_info"]?.organization_user
+                                      ?.dismissed_at
+                                  ) ? null : (
+                                    <Text
+                                      accessible={true}
+                                      selectable={false}
+                                      style={StyleSheet.applyWidth(
+                                        {
+                                          color: [
+                                            {
+                                              minWidth: Breakpoints.Mobile,
+                                              value: palettes.Gray[400],
+                                            },
+                                            {
+                                              minWidth: Breakpoints.Mobile,
+                                              value: Constants["user_info"]
+                                                ?.has_vip
+                                                ? palettes.App["Custom #ffffff"]
+                                                : "#a3a3a3",
+                                            },
+                                          ],
+                                        },
+                                        dimensions.width
+                                      )}
+                                    >
+                                      {getNameById(
+                                        Variables,
+                                        9,
+                                        Constants["user_info"]
+                                          ?.organization_user?.organization
+                                          ?.organization_type_id
+                                      )}
+                                    </Text>
                                   )}
-                                </Text>
+                                </>
+                                <Touchable
+                                  onPress={() => {
+                                    try {
+                                      if (
+                                        Constants["user_info"]
+                                          ?.organization_user?.state ===
+                                          "rejected" ||
+                                        Constants["user_info"]
+                                          ?.organization_user?.state ===
+                                          "pending"
+                                      ) {
+                                        navigation.push(
+                                          "MineIdentityInfoScreen"
+                                        );
+                                      } else {
+                                        navigation.push("MineAuthScreen");
+                                      }
+                                    } catch (err) {
+                                      console.error(err);
+                                    }
+                                  }}
+                                >
+                                  {/* tv_industry_status */}
+                                  <Text
+                                    accessible={true}
+                                    selectable={false}
+                                    style={StyleSheet.applyWidth(
+                                      {
+                                        color: [
+                                          {
+                                            minWidth: Breakpoints.Mobile,
+                                            value: palettes.Gray[400],
+                                          },
+                                          {
+                                            minWidth: Breakpoints.Mobile,
+                                            value: Constants["user_info"]
+                                              ?.has_vip
+                                              ? palettes.App["Custom #ffffff"]
+                                              : undefined,
+                                          },
+                                        ],
+                                      },
+                                      dimensions.width
+                                    )}
+                                  >
+                                    {Constants["user_info"]?.organization_user
+                                      ?.state === "rejected"
+                                      ? t(Variables, "mine_audit_rejection")
+                                      : Constants["user_info"]
+                                          ?.organization_user?.state ===
+                                        "pending"
+                                      ? t(Variables, "mine_under_review")
+                                      : Constants["user_info"]
+                                          ?.organization_user?.state ===
+                                          "passed" &&
+                                        !Constants["user_info"]
+                                          ?.organization_user?.dismissed_at
+                                      ? Constants["user_info"]
+                                          ?.organization_user?.organization
+                                          ?.organization_type_id === "4"
+                                        ? t(Variables, "mine_institution_auth")
+                                        : " "
+                                      : t(Variables, "mine_go_go")}
+                                  </Text>
+                                </Touchable>
                               </View>
                             )}
                           </>
@@ -429,59 +676,69 @@ const MineIndexScreen = (props) => {
                     </View>
                   </Touchable>
                   {/* Header ProfileUrl View */}
-                  <View
-                    style={StyleSheet.applyWidth(
-                      {
-                        alignItems: "center",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        marginLeft: 4,
-                      },
-                      dimensions.width
-                    )}
-                  >
-                    {/* Header ProfileUrl Text */}
-                    <Text
-                      accessible={true}
-                      selectable={false}
-                      {...GlobalStyles.TextStyles(theme)["Text"].props}
-                      style={StyleSheet.applyWidth(
-                        StyleSheet.compose(
-                          GlobalStyles.TextStyles(theme)["Text"].style,
+                  <>
+                    {!(
+                      Constants["user_info"]?.organization_user?.state ===
+                        "passed" &&
+                      !Constants["user_info"]?.organization_user
+                        ?.dismissed_at &&
+                      isCanShowCommunity(Variables)
+                    ) ? null : (
+                      <View
+                        style={StyleSheet.applyWidth(
                           {
-                            color: [
+                            alignItems: "center",
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            marginLeft: 4,
+                          },
+                          dimensions.width
+                        )}
+                      >
+                        {/* Header ProfileUrl Text */}
+                        <Text
+                          accessible={true}
+                          selectable={false}
+                          {...GlobalStyles.TextStyles(theme)["Text"].props}
+                          style={StyleSheet.applyWidth(
+                            StyleSheet.compose(
+                              GlobalStyles.TextStyles(theme)["Text"].style,
                               {
-                                minWidth: Breakpoints.Mobile,
-                                value: palettes.Gray[400],
-                              },
-                              {
-                                minWidth: Breakpoints.Mobile,
-                                value: Constants["user_info"]?.has_vip
-                                  ? "#f6f7f8"
-                                  : undefined,
-                              },
-                            ],
-                          }
-                        ),
-                        dimensions.width
-                      )}
-                    >
-                      {"个人主页"}
-                    </Text>
-                    {/* Header ProfileUrl Next Image */}
-                    <Image
-                      resizeMode={"cover"}
-                      {...GlobalStyles.ImageStyles(theme)["Image"].props}
-                      source={imageSource(Images["icminenext"])}
-                      style={StyleSheet.applyWidth(
-                        StyleSheet.compose(
-                          GlobalStyles.ImageStyles(theme)["Image"].style,
-                          { height: 14, marginLeft: 4, width: 10 }
-                        ),
-                        dimensions.width
-                      )}
-                    />
-                  </View>
+                                color: [
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value: palettes.Gray[400],
+                                  },
+                                  {
+                                    minWidth: Breakpoints.Mobile,
+                                    value: Constants["user_info"]?.has_vip
+                                      ? "#f6f7f8"
+                                      : "#a3a3a3",
+                                  },
+                                ],
+                              }
+                            ),
+                            dimensions.width
+                          )}
+                        >
+                          {t(Variables, "mine_home")}
+                        </Text>
+                        {/* Header ProfileUrl Next Image */}
+                        <Image
+                          resizeMode={"cover"}
+                          {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                          source={imageSource(Images["icminenext"])}
+                          style={StyleSheet.applyWidth(
+                            StyleSheet.compose(
+                              GlobalStyles.ImageStyles(theme)["Image"].style,
+                              { height: 14, marginLeft: 4, width: 10 }
+                            ),
+                            dimensions.width
+                          )}
+                        />
+                      </View>
+                    )}
+                  </>
                 </View>
 
                 <AceCampTestApi.FetchSnsUserInfoGET
@@ -1768,6 +2025,21 @@ const MineIndexScreen = (props) => {
             </Touchable>
             {/* Identity Authentication Touchable */}
             <Touchable
+              onPress={() => {
+                try {
+                  if (
+                    Constants["user_info"]?.organization_user?.state ===
+                      "passed" &&
+                    Constants["user_info"]?.organization_user?.dismissed_at
+                  ) {
+                    navigation.push("MineAuthScreen");
+                  } else {
+                    navigation.push("MineIdentityInfoScreen");
+                  }
+                } catch (err) {
+                  console.error(err);
+                }
+              }}
               style={StyleSheet.applyWidth(
                 { marginBottom: 24 },
                 dimensions.width
@@ -1827,25 +2099,70 @@ const MineIndexScreen = (props) => {
                   {"身份认证"}
                 </Text>
                 {/* Text 2 */}
-                <Text
-                  accessible={true}
-                  selectable={false}
-                  style={StyleSheet.applyWidth(
-                    {
-                      color: palettes.Brand.appStyle_greyscale_400,
-                      fontSize: 12,
-                      marginRight: 10,
-                    },
-                    dimensions.width
+                <>
+                  {!Constants["is_login"] ? null : (
+                    <Text
+                      accessible={true}
+                      selectable={false}
+                      style={StyleSheet.applyWidth(
+                        {
+                          color: [
+                            {
+                              minWidth: Breakpoints.Mobile,
+                              value: palettes.Brand.appStyle_greyscale_400,
+                            },
+                            {
+                              minWidth: Breakpoints.Mobile,
+                              value:
+                                Constants["user_info"]?.organization_user
+                                  ?.state === "rejected"
+                                  ? "#ff4b4b"
+                                  : Constants["user_info"]?.organization_user
+                                      ?.state === "pending"
+                                  ? "#DAC243"
+                                  : Constants["user_info"]?.organization_user
+                                      ?.organization?.state === "passed" &&
+                                    Constants["user_info"]?.organization_user
+                                      ?.dismissed_at
+                                  ? "#38ADC7"
+                                  : "#9ca9b5",
+                            },
+                          ],
+                          fontSize: 12,
+                          marginRight: 10,
+                        },
+                        dimensions.width
+                      )}
+                    >
+                      {Constants["user_info"]?.organization_user?.state ===
+                      "rejected"
+                        ? t(Variables, "mine_audit_rejection")
+                        : Constants["user_info"]?.organization_user?.state ===
+                          "pending"
+                        ? t(Variables, "mine_under_review")
+                        : Constants["user_info"]?.organization_user?.state ===
+                            "passed" &&
+                          Constants["user_info"]?.organization_user
+                            ?.dismissed_at
+                        ? t(Variables, "mine_go_go")
+                        : t(Variables, "mine_certified") +
+                          "(" +
+                          getNameById(
+                            Variables,
+                            9,
+                            Constants["user_info"]?.organization_user
+                              ?.organization?.organization_type_id
+                          ) +
+                          ")"}
+                    </Text>
                   )}
-                >
-                  {"已认证(机构投资人)"}
-                </Text>
+                </>
                 {/* Arrow View */}
                 <View
                   style={StyleSheet.applyWidth(
                     {
                       alignItems: "center",
+                      flexDirection: "column",
                       height: 20,
                       justifyContent: "center",
                       width: 20,
@@ -1986,6 +2303,15 @@ const MineIndexScreen = (props) => {
           return null;
         }}
       </AceCampTestApi.FetchMyInfoGET>
+      <Icon
+        color={
+          Constants["user_info"]?.has_vip
+            ? palettes.App["Custom #ffffff"]
+            : "000000"
+        }
+        name={"Ionicons/settings-outline"}
+        size={24}
+      />
     </ScreenContainer>
   );
 };
