@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Button,
   ExpoImage,
@@ -12,59 +12,59 @@ import {
   Timer,
   Touchable,
   withTheme,
-} from '@draftbit/ui';
-import { Image, Keyboard, Text, View } from 'react-native';
-import * as GlobalStyles from '../GlobalStyles.js';
-import * as GlobalVariables from '../config/GlobalVariableContext';
-import Images from '../config/Images';
-import * as HttpClient from '../custom-files/HttpClient';
-import * as ShakeAnimation from '../custom-files/ShakeAnimation';
-import * as Toast from '../custom-files/Toast';
-import * as gf from '../custom-files/gf';
-import HttpRequest from '../global-functions/HttpRequest';
-import ShowToast from '../global-functions/ShowToast';
-import jsonToFormData from '../global-functions/jsonToFormData';
-import t from '../global-functions/t';
-import palettes from '../themes/palettes';
-import * as Utils from '../utils';
-import Breakpoints from '../utils/Breakpoints';
-import * as StyleSheet from '../utils/StyleSheet';
-import imageSource from '../utils/imageSource';
-import openImagePickerUtil from '../utils/openImagePicker';
-import useWindowDimensions from '../utils/useWindowDimensions';
+} from "@draftbit/ui";
+import { Image, Keyboard, Text, View } from "react-native";
+import * as GlobalStyles from "../GlobalStyles.js";
+import * as GlobalVariables from "../config/GlobalVariableContext";
+import Images from "../config/Images";
+import * as HttpClient from "../custom-files/HttpClient";
+import * as ShakeAnimation from "../custom-files/ShakeAnimation";
+import * as Toast from "../custom-files/Toast";
+import * as gf from "../custom-files/gf";
+import HttpRequest from "../global-functions/HttpRequest";
+import ShowToast from "../global-functions/ShowToast";
+import jsonToFormData from "../global-functions/jsonToFormData";
+import t from "../global-functions/t";
+import palettes from "../themes/palettes";
+import * as Utils from "../utils";
+import Breakpoints from "../utils/Breakpoints";
+import * as StyleSheet from "../utils/StyleSheet";
+import imageSource from "../utils/imageSource";
+import openImagePickerUtil from "../utils/openImagePicker";
+import useWindowDimensions from "../utils/useWindowDimensions";
 
-const RegisterScreen = props => {
+const RegisterScreen = (props) => {
   const { theme, navigation } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
   const [agreementChecked, setAgreementChecked] = React.useState(false);
   const [areaCodeId, setAreaCodeId] = React.useState(100);
-  const [areaCodeValue, setAreaCodeValue] = React.useState('86');
+  const [areaCodeValue, setAreaCodeValue] = React.useState("86");
   const [codeError, setCodeError] = React.useState(false);
   const [companyNameError, setCompanyNameError] = React.useState(false);
-  const [companyNameInputValue, setCompanyNameInputValue] = React.useState('');
-  const [emailInputValue, setEmailInputValue] = React.useState('');
-  const [fileUrl, setFileUrl] = React.useState('');
+  const [companyNameInputValue, setCompanyNameInputValue] = React.useState("");
+  const [emailInputValue, setEmailInputValue] = React.useState("");
+  const [fileUrl, setFileUrl] = React.useState("");
   const [focus, setFocus] = React.useState(0);
   const [hidePassword, setHidePassword] = React.useState(true);
-  const [imgData, setImgData] = React.useState('');
+  const [imgData, setImgData] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [nameError, setNameError] = React.useState(false);
-  const [nameInputValue, setNameInputValue] = React.useState('');
-  const [passwordInputValue, setPasswordInputValue] = React.useState('');
-  const [phoneInputValue, setPhoneInputValue] = React.useState('');
+  const [nameInputValue, setNameInputValue] = React.useState("");
+  const [passwordInputValue, setPasswordInputValue] = React.useState("");
+  const [phoneInputValue, setPhoneInputValue] = React.useState("");
   const [phoneLogin, setPhoneLogin] = React.useState(true);
   const [sentVCodeBtn, setSentVCodeBtn] = React.useState(
-    t(Variables, 'login_in_get_vc')
+    t(Variables, "login_in_get_vc")
   );
   const [showVcodeTip, setShowVcodeTip] = React.useState(false);
   const [userError, setUserError] = React.useState(false);
-  const [vCodeStatus, setVCodeStatus] = React.useState('waiting');
-  const [vcodeInputValue, setVcodeInputValue] = React.useState('');
+  const [vCodeStatus, setVCodeStatus] = React.useState("waiting");
+  const [vcodeInputValue, setVcodeInputValue] = React.useState("");
   const [vcodeLogin, setVcodeLogin] = React.useState(true);
   const [workingMailError, setWorkingMailError] = React.useState(false);
-  const [workingMailInputValue, setWorkingMailInputValue] = React.useState('');
+  const [workingMailInputValue, setWorkingMailInputValue] = React.useState("");
   const getRequestCodeData = () => {
     // {
     //   "scene": "ic_message",
@@ -74,8 +74,8 @@ const RegisterScreen = props => {
     // }
 
     const data = {};
-    data.scene = 'ic_message';
-    data.code_scope = 'signup';
+    data.scene = "ic_message";
+    data.code_scope = "signup";
     if (phoneLogin) {
       data.phone_number = phoneInputValue;
       data.country_code_id = areaCodeId;
@@ -86,7 +86,7 @@ const RegisterScreen = props => {
     return data;
   };
 
-  const openCountryList = navigation => {
+  const openCountryList = (navigation) => {
     // Type the code for the body of your function or hook here.
     // Functions can be triggered via Button/Touchable actions.
     // Hooks are run per ReactJS rules.
@@ -94,7 +94,7 @@ const RegisterScreen = props => {
     /* String line breaks are accomplished with backticks ( example: `line one
 line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
 
-    navigation.push('MineCountryCodeListScreen', {
+    navigation.push("MineCountryCodeListScreen", {
       id: areaCodeId,
       callback: selectedAreaCodeCallback,
     });
@@ -110,7 +110,7 @@ line two` ) and will not work with special characters inside of quotes ( example
 
     if (!agreementChecked) {
       triggerShake();
-      ShowToast(t(Variables, 'please_check_the_privacy'));
+      ShowToast(t(Variables, "please_check_the_privacy"));
       setIsLoading(false);
       return;
     }
@@ -165,7 +165,7 @@ line two` ) and will not work with special characters inside of quotes ( example
       return;
     }
     try {
-      const url = HttpClient.apiEndpoints['signup'];
+      const url = HttpClient.apiEndpoints["signup"];
       // const response = await HttpClient.fetcher(url.url,url.method,data);
       const response = null;
 
@@ -176,9 +176,9 @@ line two` ) and will not work with special characters inside of quotes ( example
       if (navigation.canGoBack()) {
         navigation.popToTop();
       }
-      navigation.replace('BottomTabNavigator', {
-        screen: 'Mine',
-        params: { screen: 'MineIndexScreen' },
+      navigation.replace("BottomTabNavigator", {
+        screen: "Mine",
+        params: { screen: "MineIndexScreen" },
       });
 
       setIsLoading(false);
@@ -188,7 +188,7 @@ line two` ) and will not work with special characters inside of quotes ( example
     }
   };
 
-  const testupload = async file => {
+  const testupload = async (file) => {
     // Type the code for the body of your function or hook here.
     // Functions can be triggered via Button/Touchable actions.
     // Hooks are run per ReactJS rules.
@@ -196,7 +196,7 @@ line two` ) and will not work with special characters inside of quotes ( example
     /* String line breaks are accomplished with backticks ( example: `line one
 line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
 
-    const s = 'FU38pDWVfRHvLCpKnkGU8EiexieHnVngm58v4x7ewYt8';
+    const s = "FU38pDWVfRHvLCpKnkGU8EiexieHnVngm58v4x7ewYt8";
     const f = `PUT
 
 image/jpeg
@@ -204,11 +204,10 @@ Wed, 30 Oct 2024 17:57:14 GMT
 x-oss-security-token:CAIS/QJ1q6Ft5B2yfSjIr5DFftjev5xH/6/cb1XD12U3drdqrKDalTz2IHpLfHBgBuEas/o3mW5R6/YYlrl6QJIAS03AYI5r8p1Y8AWuO2IyUFFwt+5qsoasPETOIfGSvqaLEQyQLr70fvOqdCqz9Etayqf7cjOPRkGsNYbz57dsctUQWHvXD1dBH8wEZHFdyqkgOGDWKOymPzPzn2PUFzAIgAdnjn5l4qnNka/N4xHF3lrh0b1X9cajK5OpKsdtOJo6SMu80+1wee3LzTVR7RVR75B9hbZIvjqa5tqXCFcNukqKaK2W0KU2dVMkOPllSvYY9KanzKQhgIGJydSrkSQqFPpOTiHSSLqnxMb5A+6zPr47D+2hZCyUgo/easSr6156OC9LbhkhfME6OpD9vNDd4t2wwMaFj7OqCm/LI8DtuComCQrRMIjG124rNooiMlSIUFf5y6VGG2cCHTD484KPjIFoXYLiPZ0J6Vibo+cXTlRqzYmM26m6aWWtZi8/15UagAFeQxmdovZ9KZPHsfZTZFse2OwartmaxPDRUzIwKB8u/Vz0SGohh3xdflTzWSuTvrplwyzgiU/zVd77jeW61brLynlch3omi79n8qazcfYvdPzMlW+Zr15RVGah+aGVjAZYDlvMbyLUfBGGvcXstnTMBSR69rkHiD1kkGwbO3Zj1yAA
 /ace-file-staging/business_card/e50cbcf417d3/1730311034343.jpg`;
 
-    debugger;
-    const signature = gf.crypto.createHmac('sha1', gf.Buffer.from(s, 'utf-8'));
+    const signature = gf.crypto.createHmac("sha1", gf.Buffer.from(s, "utf-8"));
     const signedinifo = signature
-      .update(gf.Buffer.from(f, 'utf-8'))
-      .digest('base64');
+      .update(gf.Buffer.from(f, "utf-8"))
+      .digest("base64");
     console.log(signedinifo);
 
     console.log(gf.CryptoJS.HmacSHA1(f, s).toString(gf.CryptoJS.enc.Base64));
@@ -219,13 +218,13 @@ x-oss-security-token:CAIS/QJ1q6Ft5B2yfSjIr5DFftjev5xH/6/cb1XD12U3drdqrKDalTz2IHp
     setImgData(fileInfo);
 
     try {
-      const data = fileInfo.split(',')[1];
+      const data = fileInfo.split(",")[1];
       // 将 Base64 编码的文件转换为二进制数据
-      const binaryFile = gf.Buffer.from(data, 'base64');
-      const endpoint = HttpClient.apiEndpoints['oss_token'];
+      const binaryFile = gf.Buffer.from(data, "base64");
+      const endpoint = HttpClient.apiEndpoints["oss_token"];
       const url = new URL(endpoint.url);
-      const params = { token_scope: 'business_card' };
-      Object.keys(params).forEach(key =>
+      const params = { token_scope: "business_card" };
+      Object.keys(params).forEach((key) =>
         url.searchParams.append(key, params[key])
       );
       const responseData = await HttpClient.fetcher(url, endpoint.method, null);
@@ -240,9 +239,9 @@ x-oss-security-token:CAIS/QJ1q6Ft5B2yfSjIr5DFftjev5xH/6/cb1XD12U3drdqrKDalTz2IHp
       let uploadUrl = `https://${bucketName}.${region}/${fileName}`;
       try {
         // 构建待签名字符串
-        const method = 'PUT';
-        const contentMd5 = '';
-        const contentType = 'image/png';
+        const method = "PUT";
+        const contentMd5 = "";
+        const contentType = "image/png";
         const date = new Date().toUTCString();
         const canonicalizedOSSHeaders = `x-oss-security-token:${SecurityToken}`;
         const canonicalizedResource = `/${bucketName}/${fileName}`;
@@ -264,18 +263,18 @@ ${canonicalizedResource}`;
         // 构建 Authorization 字段
         const authorization = `OSS ${AccessKeyId}:${signature}`;
         const header = {
-          'Content-Type': contentType,
-          'x-oss-security-token': SecurityToken,
+          "Content-Type": contentType,
+          "x-oss-security-token": SecurityToken,
           Authorization: authorization,
           Date: date,
-          Host: bucketName + '.oss-accelerate.aliyuncs.com',
+          Host: bucketName + ".oss-accelerate.aliyuncs.com",
 
-          'User-Agent':
-            'aliyun-sdk-android/2.9.3(Linux/Android 11/sdk_gphone_x86;RSR1.201013.001)',
+          "User-Agent":
+            "aliyun-sdk-android/2.9.3(Linux/Android 11/sdk_gphone_x86;RSR1.201013.001)",
         };
         // 上传文件到 OSS
         const uploadResponse = await fetch(uploadUrl, {
-          method: 'PUT',
+          method: "PUT",
           headers: header,
           body: binaryFile,
         });
@@ -283,10 +282,10 @@ ${canonicalizedResource}`;
         if (uploadResponse.status === 200) {
           console.log(uploadResponse);
           setFileUrl(`${fileDomain}/${fileName}`);
-          ShowToast('上传成功！');
+          ShowToast("上传成功！");
         }
       } catch (error) {
-        console.error('Error uploading image:', error);
+        console.error("Error uploading image:", error);
       }
     } catch (err) {
       console.log(err);
@@ -314,27 +313,27 @@ ${canonicalizedResource}`;
       hasSafeArea={false}
       hasTopSafeArea={true}
       style={StyleSheet.applyWidth(
-        { justifyContent: 'space-between' },
+        { justifyContent: "space-between" },
         dimensions.width
       )}
     >
       {/* 标题 */}
       <View
-        onLayout={event => {
+        onLayout={(event) => {
           try {
-            setSentVCodeBtn(t(Variables, 'login_in_get_vc'));
+            setSentVCodeBtn(t(Variables, "login_in_get_vc"));
           } catch (err) {
             console.error(err);
           }
         }}
         style={StyleSheet.applyWidth(
           {
-            alignItems: 'center',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            alignItems: "center",
+            flexDirection: "row",
+            justifyContent: "space-between",
             paddingLeft: 28,
             paddingRight: 28,
-            width: '100%',
+            width: "100%",
           },
           dimensions.width
         )}
@@ -342,7 +341,7 @@ ${canonicalizedResource}`;
         {/* Left Section */}
         <View
           style={StyleSheet.applyWidth(
-            { alignItems: 'center', flexDirection: 'row' },
+            { alignItems: "center", flexDirection: "row" },
             dimensions.width
           )}
         >
@@ -355,33 +354,33 @@ ${canonicalizedResource}`;
               }
             }}
             color={palettes.App.appStyle_greyscale_800}
-            icon={'AntDesign/left'}
+            icon={"AntDesign/left"}
             size={28}
           />
           {/* 标题-文字 */}
           <Text
             accessible={true}
             selectable={false}
-            {...GlobalStyles.TextStyles(theme)['Text 2113'].props}
+            {...GlobalStyles.TextStyles(theme)["Text 2113"].props}
             style={StyleSheet.applyWidth(
               StyleSheet.compose(
-                GlobalStyles.TextStyles(theme)['Text 2113'].style,
+                GlobalStyles.TextStyles(theme)["Text 2113"].style,
                 { fontSize: 28, lineHeight: 36, margin: 5 }
               ),
               dimensions.width
             )}
           >
-            {t(Variables, 'login_sign_up')}
+            {t(Variables, "login_sign_up")}
           </Text>
         </View>
         {/* Right Section */}
         <View
           style={StyleSheet.applyWidth(
             {
-              alignItems: 'center',
-              backgroundColor: 'rgb(243, 247, 250)',
+              alignItems: "center",
+              backgroundColor: "rgb(243, 247, 250)",
               borderRadius: 4,
-              flexDirection: 'row',
+              flexDirection: "row",
               height: 35,
               padding: 3,
               width: 160,
@@ -401,7 +400,7 @@ ${canonicalizedResource}`;
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
+                  alignItems: "center",
                   backgroundColor: [
                     {
                       minWidth: Breakpoints.Mobile,
@@ -411,12 +410,12 @@ ${canonicalizedResource}`;
                       minWidth: Breakpoints.Mobile,
                       value: phoneLogin
                         ? palettes.App.appStyle_white
-                        : '#f3f7fa',
+                        : "#f3f7fa",
                     },
                   ],
                   borderRadius: 4,
                   height: 29,
-                  justifyContent: 'center',
+                  justifyContent: "center",
                   marginRight: 4,
                   width: 75,
                 },
@@ -426,22 +425,22 @@ ${canonicalizedResource}`;
               <Link
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.LinkStyles(theme)['Link'].props}
+                {...GlobalStyles.LinkStyles(theme)["Link"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.LinkStyles(theme)['Link'].style,
+                    GlobalStyles.LinkStyles(theme)["Link"].style,
                     {
                       color: phoneLogin
                         ? palettes.Brand.appStyle_primary
-                        : '#596a7a',
-                      fontFamily: 'System',
+                        : "#596a7a",
+                      fontFamily: "System",
                       fontSize: 14,
-                      fontWeight: '400',
+                      fontWeight: "400",
                     }
                   ),
                   dimensions.width
                 )}
-                title={`${t(Variables, 'register_phone')}`}
+                title={`${t(Variables, "register_phone")}`}
               />
             </View>
           </Touchable>
@@ -459,7 +458,7 @@ ${canonicalizedResource}`;
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
+                  alignItems: "center",
                   backgroundColor: [
                     {
                       minWidth: Breakpoints.Mobile,
@@ -469,12 +468,12 @@ ${canonicalizedResource}`;
                       minWidth: Breakpoints.Mobile,
                       value: !phoneLogin
                         ? palettes.App.appStyle_white
-                        : '#f3f7fa',
+                        : "#f3f7fa",
                     },
                   ],
                   borderRadius: 4,
                   height: 29,
-                  justifyContent: 'center',
+                  justifyContent: "center",
                   marginRight: 4,
                   width: 75,
                 },
@@ -484,22 +483,22 @@ ${canonicalizedResource}`;
               <Link
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.LinkStyles(theme)['Link'].props}
+                {...GlobalStyles.LinkStyles(theme)["Link"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.LinkStyles(theme)['Link'].style,
+                    GlobalStyles.LinkStyles(theme)["Link"].style,
                     {
                       color: !phoneLogin
                         ? palettes.Brand.appStyle_primary
-                        : '#596a7a',
-                      fontFamily: 'System',
+                        : "#596a7a",
+                      fontFamily: "System",
                       fontSize: 14,
-                      fontWeight: '400',
+                      fontWeight: "400",
                     }
                   ),
                   dimensions.width
                 )}
-                title={`${t(Variables, 'common_email')}`}
+                title={`${t(Variables, "common_email")}`}
               />
             </View>
           </Touchable>
@@ -510,11 +509,11 @@ ${canonicalizedResource}`;
         enableAutomaticScroll={false}
         enableOnAndroid={false}
         enableResetScrollToCoords={false}
-        keyboardShouldPersistTaps={'never'}
+        keyboardShouldPersistTaps={"never"}
         showsVerticalScrollIndicator={true}
         viewIsInsideTabBar={false}
         style={StyleSheet.applyWidth(
-          { flex: 1, justifyContent: 'flex-start' },
+          { flex: 1, justifyContent: "flex-start" },
           dimensions.width
         )}
       >
@@ -533,21 +532,21 @@ ${canonicalizedResource}`;
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
+                  {...GlobalStyles.TextStyles(theme)["Text Form Label"].props}
                   style={StyleSheet.applyWidth(
-                    GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                    GlobalStyles.TextStyles(theme)["Text Form Label"].style,
                     dimensions.width
                   )}
                 >
-                  {t(Variables, 'common_phone')}
+                  {t(Variables, "common_phone")}
                 </Text>
                 {/* 手机号录入框 */}
                 <View
-                  {...GlobalStyles.ViewStyles(theme)['Login Form Container']
+                  {...GlobalStyles.ViewStyles(theme)["Login Form Container"]
                     .props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.ViewStyles(theme)['Login Form Container']
+                      GlobalStyles.ViewStyles(theme)["Login Form Container"]
                         .style,
                       {
                         borderColor:
@@ -555,7 +554,7 @@ ${canonicalizedResource}`;
                             ? palettes.Brand.Primary
                             : userError
                             ? palettes.Brand.Error
-                            : palettes.App['Custom Color 4'],
+                            : palettes.App["Custom Color 4"],
                         borderWidth: focus === 1 || userError ? 1.5 : 1,
                       }
                     ),
@@ -574,15 +573,15 @@ ${canonicalizedResource}`;
                     <Text
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.TextStyles(theme)['Text Form Label']
+                      {...GlobalStyles.TextStyles(theme)["Text Form Label"]
                         .props}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.TextStyles(theme)['Text Form Label']
+                          GlobalStyles.TextStyles(theme)["Text Form Label"]
                             .style,
                           {
                             color: palettes.Brand.appStyle_primary,
-                            fontFamily: 'Urbanist_400Regular',
+                            fontFamily: "Urbanist_400Regular",
                             fontSize: 14,
                             paddingRight: 2,
                           }
@@ -590,13 +589,13 @@ ${canonicalizedResource}`;
                         dimensions.width
                       )}
                     >
-                      {'+'}
+                      {"+"}
                       {areaCodeValue}
                     </Text>
                   </Touchable>
                   <Icon
                     color={palettes.Brand.Primary}
-                    name={'AntDesign/down'}
+                    name={"AntDesign/down"}
                     size={14}
                     style={StyleSheet.applyWidth(
                       { marginRight: 4 },
@@ -605,7 +604,7 @@ ${canonicalizedResource}`;
                   />
                   {/* phone input */}
                   <TextInput
-                    autoCapitalize={'none'}
+                    autoCapitalize={"none"}
                     autoCorrect={true}
                     changeTextDelay={500}
                     onBlur={() => {
@@ -615,13 +614,13 @@ ${canonicalizedResource}`;
                         console.error(err);
                       }
                     }}
-                    onChangeText={newPhoneInputValue => {
+                    onChangeText={(newPhoneInputValue) => {
                       try {
                         setPhoneInputValue(newPhoneInputValue);
                         if (newPhoneInputValue.trim()?.length > 4) {
-                          setVCodeStatus('no');
+                          setVCodeStatus("no");
                         } else {
-                          setVCodeStatus('waiting');
+                          setVCodeStatus("waiting");
                         }
                       } catch (err) {
                         console.error(err);
@@ -642,20 +641,20 @@ ${canonicalizedResource}`;
                         console.error(err);
                       }
                     }}
-                    {...GlobalStyles.TextInputStyles(theme)['Login Input']
+                    {...GlobalStyles.TextInputStyles(theme)["Login Input"]
                       .props}
-                    keyboardType={'numeric'}
+                    keyboardType={"numeric"}
                     maxLength={11}
                     placeholder={
-                      t(Variables, 'login_enter_your_phone').toString() ??
-                      'Email'
+                      t(Variables, "login_enter_your_phone").toString() ??
+                      "Email"
                     }
-                    returnKeyType={'next'}
+                    returnKeyType={"next"}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.TextInputStyles(theme)['Login Input'].style,
+                      GlobalStyles.TextInputStyles(theme)["Login Input"].style,
                       dimensions.width
                     )}
-                    textContentType={'emailAddress'}
+                    textContentType={"emailAddress"}
                     value={phoneInputValue}
                     webShowOutline={false}
                   />
@@ -671,21 +670,21 @@ ${canonicalizedResource}`;
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
+                  {...GlobalStyles.TextStyles(theme)["Text Form Label"].props}
                   style={StyleSheet.applyWidth(
-                    GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                    GlobalStyles.TextStyles(theme)["Text Form Label"].style,
                     dimensions.width
                   )}
                 >
-                  {t(Variables, 'common_email')}
+                  {t(Variables, "common_email")}
                 </Text>
                 {/* 邮件地址录入框 */}
                 <View
-                  {...GlobalStyles.ViewStyles(theme)['Login Form Container']
+                  {...GlobalStyles.ViewStyles(theme)["Login Form Container"]
                     .props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.ViewStyles(theme)['Login Form Container']
+                      GlobalStyles.ViewStyles(theme)["Login Form Container"]
                         .style,
                       {
                         borderColor:
@@ -693,7 +692,7 @@ ${canonicalizedResource}`;
                             ? palettes.Brand.Primary
                             : userError
                             ? palettes.Brand.Error
-                            : palettes.App['Custom Color 4'],
+                            : palettes.App["Custom Color 4"],
                         borderWidth: [
                           { minWidth: Breakpoints.Mobile, value: 1.5 },
                           {
@@ -708,7 +707,7 @@ ${canonicalizedResource}`;
                 >
                   {/* email input */}
                   <TextInput
-                    autoCapitalize={'none'}
+                    autoCapitalize={"none"}
                     autoCorrect={true}
                     changeTextDelay={500}
                     onBlur={() => {
@@ -718,7 +717,7 @@ ${canonicalizedResource}`;
                         console.error(err);
                       }
                     }}
-                    onChangeText={newEmailInputValue => {
+                    onChangeText={(newEmailInputValue) => {
                       try {
                         setEmailInputValue(newEmailInputValue);
                       } catch (err) {
@@ -733,23 +732,23 @@ ${canonicalizedResource}`;
                         console.error(err);
                       }
                     }}
-                    {...GlobalStyles.TextInputStyles(theme)['Login Input']
+                    {...GlobalStyles.TextInputStyles(theme)["Login Input"]
                       .props}
-                    keyboardType={'email-address'}
+                    keyboardType={"email-address"}
                     placeholder={
-                      t(Variables, 'login_enter_your_email').toString() ??
-                      'Email'
+                      t(Variables, "login_enter_your_email").toString() ??
+                      "Email"
                     }
-                    returnKeyType={'next'}
+                    returnKeyType={"next"}
                     style={StyleSheet.applyWidth(
                       StyleSheet.compose(
-                        GlobalStyles.TextInputStyles(theme)['Login Input']
+                        GlobalStyles.TextInputStyles(theme)["Login Input"]
                           .style,
                         { paddingLeft: null }
                       ),
                       dimensions.width
                     )}
-                    textContentType={'emailAddress'}
+                    textContentType={"emailAddress"}
                     value={emailInputValue}
                     webShowOutline={false}
                   />
@@ -764,15 +763,15 @@ ${canonicalizedResource}`;
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
+                  {...GlobalStyles.TextStyles(theme)["Text Form Label"].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                      GlobalStyles.TextStyles(theme)["Text Form Label"].style,
                       {
-                        color: 'rgb(255, 75, 75)',
-                        fontFamily: 'System',
+                        color: "rgb(255, 75, 75)",
+                        fontFamily: "System",
                         fontSize: 14,
-                        fontWeight: '400',
+                        fontWeight: "400",
                       }
                     ),
                     dimensions.width
@@ -780,8 +779,8 @@ ${canonicalizedResource}`;
                 >
                   {userError
                     ? phoneLogin
-                      ? t(Variables, 'warning_phone_required')
-                      : t(Variables, 'warning_email_valid')
+                      ? t(Variables, "warning_phone_required")
+                      : t(Variables, "warning_email_valid")
                     : undefined}
                 </Text>
               )}
@@ -795,10 +794,10 @@ ${canonicalizedResource}`;
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
-                      alignSelf: 'auto',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      alignItems: "center",
+                      alignSelf: "auto",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                     },
                     dimensions.width
                   )}
@@ -807,22 +806,22 @@ ${canonicalizedResource}`;
                   <Text
                     accessible={true}
                     selectable={false}
-                    {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
+                    {...GlobalStyles.TextStyles(theme)["Text Form Label"].props}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                      GlobalStyles.TextStyles(theme)["Text Form Label"].style,
                       dimensions.width
                     )}
                   >
-                    {t(Variables, 'common_verification_code')}
+                    {t(Variables, "common_verification_code")}
                   </Text>
                 </View>
                 {/* 验证码录入框 */}
                 <View
-                  {...GlobalStyles.ViewStyles(theme)['Login Form Container']
+                  {...GlobalStyles.ViewStyles(theme)["Login Form Container"]
                     .props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.ViewStyles(theme)['Login Form Container']
+                      GlobalStyles.ViewStyles(theme)["Login Form Container"]
                         .style,
                       {
                         borderColor:
@@ -830,7 +829,7 @@ ${canonicalizedResource}`;
                             ? palettes.Brand.Primary
                             : codeError
                             ? palettes.Brand.Error
-                            : palettes.App['Custom Color 4'],
+                            : palettes.App["Custom Color 4"],
                         borderWidth: [
                           { minWidth: Breakpoints.Mobile, value: 1.5 },
                           {
@@ -845,7 +844,7 @@ ${canonicalizedResource}`;
                 >
                   {/* vcode input */}
                   <TextInput
-                    autoCapitalize={'none'}
+                    autoCapitalize={"none"}
                     autoCorrect={true}
                     changeTextDelay={500}
                     onBlur={() => {
@@ -855,7 +854,7 @@ ${canonicalizedResource}`;
                         console.error(err);
                       }
                     }}
-                    onChangeText={newVcodeInputValue => {
+                    onChangeText={(newVcodeInputValue) => {
                       try {
                         setVcodeInputValue(newVcodeInputValue);
                       } catch (err) {
@@ -877,33 +876,33 @@ ${canonicalizedResource}`;
                         console.error(err);
                       }
                     }}
-                    {...GlobalStyles.TextInputStyles(theme)['Login Input']
+                    {...GlobalStyles.TextInputStyles(theme)["Login Input"]
                       .props}
-                    keyboardType={'numeric'}
+                    keyboardType={"numeric"}
                     maxLength={6}
                     placeholder={
                       t(
                         Variables,
-                        'login_enter_verification_code'
-                      ).toString() ?? 'Email'
+                        "login_enter_verification_code"
+                      ).toString() ?? "Email"
                     }
                     ref={vcodeInputn7G9XZKtRef}
-                    returnKeyType={'next'}
+                    returnKeyType={"next"}
                     style={StyleSheet.applyWidth(
                       StyleSheet.compose(
-                        GlobalStyles.TextInputStyles(theme)['Login Input']
+                        GlobalStyles.TextInputStyles(theme)["Login Input"]
                           .style,
                         { paddingLeft: null }
                       ),
                       dimensions.width
                     )}
-                    textContentType={'emailAddress'}
+                    textContentType={"emailAddress"}
                     value={vcodeInputValue}
                     webShowOutline={false}
                   />
                   <View
                     style={StyleSheet.applyWidth(
-                      { overflow: 'hidden', paddingRight: 14 },
+                      { overflow: "hidden", paddingRight: 14 },
                       dimensions.width
                     )}
                   >
@@ -917,10 +916,10 @@ ${canonicalizedResource}`;
                             timerHuGZitnfRef.current?.start();
 
                             setSentVCodeBtn(120);
-                            setVCodeStatus('waiting');
+                            setVCodeStatus("waiting");
                             setShowVcodeTip(true);
                             const result = await HttpRequest(
-                              'request_code',
+                              "request_code",
                               jsonToFormData(getRequestCodeData())
                             );
                             console.log(result);
@@ -930,16 +929,16 @@ ${canonicalizedResource}`;
                         };
                         handler();
                       }}
-                      disabled={vCodeStatus === 'waiting'}
+                      disabled={vCodeStatus === "waiting"}
                     >
                       <Text
                         accessible={true}
                         selectable={false}
-                        {...GlobalStyles.TextStyles(theme)['Text Form Label']
+                        {...GlobalStyles.TextStyles(theme)["Text Form Label"]
                           .props}
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
-                            GlobalStyles.TextStyles(theme)['Text Form Label']
+                            GlobalStyles.TextStyles(theme)["Text Form Label"]
                               .style,
                             {
                               color: [
@@ -950,22 +949,22 @@ ${canonicalizedResource}`;
                                 {
                                   minWidth: Breakpoints.Mobile,
                                   value:
-                                    vCodeStatus !== 'waiting'
+                                    vCodeStatus !== "waiting"
                                       ? palettes.Brand.appStyle_primary
-                                      : '#596a7a',
+                                      : "#596a7a",
                                 },
                               ],
-                              fontFamily: 'Urbanist_400Regular',
+                              fontFamily: "Urbanist_400Regular",
                             }
                           ),
                           dimensions.width
                         )}
                       >
                         {sentVCodeBtn}
-                        {vCodeStatus === 'waiting' &&
+                        {vCodeStatus === "waiting" &&
                         parseInt(sentVCodeBtn, 10) >= 0
-                          ? 's'
-                          : ''}
+                          ? "s"
+                          : ""}
                       </Text>
                     </Touchable>
                   </View>
@@ -981,25 +980,25 @@ ${canonicalizedResource}`;
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
+                  {...GlobalStyles.TextStyles(theme)["Text Form Label"].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                      GlobalStyles.TextStyles(theme)["Text Form Label"].style,
                       {
                         color: palettes.Brand.appStyle_primary,
-                        fontFamily: 'System',
+                        fontFamily: "System",
                         fontSize: 14,
-                        fontWeight: '400',
+                        fontWeight: "400",
                       }
                     ),
                     dimensions.width
                   )}
                 >
-                  {t(Variables, 'register_vc_send')}
+                  {t(Variables, "register_vc_send")}
                   {phoneLogin
                     ? areaCodeValue + phoneInputValue
                     : emailInputValue}
-                  {t(Variables, 'register_vc_min')}
+                  {t(Variables, "register_vc_min")}
                 </Text>
               )}
             </>
@@ -1007,15 +1006,15 @@ ${canonicalizedResource}`;
             <Text
               accessible={true}
               selectable={false}
-              {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
+              {...GlobalStyles.TextStyles(theme)["Text Form Label"].props}
               style={StyleSheet.applyWidth(
                 StyleSheet.compose(
-                  GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                  GlobalStyles.TextStyles(theme)["Text Form Label"].style,
                   {
-                    color: 'rgb(255, 75, 75)',
-                    fontFamily: 'System',
+                    color: "rgb(255, 75, 75)",
+                    fontFamily: "System",
                     fontSize: 14,
-                    fontWeight: '400',
+                    fontWeight: "400",
                   }
                 ),
                 dimensions.width
@@ -1023,8 +1022,8 @@ ${canonicalizedResource}`;
             >
               {codeError
                 ? vcodeLogin
-                  ? t(Variables, 'warning_verification_code_required')
-                  : t(Variables, 'warning_password_required')
+                  ? t(Variables, "warning_verification_code_required")
+                  : t(Variables, "warning_password_required")
                 : undefined}
             </Text>
           </View>
@@ -1035,23 +1034,23 @@ ${canonicalizedResource}`;
             <Text
               accessible={true}
               selectable={false}
-              {...GlobalStyles.TextStyles(theme)['16_Title'].props}
+              {...GlobalStyles.TextStyles(theme)["16_Title"].props}
               style={StyleSheet.applyWidth(
                 StyleSheet.compose(
-                  GlobalStyles.TextStyles(theme)['16_Title'].style,
-                  { fontFamily: 'Urbanist_400Regular', fontSize: 14 }
+                  GlobalStyles.TextStyles(theme)["16_Title"].style,
+                  { fontFamily: "Urbanist_400Regular", fontSize: 14 }
                 ),
                 dimensions.width
               )}
             >
-              {t(Variables, 'register_select_info')}
+              {t(Variables, "register_select_info")}
             </Text>
           </View>
           {/* 图片上传 */}
           <View
             style={StyleSheet.applyWidth(
               {
-                backgroundColor: 'rgb(245, 245, 245)',
+                backgroundColor: "rgb(245, 245, 245)",
                 borderRadius: 8,
                 marginTop: 14,
                 padding: 16,
@@ -1063,9 +1062,9 @@ ${canonicalizedResource}`;
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-start',
+                  alignItems: "center",
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
                 },
                 dimensions.width
               )}
@@ -1073,18 +1072,18 @@ ${canonicalizedResource}`;
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)['16_Title'].props}
+                {...GlobalStyles.TextStyles(theme)["16_Title"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)['16_Title'].style,
-                    { fontFamily: 'Urbanist_400Regular', fontSize: 12 }
+                    GlobalStyles.TextStyles(theme)["16_Title"].style,
+                    { fontFamily: "Urbanist_400Regular", fontSize: 12 }
                   ),
                   dimensions.width
                 )}
               >
-                {t(Variables, 'register_business_card')}
-                {t(Variables, 'register_recommend')}
-                {t(Variables, 'register_more_equity')}
+                {t(Variables, "register_business_card")}
+                {t(Variables, "register_recommend")}
+                {t(Variables, "register_more_equity")}
               </Text>
             </View>
 
@@ -1093,7 +1092,7 @@ ${canonicalizedResource}`;
                 const handler = async () => {
                   try {
                     const result = await openImagePickerUtil({
-                      mediaTypes: 'Images',
+                      mediaTypes: "Images",
                       allowsEditing: false,
                       quality: 1,
                       allowsMultipleSelection: false,
@@ -1112,16 +1111,16 @@ ${canonicalizedResource}`;
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    backgroundColor: 'rgb(229, 229, 245)',
+                    alignItems: "center",
+                    backgroundColor: "rgb(229, 229, 245)",
                     borderColor: palettes.Brand.appStyle_primary,
                     borderRadius: 8,
-                    borderStyle: 'dashed',
+                    borderStyle: "dashed",
                     borderWidth: 1,
                     height: 168,
-                    justifyContent: 'center',
+                    justifyContent: "center",
                     marginTop: 14,
-                    overflow: 'hidden',
+                    overflow: "hidden",
                   },
                   dimensions.width
                 )}
@@ -1131,9 +1130,9 @@ ${canonicalizedResource}`;
                     <Icon
                       size={24}
                       color={palettes.Brand.appStyle_primary}
-                      name={'AntDesign/plus'}
+                      name={"AntDesign/plus"}
                       style={StyleSheet.applyWidth(
-                        { position: 'relative', zIndex: 10 },
+                        { position: "relative", zIndex: 10 },
                         dimensions.width
                       )}
                     />
@@ -1141,18 +1140,18 @@ ${canonicalizedResource}`;
                 </>
                 <ExpoImage
                   allowDownscaling={true}
-                  cachePolicy={'disk'}
-                  contentPosition={'center'}
+                  cachePolicy={"disk"}
+                  contentPosition={"center"}
                   transitionDuration={300}
-                  transitionEffect={'cross-dissolve'}
-                  transitionTiming={'ease-in-out'}
-                  {...GlobalStyles.ExpoImageStyles(theme)['Image 3'].props}
-                  resizeMode={'stretch'}
+                  transitionEffect={"cross-dissolve"}
+                  transitionTiming={"ease-in-out"}
+                  {...GlobalStyles.ExpoImageStyles(theme)["Image 3"].props}
+                  resizeMode={"stretch"}
                   source={imageSource(imgData)}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.ExpoImageStyles(theme)['Image 3'].style,
-                      { height: '100%', position: 'absolute', width: '100%' }
+                      GlobalStyles.ExpoImageStyles(theme)["Image 3"].style,
+                      { height: "100%", position: "absolute", width: "100%" }
                     ),
                     dimensions.width
                   )}
@@ -1164,7 +1163,7 @@ ${canonicalizedResource}`;
           <View
             style={StyleSheet.applyWidth(
               {
-                backgroundColor: 'rgb(245, 245, 245)',
+                backgroundColor: "rgb(245, 245, 245)",
                 borderRadius: 8,
                 marginTop: 14,
                 padding: 16,
@@ -1178,28 +1177,28 @@ ${canonicalizedResource}`;
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
+                {...GlobalStyles.TextStyles(theme)["Text Form Label"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                    GlobalStyles.TextStyles(theme)["Text Form Label"].style,
                     {
-                      color: 'rgb(69, 69, 69)',
-                      fontFamily: 'System',
-                      fontWeight: '400',
+                      color: "rgb(69, 69, 69)",
+                      fontFamily: "System",
+                      fontWeight: "400",
                     }
                   ),
                   dimensions.width
                 )}
               >
-                {t(Variables, 'common_name')}
+                {t(Variables, "common_name")}
               </Text>
               {/* 姓名录入框 */}
               <View
-                {...GlobalStyles.ViewStyles(theme)['Login Form Container']
+                {...GlobalStyles.ViewStyles(theme)["Login Form Container"]
                   .props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ViewStyles(theme)['Login Form Container']
+                    GlobalStyles.ViewStyles(theme)["Login Form Container"]
                       .style,
                     {
                       backgroundColor: palettes.App.appStyle_white,
@@ -1208,7 +1207,7 @@ ${canonicalizedResource}`;
                           ? palettes.Brand.Primary
                           : nameError
                           ? palettes.Brand.Error
-                          : palettes.App['Custom Color 4'],
+                          : palettes.App["Custom Color 4"],
                       borderWidth: focus === 6 || nameError ? 1.5 : 1,
                     }
                   ),
@@ -1217,7 +1216,7 @@ ${canonicalizedResource}`;
               >
                 {/* name input */}
                 <TextInput
-                  autoCapitalize={'none'}
+                  autoCapitalize={"none"}
                   autoCorrect={true}
                   changeTextDelay={500}
                   onBlur={() => {
@@ -1227,7 +1226,7 @@ ${canonicalizedResource}`;
                       console.error(err);
                     }
                   }}
-                  onChangeText={newNameInputValue => {
+                  onChangeText={(newNameInputValue) => {
                     try {
                       setNameInputValue(newNameInputValue);
                     } catch (err) {
@@ -1249,23 +1248,23 @@ ${canonicalizedResource}`;
                       console.error(err);
                     }
                   }}
-                  {...GlobalStyles.TextInputStyles(theme)['Login Input'].props}
-                  keyboardType={'default'}
+                  {...GlobalStyles.TextInputStyles(theme)["Login Input"].props}
+                  keyboardType={"default"}
                   maxLength={11}
                   placeholder={
-                    t(Variables, 'register_enter_your_name').toString() ??
-                    'Email'
+                    t(Variables, "register_enter_your_name").toString() ??
+                    "Email"
                   }
                   ref={nameInputzmIHA68ZRef}
-                  returnKeyType={'next'}
+                  returnKeyType={"next"}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextInputStyles(theme)['Login Input'].style,
+                      GlobalStyles.TextInputStyles(theme)["Login Input"].style,
                       { paddingLeft: null }
                     ),
                     dimensions.width
                   )}
-                  textContentType={'emailAddress'}
+                  textContentType={"emailAddress"}
                   value={nameInputValue}
                   webShowOutline={false}
                 />
@@ -1280,23 +1279,23 @@ ${canonicalizedResource}`;
                     <Text
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.TextStyles(theme)['Text Form Label']
+                      {...GlobalStyles.TextStyles(theme)["Text Form Label"]
                         .props}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.TextStyles(theme)['Text Form Label']
+                          GlobalStyles.TextStyles(theme)["Text Form Label"]
                             .style,
                           {
-                            color: 'rgb(255, 75, 75)',
-                            fontFamily: 'System',
+                            color: "rgb(255, 75, 75)",
+                            fontFamily: "System",
                             fontSize: 14,
-                            fontWeight: '400',
+                            fontWeight: "400",
                           }
                         ),
                         dimensions.width
                       )}
                     >
-                      {t(Variables, 'warning_name_required')}
+                      {t(Variables, "warning_name_required")}
                     </Text>
                   )}
                 </>
@@ -1308,28 +1307,28 @@ ${canonicalizedResource}`;
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
+                {...GlobalStyles.TextStyles(theme)["Text Form Label"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                    GlobalStyles.TextStyles(theme)["Text Form Label"].style,
                     {
-                      color: 'rgb(69, 69, 69)',
-                      fontFamily: 'System',
-                      fontWeight: '400',
+                      color: "rgb(69, 69, 69)",
+                      fontFamily: "System",
+                      fontWeight: "400",
                     }
                   ),
                   dimensions.width
                 )}
               >
-                {t(Variables, 'register_work_email')}
+                {t(Variables, "register_work_email")}
               </Text>
               {/* 工作邮箱录入框 */}
               <View
-                {...GlobalStyles.ViewStyles(theme)['Login Form Container']
+                {...GlobalStyles.ViewStyles(theme)["Login Form Container"]
                   .props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ViewStyles(theme)['Login Form Container']
+                    GlobalStyles.ViewStyles(theme)["Login Form Container"]
                       .style,
                     {
                       backgroundColor: palettes.App.appStyle_white,
@@ -1338,7 +1337,7 @@ ${canonicalizedResource}`;
                           ? palettes.Brand.Primary
                           : workingMailError
                           ? palettes.Brand.Error
-                          : palettes.App['Custom Color 4'],
+                          : palettes.App["Custom Color 4"],
                       borderWidth: focus === 4 || workingMailError ? 1.5 : 1,
                     }
                   ),
@@ -1347,7 +1346,7 @@ ${canonicalizedResource}`;
               >
                 {/* working mail input */}
                 <TextInput
-                  autoCapitalize={'none'}
+                  autoCapitalize={"none"}
                   autoCorrect={true}
                   changeTextDelay={500}
                   onBlur={() => {
@@ -1357,7 +1356,7 @@ ${canonicalizedResource}`;
                       console.error(err);
                     }
                   }}
-                  onChangeText={newWorkingMailInputValue => {
+                  onChangeText={(newWorkingMailInputValue) => {
                     try {
                       setWorkingMailInputValue(newWorkingMailInputValue);
                     } catch (err) {
@@ -1379,23 +1378,23 @@ ${canonicalizedResource}`;
                       console.error(err);
                     }
                   }}
-                  {...GlobalStyles.TextInputStyles(theme)['Login Input'].props}
-                  keyboardType={'email-address'}
+                  {...GlobalStyles.TextInputStyles(theme)["Login Input"].props}
+                  keyboardType={"email-address"}
                   maxLength={11}
                   placeholder={
-                    t(Variables, 'register_enter_your_work_email').toString() ??
-                    'Email'
+                    t(Variables, "register_enter_your_work_email").toString() ??
+                    "Email"
                   }
                   ref={workingMailInputS6phqLzGRef}
-                  returnKeyType={'next'}
+                  returnKeyType={"next"}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextInputStyles(theme)['Login Input'].style,
+                      GlobalStyles.TextInputStyles(theme)["Login Input"].style,
                       { paddingLeft: null }
                     ),
                     dimensions.width
                   )}
-                  textContentType={'emailAddress'}
+                  textContentType={"emailAddress"}
                   value={workingMailInputValue}
                   webShowOutline={false}
                 />
@@ -1410,23 +1409,23 @@ ${canonicalizedResource}`;
                     <Text
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.TextStyles(theme)['Text Form Label']
+                      {...GlobalStyles.TextStyles(theme)["Text Form Label"]
                         .props}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.TextStyles(theme)['Text Form Label']
+                          GlobalStyles.TextStyles(theme)["Text Form Label"]
                             .style,
                           {
-                            color: 'rgb(255, 75, 75)',
-                            fontFamily: 'System',
+                            color: "rgb(255, 75, 75)",
+                            fontFamily: "System",
                             fontSize: 14,
-                            fontWeight: '400',
+                            fontWeight: "400",
                           }
                         ),
                         dimensions.width
                       )}
                     >
-                      {t(Variables, 'warning_work_email_required')}
+                      {t(Variables, "warning_work_email_required")}
                     </Text>
                   )}
                 </>
@@ -1438,28 +1437,28 @@ ${canonicalizedResource}`;
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
+                {...GlobalStyles.TextStyles(theme)["Text Form Label"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                    GlobalStyles.TextStyles(theme)["Text Form Label"].style,
                     {
-                      color: 'rgb(69, 69, 69)',
-                      fontFamily: 'System',
-                      fontWeight: '400',
+                      color: "rgb(69, 69, 69)",
+                      fontFamily: "System",
+                      fontWeight: "400",
                     }
                   ),
                   dimensions.width
                 )}
               >
-                {t(Variables, 'register_company_name')}
+                {t(Variables, "register_company_name")}
               </Text>
               {/* 公司名称录入框 */}
               <View
-                {...GlobalStyles.ViewStyles(theme)['Login Form Container']
+                {...GlobalStyles.ViewStyles(theme)["Login Form Container"]
                   .props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ViewStyles(theme)['Login Form Container']
+                    GlobalStyles.ViewStyles(theme)["Login Form Container"]
                       .style,
                     {
                       backgroundColor: palettes.App.appStyle_white,
@@ -1468,7 +1467,7 @@ ${canonicalizedResource}`;
                           ? palettes.Brand.Primary
                           : companyNameError
                           ? palettes.Brand.Error
-                          : palettes.App['Custom Color 4'],
+                          : palettes.App["Custom Color 4"],
                       borderWidth: focus === 5 || companyNameError ? 1.5 : 1,
                     }
                   ),
@@ -1477,7 +1476,7 @@ ${canonicalizedResource}`;
               >
                 {/* company name input */}
                 <TextInput
-                  autoCapitalize={'none'}
+                  autoCapitalize={"none"}
                   autoCorrect={true}
                   changeTextDelay={500}
                   onBlur={() => {
@@ -1487,7 +1486,7 @@ ${canonicalizedResource}`;
                       console.error(err);
                     }
                   }}
-                  onChangeText={newCompanyNameInputValue => {
+                  onChangeText={(newCompanyNameInputValue) => {
                     try {
                       setCompanyNameInputValue(newCompanyNameInputValue);
                     } catch (err) {
@@ -1509,25 +1508,25 @@ ${canonicalizedResource}`;
                       console.error(err);
                     }
                   }}
-                  {...GlobalStyles.TextInputStyles(theme)['Login Input'].props}
-                  keyboardType={'default'}
+                  {...GlobalStyles.TextInputStyles(theme)["Login Input"].props}
+                  keyboardType={"default"}
                   maxLength={11}
                   placeholder={
                     t(
                       Variables,
-                      'register_enter_your_company_name'
-                    ).toString() ?? 'Email'
+                      "register_enter_your_company_name"
+                    ).toString() ?? "Email"
                   }
                   ref={companyNameInputkR8CHfppRef}
-                  returnKeyType={'done'}
+                  returnKeyType={"done"}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextInputStyles(theme)['Login Input'].style,
+                      GlobalStyles.TextInputStyles(theme)["Login Input"].style,
                       { paddingLeft: null }
                     ),
                     dimensions.width
                   )}
-                  textContentType={'emailAddress'}
+                  textContentType={"emailAddress"}
                   value={companyNameInputValue}
                   webShowOutline={false}
                 />
@@ -1542,23 +1541,23 @@ ${canonicalizedResource}`;
                     <Text
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.TextStyles(theme)['Text Form Label']
+                      {...GlobalStyles.TextStyles(theme)["Text Form Label"]
                         .props}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.TextStyles(theme)['Text Form Label']
+                          GlobalStyles.TextStyles(theme)["Text Form Label"]
                             .style,
                           {
-                            color: 'rgb(255, 75, 75)',
-                            fontFamily: 'System',
+                            color: "rgb(255, 75, 75)",
+                            fontFamily: "System",
                             fontSize: 14,
-                            fontWeight: '400',
+                            fontWeight: "400",
                           }
                         ),
                         dimensions.width
                       )}
                     >
-                      {t(Variables, 'warning_company_name_required')}
+                      {t(Variables, "warning_company_name_required")}
                     </Text>
                   )}
                 </>
@@ -1568,7 +1567,7 @@ ${canonicalizedResource}`;
           {/* Sign up Button */}
           <Button
             accessible={true}
-            iconPosition={'left'}
+            iconPosition={"left"}
             onPress={() => {
               const handler = async () => {
                 try {
@@ -1586,26 +1585,26 @@ ${canonicalizedResource}`;
               {
                 backgroundColor: palettes.Brand.appStyle_primary,
                 borderRadius: 4,
-                fontFamily: 'System',
+                fontFamily: "System",
                 fontSize: 16,
-                fontWeight: '700',
+                fontWeight: "700",
                 height: 45,
                 marginTop: 30,
-                textAlign: 'center',
+                textAlign: "center",
               },
               dimensions.width
             )}
-            title={`${t(Variables, 'login_sign_up')}`}
+            title={`${t(Variables, "login_sign_up")}`}
           >
-            {'Sign Up'}
+            {"Sign Up"}
           </Button>
           {/* 登录tip View */}
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'center',
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "center",
                 marginTop: 16,
               },
               dimensions.width
@@ -1614,16 +1613,16 @@ ${canonicalizedResource}`;
             <Text
               accessible={true}
               selectable={false}
-              {...GlobalStyles.TextStyles(theme)['Text Form Label 2'].props}
+              {...GlobalStyles.TextStyles(theme)["Text Form Label 2"].props}
               style={StyleSheet.applyWidth(
                 StyleSheet.compose(
-                  GlobalStyles.TextStyles(theme)['Text Form Label 2'].style,
-                  { color: 'rgb(89, 106, 122)' }
+                  GlobalStyles.TextStyles(theme)["Text Form Label 2"].style,
+                  { color: "rgb(89, 106, 122)" }
                 ),
                 dimensions.width
               )}
             >
-              {t(Variables, 'login_have_account')}
+              {t(Variables, "login_have_account")}
             </Text>
 
             <Touchable
@@ -1632,7 +1631,7 @@ ${canonicalizedResource}`;
                   if (navigation.canGoBack()) {
                     navigation.popToTop();
                   }
-                  navigation.replace('Tickets');
+                  navigation.replace("Tickets");
                 } catch (err) {
                   console.error(err);
                 }
@@ -1641,13 +1640,13 @@ ${canonicalizedResource}`;
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)['Text Form Label 2'].props}
+                {...GlobalStyles.TextStyles(theme)["Text Form Label 2"].props}
                 style={StyleSheet.applyWidth(
-                  GlobalStyles.TextStyles(theme)['Text Form Label 2'].style,
+                  GlobalStyles.TextStyles(theme)["Text Form Label 2"].style,
                   dimensions.width
                 )}
               >
-                {t(Variables, 'login_in')}
+                {t(Variables, "login_in")}
               </Text>
             </Touchable>
           </View>
@@ -1657,12 +1656,12 @@ ${canonicalizedResource}`;
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    alignSelf: 'center',
-                    flexDirection: 'row',
+                    alignItems: "center",
+                    alignSelf: "center",
+                    flexDirection: "row",
                     height: 50,
-                    justifyContent: 'center',
-                    width: '100%',
+                    justifyContent: "center",
+                    width: "100%",
                   },
                   dimensions.width
                 )}
@@ -1677,16 +1676,16 @@ ${canonicalizedResource}`;
                   }}
                 >
                   <Image
-                    resizeMode={'cover'}
-                    {...GlobalStyles.ImageStyles(theme)['Image'].props}
+                    resizeMode={"cover"}
+                    {...GlobalStyles.ImageStyles(theme)["Image"].props}
                     source={imageSource(
                       agreementChecked
-                        ? Images['icselectactive']
-                        : Images['icselectdefault']
+                        ? Images["icselectactive"]
+                        : Images["icselectdefault"]
                     )}
                     style={StyleSheet.applyWidth(
                       StyleSheet.compose(
-                        GlobalStyles.ImageStyles(theme)['Image'].style,
+                        GlobalStyles.ImageStyles(theme)["Image"].style,
                         { height: 16, marginRight: 4, width: 16 }
                       ),
                       dimensions.width
@@ -1697,63 +1696,63 @@ ${canonicalizedResource}`;
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Text Tip'].props}
+                  {...GlobalStyles.TextStyles(theme)["Text Tip"].props}
                   style={StyleSheet.applyWidth(
-                    GlobalStyles.TextStyles(theme)['Text Tip'].style,
+                    GlobalStyles.TextStyles(theme)["Text Tip"].style,
                     dimensions.width
                   )}
                 >
-                  {t(Variables, 'login_in_agree')}
+                  {t(Variables, "login_in_agree")}
                   <Link
                     accessible={true}
                     onPress={() => {
                       try {
-                        navigation.navigate('WebViewScreen', {
-                          url: 'https://terms.acecamptech.com/privacy/20210726/index.html',
+                        navigation.navigate("WebViewScreen", {
+                          url: "https://terms.acecamptech.com/privacy/20210726/index.html",
                         });
                       } catch (err) {
                         console.error(err);
                       }
                     }}
                     selectable={false}
-                    {...GlobalStyles.LinkStyles(theme)['Link'].props}
+                    {...GlobalStyles.LinkStyles(theme)["Link"].props}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.LinkStyles(theme)['Link'].style,
+                      GlobalStyles.LinkStyles(theme)["Link"].style,
                       dimensions.width
                     )}
-                    title={`${t(Variables, 'the_privacy')}`}
+                    title={`${t(Variables, "the_privacy")}`}
                   />
                   {/* Text 2 */}
                   <Text
                     accessible={true}
                     selectable={false}
-                    {...GlobalStyles.TextStyles(theme)['Text Tip'].props}
+                    {...GlobalStyles.TextStyles(theme)["Text Tip"].props}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.TextStyles(theme)['Text Tip'].style,
+                      GlobalStyles.TextStyles(theme)["Text Tip"].style,
                       dimensions.width
                     )}
                   >
-                    {t(Variables, 'common_and')}
+                    {t(Variables, "common_and")}
                   </Text>
                   {/* Link 2 */}
                   <Link
                     accessible={true}
                     onPress={() => {
                       try {
-                        navigation.navigate('WebViewScreen', {
-                          url: 'https://terms.acecamptech.com/agreement/index.html',
+                        navigation.navigate("WebViewScreen", {
+                          url: "https://terms.acecamptech.com/agreement/index.html",
                         });
                       } catch (err) {
                         console.error(err);
                       }
                     }}
                     selectable={false}
-                    {...GlobalStyles.LinkStyles(theme)['Link'].props}
+                    {...GlobalStyles.LinkStyles(theme)["Link"].props}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.LinkStyles(theme)['Link'].style,
+                      GlobalStyles.LinkStyles(theme)["Link"].style,
                       dimensions.width
                     )}
-                    title={`${t(Variables, 'login_in_service')}`}
+                    title={`${t(Variables, "login_in_service")}`}
                   />
                 </Text>
               </View>
@@ -1762,7 +1761,7 @@ ${canonicalizedResource}`;
         </View>
       </SimpleStyleKeyboardAwareScrollView>
       <Timer
-        onTimerChange={newTimerValue => {
+        onTimerChange={(newTimerValue) => {
           try {
             const valuejAlbb02C = sentVCodeBtn - 1;
             const result = valuejAlbb02C;
@@ -1773,20 +1772,20 @@ ${canonicalizedResource}`;
         }}
         onTimerEnd={() => {
           try {
-            setSentVCodeBtn(t(Variables, 'common_Resend'));
-            setVCodeStatus('sent');
+            setSentVCodeBtn(t(Variables, "common_Resend"));
+            setVCodeStatus("sent");
           } catch (err) {
             console.error(err);
           }
         }}
         updateInterval={1000}
-        {...GlobalStyles.TimerStyles(theme)['Timer'].props}
-        countDirection={'down'}
-        format={'ss:ms'}
+        {...GlobalStyles.TimerStyles(theme)["Timer"].props}
+        countDirection={"down"}
+        format={"ss:ms"}
         initialTime={60000}
         ref={timerHuGZitnfRef}
         style={StyleSheet.applyWidth(
-          StyleSheet.compose(GlobalStyles.TimerStyles(theme)['Timer'].style, {
+          StyleSheet.compose(GlobalStyles.TimerStyles(theme)["Timer"].style, {
             opacity: 0,
           }),
           dimensions.width

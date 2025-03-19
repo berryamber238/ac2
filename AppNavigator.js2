@@ -8,11 +8,9 @@ import { I18nManager, Platform, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { systemWeights } from 'react-native-typography';
 import LinkingConfiguration from './LinkingConfiguration';
-import TabBarBlock from './components/TabBarBlock';
 import * as GlobalVariables from './config/GlobalVariableContext';
 import setUndefined from './global-functions/setUndefined';
 import t from './global-functions/t';
-import AIAssistantScreen from './screens/AIAssistantScreen';
 import ArticleDetailScreen from './screens/ArticleDetailScreen';
 import CalendarScreen from './screens/CalendarScreen';
 import CompanyInfoScreen from './screens/CompanyInfoScreen';
@@ -93,7 +91,7 @@ function AI({ navigation }) {
 
       navigation.navigate('BottomTabNavigator', {
         screen: 'AI',
-        params: { screen: 'AIAssistantScreen' },
+        params: { screen: 'LiveScreen' },
       });
     });
 
@@ -102,30 +100,7 @@ function AI({ navigation }) {
 
   const theme = useTheme();
 
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <Stack.Navigator
-      initialRouteName="AIAssistantScreen"
-      presentation="card"
-      tabPressToInitialScreen={true}
-      screenOptions={({ navigation }) => ({
-        cardStyle: { flex: 1 },
-        headerBackImage:
-          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-        headerMode: 'none',
-        headerShown: false,
-      })}
-    >
-      <Stack.Screen
-        name="AIAssistantScreen"
-        component={AIAssistantScreen}
-        options={({ navigation }) => ({
-          title: 'AI-Assistant',
-        })}
-      />
-    </Stack.Navigator>
-  );
+  /* Navigator has no children, add a child screen or navigator to have it rendered here */
 }
 
 function Company({ navigation }) {
@@ -149,6 +124,7 @@ function Company({ navigation }) {
   return (
     <Stack.Navigator
       initialRouteName="CompanyListScreen"
+      presentation="card"
       tabPressToInitialScreen={true}
       screenOptions={({ navigation }) => ({
         cardStyle: { flex: 1, backgroundColor: palettes.App['Custom #ffffff'] },
@@ -330,8 +306,6 @@ function Mine({ navigation }) {
 function BottomTabNavigator() {
   const theme = useTheme();
 
-  const safeAreaInsets = useSafeAreaInsets();
-
   const tabBarOrDrawerIcons = {
     Home: 'AntDesign/home',
     Company: 'Ionicons/search',
@@ -342,25 +316,6 @@ function BottomTabNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      tabBar={({ state, descriptors }) => {
-        const mapRoute = route => {
-          const descriptor = descriptors[route.key];
-          return {
-            name: route.name,
-            label: descriptor.options.tabBarLabel ?? route.name,
-            icon: tabBarOrDrawerIcons[route.name] ?? '',
-          };
-        };
-        const routes = state.routes.map(mapRoute);
-        const currentRoute = mapRoute(
-          state.routes.find((_, index) => index === state.index)
-        );
-        return (
-          <View style={{ marginBottom: safeAreaInsets.bottom }}>
-            <TabBarBlock routes={routes} currentRoute={currentRoute} />
-          </View>
-        );
-      }}
       backBehavior="history"
       screenOptions={({ navigation }) => ({
         headerMode: 'screen',

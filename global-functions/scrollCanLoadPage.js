@@ -1,5 +1,4 @@
-const scrollCanLoadPage = event => {
-  debugger;
+const scrollCanLoadPage = (event) => {
   const offsetY = event.nativeEvent.contentOffset.y;
   const contentSize =
     event.nativeEvent.contentSize.height -

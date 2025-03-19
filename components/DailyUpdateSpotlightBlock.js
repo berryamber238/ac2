@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Icon,
   LoadingIndicator,
@@ -8,26 +8,26 @@ import {
   SimpleStyleScrollView,
   Touchable,
   withTheme,
-} from '@draftbit/ui';
-import { useIsFocused } from '@react-navigation/native';
-import { ActivityIndicator, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fetch } from 'react-request';
-import * as GlobalStyles from '../GlobalStyles.js';
-import * as AceCampTestApi from '../apis/AceCampTestApi.js';
-import RecommandSectionBlock from '../components/RecommandSectionBlock';
-import * as GlobalVariables from '../config/GlobalVariableContext';
-import t from '../global-functions/t';
-import palettes from '../themes/palettes';
-import Breakpoints from '../utils/Breakpoints';
-import * as StyleSheet from '../utils/StyleSheet';
-import imageSource from '../utils/imageSource';
-import useWindowDimensions from '../utils/useWindowDimensions';
-import waitUtil from '../utils/wait';
+} from "@draftbit/ui";
+import { useIsFocused } from "@react-navigation/native";
+import { ActivityIndicator, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Fetch } from "react-request";
+import * as GlobalStyles from "../GlobalStyles.js";
+import * as AceCampTestApi from "../apis/AceCampTestApi.js";
+import RecommandSectionBlock from "../components/RecommandSectionBlock";
+import * as GlobalVariables from "../config/GlobalVariableContext";
+import t from "../global-functions/t";
+import palettes from "../themes/palettes";
+import Breakpoints from "../utils/Breakpoints";
+import * as StyleSheet from "../utils/StyleSheet";
+import imageSource from "../utils/imageSource";
+import useWindowDimensions from "../utils/useWindowDimensions";
+import waitUtil from "../utils/wait";
 
-const defaultProps = { date_type: 'recently_week', section: 'Event' };
+const defaultProps = { date_type: "recently_week", section: "Event" };
 
-const DailyUpdateSpotlightBlock = props => {
+const DailyUpdateSpotlightBlock = (props) => {
   const { theme } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
@@ -36,7 +36,7 @@ const DailyUpdateSpotlightBlock = props => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const [totalRecord, setTotalRecord] = React.useState(0);
-  const changeIndex = index => {
+  const changeIndex = (index) => {
     props.setIndex(index);
   };
 
@@ -50,8 +50,8 @@ const DailyUpdateSpotlightBlock = props => {
 
   const handleScroll = async () => {
     try {
-      console.log('handleScroll = totalRecord ' + totalRecord);
-      console.log('handleScroll = feedsData?.length ' + feedsData?.length);
+      console.log("handleScroll = totalRecord " + totalRecord);
+      console.log("handleScroll = feedsData?.length " + feedsData?.length);
       if (!feedsData) {
         return;
       }
@@ -61,7 +61,7 @@ const DailyUpdateSpotlightBlock = props => {
       if (feedsData?.length >= totalRecord) {
         return;
       }
-      console.log('handleScroll = ' + 1);
+      console.log("handleScroll = " + 1);
       setIsLoading(true);
       const result = (
         await AceCampTestApi.dailyupdateFeedsGET(Constants, {
@@ -72,7 +72,7 @@ const DailyUpdateSpotlightBlock = props => {
         })
       )?.json;
 
-      console.log('handleScroll = ' + 2);
+      console.log("handleScroll = " + 2);
       setCursor(
         (() => {
           const e = result?.data?.feeds;
@@ -82,13 +82,13 @@ const DailyUpdateSpotlightBlock = props => {
       setFeedsData(feedsData.concat(result?.data?.feeds));
       setIsLoading(false);
 
-      console.log('handleScroll = ' + 3);
+      console.log("handleScroll = " + 3);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const loadPage = event => {
+  const loadPage = (event) => {
     // console.log(event.nativeEvent)
     // layoutMeasurement:{height:812,width:375}
     // ►contentSize:{height:2752.666748046875,width:375}
@@ -109,8 +109,6 @@ const DailyUpdateSpotlightBlock = props => {
   };
 
   const updateCount = (type, count) => {
-    debugger;
-
     props.setDataCount(props.headers[type].key, count);
   };
   const safeAreaInsets = useSafeAreaInsets();
@@ -118,7 +116,7 @@ const DailyUpdateSpotlightBlock = props => {
   return (
     <View
       style={StyleSheet.applyWidth(
-        { backgroundColor: palettes.App['Custom Color 19'], height: '100%' },
+        { backgroundColor: palettes.App["Custom Color 19"], height: "100%" },
         dimensions.width
       )}
     >
@@ -128,18 +126,18 @@ const DailyUpdateSpotlightBlock = props => {
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: 'center',
+                alignItems: "center",
                 height: [
-                  { minWidth: Breakpoints.Mobile, value: '100%' },
+                  { minWidth: Breakpoints.Mobile, value: "100%" },
                   { minWidth: Breakpoints.Mobile, value: dimensions.height },
                 ],
-                justifyContent: 'center',
+                justifyContent: "center",
                 left: 0,
                 opacity: 1,
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 width: [
-                  { minWidth: Breakpoints.Mobile, value: '100%' },
+                  { minWidth: Breakpoints.Mobile, value: "100%" },
                   { minWidth: Breakpoints.Mobile, value: dimensions.width },
                 ],
                 zIndex: 99,
@@ -150,11 +148,11 @@ const DailyUpdateSpotlightBlock = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  backgroundColor: palettes.App['Custom Color 5'],
+                  alignItems: "center",
+                  backgroundColor: palettes.App["Custom Color 5"],
                   borderRadius: 8,
                   height: 70,
-                  justifyContent: 'center',
+                  justifyContent: "center",
                   opacity: 0.6,
                   width: 70,
                   zIndex: 200,
@@ -165,20 +163,20 @@ const DailyUpdateSpotlightBlock = props => {
               <LoadingIndicator
                 size={30}
                 color={palettes.Brand.appStyle_primary}
-                type={'wave'}
+                type={"wave"}
               />
             </View>
             {/* View 2 */}
             <View
               style={StyleSheet.applyWidth(
                 {
-                  backgroundColor: palettes.App['Custom Color 5'],
-                  height: '100%',
+                  backgroundColor: palettes.App["Custom Color 5"],
+                  height: "100%",
                   left: 0,
                   opacity: 0.43,
-                  position: 'absolute',
+                  position: "absolute",
                   top: 0,
-                  width: '100%',
+                  width: "100%",
                 },
                 dimensions.width
               )}
@@ -188,11 +186,11 @@ const DailyUpdateSpotlightBlock = props => {
       </>
       {/* event */}
       <>
-        {(props.section ?? defaultProps.section) === 'Spotlight' ? null : (
+        {(props.section ?? defaultProps.section) === "Spotlight" ? null : (
           <AceCampTestApi.FetchDailyupdateSpotlightGET
             collection={props.date_type ?? defaultProps.date_type}
             handlers={{
-              onData: eventData => {
+              onData: (eventData) => {
                 const handler = async () => {
                   try {
                     if (eventData?.data?.length === 0) {
@@ -235,9 +233,9 @@ const DailyUpdateSpotlightBlock = props => {
                   <SimpleStyleScrollView
                     bounces={true}
                     horizontal={false}
-                    keyboardShouldPersistTaps={'never'}
+                    keyboardShouldPersistTaps={"never"}
                     nestedScrollEnabled={false}
-                    onScroll={event => {
+                    onScroll={(event) => {
                       const handler = async () => {
                         try {
                           /* hidden 'Run a Custom Function' action */
@@ -280,7 +278,7 @@ const DailyUpdateSpotlightBlock = props => {
                     showsVerticalScrollIndicator={true}
                     style={StyleSheet.applyWidth(
                       {
-                        backgroundColor: palettes.App['Custom Color 19'],
+                        backgroundColor: palettes.App["Custom Color 19"],
                         paddingBottom:
                           100 + safeAreaInsets.top + safeAreaInsets.bottom,
                       },
@@ -292,7 +290,7 @@ const DailyUpdateSpotlightBlock = props => {
                         <View
                           style={StyleSheet.applyWidth(
                             {
-                              backgroundColor: palettes.App['Custom Color 19'],
+                              backgroundColor: palettes.App["Custom Color 19"],
                               paddingBottom: 5,
                               paddingTop: 10,
                             },
@@ -319,11 +317,11 @@ const DailyUpdateSpotlightBlock = props => {
                               style={StyleSheet.applyWidth(
                                 {
                                   backgroundColor:
-                                    palettes.App['Custom #ffffff'],
+                                    palettes.App["Custom #ffffff"],
                                   borderRadius: 4,
                                   marginLeft: 14,
                                   marginRight: 14,
-                                  overflow: 'hidden',
+                                  overflow: "hidden",
                                   width: dimensions.width - 28,
                                 },
                                 dimensions.width
@@ -331,7 +329,7 @@ const DailyUpdateSpotlightBlock = props => {
                             >
                               <SimpleStyleFlatList
                                 data={feedsData}
-                                decelerationRate={'normal'}
+                                decelerationRate={"normal"}
                                 horizontal={false}
                                 inverted={false}
                                 keyExtractor={(listData, index) =>
@@ -340,9 +338,9 @@ const DailyUpdateSpotlightBlock = props => {
                                   index?.toString() ??
                                   JSON.stringify(listData)
                                 }
-                                keyboardShouldPersistTaps={'never'}
+                                keyboardShouldPersistTaps={"never"}
                                 listKey={
-                                  'event->Scroll View 2->View->Shadow->系列活动-列表->List'
+                                  "event->Scroll View 2->View->Shadow->系列活动-列表->List"
                                 }
                                 nestedScrollEnabled={false}
                                 numColumns={1}
@@ -372,7 +370,7 @@ const DailyUpdateSpotlightBlock = props => {
                                     />
                                   );
                                 }}
-                                snapToAlignment={'start'}
+                                snapToAlignment={"start"}
                                 showsHorizontalScrollIndicator={false}
                                 showsVerticalScrollIndicator={false}
                                 style={StyleSheet.applyWidth(
@@ -391,9 +389,9 @@ const DailyUpdateSpotlightBlock = props => {
                         <View
                           style={StyleSheet.applyWidth(
                             {
-                              alignItems: 'center',
-                              flexDirection: 'column',
-                              justifyContent: 'center',
+                              alignItems: "center",
+                              flexDirection: "column",
+                              justifyContent: "center",
                               marginTop: 200,
                               paddingBottom: 5,
                               paddingTop: 5,
@@ -402,36 +400,36 @@ const DailyUpdateSpotlightBlock = props => {
                           )}
                         >
                           <SVG
-                            {...GlobalStyles.SVGStyles(theme)['SVG'].props}
+                            {...GlobalStyles.SVGStyles(theme)["SVG"].props}
                             source={
-                              'https://static.acecamptech.com/system/empty.svg'
+                              "https://static.acecamptech.com/system/empty.svg"
                             }
                             style={StyleSheet.applyWidth(
-                              GlobalStyles.SVGStyles(theme)['SVG'].style,
+                              GlobalStyles.SVGStyles(theme)["SVG"].style,
                               dimensions.width
                             )}
                           />
                           <Text
                             accessible={true}
                             selectable={false}
-                            {...GlobalStyles.TextStyles(theme)['Text Title']
+                            {...GlobalStyles.TextStyles(theme)["Text Title"]
                               .props}
                             style={StyleSheet.applyWidth(
                               StyleSheet.compose(
-                                GlobalStyles.TextStyles(theme)['Text Title']
+                                GlobalStyles.TextStyles(theme)["Text Title"]
                                   .style,
                                 {
-                                  color: palettes.App['Custom Color 4'],
-                                  fontFamily: 'System',
+                                  color: palettes.App["Custom Color 4"],
+                                  fontFamily: "System",
                                   fontSize: 14,
-                                  fontWeight: '400',
+                                  fontWeight: "400",
                                   marginRight: null,
                                 }
                               ),
                               dimensions.width
                             )}
                           >
-                            {t(Variables, 'common_no_content')}
+                            {t(Variables, "common_no_content")}
                           </Text>
                         </View>
                       )}

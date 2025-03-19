@@ -1,21 +1,21 @@
-import React from 'react';
-import { Button, Divider, Touchable, withTheme } from '@draftbit/ui';
-import { Modal, Text, View } from 'react-native';
-import * as GlobalStyles from '../GlobalStyles.js';
-import * as GlobalVariables from '../config/GlobalVariableContext';
-import * as ScrollPicker from '../custom-files/ScrollPicker';
-import * as gf from '../custom-files/gf';
-import ScrollPickerConfirmBtnPress from '../global-functions/ScrollPickerConfirmBtnPress';
-import t from '../global-functions/t';
-import palettes from '../themes/palettes';
-import * as Utils from '../utils';
-import Breakpoints from '../utils/Breakpoints';
-import * as StyleSheet from '../utils/StyleSheet';
-import useWindowDimensions from '../utils/useWindowDimensions';
+import React from "react";
+import { Button, Divider, Touchable, withTheme } from "@draftbit/ui";
+import { Modal, Text, View } from "react-native";
+import * as GlobalStyles from "../GlobalStyles.js";
+import * as GlobalVariables from "../config/GlobalVariableContext";
+import * as ScrollPicker from "../custom-files/ScrollPicker";
+import * as gf from "../custom-files/gf";
+import ScrollPickerConfirmBtnPress from "../global-functions/ScrollPickerConfirmBtnPress";
+import t from "../global-functions/t";
+import palettes from "../themes/palettes";
+import * as Utils from "../utils";
+import Breakpoints from "../utils/Breakpoints";
+import * as StyleSheet from "../utils/StyleSheet";
+import useWindowDimensions from "../utils/useWindowDimensions";
 
 const defaultProps = { id: null };
 
-const ScrollPickerBlock = props => {
+const ScrollPickerBlock = (props) => {
   const { theme } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
@@ -25,8 +25,7 @@ const ScrollPickerBlock = props => {
   const [scroll_picker_modal_style, setScroll_picker_modal_style] =
     React.useState({});
   const CheckedAllItem = (Variables, checkedValue) => {
-    debugger;
-    if ((checkedValue.length = Variables['pickupDic'].length)) {
+    if ((checkedValue.length = Variables["pickupDic"].length)) {
       return true;
     }
     return false;
@@ -41,40 +40,37 @@ const ScrollPickerBlock = props => {
     Variables.pickupDic = Variables[dataSourceName];
   };
 
-  const changeBgStyle = id => {
-    debugger;
-  };
+  const changeBgStyle = (id) => {};
 
-  const changeTextStyle = id => {
-    debugger;
+  const changeTextStyle = (id) => {
     if (multiSelectPickerValue.includes(id)) {
-      return '#2B33E6FF';
+      return "#2B33E6FF";
     }
-    return '#596A7A';
+    return "#596A7A";
   };
 
-  const confirmPickup = Variables => {
+  const confirmPickup = (Variables) => {
     // Type the code for the body of your function or hook here.
     // Functions can be triggered via Button/Touchable actions.
     // Hooks are run per ReactJS rules.
 
     /* String line breaks are accomplished with backticks ( example: `line one
 line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
-    const fullData = Variables['pickupDic'];
+    const fullData = Variables["pickupDic"];
     const text = multiSelectPickerValue
-      .map(id => {
-        let item = fullData.find(element => element.id === id);
-        return item ? item.sc_name : '';
+      .map((id) => {
+        let item = fullData.find((element) => element.id === id);
+        return item ? item.sc_name : "";
       })
-      .filter(sc_name => sc_name !== '')
-      .join('、');
+      .filter((sc_name) => sc_name !== "")
+      .join("、");
 
     switch (currentPickupType) {
-      case 'industries':
+      case "industries":
         setIndustryIds(multiSelectPickerValue);
         setIndustryText(text);
         break;
-      case 'ticker_regions':
+      case "ticker_regions":
         setRegionIds(multiSelectPickerValue);
         setRegionText(text);
         break;
@@ -84,44 +80,44 @@ line two` ) and will not work with special characters inside of quotes ( example
   const initScrollPickerSetting = (Variables, setGlobalVariableValue) => {
     const data = {
       data: [
-        { id: 1, name: trans.t(Variables, 'tab_point_nick_name') },
-        { id: 2, name: trans.t(Variables, 'tab_point_real_name') },
+        { id: 1, name: trans.t(Variables, "tab_point_nick_name") },
+        { id: 2, name: trans.t(Variables, "tab_point_real_name") },
       ],
     };
     setGlobalVariableValue({
-      key: 'scroll_picker_current_selected_index',
+      key: "scroll_picker_current_selected_index",
       value: fd_showReal ? 1 : 0,
     });
     setGlobalVariableValue({
-      key: 'scroll_picker_modal_title',
-      value: trans.t(Variables, 'tab_point_set_first'),
+      key: "scroll_picker_modal_title",
+      value: trans.t(Variables, "tab_point_set_first"),
     });
-    setGlobalVariableValue({ key: 'scroll_picker_modal_data', value: data });
-    setGlobalVariableValue({ key: 'scroll_picker_modal_shown', value: true });
+    setGlobalVariableValue({ key: "scroll_picker_modal_data", value: data });
+    setGlobalVariableValue({ key: "scroll_picker_modal_shown", value: true });
 
     //设定滚动选择器Modal的确认回调
     ScrollPicker.setConfirmCallback(() => {
-      const selectIndex = Variables['scroll_picker_current_selected_index'];
+      const selectIndex = Variables["scroll_picker_current_selected_index"];
       if (selectIndex !== -1) {
         switch (selectIndex) {
           case 0:
-            setFt_realText('刘伟巍');
+            setFt_realText("刘伟巍");
             setFd_showReal(true);
             break;
           case 1:
-            setFt_realText('虚拟身份(用户132435235)');
+            setFt_realText("虚拟身份(用户132435235)");
             setFd_showReal(false);
             break;
         }
       }
       setGlobalVariableValue({
-        key: 'scroll_picker_current_selected_index',
+        key: "scroll_picker_current_selected_index",
         value: -1,
       });
-      setGlobalVariableValue({ key: 'scroll_picker_modal_title', value: '' });
-      setGlobalVariableValue({ key: 'scroll_picker_modal_data', value: {} });
+      setGlobalVariableValue({ key: "scroll_picker_modal_title", value: "" });
+      setGlobalVariableValue({ key: "scroll_picker_modal_data", value: {} });
       setGlobalVariableValue({
-        key: 'scroll_picker_modal_shown',
+        key: "scroll_picker_modal_shown",
         value: false,
       });
     });
@@ -129,7 +125,7 @@ line two` ) and will not work with special characters inside of quotes ( example
 
   const onPickerupItemClick = (Variables, setGlobalVariableValue, id) => {
     if (multiSelectPickerValue.includes(id)) {
-      let newArr = multiSelectPickerValue.filter(item => item !== id);
+      let newArr = multiSelectPickerValue.filter((item) => item !== id);
 
       multiSelectPickerValue.splice(0, multiSelectPickerValue.length);
       multiSelectPickerValue.push(...newArr);
@@ -138,7 +134,7 @@ line two` ) and will not work with special characters inside of quotes ( example
       multiSelectPickerValue.push(id);
       setMultiSelectPickerValue(multiSelectPickerValue);
     }
-    if (multiSelectPickerValue.length === Variables['pickupDic'].length) {
+    if (multiSelectPickerValue.length === Variables["pickupDic"].length) {
       setCheckedAll(true);
     } else {
       setCheckedAll(false);
@@ -153,11 +149,11 @@ line two` ) and will not work with special characters inside of quotes ( example
 
     /* String line breaks are accomplished with backticks ( example: `line one
 line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
-    debugger;
+
     multiSelectPickerValue.splice(0, multiSelectPickerValue.length);
     if (isChecked) {
       multiSelectPickerValue.push(
-        ...Variables['pickupDic'].map(item => item.id)
+        ...Variables["pickupDic"].map((item) => item.id)
       );
     }
     setMultiSelectPickerValue(multiSelectPickerValue);
@@ -168,22 +164,22 @@ line two` ) and will not work with special characters inside of quotes ( example
     <View>
       {/* Cover Modal */}
       <Modal
-        supportedOrientations={['portrait', 'landscape']}
-        animationType={'fade'}
-        presentationStyle={'overFullScreen'}
+        supportedOrientations={["portrait", "landscape"]}
+        animationType={"fade"}
+        presentationStyle={"overFullScreen"}
         transparent={true}
         visible={
-          Constants['user_info_edit_status'] &&
-          (bottom_sheet_shown || Constants['scroll_picker_modal_shown'])
+          Constants["user_info_edit_status"] &&
+          (bottom_sheet_shown || Constants["scroll_picker_modal_shown"])
         }
       >
         <View
           style={StyleSheet.applyWidth(
             {
               backgroundColor: palettes.App.appStyle_greyscale_500,
-              height: '100%',
+              height: "100%",
               opacity: 0.45,
-              width: '100%',
+              width: "100%",
             },
             dimensions.width
           )}
@@ -191,25 +187,25 @@ line two` ) and will not work with special characters inside of quotes ( example
       </Modal>
       {/* Scroll Picker Modal */}
       <Modal
-        supportedOrientations={['portrait', 'landscape']}
-        {...GlobalStyles.ModalStyles(theme)['Modal'].props}
-        animationType={'slide'}
-        presentationStyle={'overFullScreen'}
+        supportedOrientations={["portrait", "landscape"]}
+        {...GlobalStyles.ModalStyles(theme)["Modal"].props}
+        animationType={"slide"}
+        presentationStyle={"overFullScreen"}
         style={StyleSheet.applyWidth(
-          GlobalStyles.ModalStyles(theme)['Modal'].style,
+          GlobalStyles.ModalStyles(theme)["Modal"].style,
           dimensions.width
         )}
         transparent={true}
         visible={
-          Constants['user_info_edit_status'] &&
-          Constants['scroll_picker_modal_shown']
+          Constants["user_info_edit_status"] &&
+          Constants["scroll_picker_modal_shown"]
         }
       >
         <Touchable
           onPress={() => {
             try {
               setGlobalVariableValue({
-                key: 'scroll_picker_modal_shown',
+                key: "scroll_picker_modal_shown",
                 value: false,
               });
             } catch (err) {
@@ -219,7 +215,7 @@ line two` ) and will not work with special characters inside of quotes ( example
           style={StyleSheet.applyWidth(
             {
               height: [
-                { minWidth: Breakpoints.Mobile, value: '40%' },
+                { minWidth: Breakpoints.Mobile, value: "40%" },
                 {
                   minWidth: Breakpoints.Mobile,
                   value: scroll_picker_modal_style?.coverHeight,
@@ -231,7 +227,7 @@ line two` ) and will not work with special characters inside of quotes ( example
         >
           <View
             style={StyleSheet.applyWidth(
-              { flex: 1, opacity: 0, width: '100%' },
+              { flex: 1, opacity: 0, width: "100%" },
               dimensions.width
             )}
           />
@@ -241,15 +237,15 @@ line two` ) and will not work with special characters inside of quotes ( example
           style={StyleSheet.applyWidth(
             {
               backgroundColor: palettes.App.appStyle_white,
-              flexDirection: 'column',
+              flexDirection: "column",
               height: [
-                { minWidth: Breakpoints.Mobile, value: '60%' },
+                { minWidth: Breakpoints.Mobile, value: "60%" },
                 {
                   minWidth: Breakpoints.Mobile,
                   value: scroll_picker_modal_style?.height,
                 },
               ],
-              width: '100%',
+              width: "100%",
             },
             dimensions.width
           )}
@@ -258,9 +254,9 @@ line two` ) and will not work with special characters inside of quotes ( example
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "space-between",
                 marginTop: 8,
                 paddingLeft: 16,
                 paddingRight: 16,
@@ -271,50 +267,50 @@ line two` ) and will not work with special characters inside of quotes ( example
             {/* Cancel Btn */}
             <Button
               accessible={true}
-              iconPosition={'left'}
+              iconPosition={"left"}
               onPress={() => {
                 try {
                   setGlobalVariableValue({
-                    key: 'scroll_picker_modal_shown',
+                    key: "scroll_picker_modal_shown",
                     value: false,
                   });
                 } catch (err) {
                   console.error(err);
                 }
               }}
-              {...GlobalStyles.ButtonStyles(theme)['Cancel Btn'].props}
+              {...GlobalStyles.ButtonStyles(theme)["Cancel Btn"].props}
               style={StyleSheet.applyWidth(
                 StyleSheet.compose(
-                  GlobalStyles.ButtonStyles(theme)['Cancel Btn'].style,
+                  GlobalStyles.ButtonStyles(theme)["Cancel Btn"].style,
                   { color: palettes.App.appStyle_greyscale_500 }
                 ),
                 dimensions.width
               )}
-              title={`${t(Variables, 'common_cancel')}`}
+              title={`${t(Variables, "common_cancel")}`}
             />
             {/* Title */}
             <Text
               accessible={true}
               selectable={false}
-              {...GlobalStyles.TextStyles(theme)['Body S Medium'].props}
+              {...GlobalStyles.TextStyles(theme)["Body S Medium"].props}
               style={StyleSheet.applyWidth(
                 StyleSheet.compose(
-                  GlobalStyles.TextStyles(theme)['Body S Medium'].style,
+                  GlobalStyles.TextStyles(theme)["Body S Medium"].style,
                   { flex: null }
                 ),
                 dimensions.width
               )}
             >
-              {Constants['scroll_picker_modal_title']}
+              {Constants["scroll_picker_modal_title"]}
             </Text>
             {/* Confirm Btn */}
             <Button
               accessible={true}
-              iconPosition={'left'}
+              iconPosition={"left"}
               onPress={() => {
                 try {
                   setGlobalVariableValue({
-                    key: 'scroll_picker_modal_shown',
+                    key: "scroll_picker_modal_shown",
                     value: false,
                   });
                   ScrollPickerConfirmBtnPress(Variables);
@@ -322,19 +318,19 @@ line two` ) and will not work with special characters inside of quotes ( example
                   console.error(err);
                 }
               }}
-              {...GlobalStyles.ButtonStyles(theme)['Confirm Btn'].props}
+              {...GlobalStyles.ButtonStyles(theme)["Confirm Btn"].props}
               style={StyleSheet.applyWidth(
-                GlobalStyles.ButtonStyles(theme)['Confirm Btn'].style,
+                GlobalStyles.ButtonStyles(theme)["Confirm Btn"].style,
                 dimensions.width
               )}
-              title={`${t(Variables, 'common_yes')}`}
+              title={`${t(Variables, "common_yes")}`}
             />
           </View>
           <Divider
             color={theme.colors.border.base}
-            {...GlobalStyles.DividerStyles(theme)['Divider'].props}
+            {...GlobalStyles.DividerStyles(theme)["Divider"].props}
             style={StyleSheet.applyWidth(
-              GlobalStyles.DividerStyles(theme)['Divider'].style,
+              GlobalStyles.DividerStyles(theme)["Divider"].style,
               dimensions.width
             )}
           />

@@ -3550,7 +3550,7 @@ export const FetchIgnoreAllPOST = ({
   return children({ loading, data, error, refetchIgnoreAll: refetch });
 };
 
-export const liveTokenGET = async (
+export const liveTokenPOST = async (
   Constants,
   { live_id },
   handlers,
@@ -3570,11 +3570,19 @@ export const liveTokenGET = async (
   }
   try {
     const res = await fetch(url, {
+      body: JSON.stringify({
+        user_type: 'user',
+        demo: true,
+        get_canceled: true,
+        re_registration: false,
+      }),
       headers: cleanHeaders({
         Accept: 'application/json',
+        'Content-Type': 'application/json',
         Cookie: Constants['cookie'],
         'User-Agent': Constants['user-agent'],
       }),
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
@@ -3589,37 +3597,26 @@ export const liveTokenGET = async (
   }
 };
 
-export const useLiveTokenGET = (
-  args = {},
-  {
-    refetchInterval,
-    refetchOnWindowFocus,
-    refetchOnMount,
-    refetchOnReconnect,
-    retry,
-    staleTime,
-    timeout,
-    handlers = {},
-  } = {}
-) => {
-  const Constants = GlobalVariables.useValues();
+export const useLiveTokenPOST = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
-  return useQuery(
-    ['life', args],
-    () => liveTokenGET(Constants, args, handlers, timeout),
+  const Constants = GlobalVariables.useValues();
+  return useMutation(
+    args => liveTokenPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
-      refetchInterval,
-      refetchOnWindowFocus,
-      refetchOnMount,
-      refetchOnReconnect,
-      retry,
-      staleTime,
-      onSuccess: () => queryClient.invalidateQueries(['lives']),
+      onError: (err, variables, { previousValue }) => {
+        if (previousValue) {
+          return queryClient.setQueryData('lives', previousValue);
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries('life');
+        queryClient.invalidateQueries('lives');
+      },
     }
   );
 };
 
-export const FetchLiveTokenGET = ({
+export const FetchLiveTokenPOST = ({
   children,
   onData = () => {},
   handlers = {},
@@ -3640,8 +3637,8 @@ export const FetchLiveTokenGET = ({
     isLoading: loading,
     data,
     error,
-    refetch,
-  } = useLiveTokenGET(
+    mutate: refetch,
+  } = useLiveTokenPOST(
     { live_id },
     {
       refetchInterval,

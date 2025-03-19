@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Divider,
   Icon,
@@ -6,29 +6,29 @@ import {
   SimpleStyleScrollView,
   Touchable,
   withTheme,
-} from '@draftbit/ui';
-import { useIsFocused } from '@react-navigation/native';
+} from "@draftbit/ui";
+import { useIsFocused } from "@react-navigation/native";
 import {
   ActivityIndicator,
   Image,
   ImageBackground,
   Text,
   View,
-} from 'react-native';
-import { Fetch } from 'react-request';
-import * as GlobalStyles from '../GlobalStyles.js';
-import * as AceCampTestApi from '../apis/AceCampTestApi.js';
-import * as GlobalVariables from '../config/GlobalVariableContext';
-import Images from '../config/Images';
-import getNameById from '../global-functions/getNameById';
-import t from '../global-functions/t';
-import palettes from '../themes/palettes';
-import Breakpoints from '../utils/Breakpoints';
-import * as StyleSheet from '../utils/StyleSheet';
-import imageSource from '../utils/imageSource';
-import useWindowDimensions from '../utils/useWindowDimensions';
+} from "react-native";
+import { Fetch } from "react-request";
+import * as GlobalStyles from "../GlobalStyles.js";
+import * as AceCampTestApi from "../apis/AceCampTestApi.js";
+import * as GlobalVariables from "../config/GlobalVariableContext";
+import Images from "../config/Images";
+import getNameById from "../global-functions/getNameById";
+import t from "../global-functions/t";
+import palettes from "../themes/palettes";
+import Breakpoints from "../utils/Breakpoints";
+import * as StyleSheet from "../utils/StyleSheet";
+import imageSource from "../utils/imageSource";
+import useWindowDimensions from "../utils/useWindowDimensions";
 
-const MineIndexScreen = props => {
+const MineIndexScreen = (props) => {
   const { theme, navigation } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
@@ -44,7 +44,6 @@ const MineIndexScreen = props => {
   });
   React.useEffect(() => {
     try {
-      console.log(Constants['user_info']?.has_vip, 'has_vip');
     } catch (err) {
       console.error(err);
     }
@@ -62,7 +61,7 @@ const MineIndexScreen = props => {
     >
       <SimpleStyleScrollView
         horizontal={false}
-        keyboardShouldPersistTaps={'never'}
+        keyboardShouldPersistTaps={"never"}
         bounces={false}
         nestedScrollEnabled={true}
         showsHorizontalScrollIndicator={false}
@@ -74,9 +73,9 @@ const MineIndexScreen = props => {
           <SimpleStyleScrollView
             bounces={true}
             horizontal={false}
-            keyboardShouldPersistTaps={'never'}
+            keyboardShouldPersistTaps={"never"}
             nestedScrollEnabled={false}
-            onScroll={event => {
+            onScroll={(event) => {
               try {
                 /* 'Run a Custom Function' action requires configuration: choose a custom function */
               } catch (err) {
@@ -92,26 +91,26 @@ const MineIndexScreen = props => {
           >
             <View>
               <ImageBackground
-                resizeMode={'cover'}
+                resizeMode={"cover"}
                 {...GlobalStyles.ImageBackgroundStyles(theme)[
-                  'Image Background'
+                  "Image Background"
                 ].props}
                 source={imageSource(
-                  Constants['user_info']?.has_vip
-                    ? Images['icheaderbgvip']
-                    : Images['icheaderbgdefault']
+                  Constants["user_info"]?.has_vip
+                    ? Images["icheaderbgvip"]
+                    : Images["icheaderbgdefault"]
                 )}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
                     GlobalStyles.ImageBackgroundStyles(theme)[
-                      'Image Background'
+                      "Image Background"
                     ].style,
                     {
-                      height: '100%',
+                      height: "100%",
                       left: 0,
-                      position: 'absolute',
+                      position: "absolute",
                       top: 0,
-                      width: '100%',
+                      width: "100%",
                     }
                   ),
                   dimensions.width
@@ -121,7 +120,7 @@ const MineIndexScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    backgroundColor: "rgba(0, 0, 0, 0)",
                     marginTop: 50,
                     paddingLeft: 16,
                     paddingRight: 16,
@@ -131,14 +130,14 @@ const MineIndexScreen = props => {
               >
                 {/* Page Top with Logo */}
                 <View
-                  {...GlobalStyles.ViewStyles(theme)['Page Top 7'].props}
+                  {...GlobalStyles.ViewStyles(theme)["Page Top 7"].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.ViewStyles(theme)['Page Top 7'].style,
+                      GlobalStyles.ViewStyles(theme)["Page Top 7"].style,
                       {
-                        backgroundColor: 'rgba(0, 0, 0, 0)',
+                        backgroundColor: "rgba(0, 0, 0, 0)",
                         height: 30,
-                        justifyContent: 'flex-end',
+                        justifyContent: "flex-end",
                         opacity: 1,
                       }
                     ),
@@ -149,15 +148,15 @@ const MineIndexScreen = props => {
                   <View
                     style={StyleSheet.applyWidth(
                       {
-                        alignContent: 'center',
-                        alignItems: 'center',
-                        flexDirection: 'row',
+                        alignContent: "center",
+                        alignItems: "center",
+                        flexDirection: "row",
                         height: 40,
-                        justifyContent: 'space-between',
+                        justifyContent: "space-between",
                         paddingBottom: 12,
                         paddingLeft: 12,
                         paddingRight: 12,
-                        width: '100%',
+                        width: "100%",
                       },
                       dimensions.width
                     )}
@@ -165,21 +164,21 @@ const MineIndexScreen = props => {
                     <Text
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.TextStyles(theme)['Text'].props}
+                      {...GlobalStyles.TextStyles(theme)["Text"].props}
                       style={StyleSheet.applyWidth(
-                        GlobalStyles.TextStyles(theme)['Text'].style,
+                        GlobalStyles.TextStyles(theme)["Text"].style,
                         dimensions.width
                       )}
                     >
-                      {' '}
+                      {" "}
                     </Text>
                     {/* More Button Touchable */}
                     <Touchable
                       onPress={() => {
                         try {
-                          navigation.navigate('BottomTabNavigator', {
-                            screen: 'Mine',
-                            params: { screen: 'MineSettingsScreen' },
+                          navigation.navigate("BottomTabNavigator", {
+                            screen: "Mine",
+                            params: { screen: "MineSettingsScreen" },
                           });
                         } catch (err) {
                           console.error(err);
@@ -188,11 +187,11 @@ const MineIndexScreen = props => {
                     >
                       <Icon
                         color={
-                          Constants['user_info']?.has_vip
-                            ? palettes.App['Custom #ffffff']
+                          Constants["user_info"]?.has_vip
+                            ? palettes.App["Custom #ffffff"]
                             : undefined
                         }
-                        name={'Ionicons/settings-outline'}
+                        name={"Ionicons/settings-outline"}
                         size={24}
                       />
                     </Touchable>
@@ -202,11 +201,11 @@ const MineIndexScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
-                      backgroundColor: 'rgba(0, 0, 0, 0)',
-                      flexDirection: 'row',
+                      alignItems: "center",
+                      backgroundColor: "rgba(0, 0, 0, 0)",
+                      flexDirection: "row",
                       height: 59,
-                      justifyContent: 'space-between',
+                      justifyContent: "space-between",
                     },
                     dimensions.width
                   )}
@@ -214,37 +213,37 @@ const MineIndexScreen = props => {
                   <Touchable
                     onPress={() => {
                       try {
-                        navigation.navigate('BottomTabNavigator', {
-                          screen: 'Mine',
-                          params: { screen: 'MineIdentityInfoScreen' },
+                        navigation.navigate("BottomTabNavigator", {
+                          screen: "Mine",
+                          params: { screen: "MineIdentityInfoScreen" },
                         });
                       } catch (err) {
                         console.error(err);
                       }
                     }}
-                    disabled={!Constants['is_login']}
+                    disabled={!Constants["is_login"]}
                   >
                     <View
                       style={StyleSheet.applyWidth(
-                        { alignItems: 'center', flexDirection: 'row' },
+                        { alignItems: "center", flexDirection: "row" },
                         dimensions.width
                       )}
                     >
                       {/* Img Header */}
                       <>
                         {!(
-                          Constants['is_login'] &&
-                          Constants['user_info']?.avatar
+                          Constants["is_login"] &&
+                          Constants["user_info"]?.avatar
                         ) ? null : (
                           <Image
-                            {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                            resizeMode={'cover'}
+                            {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                            resizeMode={"cover"}
                             source={imageSource(
-                              `${Constants['user_info']?.avatar}`
+                              `${Constants["user_info"]?.avatar}`
                             )}
                             style={StyleSheet.applyWidth(
                               StyleSheet.compose(
-                                GlobalStyles.ImageStyles(theme)['Image'].style,
+                                GlobalStyles.ImageStyles(theme)["Image"].style,
                                 { height: 59, width: 59 }
                               ),
                               dimensions.width
@@ -254,15 +253,15 @@ const MineIndexScreen = props => {
                       </>
                       {/* Img Header 2 */}
                       <Image
-                        {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                        resizeMode={'cover'}
+                        {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                        resizeMode={"cover"}
                         source={
-                          imageSource(Images['icheadercompany']) ??
-                          imageSource('')
+                          imageSource(Images["icheadercompany"]) ??
+                          imageSource("")
                         }
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
-                            GlobalStyles.ImageStyles(theme)['Image'].style,
+                            GlobalStyles.ImageStyles(theme)["Image"].style,
                             { height: 59, width: 59 }
                           ),
                           dimensions.width
@@ -274,7 +273,7 @@ const MineIndexScreen = props => {
                           style={StyleSheet.applyWidth(
                             {
                               flex: 1,
-                              justifyContent: 'center',
+                              justifyContent: "center",
                               marginLeft: 16,
                             },
                             dimensions.width
@@ -282,29 +281,29 @@ const MineIndexScreen = props => {
                         >
                           {/* Header Middle View */}
                           <>
-                            {!Constants['is_login'] ? null : (
+                            {!Constants["is_login"] ? null : (
                               <View
                                 style={StyleSheet.applyWidth(
                                   {
-                                    alignItems: 'center',
-                                    flexDirection: 'row',
+                                    alignItems: "center",
+                                    flexDirection: "row",
                                   },
                                   dimensions.width
                                 )}
                               >
                                 {/* Header Vip Image */}
                                 <>
-                                  {!Constants['user_info']?.has_vip ? null : (
+                                  {!Constants["user_info"]?.has_vip ? null : (
                                     <Image
-                                      resizeMode={'cover'}
+                                      resizeMode={"cover"}
                                       {...GlobalStyles.ImageStyles(theme)[
-                                        'Image'
+                                        "Image"
                                       ].props}
-                                      source={imageSource(Images['icvip'])}
+                                      source={imageSource(Images["icvip"])}
                                       style={StyleSheet.applyWidth(
                                         StyleSheet.compose(
                                           GlobalStyles.ImageStyles(theme)[
-                                            'Image'
+                                            "Image"
                                           ].style,
                                           { height: 24, right: 6, width: 24 }
                                         ),
@@ -317,17 +316,17 @@ const MineIndexScreen = props => {
                                 <Text
                                   accessible={true}
                                   selectable={false}
-                                  {...GlobalStyles.TextStyles(theme)['Text']
+                                  {...GlobalStyles.TextStyles(theme)["Text"]
                                     .props}
-                                  ellipsizeMode={'tail'}
+                                  ellipsizeMode={"tail"}
                                   numberOfLines={1}
                                   style={StyleSheet.applyWidth(
                                     StyleSheet.compose(
-                                      GlobalStyles.TextStyles(theme)['Text']
+                                      GlobalStyles.TextStyles(theme)["Text"]
                                         .style,
                                       {
-                                        color: Constants['user_info']?.has_vip
-                                          ? '#ffd6a6'
+                                        color: Constants["user_info"]?.has_vip
+                                          ? "#ffd6a6"
                                           : undefined,
                                         fontSize: 22,
                                       }
@@ -335,14 +334,14 @@ const MineIndexScreen = props => {
                                     dimensions.width
                                   )}
                                 >
-                                  {Constants['user_info']?.name}
+                                  {Constants["user_info"]?.name}
                                 </Text>
                               </View>
                             )}
                           </>
                           {/* Header Title View */}
                           <>
-                            {!Constants['is_login'] ? null : (
+                            {!Constants["is_login"] ? null : (
                               <View>
                                 {/* Header Title Text */}
                                 <Text
@@ -357,8 +356,8 @@ const MineIndexScreen = props => {
                                         },
                                         {
                                           minWidth: Breakpoints.Mobile,
-                                          value: Constants['user_info']?.has_vip
-                                            ? palettes.App['Custom #ffffff']
+                                          value: Constants["user_info"]?.has_vip
+                                            ? palettes.App["Custom #ffffff"]
                                             : undefined,
                                         },
                                       ],
@@ -369,7 +368,7 @@ const MineIndexScreen = props => {
                                   {getNameById(
                                     Variables,
                                     9,
-                                    Constants['user_info']?.organization_user
+                                    Constants["user_info"]?.organization_user
                                       .organization.organization_type_id
                                   )}
                                 </Text>
@@ -377,13 +376,13 @@ const MineIndexScreen = props => {
                             )}
                           </>
                           <>
-                            {Constants['is_login'] ? null : (
+                            {Constants["is_login"] ? null : (
                               <View
                                 style={StyleSheet.applyWidth(
                                   {
-                                    alignSelf: 'flex-start',
+                                    alignSelf: "flex-start",
                                     flex: 1,
-                                    justifyContent: 'center',
+                                    justifyContent: "center",
                                   },
                                   dimensions.width
                                 )}
@@ -391,7 +390,7 @@ const MineIndexScreen = props => {
                                 <Touchable
                                   onPress={() => {
                                     try {
-                                      navigation.push('LoginScreen');
+                                      navigation.push("LoginScreen");
                                     } catch (err) {
                                       console.error(err);
                                     }
@@ -399,7 +398,7 @@ const MineIndexScreen = props => {
                                 >
                                   <View
                                     style={StyleSheet.applyWidth(
-                                      { justifyContent: 'center' },
+                                      { justifyContent: "center" },
                                       dimensions.width
                                     )}
                                   >
@@ -409,16 +408,16 @@ const MineIndexScreen = props => {
                                       style={StyleSheet.applyWidth(
                                         {
                                           color: palettes.Brand.itemTextNomal,
-                                          fontFamily: 'System',
+                                          fontFamily: "System",
                                           fontSize: 22,
-                                          fontWeight: '700',
+                                          fontWeight: "700",
                                           letterSpacing: 0.2,
                                           lineHeight: 30,
                                         },
                                         dimensions.width
                                       )}
                                     >
-                                      {t(Variables, 'mine_click_login')}
+                                      {t(Variables, "mine_click_login")}
                                     </Text>
                                   </View>
                                 </Touchable>
@@ -433,9 +432,9 @@ const MineIndexScreen = props => {
                   <View
                     style={StyleSheet.applyWidth(
                       {
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        justifyContent: 'center',
+                        alignItems: "center",
+                        flexDirection: "row",
+                        justifyContent: "center",
                         marginLeft: 4,
                       },
                       dimensions.width
@@ -445,10 +444,10 @@ const MineIndexScreen = props => {
                     <Text
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.TextStyles(theme)['Text'].props}
+                      {...GlobalStyles.TextStyles(theme)["Text"].props}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.TextStyles(theme)['Text'].style,
+                          GlobalStyles.TextStyles(theme)["Text"].style,
                           {
                             color: [
                               {
@@ -457,8 +456,8 @@ const MineIndexScreen = props => {
                               },
                               {
                                 minWidth: Breakpoints.Mobile,
-                                value: Constants['user_info']?.has_vip
-                                  ? '#f6f7f8'
+                                value: Constants["user_info"]?.has_vip
+                                  ? "#f6f7f8"
                                   : undefined,
                               },
                             ],
@@ -467,16 +466,16 @@ const MineIndexScreen = props => {
                         dimensions.width
                       )}
                     >
-                      {'个人主页'}
+                      {"个人主页"}
                     </Text>
                     {/* Header ProfileUrl Next Image */}
                     <Image
-                      resizeMode={'cover'}
-                      {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                      source={imageSource(Images['icminenext'])}
+                      resizeMode={"cover"}
+                      {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                      source={imageSource(Images["icminenext"])}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.ImageStyles(theme)['Image'].style,
+                          GlobalStyles.ImageStyles(theme)["Image"].style,
                           { height: 14, marginLeft: 4, width: 10 }
                         ),
                         dimensions.width
@@ -487,10 +486,10 @@ const MineIndexScreen = props => {
 
                 <AceCampTestApi.FetchSnsUserInfoGET
                   handlers={{
-                    on401: fetchData => {
+                    on401: (fetchData) => {
                       try {
                         setGlobalVariableValue({
-                          key: 'is_login',
+                          key: "is_login",
                           value: false,
                         });
                         setSns_data({
@@ -504,7 +503,7 @@ const MineIndexScreen = props => {
                         console.error(err);
                       }
                     },
-                    onData: fetchData => {
+                    onData: (fetchData) => {
                       try {
                         setSns_data(fetchData?.data?.stats);
                       } catch (err) {
@@ -512,7 +511,7 @@ const MineIndexScreen = props => {
                       }
                     },
                   }}
-                  user_id={Constants['user_info']?.id}
+                  user_id={Constants["user_info"]?.id}
                 >
                   {({ loading, error, data, refetchSnsUserInfo }) => {
                     const fetchData = data?.json;
@@ -531,10 +530,10 @@ const MineIndexScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignSelf: 'auto',
-                      backgroundColor: 'rgba(0, 0, 0, 0)',
-                      flexDirection: 'row',
-                      justifyContent: 'space-around',
+                      alignSelf: "auto",
+                      backgroundColor: "rgba(0, 0, 0, 0)",
+                      flexDirection: "row",
+                      justifyContent: "space-around",
                       marginBottom: 24,
                       marginTop: 24,
                     },
@@ -544,20 +543,20 @@ const MineIndexScreen = props => {
                   <Touchable
                     onPress={() => {
                       try {
-                        if (!Constants['is_login']) {
+                        if (!Constants["is_login"]) {
                           return;
                         }
-                        navigation.push('MineMyPointScreen');
+                        navigation.push("MineMyPointScreen");
                       } catch (err) {
                         console.error(err);
                       }
                     }}
-                    disabled={!Constants['is_login']}
+                    disabled={!Constants["is_login"]}
                   >
                     {/* Point Section View */}
                     <View
                       style={StyleSheet.applyWidth(
-                        { alignItems: 'center' },
+                        { alignItems: "center" },
                         dimensions.width
                       )}
                     >
@@ -565,13 +564,13 @@ const MineIndexScreen = props => {
                       <Text
                         accessible={true}
                         selectable={false}
-                        {...GlobalStyles.TextStyles(theme)['Text'].props}
+                        {...GlobalStyles.TextStyles(theme)["Text"].props}
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
-                            GlobalStyles.TextStyles(theme)['Text'].style,
+                            GlobalStyles.TextStyles(theme)["Text"].style,
                             {
-                              color: Constants['user_info']?.has_vip
-                                ? '#ffd6a6'
+                              color: Constants["user_info"]?.has_vip
+                                ? "#ffd6a6"
                                 : undefined,
                               fontSize: 16,
                             }
@@ -585,20 +584,20 @@ const MineIndexScreen = props => {
                       <Text
                         accessible={true}
                         selectable={false}
-                        {...GlobalStyles.TextStyles(theme)['Text'].props}
+                        {...GlobalStyles.TextStyles(theme)["Text"].props}
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
-                            GlobalStyles.TextStyles(theme)['Text'].style,
+                            GlobalStyles.TextStyles(theme)["Text"].style,
                             {
                               color: [
                                 {
                                   minWidth: Breakpoints.Mobile,
-                                  value: 'rgb(69, 69, 69)',
+                                  value: "rgb(69, 69, 69)",
                                 },
                                 {
                                   minWidth: Breakpoints.Mobile,
-                                  value: Constants['user_info']?.has_vip
-                                    ? '#f6f7f899'
+                                  value: Constants["user_info"]?.has_vip
+                                    ? "#f6f7f899"
                                     : undefined,
                                 },
                               ],
@@ -609,7 +608,7 @@ const MineIndexScreen = props => {
                           dimensions.width
                         )}
                       >
-                        {'观点'}
+                        {"观点"}
                       </Text>
                     </View>
                   </Touchable>
@@ -618,7 +617,7 @@ const MineIndexScreen = props => {
                     onPress={() => {
                       try {
                         /* hidden 'Conditional Stop' action */
-                        navigation.push('MineMyTopicScreen');
+                        navigation.push("MineMyTopicScreen");
                       } catch (err) {
                         console.error(err);
                       }
@@ -626,10 +625,10 @@ const MineIndexScreen = props => {
                   >
                     {/* Discussion Section View */}
                     <>
-                      {!Constants['is_login'] ? null : (
+                      {!Constants["is_login"] ? null : (
                         <View
                           style={StyleSheet.applyWidth(
-                            { alignItems: 'center' },
+                            { alignItems: "center" },
                             dimensions.width
                           )}
                         >
@@ -637,13 +636,13 @@ const MineIndexScreen = props => {
                           <Text
                             accessible={true}
                             selectable={false}
-                            {...GlobalStyles.TextStyles(theme)['Text'].props}
+                            {...GlobalStyles.TextStyles(theme)["Text"].props}
                             style={StyleSheet.applyWidth(
                               StyleSheet.compose(
-                                GlobalStyles.TextStyles(theme)['Text'].style,
+                                GlobalStyles.TextStyles(theme)["Text"].style,
                                 {
-                                  color: Constants['user_info']?.has_vip
-                                    ? '#ffd6a6'
+                                  color: Constants["user_info"]?.has_vip
+                                    ? "#ffd6a6"
                                     : undefined,
                                   fontSize: 16,
                                 }
@@ -657,20 +656,20 @@ const MineIndexScreen = props => {
                           <Text
                             accessible={true}
                             selectable={false}
-                            {...GlobalStyles.TextStyles(theme)['Text'].props}
+                            {...GlobalStyles.TextStyles(theme)["Text"].props}
                             style={StyleSheet.applyWidth(
                               StyleSheet.compose(
-                                GlobalStyles.TextStyles(theme)['Text'].style,
+                                GlobalStyles.TextStyles(theme)["Text"].style,
                                 {
                                   color: [
                                     {
                                       minWidth: Breakpoints.Mobile,
-                                      value: 'rgb(69, 69, 69)',
+                                      value: "rgb(69, 69, 69)",
                                     },
                                     {
                                       minWidth: Breakpoints.Mobile,
-                                      value: Constants['user_info']?.has_vip
-                                        ? '#f6f7f899'
+                                      value: Constants["user_info"]?.has_vip
+                                        ? "#f6f7f899"
                                         : undefined,
                                     },
                                   ],
@@ -681,7 +680,7 @@ const MineIndexScreen = props => {
                               dimensions.width
                             )}
                           >
-                            {'讨论'}
+                            {"讨论"}
                           </Text>
                         </View>
                       )}
@@ -691,7 +690,7 @@ const MineIndexScreen = props => {
                   <Touchable
                     onPress={() => {
                       try {
-                        navigation.push('MineMyFollowScreen');
+                        navigation.push("MineMyFollowScreen");
                       } catch (err) {
                         console.error(err);
                       }
@@ -699,10 +698,10 @@ const MineIndexScreen = props => {
                   >
                     {/* Follow Section View */}
                     <>
-                      {!Constants['is_login'] ? null : (
+                      {!Constants["is_login"] ? null : (
                         <View
                           style={StyleSheet.applyWidth(
-                            { alignItems: 'center' },
+                            { alignItems: "center" },
                             dimensions.width
                           )}
                         >
@@ -710,13 +709,13 @@ const MineIndexScreen = props => {
                           <Text
                             accessible={true}
                             selectable={false}
-                            {...GlobalStyles.TextStyles(theme)['Text'].props}
+                            {...GlobalStyles.TextStyles(theme)["Text"].props}
                             style={StyleSheet.applyWidth(
                               StyleSheet.compose(
-                                GlobalStyles.TextStyles(theme)['Text'].style,
+                                GlobalStyles.TextStyles(theme)["Text"].style,
                                 {
-                                  color: Constants['user_info']?.has_vip
-                                    ? '#ffd6a6'
+                                  color: Constants["user_info"]?.has_vip
+                                    ? "#ffd6a6"
                                     : undefined,
                                   fontSize: 16,
                                 }
@@ -730,20 +729,20 @@ const MineIndexScreen = props => {
                           <Text
                             accessible={true}
                             selectable={false}
-                            {...GlobalStyles.TextStyles(theme)['Text'].props}
+                            {...GlobalStyles.TextStyles(theme)["Text"].props}
                             style={StyleSheet.applyWidth(
                               StyleSheet.compose(
-                                GlobalStyles.TextStyles(theme)['Text'].style,
+                                GlobalStyles.TextStyles(theme)["Text"].style,
                                 {
                                   color: [
                                     {
                                       minWidth: Breakpoints.Mobile,
-                                      value: 'rgb(69, 69, 69)',
+                                      value: "rgb(69, 69, 69)",
                                     },
                                     {
                                       minWidth: Breakpoints.Mobile,
-                                      value: Constants['user_info']?.has_vip
-                                        ? '#f6f7f899'
+                                      value: Constants["user_info"]?.has_vip
+                                        ? "#f6f7f899"
                                         : undefined,
                                     },
                                   ],
@@ -754,7 +753,7 @@ const MineIndexScreen = props => {
                               dimensions.width
                             )}
                           >
-                            {'关注'}
+                            {"关注"}
                           </Text>
                         </View>
                       )}
@@ -764,7 +763,7 @@ const MineIndexScreen = props => {
                   <Touchable
                     onPress={() => {
                       try {
-                        navigation.push('MineMyFansScreen');
+                        navigation.push("MineMyFansScreen");
                       } catch (err) {
                         console.error(err);
                       }
@@ -772,10 +771,10 @@ const MineIndexScreen = props => {
                   >
                     {/* Fans Section View */}
                     <>
-                      {!Constants['is_login'] ? null : (
+                      {!Constants["is_login"] ? null : (
                         <View
                           style={StyleSheet.applyWidth(
-                            { alignItems: 'center' },
+                            { alignItems: "center" },
                             dimensions.width
                           )}
                         >
@@ -783,13 +782,13 @@ const MineIndexScreen = props => {
                           <Text
                             accessible={true}
                             selectable={false}
-                            {...GlobalStyles.TextStyles(theme)['Text'].props}
+                            {...GlobalStyles.TextStyles(theme)["Text"].props}
                             style={StyleSheet.applyWidth(
                               StyleSheet.compose(
-                                GlobalStyles.TextStyles(theme)['Text'].style,
+                                GlobalStyles.TextStyles(theme)["Text"].style,
                                 {
-                                  color: Constants['user_info']?.has_vip
-                                    ? '#ffd6a6'
+                                  color: Constants["user_info"]?.has_vip
+                                    ? "#ffd6a6"
                                     : undefined,
                                   fontSize: 16,
                                 }
@@ -803,20 +802,20 @@ const MineIndexScreen = props => {
                           <Text
                             accessible={true}
                             selectable={false}
-                            {...GlobalStyles.TextStyles(theme)['Text'].props}
+                            {...GlobalStyles.TextStyles(theme)["Text"].props}
                             style={StyleSheet.applyWidth(
                               StyleSheet.compose(
-                                GlobalStyles.TextStyles(theme)['Text'].style,
+                                GlobalStyles.TextStyles(theme)["Text"].style,
                                 {
                                   color: [
                                     {
                                       minWidth: Breakpoints.Mobile,
-                                      value: 'rgb(69, 69, 69)',
+                                      value: "rgb(69, 69, 69)",
                                     },
                                     {
                                       minWidth: Breakpoints.Mobile,
-                                      value: Constants['user_info']?.has_vip
-                                        ? '#f6f7f899'
+                                      value: Constants["user_info"]?.has_vip
+                                        ? "#f6f7f899"
                                         : undefined,
                                     },
                                   ],
@@ -827,7 +826,7 @@ const MineIndexScreen = props => {
                               dimensions.width
                             )}
                           >
-                            {'粉丝'}
+                            {"粉丝"}
                           </Text>
                         </View>
                       )}
@@ -838,11 +837,11 @@ const MineIndexScreen = props => {
                 <Touchable
                   onPress={() => {
                     try {
-                      if (Constants['user_info']?.has_vip) {
-                        navigation.push('VipInfoScreen');
+                      if (Constants["user_info"]?.has_vip) {
+                        navigation.push("VipInfoScreen");
                       } else {
-                        navigation.push('WebViewScreen', {
-                          url: Constants['base_url'] + '/vip_turn',
+                        navigation.push("WebViewScreen", {
+                          url: Constants["base_url"] + "/vip_turn",
                         });
                       }
                     } catch (err) {
@@ -854,32 +853,32 @@ const MineIndexScreen = props => {
                   <View
                     style={StyleSheet.applyWidth(
                       {
-                        backgroundColor: 'rgba(0, 0, 0, 0)',
+                        backgroundColor: "rgba(0, 0, 0, 0)",
                         borderRadius: 10,
                         height: 46,
-                        overflow: 'hidden',
+                        overflow: "hidden",
                       },
                       dimensions.width
                     )}
                   >
                     <ImageBackground
                       {...GlobalStyles.ImageBackgroundStyles(theme)[
-                        'Image Background'
+                        "Image Background"
                       ].props}
-                      resizeMode={'stretch'}
-                      source={imageSource(Images['icvipbg'])}
+                      resizeMode={"stretch"}
+                      source={imageSource(Images["icvipbg"])}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
                           GlobalStyles.ImageBackgroundStyles(theme)[
-                            'Image Background'
+                            "Image Background"
                           ].style,
                           {
                             bottom: 0,
                             height: 56,
                             left: 0,
-                            position: 'absolute',
+                            position: "absolute",
                             top: 0,
-                            width: '100%',
+                            width: "100%",
                             zIndex: 0,
                           }
                         ),
@@ -889,27 +888,27 @@ const MineIndexScreen = props => {
                     <View
                       style={StyleSheet.applyWidth(
                         {
-                          alignItems: 'center',
-                          backgroundColor: 'rgba(0, 0, 0, 0)',
-                          flexDirection: 'row',
-                          height: '100%',
-                          justifyContent: 'space-between',
+                          alignItems: "center",
+                          backgroundColor: "rgba(0, 0, 0, 0)",
+                          flexDirection: "row",
+                          height: "100%",
+                          justifyContent: "space-between",
                           opacity: 1,
                           paddingLeft: 12,
                           paddingRight: 12,
-                          width: '100%',
+                          width: "100%",
                         },
                         dimensions.width
                       )}
                     >
                       {/* Crown Image */}
                       <Image
-                        resizeMode={'cover'}
-                        {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                        source={imageSource(Images['icvip'])}
+                        resizeMode={"cover"}
+                        {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                        source={imageSource(Images["icvip"])}
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
-                            GlobalStyles.ImageStyles(theme)['Image'].style,
+                            GlobalStyles.ImageStyles(theme)["Image"].style,
                             { height: 22, width: 22, zIndex: 5 }
                           ),
                           dimensions.width
@@ -918,9 +917,9 @@ const MineIndexScreen = props => {
                       <View
                         style={StyleSheet.applyWidth(
                           {
-                            justifyContent: 'center',
+                            justifyContent: "center",
                             marginLeft: 12,
-                            width: '70%',
+                            width: "70%",
                           },
                           dimensions.width
                         )}
@@ -928,25 +927,25 @@ const MineIndexScreen = props => {
                         <Text
                           accessible={true}
                           selectable={false}
-                          {...GlobalStyles.TextStyles(theme)['Text'].props}
+                          {...GlobalStyles.TextStyles(theme)["Text"].props}
                           style={StyleSheet.applyWidth(
-                            GlobalStyles.TextStyles(theme)['Text'].style,
+                            GlobalStyles.TextStyles(theme)["Text"].style,
                             dimensions.width
                           )}
                         >
-                          {Constants['user_info']?.has_vip
-                            ? Constants['user_info']?.vip_infos[0].title
-                            : t(Variables, 'live_open_vip')}
+                          {Constants["user_info"]?.has_vip
+                            ? Constants["user_info"]?.vip_infos[0].title
+                            : t(Variables, "live_open_vip")}
                         </Text>
                       </View>
                       {/* Go Image */}
                       <Image
-                        resizeMode={'cover'}
-                        {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                        source={imageSource(Images['icvipnext'])}
+                        resizeMode={"cover"}
+                        {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                        source={imageSource(Images["icvipnext"])}
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
-                            GlobalStyles.ImageStyles(theme)['Image'].style,
+                            GlobalStyles.ImageStyles(theme)["Image"].style,
                             { height: 22, width: 22 }
                           ),
                           dimensions.width
@@ -965,7 +964,7 @@ const MineIndexScreen = props => {
                     borderTopRightRadius: 16,
                     height: 16,
                     marginTop: 16,
-                    overflow: 'hidden',
+                    overflow: "hidden",
                   },
                   dimensions.width
                 )}
@@ -975,8 +974,8 @@ const MineIndexScreen = props => {
             <Touchable
               onPress={() => {
                 try {
-                  navigation.push('WebViewScreen', {
-                    url: Constants['base_url'] + '/invite_users',
+                  navigation.push("WebViewScreen", {
+                    url: Constants["base_url"] + "/invite_users",
                   });
                 } catch (err) {
                   console.error(err);
@@ -987,7 +986,7 @@ const MineIndexScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    overflow: 'hidden',
+                    overflow: "hidden",
                     paddingBottom: 16,
                     paddingLeft: 16,
                     paddingRight: 16,
@@ -996,17 +995,17 @@ const MineIndexScreen = props => {
                 )}
               >
                 <Image
-                  resizeMode={'cover'}
-                  {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                  source={imageSource(Images['icactiveinvite'])}
+                  resizeMode={"cover"}
+                  {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                  source={imageSource(Images["icactiveinvite"])}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.ImageStyles(theme)['Image'].style,
+                      GlobalStyles.ImageStyles(theme)["Image"].style,
                       {
                         borderRadius: 8,
                         height: 60,
-                        overflow: 'hidden',
-                        width: '100%',
+                        overflow: "hidden",
+                        width: "100%",
                       }
                     ),
                     dimensions.width
@@ -1017,7 +1016,7 @@ const MineIndexScreen = props => {
             {/* Split View */}
             <View
               style={StyleSheet.applyWidth(
-                { backgroundColor: 'rgb(250, 250, 250)', height: 5 },
+                { backgroundColor: "rgb(250, 250, 250)", height: 5 },
                 dimensions.width
               )}
             />
@@ -1037,9 +1036,9 @@ const MineIndexScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
+                    alignItems: "center",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
                     paddingBottom: 4,
                     paddingTop: 4,
                   },
@@ -1050,25 +1049,25 @@ const MineIndexScreen = props => {
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
+                  {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
+                      GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
                       { fontSize: 14 }
                     ),
                     dimensions.width
                   )}
                 >
-                  {'我报名的活动'}
+                  {"我报名的活动"}
                 </Text>
 
                 <Touchable
                   onPress={() => {
                     try {
-                      navigation.push('WebViewScreen', {
+                      navigation.push("WebViewScreen", {
                         url:
-                          Constants['base_url'] +
-                          '/personalCenter/enteredEvent',
+                          Constants["base_url"] +
+                          "/personalCenter/enteredEvent",
                       });
                     } catch (err) {
                       console.error(err);
@@ -1078,7 +1077,7 @@ const MineIndexScreen = props => {
                   {/* Button view */}
                   <View
                     style={StyleSheet.applyWidth(
-                      { alignItems: 'center', flexDirection: 'row' },
+                      { alignItems: "center", flexDirection: "row" },
                       dimensions.width
                     )}
                   >
@@ -1086,12 +1085,12 @@ const MineIndexScreen = props => {
                     <Text
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.TextStyles(theme)['Text 2111'].props}
+                      {...GlobalStyles.TextStyles(theme)["Text 2111"].props}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.TextStyles(theme)['Text 2111'].style,
+                          GlobalStyles.TextStyles(theme)["Text 2111"].style,
                           {
-                            color: 'rgb(156, 169, 181)',
+                            color: "rgb(156, 169, 181)",
                             fontSize: 12,
                             marginRight: 4,
                           }
@@ -1099,16 +1098,16 @@ const MineIndexScreen = props => {
                         dimensions.width
                       )}
                     >
-                      {'查看全部'}
+                      {"查看全部"}
                     </Text>
                     {/* Go Next Iamge */}
                     <Image
-                      resizeMode={'cover'}
-                      {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                      source={imageSource(Images['icminenext'])}
+                      resizeMode={"cover"}
+                      {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                      source={imageSource(Images["icminenext"])}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.ImageStyles(theme)['Image'].style,
+                          GlobalStyles.ImageStyles(theme)["Image"].style,
                           { height: 14, width: 10 }
                         ),
                         dimensions.width
@@ -1121,9 +1120,9 @@ const MineIndexScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    flexDirection: 'row',
+                    flexDirection: "row",
                     gap: 12,
-                    justifyContent: 'space-around',
+                    justifyContent: "space-around",
                     paddingLeft: 6,
                     paddingRight: 6,
                   },
@@ -1133,47 +1132,47 @@ const MineIndexScreen = props => {
                 <Touchable
                   onPress={() => {
                     try {
-                      navigation.push('WebViewScreen', {
+                      navigation.push("WebViewScreen", {
                         url:
-                          Constants['base_url'] +
-                          '/personalCenter/enteredEvent?state=planned',
+                          Constants["base_url"] +
+                          "/personalCenter/enteredEvent?state=planned",
                       });
                     } catch (err) {
                       console.error(err);
                     }
                   }}
                   style={StyleSheet.applyWidth(
-                    { width: '28%' },
+                    { width: "28%" },
                     dimensions.width
                   )}
                 >
                   <View
                     style={StyleSheet.applyWidth(
-                      { alignItems: 'center', flexDirection: 'column' },
+                      { alignItems: "center", flexDirection: "column" },
                       dimensions.width
                     )}
                   >
                     <View
                       style={StyleSheet.applyWidth(
                         {
-                          alignItems: 'center',
-                          backgroundColor: 'rgba(196, 196, 196, 0.2)',
+                          alignItems: "center",
+                          backgroundColor: "rgba(196, 196, 196, 0.2)",
                           borderRadius: 8,
                           height: 59,
-                          justifyContent: 'center',
-                          overflow: 'hidden',
-                          width: '100%',
+                          justifyContent: "center",
+                          overflow: "hidden",
+                          width: "100%",
                         },
                         dimensions.width
                       )}
                     >
                       <Image
-                        resizeMode={'cover'}
-                        {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                        source={imageSource(Images['icmineregistering'])}
+                        resizeMode={"cover"}
+                        {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                        source={imageSource(Images["icmineregistering"])}
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
-                            GlobalStyles.ImageStyles(theme)['Image'].style,
+                            GlobalStyles.ImageStyles(theme)["Image"].style,
                             { height: 30, width: 30 }
                           ),
                           dimensions.width
@@ -1186,14 +1185,14 @@ const MineIndexScreen = props => {
                       selectable={false}
                       style={StyleSheet.applyWidth(
                         {
-                          color: 'rgb(89, 106, 122)',
+                          color: "rgb(89, 106, 122)",
                           fontSize: 12,
                           paddingTop: 8,
                         },
                         dimensions.width
                       )}
                     >
-                      {'报名中'}
+                      {"报名中"}
                     </Text>
                   </View>
                 </Touchable>
@@ -1201,48 +1200,48 @@ const MineIndexScreen = props => {
                 <Touchable
                   onPress={() => {
                     try {
-                      navigation.push('WebViewScreen', {
+                      navigation.push("WebViewScreen", {
                         url:
-                          Constants['base_url'] +
-                          '/personalCenter/enteredEvent?state=ongoing',
+                          Constants["base_url"] +
+                          "/personalCenter/enteredEvent?state=ongoing",
                       });
                     } catch (err) {
                       console.error(err);
                     }
                   }}
                   style={StyleSheet.applyWidth(
-                    { width: '28%' },
+                    { width: "28%" },
                     dimensions.width
                   )}
                 >
                   {/* View 3 */}
                   <View
                     style={StyleSheet.applyWidth(
-                      { alignItems: 'center', flexDirection: 'column' },
+                      { alignItems: "center", flexDirection: "column" },
                       dimensions.width
                     )}
                   >
                     <View
                       style={StyleSheet.applyWidth(
                         {
-                          alignItems: 'center',
-                          backgroundColor: 'rgba(196, 196, 196, 0.2)',
+                          alignItems: "center",
+                          backgroundColor: "rgba(196, 196, 196, 0.2)",
                           borderRadius: 8,
                           height: 59,
-                          justifyContent: 'center',
-                          overflow: 'hidden',
-                          width: '100%',
+                          justifyContent: "center",
+                          overflow: "hidden",
+                          width: "100%",
                         },
                         dimensions.width
                       )}
                     >
                       <Image
-                        resizeMode={'cover'}
-                        {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                        source={imageSource(Images['icmineeventing'])}
+                        resizeMode={"cover"}
+                        {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                        source={imageSource(Images["icmineeventing"])}
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
-                            GlobalStyles.ImageStyles(theme)['Image'].style,
+                            GlobalStyles.ImageStyles(theme)["Image"].style,
                             { height: 30, width: 30 }
                           ),
                           dimensions.width
@@ -1255,14 +1254,14 @@ const MineIndexScreen = props => {
                       selectable={false}
                       style={StyleSheet.applyWidth(
                         {
-                          color: 'rgb(89, 106, 122)',
+                          color: "rgb(89, 106, 122)",
                           fontSize: 12,
                           paddingTop: 8,
                         },
                         dimensions.width
                       )}
                     >
-                      {'进行中'}
+                      {"进行中"}
                     </Text>
                   </View>
                 </Touchable>
@@ -1270,48 +1269,48 @@ const MineIndexScreen = props => {
                 <Touchable
                   onPress={() => {
                     try {
-                      navigation.push('WebViewScreen', {
+                      navigation.push("WebViewScreen", {
                         url:
-                          Constants['base_url'] +
-                          '/personalCenter/enteredEvent?state=finished',
+                          Constants["base_url"] +
+                          "/personalCenter/enteredEvent?state=finished",
                       });
                     } catch (err) {
                       console.error(err);
                     }
                   }}
                   style={StyleSheet.applyWidth(
-                    { width: '28%' },
+                    { width: "28%" },
                     dimensions.width
                   )}
                 >
                   {/* View 2 */}
                   <View
                     style={StyleSheet.applyWidth(
-                      { alignItems: 'center', flexDirection: 'column' },
+                      { alignItems: "center", flexDirection: "column" },
                       dimensions.width
                     )}
                   >
                     <View
                       style={StyleSheet.applyWidth(
                         {
-                          alignItems: 'center',
-                          backgroundColor: 'rgba(196, 196, 196, 0.2)',
+                          alignItems: "center",
+                          backgroundColor: "rgba(196, 196, 196, 0.2)",
                           borderRadius: 8,
                           height: 59,
-                          justifyContent: 'center',
-                          overflow: 'hidden',
-                          width: '100%',
+                          justifyContent: "center",
+                          overflow: "hidden",
+                          width: "100%",
                         },
                         dimensions.width
                       )}
                     >
                       <Image
-                        resizeMode={'cover'}
-                        {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                        source={imageSource(Images['icmineeventpass'])}
+                        resizeMode={"cover"}
+                        {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                        source={imageSource(Images["icmineeventpass"])}
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
-                            GlobalStyles.ImageStyles(theme)['Image'].style,
+                            GlobalStyles.ImageStyles(theme)["Image"].style,
                             { height: 30, width: 30 }
                           ),
                           dimensions.width
@@ -1324,14 +1323,14 @@ const MineIndexScreen = props => {
                       selectable={false}
                       style={StyleSheet.applyWidth(
                         {
-                          color: 'rgb(89, 106, 122)',
+                          color: "rgb(89, 106, 122)",
                           fontSize: 12,
                           paddingTop: 8,
                         },
                         dimensions.width
                       )}
                     >
-                      {'已结束'}
+                      {"已结束"}
                     </Text>
                   </View>
                 </Touchable>
@@ -1341,8 +1340,8 @@ const MineIndexScreen = props => {
             <Touchable
               onPress={() => {
                 try {
-                  navigation.push('WebViewScreen', {
-                    url: Constants['base_url'] + '/personalCenter/virtualCoin',
+                  navigation.push("WebViewScreen", {
+                    url: Constants["base_url"] + "/personalCenter/virtualCoin",
                   });
                 } catch (err) {
                   console.error(err);
@@ -1357,8 +1356,8 @@ const MineIndexScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    flexDirection: 'row',
+                    alignItems: "center",
+                    flexDirection: "row",
                     paddingLeft: 16,
                     paddingRight: 16,
                   },
@@ -1369,27 +1368,27 @@ const MineIndexScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 28,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       marginRight: 20,
                       width: 28,
                     },
                     dimensions.width
                   )}
                 >
-                  <Icon name={'FontAwesome/money'} size={24} />
+                  <Icon name={"FontAwesome/money"} size={24} />
                 </View>
                 {/* Setting Text */}
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
+                  {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
+                      GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
                       {
-                        fontFamily: 'Urbanist_400Regular',
+                        fontFamily: "Urbanist_400Regular",
                         fontSize: 16,
                         marginRight: 20,
                       }
@@ -1397,27 +1396,27 @@ const MineIndexScreen = props => {
                     dimensions.width
                   )}
                 >
-                  {'A 币'}
+                  {"A 币"}
                 </Text>
                 {/* Settings Arrow View */}
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 20,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       width: 20,
                     },
                     dimensions.width
                   )}
                 >
                   <Icon
-                    {...GlobalStyles.IconStyles(theme)['Arrow Right'].props}
+                    {...GlobalStyles.IconStyles(theme)["Arrow Right"].props}
                     color={palettes.Brand.appStyle_greyscale_400}
-                    name={'Entypo/chevron-thin-right'}
+                    name={"Entypo/chevron-thin-right"}
                     size={16}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.IconStyles(theme)['Arrow Right'].style,
+                      GlobalStyles.IconStyles(theme)["Arrow Right"].style,
                       dimensions.width
                     )}
                   />
@@ -1428,7 +1427,7 @@ const MineIndexScreen = props => {
             <Touchable
               onPress={() => {
                 try {
-                  navigation.push('MineBuyArticleScreen');
+                  navigation.push("MineBuyArticleScreen");
                 } catch (err) {
                   console.error(err);
                 }
@@ -1442,8 +1441,8 @@ const MineIndexScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    flexDirection: 'row',
+                    alignItems: "center",
+                    flexDirection: "row",
                     paddingLeft: 16,
                     paddingRight: 16,
                   },
@@ -1454,27 +1453,27 @@ const MineIndexScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 28,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       marginRight: 20,
                       width: 28,
                     },
                     dimensions.width
                   )}
                 >
-                  <Icon name={'AntDesign/profile'} size={24} />
+                  <Icon name={"AntDesign/profile"} size={24} />
                 </View>
                 {/* Setting Text */}
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
+                  {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
+                      GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
                       {
-                        fontFamily: 'Urbanist_400Regular',
+                        fontFamily: "Urbanist_400Regular",
                         fontSize: 16,
                         marginRight: 20,
                       }
@@ -1482,27 +1481,27 @@ const MineIndexScreen = props => {
                     dimensions.width
                   )}
                 >
-                  {'购买的文章纪要'}
+                  {"购买的文章纪要"}
                 </Text>
                 {/* Settings Arrow View */}
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 20,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       width: 20,
                     },
                     dimensions.width
                   )}
                 >
                   <Icon
-                    {...GlobalStyles.IconStyles(theme)['Arrow Right'].props}
+                    {...GlobalStyles.IconStyles(theme)["Arrow Right"].props}
                     color={palettes.Brand.appStyle_greyscale_400}
-                    name={'Entypo/chevron-thin-right'}
+                    name={"Entypo/chevron-thin-right"}
                     size={16}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.IconStyles(theme)['Arrow Right'].style,
+                      GlobalStyles.IconStyles(theme)["Arrow Right"].style,
                       dimensions.width
                     )}
                   />
@@ -1513,7 +1512,7 @@ const MineIndexScreen = props => {
             <Touchable
               onPress={() => {
                 try {
-                  navigation.push('MineBuyLiveScreen');
+                  navigation.push("MineBuyLiveScreen");
                 } catch (err) {
                   console.error(err);
                 }
@@ -1527,8 +1526,8 @@ const MineIndexScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    flexDirection: 'row',
+                    alignItems: "center",
+                    flexDirection: "row",
                     paddingLeft: 16,
                     paddingRight: 16,
                   },
@@ -1539,27 +1538,27 @@ const MineIndexScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 28,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       marginRight: 20,
                       width: 28,
                     },
                     dimensions.width
                   )}
                 >
-                  <Icon name={'FontAwesome/film'} size={24} />
+                  <Icon name={"FontAwesome/film"} size={24} />
                 </View>
 
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
+                  {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
+                      GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
                       {
-                        fontFamily: 'Urbanist_400Regular',
+                        fontFamily: "Urbanist_400Regular",
                         fontSize: 16,
                         marginRight: 20,
                       }
@@ -1567,27 +1566,27 @@ const MineIndexScreen = props => {
                     dimensions.width
                   )}
                 >
-                  {'购买的回放'}
+                  {"购买的回放"}
                 </Text>
                 {/* Arrow View */}
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 20,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       width: 20,
                     },
                     dimensions.width
                   )}
                 >
                   <Icon
-                    {...GlobalStyles.IconStyles(theme)['Arrow Right'].props}
+                    {...GlobalStyles.IconStyles(theme)["Arrow Right"].props}
                     color={palettes.Brand.appStyle_greyscale_400}
-                    name={'Entypo/chevron-thin-right'}
+                    name={"Entypo/chevron-thin-right"}
                     size={16}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.IconStyles(theme)['Arrow Right'].style,
+                      GlobalStyles.IconStyles(theme)["Arrow Right"].style,
                       dimensions.width
                     )}
                   />
@@ -1598,7 +1597,7 @@ const MineIndexScreen = props => {
             <Touchable
               onPress={() => {
                 try {
-                  navigation.push('MineMyLikeScreen');
+                  navigation.push("MineMyLikeScreen");
                 } catch (err) {
                   console.error(err);
                 }
@@ -1612,8 +1611,8 @@ const MineIndexScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    flexDirection: 'row',
+                    alignItems: "center",
+                    flexDirection: "row",
                     paddingLeft: 16,
                     paddingRight: 16,
                   },
@@ -1624,27 +1623,27 @@ const MineIndexScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 28,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       marginRight: 20,
                       width: 28,
                     },
                     dimensions.width
                   )}
                 >
-                  <Icon name={'AntDesign/like2'} size={24} />
+                  <Icon name={"AntDesign/like2"} size={24} />
                 </View>
 
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
+                  {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
+                      GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
                       {
-                        fontFamily: 'Urbanist_400Regular',
+                        fontFamily: "Urbanist_400Regular",
                         fontSize: 16,
                         marginRight: 20,
                       }
@@ -1652,27 +1651,27 @@ const MineIndexScreen = props => {
                     dimensions.width
                   )}
                 >
-                  {'我的点赞'}
+                  {"我的点赞"}
                 </Text>
                 {/* Arrow View */}
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 20,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       width: 20,
                     },
                     dimensions.width
                   )}
                 >
                   <Icon
-                    {...GlobalStyles.IconStyles(theme)['Arrow Right'].props}
+                    {...GlobalStyles.IconStyles(theme)["Arrow Right"].props}
                     color={palettes.Brand.appStyle_greyscale_400}
-                    name={'Entypo/chevron-thin-right'}
+                    name={"Entypo/chevron-thin-right"}
                     size={16}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.IconStyles(theme)['Arrow Right'].style,
+                      GlobalStyles.IconStyles(theme)["Arrow Right"].style,
                       dimensions.width
                     )}
                   />
@@ -1683,9 +1682,9 @@ const MineIndexScreen = props => {
             <Touchable
               onPress={() => {
                 try {
-                  navigation.push('BottomTabNavigator', {
-                    screen: 'Mine',
-                    params: { screen: 'MineMyFavoritesScreen' },
+                  navigation.push("BottomTabNavigator", {
+                    screen: "Mine",
+                    params: { screen: "MineMyFavoritesScreen" },
                   });
                 } catch (err) {
                   console.error(err);
@@ -1700,8 +1699,8 @@ const MineIndexScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    flexDirection: 'row',
+                    alignItems: "center",
+                    flexDirection: "row",
                     paddingLeft: 16,
                     paddingRight: 16,
                   },
@@ -1712,27 +1711,27 @@ const MineIndexScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 28,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       marginRight: 20,
                       width: 28,
                     },
                     dimensions.width
                   )}
                 >
-                  <Icon name={'AntDesign/staro'} size={24} />
+                  <Icon name={"AntDesign/staro"} size={24} />
                 </View>
 
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
+                  {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
+                      GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
                       {
-                        fontFamily: 'Urbanist_400Regular',
+                        fontFamily: "Urbanist_400Regular",
                         fontSize: 16,
                         marginRight: 20,
                       }
@@ -1740,27 +1739,27 @@ const MineIndexScreen = props => {
                     dimensions.width
                   )}
                 >
-                  {'我的收藏'}
+                  {"我的收藏"}
                 </Text>
                 {/* Arrow View */}
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 20,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       width: 20,
                     },
                     dimensions.width
                   )}
                 >
                   <Icon
-                    {...GlobalStyles.IconStyles(theme)['Arrow Right'].props}
+                    {...GlobalStyles.IconStyles(theme)["Arrow Right"].props}
                     color={palettes.Brand.appStyle_greyscale_400}
-                    name={'Entypo/chevron-thin-right'}
+                    name={"Entypo/chevron-thin-right"}
                     size={16}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.IconStyles(theme)['Arrow Right'].style,
+                      GlobalStyles.IconStyles(theme)["Arrow Right"].style,
                       dimensions.width
                     )}
                   />
@@ -1778,8 +1777,8 @@ const MineIndexScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    flexDirection: 'row',
+                    alignItems: "center",
+                    flexDirection: "row",
                     paddingLeft: 16,
                     paddingRight: 16,
                   },
@@ -1790,9 +1789,9 @@ const MineIndexScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'flex-start',
+                      alignItems: "flex-start",
                       height: 28,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       marginRight: 20,
                       width: 28,
                     },
@@ -1800,7 +1799,7 @@ const MineIndexScreen = props => {
                   )}
                 >
                   <Icon
-                    name={'FontAwesome/id-card-o'}
+                    name={"FontAwesome/id-card-o"}
                     size={24}
                     style={StyleSheet.applyWidth(
                       { width: 32 },
@@ -1812,12 +1811,12 @@ const MineIndexScreen = props => {
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
+                  {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
+                      GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
                       {
-                        fontFamily: 'Urbanist_400Regular',
+                        fontFamily: "Urbanist_400Regular",
                         fontSize: 16,
                         marginRight: 20,
                       }
@@ -1825,7 +1824,7 @@ const MineIndexScreen = props => {
                     dimensions.width
                   )}
                 >
-                  {'身份认证'}
+                  {"身份认证"}
                 </Text>
                 {/* Text 2 */}
                 <Text
@@ -1840,27 +1839,27 @@ const MineIndexScreen = props => {
                     dimensions.width
                   )}
                 >
-                  {'已认证(机构投资人)'}
+                  {"已认证(机构投资人)"}
                 </Text>
                 {/* Arrow View */}
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 20,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       width: 20,
                     },
                     dimensions.width
                   )}
                 >
                   <Icon
-                    {...GlobalStyles.IconStyles(theme)['Arrow Right'].props}
+                    {...GlobalStyles.IconStyles(theme)["Arrow Right"].props}
                     color={palettes.Brand.appStyle_greyscale_400}
-                    name={'Entypo/chevron-thin-right'}
+                    name={"Entypo/chevron-thin-right"}
                     size={16}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.IconStyles(theme)['Arrow Right'].style,
+                      GlobalStyles.IconStyles(theme)["Arrow Right"].style,
                       dimensions.width
                     )}
                   />
@@ -1878,8 +1877,8 @@ const MineIndexScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    flexDirection: 'row',
+                    alignItems: "center",
+                    flexDirection: "row",
                     paddingLeft: 16,
                     paddingRight: 16,
                   },
@@ -1890,27 +1889,27 @@ const MineIndexScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 28,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       marginRight: 20,
                       width: 28,
                     },
                     dimensions.width
                   )}
                 >
-                  <Icon name={'Ionicons/videocam-outline'} size={24} />
+                  <Icon name={"Ionicons/videocam-outline"} size={24} />
                 </View>
 
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
+                  {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
+                      GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
                       {
-                        fontFamily: 'Urbanist_400Regular',
+                        fontFamily: "Urbanist_400Regular",
                         fontSize: 16,
                         marginRight: 20,
                       }
@@ -1918,27 +1917,27 @@ const MineIndexScreen = props => {
                     dimensions.width
                   )}
                 >
-                  {'加入直播'}
+                  {"加入直播"}
                 </Text>
                 {/* Arrow View */}
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       height: 20,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       width: 20,
                     },
                     dimensions.width
                   )}
                 >
                   <Icon
-                    {...GlobalStyles.IconStyles(theme)['Arrow Right'].props}
+                    {...GlobalStyles.IconStyles(theme)["Arrow Right"].props}
                     color={palettes.Brand.appStyle_greyscale_400}
-                    name={'Entypo/chevron-thin-right'}
+                    name={"Entypo/chevron-thin-right"}
                     size={16}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.IconStyles(theme)['Arrow Right'].style,
+                      GlobalStyles.IconStyles(theme)["Arrow Right"].style,
                       dimensions.width
                     )}
                   />
@@ -1946,12 +1945,12 @@ const MineIndexScreen = props => {
               </View>
             </Touchable>
             <Divider
-              {...GlobalStyles.DividerStyles(theme)['Divider'].props}
+              {...GlobalStyles.DividerStyles(theme)["Divider"].props}
               color={palettes.Brand.appStyle_greyscale_200}
               style={StyleSheet.applyWidth(
                 StyleSheet.compose(
-                  GlobalStyles.DividerStyles(theme)['Divider'].style,
-                  { height: 1, marginBottom: 24, width: '100%' }
+                  GlobalStyles.DividerStyles(theme)["Divider"].style,
+                  { height: 1, marginBottom: 24, width: "100%" }
                 ),
                 dimensions.width
               )}
@@ -1962,10 +1961,10 @@ const MineIndexScreen = props => {
       {/* Fetch 2 */}
       <AceCampTestApi.FetchMyInfoGET
         handlers={{
-          onData: fetch2Data => {
+          onData: (fetch2Data) => {
             try {
               setGlobalVariableValue({
-                key: 'user_info',
+                key: "user_info",
                 value: fetch2Data?.data,
               });
             } catch (err) {

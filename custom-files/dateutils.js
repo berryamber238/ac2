@@ -1,4 +1,4 @@
-const XDate = require('xdate');
+const XDate = require("xdate");
 const latinNumbersPattern = /[0-9]/g;
 
 export function month(date) {
@@ -19,7 +19,6 @@ function fromTo(a, b) {
   return days;
 }
 export function page(date, firstDayOfWeek = 0, showSixWeeks = false) {
-  debugger;
   const days = month(date);
   let before = [];
   let after = [];
