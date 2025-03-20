@@ -20,6 +20,7 @@ import { ActivityIndicator, Image, Text, View } from 'react-native';
 import { Fetch } from 'react-request';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
+import EmptyViewBlock from '../components/EmptyViewBlock';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import * as AudioPlayerExpo from '../custom-files/AudioPlayerExpo';
 import * as gf from '../custom-files/gf';
@@ -27,6 +28,7 @@ import JumpToPageByType from '../global-functions/JumpToPageByType';
 import arrayIdToString from '../global-functions/arrayIdToString';
 import fromUnixTimestamp from '../global-functions/fromUnixTimestamp';
 import getArticleType from '../global-functions/getArticleType';
+import getNoteStatus from '../global-functions/getNoteStatus';
 import msToTime from '../global-functions/msToTime';
 import splitList from '../global-functions/splitList';
 import t from '../global-functions/t';
@@ -38,7 +40,7 @@ import * as StyleSheet from '../utils/StyleSheet';
 import imageSource from '../utils/imageSource';
 import useWindowDimensions from '../utils/useWindowDimensions';
 
-const defaultProps = { article_info_id: 2070502066 };
+const defaultProps = { article_info_id: 70502085 };
 
 const ArticleDetailScreen = props => {
   const { theme, navigation } = props;
@@ -51,6 +53,7 @@ const ArticleDetailScreen = props => {
   const [hot_data_list, setHot_data_list] = React.useState([]);
   const [isFollowLoading, setIsFollowLoading] = React.useState(false);
   const [isFollowed, setIsFollowed] = React.useState(false);
+  const [is_free, setIs_free] = React.useState(false);
   const [keypoint, setKeypoint] = React.useState('');
   const [lastKey, setLastKey] = React.useState('0-0');
   const [pickerValue, setPickerValue] = React.useState('');
@@ -60,6 +63,38 @@ const ArticleDetailScreen = props => {
   const [subData, setSubData] = React.useState([]);
   const gotoPosition = startms => {
     setPosition(parseFloat(startms) * 1000);
+  };
+
+  const toggleFollow = async () => {
+    try {
+      setIsFollowLoading(true);
+      if (isFollowed) {
+        const apiresult = (
+          await aceCampTestUnfollowOrganizationPOST.mutateAsync({
+            organization_id: fetchData?.data?.organization?.id,
+          })
+        )?.json;
+        if (apiresult?.code === 200) {
+          setIsFollowed(false);
+        } else {
+        }
+      } else {
+        const result = (
+          await aceCampTestFollowOrganizationPOST.mutateAsync({
+            organization_id: 20504540,
+          })
+        )?.json;
+        console.log(result);
+        if (result?.code === 200) {
+          setIsFollowed(true);
+        } else {
+        }
+      }
+
+      setIsFollowLoading(false);
+    } catch (err) {
+      console.error(err);
+    }
   };
   const textRefs = React.useRef({});
   const handlePress = (outerIndex, innerIndex) => {
@@ -94,10 +129,10 @@ const ArticleDetailScreen = props => {
     //   style: { color: 'red' },
     // });
   };
-  const aceCampTestUnfollowOrganizationPOST =
-    AceCampTestApi.useUnfollowOrganizationPOST();
   const aceCampTestFollowOrganizationPOST =
     AceCampTestApi.useFollowOrganizationPOST();
+  const aceCampTestUnfollowOrganizationPOST =
+    AceCampTestApi.useUnfollowOrganizationPOST();
 
   return (
     <ScreenContainer
@@ -117,8 +152,9 @@ const ArticleDetailScreen = props => {
           handlers={{
             onData: fetchData => {
               try {
-                console.log(fetchData);
+                /* hidden 'Log to Console' action */
                 if (fetchData?.code === 200) {
+                  setIs_free(fetchData?.data?.free);
                   setAudioUri(fetchData?.data?.transcribe?.source_url);
                   setSubData(fetchData?.data?.transcribe?.asr);
                   setIsFollowed(fetchData?.data?.organization?.followed);
@@ -127,7 +163,7 @@ const ArticleDetailScreen = props => {
                     setCurrent_tab(0);
                   }
                 } else {
-                  navigation.push('LoginScreen');
+                  /* hidden 'Navigate' action */
                 }
               } catch (err) {
                 console.error(err);
@@ -369,7 +405,9 @@ const ArticleDetailScreen = props => {
                             {
                               alignItems: 'center',
                               flexDirection: 'row',
+                              height: 22,
                               justifyContent: 'space-between',
+                              width: '100%',
                             },
                             dimensions.width
                           )}
@@ -384,7 +422,7 @@ const ArticleDetailScreen = props => {
                                 fontSize: 14,
                                 fontWeight: '400',
                                 letterSpacing: 0.2,
-                                lineHeight: 22,
+                                lineHeight: 16,
                               },
                               dimensions.width
                             )}
@@ -399,14 +437,17 @@ const ArticleDetailScreen = props => {
                           <Text
                             accessible={true}
                             selectable={false}
+                            numberOfLines={1}
                             style={StyleSheet.applyWidth(
                               {
                                 color: palettes.App['Custom Color 25'],
+                                flex: 1,
                                 fontFamily: 'System',
                                 fontSize: 14,
                                 fontWeight: '400',
                                 letterSpacing: 0.2,
-                                lineHeight: 22,
+                                lineHeight: 16,
+                                textAlign: 'right',
                               },
                               dimensions.width
                             )}
@@ -488,8 +529,8 @@ const ArticleDetailScreen = props => {
                                         .style,
                                       {
                                         borderRadius: 20,
-                                        height: 40,
-                                        width: 40,
+                                        height: 24,
+                                        width: 24,
                                       }
                                     ),
                                     dimensions.width
@@ -502,10 +543,10 @@ const ArticleDetailScreen = props => {
                                     {
                                       flex: 1,
                                       fontFamily: 'System',
-                                      fontSize: 18,
-                                      fontWeight: '700',
+                                      fontSize: 14,
+                                      fontWeight: '600',
                                       letterSpacing: 0.2,
-                                      lineHeight: 24,
+                                      lineHeight: 16,
                                       marginLeft: 10,
                                       marginRight: 10,
                                     },
@@ -517,56 +558,15 @@ const ArticleDetailScreen = props => {
                               </View>
                             </Touchable>
                           </View>
-                          {/* 关注 */}
-                          <Button
-                            accessible={true}
-                            iconPosition={'left'}
-                            onPress={() => {
-                              const handler = async () => {
-                                try {
-                                  setIsFollowLoading(true);
-                                  if (isFollowed) {
-                                    const apiresult = (
-                                      await aceCampTestUnfollowOrganizationPOST.mutateAsync(
-                                        {
-                                          organization_id:
-                                            fetchData?.data?.organization?.id,
-                                        }
-                                      )
-                                    )?.json;
-                                    if (apiresult?.code === 200) {
-                                      setIsFollowed(false);
-                                    } else {
-                                    }
-                                  } else {
-                                    const result = (
-                                      await aceCampTestFollowOrganizationPOST.mutateAsync(
-                                        { organization_id: 20504540 }
-                                      )
-                                    )?.json;
-                                    console.log(result);
-                                    if (result?.code === 200) {
-                                      setIsFollowed(true);
-                                    } else {
-                                    }
-                                  }
-
-                                  setIsFollowLoading(false);
-                                } catch (err) {
-                                  console.error(err);
-                                }
-                              };
-                              handler();
-                            }}
-                            icon={isFollowed ? undefined : 'Ionicons/add'}
-                            iconSize={16}
-                            loading={isFollowLoading}
+                          {/* View 2 */}
+                          <View
                             style={StyleSheet.applyWidth(
                               {
+                                alignItems: 'center',
                                 backgroundColor: [
                                   {
                                     minWidth: Breakpoints.Mobile,
-                                    value: palettes.App['Custom Color 27'],
+                                    value: palettes.Brand.appStyle_primary,
                                   },
                                   {
                                     minWidth: Breakpoints.Mobile,
@@ -575,24 +575,49 @@ const ArticleDetailScreen = props => {
                                       : palettes.Brand.appStyle_primary,
                                   },
                                 ],
-                                borderRadius: 20,
-                                fontFamily: 'System',
-                                fontSize: 14,
-                                fontWeight: '400',
-                                letterSpacing: 0.8,
-                                lineHeight: 22,
-                                paddingBottom: 1,
-                                paddingTop: 1,
-                                width: 100,
+                                borderRadius: 16,
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                paddingBottom: 5,
+                                paddingLeft: 16,
+                                paddingRight: 16,
+                                paddingTop: 5,
                               },
                               dimensions.width
                             )}
-                            title={`${
-                              isFollowed
+                          >
+                            <>
+                              {isFollowed ? null : (
+                                <Icon
+                                  color={palettes.App['Custom #ffffff']}
+                                  name={'AntDesign/plus'}
+                                  size={14}
+                                  style={StyleSheet.applyWidth(
+                                    { marginRight: 8 },
+                                    dimensions.width
+                                  )}
+                                />
+                              )}
+                            </>
+                            <Text
+                              accessible={true}
+                              selectable={false}
+                              {...GlobalStyles.TextStyles(theme)['12 Regular']
+                                .props}
+                              style={StyleSheet.applyWidth(
+                                StyleSheet.compose(
+                                  GlobalStyles.TextStyles(theme)['12 Regular']
+                                    .style,
+                                  { color: palettes.App['Custom #ffffff'] }
+                                ),
+                                dimensions.width
+                              )}
+                            >
+                              {isFollowed
                                 ? t(Variables, 'common_followed')
-                                : t(Variables, 'common_follow')
-                            }`}
-                          />
+                                : t(Variables, 'common_follow')}
+                            </Text>
+                          </View>
                         </View>
                       </View>
                       {/* Divider 2 */}
@@ -1207,7 +1232,7 @@ const ArticleDetailScreen = props => {
                                   {!fetchData?.data?.content ? null : (
                                     <View
                                       style={StyleSheet.applyWidth(
-                                        { paddingLeft: 5, paddingRight: 5 },
+                                        { paddingLeft: 16, paddingRight: 16 },
                                         dimensions.width
                                       )}
                                     >
@@ -1971,6 +1996,11 @@ const ArticleDetailScreen = props => {
           )}
         </>
       </View>
+      <>
+        {getNoteStatus(Variables) === 0 || is_free ? null : (
+          <EmptyViewBlock type={getNoteStatus(Variables)} />
+        )}
+      </>
     </ScreenContainer>
   );
 };

@@ -14,6 +14,8 @@ import useWindowDimensions from '../utils/useWindowDimensions';
 import { DataContext } from './DataContext';
 import { SheetProvider } from 'react-native-actions-sheet';
 import './sheets.js';
+import { AuthProvider } from './AuthContext';
+import LoginPrompt from './LoginPrompt';
 import Toast from 'react-native-toast-message';
 const Drawer = createDrawerNavigator();
 
@@ -42,42 +44,45 @@ export const CustomDrawer = React.forwardRef((props, ref) => {
 
   return (
     <>
-      <DataContext.Provider
-        value={{
-          sharedData,
-          confirmFilter,
-          currentPosition,
-          updatePosition,
-          actionViewShown,
-          feedsId,
-          gotoScreen,
-        }}
-      >
-        <NavigationContainer independent={true} ref={drawerRef}>
-          <SheetProvider context="global">
-            <Drawer.Navigator
-              drawerContent={props => {
-                return (
-                  <DrawerContentScrollView>
-                    <FilterScreenBlock {...props} />
-                  </DrawerContentScrollView>
-                );
-              }}
-              screenOptions={{
-                drawerStyle: { width: '80%' },
-                headerShown: false, // 隐藏头部信息
-                drawerPosition: 'right',
-              }}
-            >
-              <Drawer.Screen
-                name="EmptyScreen"
-                component={HomeScreen}
-                //initialParams={{ gotoScreen: props.gotoScreen}}
-              />
-            </Drawer.Navigator>
-          </SheetProvider>
-        </NavigationContainer>
-      </DataContext.Provider>
+      <AuthProvider>
+        <DataContext.Provider
+          value={{
+            sharedData,
+            confirmFilter,
+            currentPosition,
+            updatePosition,
+            actionViewShown,
+            feedsId,
+            gotoScreen,
+          }}
+        >
+          <NavigationContainer independent={true} ref={drawerRef}>
+            <SheetProvider context="global">
+              <Drawer.Navigator
+                drawerContent={props => {
+                  return (
+                    <DrawerContentScrollView>
+                      <FilterScreenBlock {...props} />
+                    </DrawerContentScrollView>
+                  );
+                }}
+                screenOptions={{
+                  drawerStyle: { width: '80%' },
+                  headerShown: false, // 隐藏头部信息
+                  drawerPosition: 'right',
+                }}
+              >
+                <Drawer.Screen
+                  name="EmptyScreen"
+                  component={HomeScreen}
+                  //initialParams={{ gotoScreen: props.gotoScreen}}
+                />
+              </Drawer.Navigator>
+              <LoginPrompt gotoScreen={gotoScreen} />
+            </SheetProvider>
+          </NavigationContainer>
+        </DataContext.Provider>
+      </AuthProvider>
     </>
   );
 });

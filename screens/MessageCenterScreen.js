@@ -24,10 +24,12 @@ import { Fetch } from 'react-request';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
 import * as TestApi from '../apis/TestApi.js';
+import EmptyViewBlock from '../components/EmptyViewBlock';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import Images from '../config/Images';
 import * as gf from '../custom-files/gf';
 import fromUnixTimestamp from '../global-functions/fromUnixTimestamp';
+import getNoteStatus from '../global-functions/getNoteStatus';
 import t from '../global-functions/t';
 import palettes from '../themes/palettes';
 import * as Utils from '../utils';
@@ -507,6 +509,11 @@ const MessageCenterScreen = props => {
           );
         }}
       </AceCampTestApi.FetchUserNotificationsGET>
+      <>
+        {getNoteStatus(Variables) === 0 ? null : (
+          <EmptyViewBlock type={getNoteStatus(Variables)} />
+        )}
+      </>
     </ScreenContainer>
   );
 };

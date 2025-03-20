@@ -1,34 +1,33 @@
-import React from "react";
+import React from 'react';
 import {
   Icon,
+  Shadow,
   SimpleStyleFlatList,
   SimpleStyleScrollView,
   Touchable,
   withTheme,
-} from "@draftbit/ui";
-import { useIsFocused } from "@react-navigation/native";
-import { ActivityIndicator, Text, View } from "react-native";
-import { Fetch } from "react-request";
-import * as GlobalStyles from "../GlobalStyles.js";
-import * as AceCampTestApi from "../apis/AceCampTestApi.js";
-import RecommandSectionBlock from "../components/RecommandSectionBlock";
-import * as GlobalVariables from "../config/GlobalVariableContext";
-import * as Shadow from "../custom-files/Shadow";
-import t from "../global-functions/t";
-import palettes from "../themes/palettes";
-import * as Utils from "../utils";
-import Breakpoints from "../utils/Breakpoints";
-import * as StyleSheet from "../utils/StyleSheet";
-import useWindowDimensions from "../utils/useWindowDimensions";
+} from '@draftbit/ui';
+import { useIsFocused } from '@react-navigation/native';
+import { ActivityIndicator, Text, View } from 'react-native';
+import { Fetch } from 'react-request';
+import * as GlobalStyles from '../GlobalStyles.js';
+import * as AceCampTestApi from '../apis/AceCampTestApi.js';
+import RecommandSectionBlock from '../components/RecommandSectionBlock';
+import * as GlobalVariables from '../config/GlobalVariableContext';
+import t from '../global-functions/t';
+import palettes from '../themes/palettes';
+import Breakpoints from '../utils/Breakpoints';
+import * as StyleSheet from '../utils/StyleSheet';
+import useWindowDimensions from '../utils/useWindowDimensions';
 
 const defaultProps = { organization_id: null };
 
-const OrganizerOverallBlock = (props) => {
+const OrganizerOverallBlock = props => {
   const { theme } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
-  const changeIndex = (index) => {
+  const changeIndex = index => {
     props.setIndex(index);
   };
 
@@ -41,15 +40,17 @@ const OrganizerOverallBlock = (props) => {
   };
 
   const updateCount = (type, count) => {
+    debugger;
+
     props.setDataCount(props.headers[type].key, count);
   };
 
   return (
-    <View>
+    <View style={StyleSheet.applyWidth({ height: '100%' }, dimensions.width)}>
       <SimpleStyleScrollView
         bounces={true}
         horizontal={false}
-        keyboardShouldPersistTaps={"never"}
+        keyboardShouldPersistTaps={'never'}
         nestedScrollEnabled={false}
         showsHorizontalScrollIndicator={true}
         showsVerticalScrollIndicator={true}
@@ -57,7 +58,7 @@ const OrganizerOverallBlock = (props) => {
         {/* spotlights fetch */}
         <AceCampTestApi.FetchOrganizerSpotlightsGET
           handlers={{
-            onData: (spotlightsFetchData) => {
+            onData: spotlightsFetchData => {
               try {
                 updateCount(1, spotlightsFetchData?.meta?.total);
               } catch (err) {
@@ -83,8 +84,8 @@ const OrganizerOverallBlock = (props) => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    backgroundColor: palettes.App["Custom Color 19"],
-                    paddingBottom: 5,
+                    backgroundColor: palettes.App['Custom Color 19'],
+                    paddingBottom: 10,
                     paddingTop: 10,
                   },
                   dimensions.width
@@ -94,8 +95,8 @@ const OrganizerOverallBlock = (props) => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: "flex-end",
-                      flexDirection: "row",
+                      alignItems: 'flex-end',
+                      flexDirection: 'row',
                       marginBottom: 10,
                       paddingLeft: 16,
                     },
@@ -108,16 +109,16 @@ const OrganizerOverallBlock = (props) => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        fontFamily: "System",
+                        fontFamily: 'System',
                         fontSize: 18,
-                        fontWeight: "700",
+                        fontWeight: '700',
                         letterSpacing: 0.2,
                         lineHeight: 30,
                       },
                       dimensions.width
                     )}
                   >
-                    {t(Variables, "home_special")}
+                    {t(Variables, 'home_special')}
                   </Text>
 
                   <Text
@@ -125,10 +126,11 @@ const OrganizerOverallBlock = (props) => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App["Custom Color 23"],
-                        fontFamily: "System",
+                        color: palettes.App['Custom Color 23'],
+                        flex: 1,
+                        fontFamily: 'System',
                         fontSize: 15,
-                        fontWeight: "400",
+                        fontWeight: '400',
                         letterSpacing: 0.2,
                         lineHeight: 26,
                         marginLeft: 14,
@@ -136,173 +138,191 @@ const OrganizerOverallBlock = (props) => {
                       dimensions.width
                     )}
                   >
-                    {t(Variables, "spotlight_related_company_total")}
+                    {t(Variables, 'spotlight_related_company_total')}
                     {spotlightsFetchData?.meta?.total}
-                    {t(Variables, "organizer_spotlights_total")}
+                    {t(Variables, 'organizer_spotlights_total')}
                   </Text>
                 </View>
-                {/* Custom Code 2 */}
-                <Utils.CustomCodeErrorBoundary>
-                  <Shadow.ShadowComponent
-                    startColor={"#0002"}
-                    endColor={"#0000"}
-                    offset={[14, 0]}
-                    distance={5}
+
+                <Shadow
+                  offsetY={0}
+                  paintInside={true}
+                  showShadowCornerBottomEnd={true}
+                  showShadowCornerBottomStart={true}
+                  showShadowCornerTopEnd={true}
+                  showShadowCornerTopStart={true}
+                  showShadowSideBottom={true}
+                  showShadowSideEnd={true}
+                  showShadowSideStart={true}
+                  showShadowSideTop={true}
+                  offsetX={14}
+                  startColor={palettes.App['Custom Color 105']}
+                  style={StyleSheet.applyWidth(
+                    { borderRadius: 4 },
+                    dimensions.width
+                  )}
+                >
+                  {/* 系列活动-列表 */}
+                  <View
+                    style={StyleSheet.applyWidth(
+                      {
+                        backgroundColor: palettes.App['Custom #ffffff'],
+                        borderRadius: 4,
+                        marginLeft: 14,
+                        marginRight: 14,
+                        overflow: 'hidden',
+                        paddingBottom: 16,
+                        paddingTop: 16,
+                        width: dimensions.width - 28,
+                      },
+                      dimensions.width
+                    )}
                   >
-                    {/* 系列活动-列表 */}
-                    <View
+                    <SimpleStyleFlatList
+                      data={spotlightsFetchData?.data}
+                      decelerationRate={'normal'}
+                      horizontal={false}
+                      inverted={false}
+                      keyExtractor={(listData, index) =>
+                        listData?.id ??
+                        listData?.uuid ??
+                        index?.toString() ??
+                        JSON.stringify(listData)
+                      }
+                      keyboardShouldPersistTaps={'never'}
+                      listKey={
+                        'Scroll View->spotlights fetch->View->Shadow->系列活动-列表->List'
+                      }
+                      nestedScrollEnabled={false}
+                      numColumns={1}
+                      onEndReachedThreshold={0.5}
+                      pagingEnabled={false}
+                      renderItem={({ item, index }) => {
+                        const listData = item;
+                        return (
+                          <RecommandSectionBlock
+                            dataItem={listData}
+                            hideMenu={true}
+                          />
+                        );
+                      }}
+                      showsHorizontalScrollIndicator={true}
+                      showsVerticalScrollIndicator={true}
+                      snapToAlignment={'start'}
+                      scrollEnabled={false}
                       style={StyleSheet.applyWidth(
-                        {
-                          borderRadius: 4,
-                          marginLeft: 14,
-                          marginRight: 14,
-                          overflow: "hidden",
-                          width: dimensions.width - 28,
-                        },
+                        { paddingLeft: 16, paddingRight: 16 },
                         dimensions.width
                       )}
-                    >
-                      <SimpleStyleFlatList
-                        data={spotlightsFetchData?.data}
-                        decelerationRate={"normal"}
-                        horizontal={false}
-                        inverted={false}
-                        keyExtractor={(listData, index) =>
-                          listData?.id ??
-                          listData?.uuid ??
-                          index?.toString() ??
-                          JSON.stringify(listData)
-                        }
-                        keyboardShouldPersistTaps={"never"}
-                        listKey={
-                          "Scroll View->spotlights fetch->View->Custom Code 2->系列活动-列表->List"
-                        }
-                        nestedScrollEnabled={false}
-                        numColumns={1}
-                        onEndReachedThreshold={0.5}
-                        pagingEnabled={false}
-                        renderItem={({ item, index }) => {
-                          const listData = item;
-                          return (
-                            <RecommandSectionBlock
-                              dataItem={listData}
-                              hideMenu={true}
-                            />
-                          );
-                        }}
-                        showsHorizontalScrollIndicator={true}
-                        showsVerticalScrollIndicator={true}
-                        snapToAlignment={"start"}
-                        scrollEnabled={false}
-                      />
-                      {/* View 2 */}
-                      <>
-                        {!(spotlightsFetchData?.meta?.total === 0) ? null : (
-                          <View
+                    />
+                    {/* View 2 */}
+                    <>
+                      {!(spotlightsFetchData?.meta?.total === 0) ? null : (
+                        <View
+                          style={StyleSheet.applyWidth(
+                            {
+                              alignItems: 'center',
+                              backgroundColor: palettes.App.White,
+                              flexDirection: 'row',
+                              justifyContent: 'center',
+                              paddingBottom: 5,
+                              paddingTop: 5,
+                            },
+                            dimensions.width
+                          )}
+                        >
+                          <Text
+                            accessible={true}
+                            selectable={false}
+                            {...GlobalStyles.TextStyles(theme)['Text Title']
+                              .props}
                             style={StyleSheet.applyWidth(
-                              {
-                                alignItems: "center",
-                                backgroundColor: palettes.App.White,
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                paddingBottom: 5,
-                                paddingTop: 5,
-                              },
+                              StyleSheet.compose(
+                                GlobalStyles.TextStyles(theme)['Text Title']
+                                  .style,
+                                {
+                                  color: palettes.App['Custom Color 4'],
+                                  fontFamily: 'System',
+                                  fontSize: 14,
+                                  fontWeight: '400',
+                                  marginRight: null,
+                                }
+                              ),
                               dimensions.width
                             )}
                           >
-                            <Text
-                              accessible={true}
-                              selectable={false}
-                              {...GlobalStyles.TextStyles(theme)["Text Title"]
-                                .props}
-                              style={StyleSheet.applyWidth(
-                                StyleSheet.compose(
-                                  GlobalStyles.TextStyles(theme)["Text Title"]
-                                    .style,
+                            {t(Variables, 'common_no_content')}
+                          </Text>
+                        </View>
+                      )}
+                    </>
+                    <>
+                      {!(spotlightsFetchData?.meta?.total > 4) ? null : (
+                        <Touchable
+                          onPress={() => {
+                            try {
+                              changeIndex(1);
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          }}
+                          style={StyleSheet.applyWidth(
+                            { marginBottom: -16 },
+                            dimensions.width
+                          )}
+                        >
+                          <>
+                            {!(spotlightsFetchData?.meta?.total > 4) ? null : (
+                              <View
+                                style={StyleSheet.applyWidth(
                                   {
-                                    color: palettes.App["Custom Color 4"],
-                                    fontFamily: "System",
-                                    fontSize: 14,
-                                    fontWeight: "400",
-                                    marginRight: null,
-                                  }
-                                ),
-                                dimensions.width
-                              )}
-                            >
-                              {t(Variables, "common_no_content")}
-                            </Text>
-                          </View>
-                        )}
-                      </>
-                      <>
-                        {!(spotlightsFetchData?.meta?.total > 4) ? null : (
-                          <Touchable
-                            onPress={() => {
-                              try {
-                                changeIndex(1);
-                              } catch (err) {
-                                console.error(err);
-                              }
-                            }}
-                          >
-                            <>
-                              {!(
-                                spotlightsFetchData?.meta?.total > 4
-                              ) ? null : (
-                                <View
+                                    alignItems: 'center',
+                                    backgroundColor: palettes.App.White,
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    paddingBottom: 5,
+                                    paddingTop: 5,
+                                  },
+                                  dimensions.width
+                                )}
+                              >
+                                <Text
+                                  accessible={true}
+                                  selectable={false}
+                                  {...GlobalStyles.TextStyles(theme)[
+                                    'Text Title'
+                                  ].props}
                                   style={StyleSheet.applyWidth(
-                                    {
-                                      alignItems: "center",
-                                      backgroundColor: palettes.App.White,
-                                      flexDirection: "row",
-                                      justifyContent: "center",
-                                      paddingBottom: 5,
-                                      paddingTop: 5,
-                                    },
+                                    StyleSheet.compose(
+                                      GlobalStyles.TextStyles(theme)[
+                                        'Text Title'
+                                      ].style,
+                                      {
+                                        color: palettes.Brand.appStyle_primary,
+                                        fontFamily: 'System',
+                                        fontSize: 14,
+                                        fontWeight: '400',
+                                        marginRight: null,
+                                      }
+                                    ),
                                     dimensions.width
                                   )}
                                 >
-                                  <Text
-                                    accessible={true}
-                                    selectable={false}
-                                    {...GlobalStyles.TextStyles(theme)[
-                                      "Text Title"
-                                    ].props}
-                                    style={StyleSheet.applyWidth(
-                                      StyleSheet.compose(
-                                        GlobalStyles.TextStyles(theme)[
-                                          "Text Title"
-                                        ].style,
-                                        {
-                                          color:
-                                            palettes.Brand.appStyle_primary,
-                                          fontFamily: "System",
-                                          fontSize: 14,
-                                          fontWeight: "400",
-                                          marginRight: null,
-                                        }
-                                      ),
-                                      dimensions.width
-                                    )}
-                                  >
-                                    {t(Variables, "common_get_more")}
-                                  </Text>
-                                  <Icon
-                                    color={palettes.Brand.appStyle_primary}
-                                    name={"AntDesign/right"}
-                                    size={14}
-                                  />
-                                </View>
-                              )}
-                            </>
-                          </Touchable>
-                        )}
-                      </>
-                    </View>
-                  </Shadow.ShadowComponent>
-                </Utils.CustomCodeErrorBoundary>
+                                  {t(Variables, 'common_get_more')}
+                                </Text>
+                                <Icon
+                                  color={palettes.Brand.appStyle_primary}
+                                  name={'AntDesign/right'}
+                                  size={14}
+                                />
+                              </View>
+                            )}
+                          </>
+                        </Touchable>
+                      )}
+                    </>
+                  </View>
+                </Shadow>
               </View>
             );
           }}
@@ -310,7 +330,7 @@ const OrganizerOverallBlock = (props) => {
         {/* event */}
         <AceCampTestApi.FetchOrganizerMinute$article$eventGET
           handlers={{
-            onData: (eventData) => {
+            onData: eventData => {
               try {
                 updateCount(2, eventData?.meta?.total);
               } catch (err) {
@@ -320,7 +340,7 @@ const OrganizerOverallBlock = (props) => {
           }}
           organization_id={getOid()}
           page_size={4}
-          source_type={"Event"}
+          source_type={'Event'}
         >
           {({ loading, error, data, refetchOrganizerMinute$article$event }) => {
             const eventData = data?.json;
@@ -336,8 +356,8 @@ const OrganizerOverallBlock = (props) => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    backgroundColor: palettes.App["Custom Color 19"],
-                    paddingBottom: 5,
+                    backgroundColor: palettes.App['Custom Color 19'],
+                    paddingBottom: 10,
                     paddingTop: 20,
                   },
                   dimensions.width
@@ -347,8 +367,8 @@ const OrganizerOverallBlock = (props) => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: "flex-end",
-                      flexDirection: "row",
+                      alignItems: 'flex-end',
+                      flexDirection: 'row',
                       marginBottom: 10,
                       paddingLeft: 16,
                     },
@@ -361,16 +381,16 @@ const OrganizerOverallBlock = (props) => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        fontFamily: "System",
+                        fontFamily: 'System',
                         fontSize: 18,
-                        fontWeight: "700",
+                        fontWeight: '700',
                         letterSpacing: 0.2,
                         lineHeight: 30,
                       },
                       dimensions.width
                     )}
                   >
-                    {t(Variables, "tab_events")}
+                    {t(Variables, 'tab_events')}
                   </Text>
 
                   <Text
@@ -378,10 +398,11 @@ const OrganizerOverallBlock = (props) => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App["Custom Color 23"],
-                        fontFamily: "System",
+                        color: palettes.App['Custom Color 23'],
+                        flex: 1,
+                        fontFamily: 'System',
                         fontSize: 15,
-                        fontWeight: "400",
+                        fontWeight: '400',
                         letterSpacing: 0.2,
                         lineHeight: 26,
                         marginLeft: 14,
@@ -389,170 +410,186 @@ const OrganizerOverallBlock = (props) => {
                       dimensions.width
                     )}
                   >
-                    {t(Variables, "organizer_event_new")}
+                    {t(Variables, 'organizer_event_new')}
                     {eventData?.meta?.total}
-                    {t(Variables, "spotlight_related_event_total_tip")}
+                    {t(Variables, 'spotlight_related_event_total_tip')}
                   </Text>
                 </View>
-                {/* Custom Code 2 */}
-                <Utils.CustomCodeErrorBoundary>
-                  <Shadow.ShadowComponent
-                    startColor={"#0002"}
-                    endColor={"#0000"}
-                    offset={[14, 0]}
-                    distance={5}
+
+                <Shadow
+                  offsetY={0}
+                  paintInside={true}
+                  showShadowCornerBottomEnd={true}
+                  showShadowCornerBottomStart={true}
+                  showShadowCornerTopEnd={true}
+                  showShadowCornerTopStart={true}
+                  showShadowSideBottom={true}
+                  showShadowSideEnd={true}
+                  showShadowSideStart={true}
+                  showShadowSideTop={true}
+                  offsetX={14}
+                  startColor={palettes.App['Custom Color 105']}
+                >
+                  {/* 系列活动-列表 */}
+                  <View
+                    style={StyleSheet.applyWidth(
+                      {
+                        backgroundColor: palettes.App['Custom #ffffff'],
+                        borderRadius: 4,
+                        marginLeft: 14,
+                        marginRight: 14,
+                        overflow: 'hidden',
+                        paddingBottom: 16,
+                        paddingTop: 16,
+                        width: dimensions.width - 28,
+                      },
+                      dimensions.width
+                    )}
                   >
-                    {/* 系列活动-列表 */}
-                    <View
+                    <SimpleStyleFlatList
+                      data={eventData?.data?.feeds}
+                      decelerationRate={'normal'}
+                      horizontal={false}
+                      inverted={false}
+                      keyExtractor={(listData, index) =>
+                        listData?.id ??
+                        listData?.uuid ??
+                        index?.toString() ??
+                        JSON.stringify(listData)
+                      }
+                      keyboardShouldPersistTaps={'never'}
+                      listKey={
+                        'Scroll View->event->View->Shadow->系列活动-列表->List'
+                      }
+                      nestedScrollEnabled={false}
+                      numColumns={1}
+                      onEndReachedThreshold={0.5}
+                      pagingEnabled={false}
+                      renderItem={({ item, index }) => {
+                        const listData = item;
+                        return (
+                          <RecommandSectionBlock
+                            dataItem={listData}
+                            hideMenu={true}
+                          />
+                        );
+                      }}
+                      showsHorizontalScrollIndicator={true}
+                      showsVerticalScrollIndicator={true}
+                      snapToAlignment={'start'}
                       style={StyleSheet.applyWidth(
-                        {
-                          borderRadius: 4,
-                          marginLeft: 14,
-                          marginRight: 14,
-                          overflow: "hidden",
-                          width: dimensions.width - 28,
-                        },
+                        { paddingLeft: 16, paddingRight: 16 },
                         dimensions.width
                       )}
-                    >
-                      <SimpleStyleFlatList
-                        data={eventData?.data?.feeds}
-                        decelerationRate={"normal"}
-                        horizontal={false}
-                        inverted={false}
-                        keyExtractor={(listData, index) =>
-                          listData?.id ??
-                          listData?.uuid ??
-                          index?.toString() ??
-                          JSON.stringify(listData)
-                        }
-                        keyboardShouldPersistTaps={"never"}
-                        listKey={
-                          "Scroll View->event->View->Custom Code 2->系列活动-列表->List"
-                        }
-                        nestedScrollEnabled={false}
-                        numColumns={1}
-                        onEndReachedThreshold={0.5}
-                        pagingEnabled={false}
-                        renderItem={({ item, index }) => {
-                          const listData = item;
-                          return (
-                            <RecommandSectionBlock
-                              dataItem={listData}
-                              hideMenu={true}
-                            />
-                          );
-                        }}
-                        showsHorizontalScrollIndicator={true}
-                        showsVerticalScrollIndicator={true}
-                        snapToAlignment={"start"}
-                      />
-                      {/* View 3 */}
-                      <>
-                        {!(eventData?.meta?.total === 0) ? null : (
-                          <View
+                    />
+                    {/* View 3 */}
+                    <>
+                      {!(eventData?.meta?.total === 0) ? null : (
+                        <View
+                          style={StyleSheet.applyWidth(
+                            {
+                              alignItems: 'center',
+                              backgroundColor: palettes.App.White,
+                              flexDirection: 'row',
+                              justifyContent: 'center',
+                              paddingBottom: 5,
+                              paddingTop: 5,
+                            },
+                            dimensions.width
+                          )}
+                        >
+                          <Text
+                            accessible={true}
+                            selectable={false}
+                            {...GlobalStyles.TextStyles(theme)['Text Title']
+                              .props}
                             style={StyleSheet.applyWidth(
-                              {
-                                alignItems: "center",
-                                backgroundColor: palettes.App.White,
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                paddingBottom: 5,
-                                paddingTop: 5,
-                              },
+                              StyleSheet.compose(
+                                GlobalStyles.TextStyles(theme)['Text Title']
+                                  .style,
+                                {
+                                  color: palettes.App['Custom Color 4'],
+                                  fontFamily: 'System',
+                                  fontSize: 14,
+                                  fontWeight: '400',
+                                  marginRight: null,
+                                }
+                              ),
                               dimensions.width
                             )}
                           >
-                            <Text
-                              accessible={true}
-                              selectable={false}
-                              {...GlobalStyles.TextStyles(theme)["Text Title"]
-                                .props}
-                              style={StyleSheet.applyWidth(
-                                StyleSheet.compose(
-                                  GlobalStyles.TextStyles(theme)["Text Title"]
-                                    .style,
+                            {t(Variables, 'common_no_content')}
+                          </Text>
+                        </View>
+                      )}
+                    </>
+                    <>
+                      {!(eventData?.meta?.total > 4) ? null : (
+                        <Touchable
+                          onPress={() => {
+                            try {
+                              changeIndex(2);
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          }}
+                          style={StyleSheet.applyWidth(
+                            { marginBottom: -16 },
+                            dimensions.width
+                          )}
+                        >
+                          <>
+                            {!(eventData?.meta?.total > 4) ? null : (
+                              <View
+                                style={StyleSheet.applyWidth(
                                   {
-                                    color: palettes.App["Custom Color 4"],
-                                    fontFamily: "System",
-                                    fontSize: 14,
-                                    fontWeight: "400",
-                                    marginRight: null,
-                                  }
-                                ),
-                                dimensions.width
-                              )}
-                            >
-                              {t(Variables, "common_no_content")}
-                            </Text>
-                          </View>
-                        )}
-                      </>
-                      <>
-                        {!(eventData?.meta?.total > 4) ? null : (
-                          <Touchable
-                            onPress={() => {
-                              try {
-                                changeIndex(2);
-                              } catch (err) {
-                                console.error(err);
-                              }
-                            }}
-                          >
-                            <>
-                              {!(eventData?.meta?.total > 4) ? null : (
-                                <View
+                                    alignItems: 'center',
+                                    backgroundColor: palettes.App.White,
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    paddingBottom: 5,
+                                    paddingTop: 5,
+                                  },
+                                  dimensions.width
+                                )}
+                              >
+                                <Text
+                                  accessible={true}
+                                  selectable={false}
+                                  {...GlobalStyles.TextStyles(theme)[
+                                    'Text Title'
+                                  ].props}
                                   style={StyleSheet.applyWidth(
-                                    {
-                                      alignItems: "center",
-                                      backgroundColor: palettes.App.White,
-                                      flexDirection: "row",
-                                      justifyContent: "center",
-                                      paddingBottom: 5,
-                                      paddingTop: 5,
-                                    },
+                                    StyleSheet.compose(
+                                      GlobalStyles.TextStyles(theme)[
+                                        'Text Title'
+                                      ].style,
+                                      {
+                                        color: palettes.Brand.appStyle_primary,
+                                        fontFamily: 'System',
+                                        fontSize: 14,
+                                        fontWeight: '400',
+                                        marginRight: null,
+                                      }
+                                    ),
                                     dimensions.width
                                   )}
                                 >
-                                  <Text
-                                    accessible={true}
-                                    selectable={false}
-                                    {...GlobalStyles.TextStyles(theme)[
-                                      "Text Title"
-                                    ].props}
-                                    style={StyleSheet.applyWidth(
-                                      StyleSheet.compose(
-                                        GlobalStyles.TextStyles(theme)[
-                                          "Text Title"
-                                        ].style,
-                                        {
-                                          color:
-                                            palettes.Brand.appStyle_primary,
-                                          fontFamily: "System",
-                                          fontSize: 14,
-                                          fontWeight: "400",
-                                          marginRight: null,
-                                        }
-                                      ),
-                                      dimensions.width
-                                    )}
-                                  >
-                                    {t(Variables, "common_get_more")}
-                                  </Text>
-                                  <Icon
-                                    color={palettes.Brand.appStyle_primary}
-                                    name={"AntDesign/right"}
-                                    size={14}
-                                  />
-                                </View>
-                              )}
-                            </>
-                          </Touchable>
-                        )}
-                      </>
-                    </View>
-                  </Shadow.ShadowComponent>
-                </Utils.CustomCodeErrorBoundary>
+                                  {t(Variables, 'common_get_more')}
+                                </Text>
+                                <Icon
+                                  color={palettes.Brand.appStyle_primary}
+                                  name={'AntDesign/right'}
+                                  size={14}
+                                />
+                              </View>
+                            )}
+                          </>
+                        </Touchable>
+                      )}
+                    </>
+                  </View>
+                </Shadow>
               </View>
             );
           }}
@@ -560,7 +597,7 @@ const OrganizerOverallBlock = (props) => {
         {/* minute */}
         <AceCampTestApi.FetchOrganizerMinute$article$eventGET
           handlers={{
-            onData: (minuteData) => {
+            onData: minuteData => {
               try {
                 updateCount(3, minuteData?.meta?.total);
               } catch (err) {
@@ -570,7 +607,7 @@ const OrganizerOverallBlock = (props) => {
           }}
           organization_id={getOid()}
           page_size={4}
-          source_type={"Minute"}
+          source_type={'Minute'}
         >
           {({ loading, error, data, refetchOrganizerMinute$article$event }) => {
             const minuteData = data?.json;
@@ -586,8 +623,8 @@ const OrganizerOverallBlock = (props) => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    backgroundColor: palettes.App["Custom Color 19"],
-                    paddingBottom: 5,
+                    backgroundColor: palettes.App['Custom Color 19'],
+                    paddingBottom: 10,
                     paddingTop: 20,
                   },
                   dimensions.width
@@ -597,8 +634,8 @@ const OrganizerOverallBlock = (props) => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: "flex-end",
-                      flexDirection: "row",
+                      alignItems: 'flex-end',
+                      flexDirection: 'row',
                       marginBottom: 10,
                       paddingLeft: 16,
                     },
@@ -611,16 +648,16 @@ const OrganizerOverallBlock = (props) => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        fontFamily: "System",
+                        fontFamily: 'System',
                         fontSize: 18,
-                        fontWeight: "700",
+                        fontWeight: '700',
                         letterSpacing: 0.2,
                         lineHeight: 30,
                       },
                       dimensions.width
                     )}
                   >
-                    {t(Variables, "mine_note_collection")}
+                    {t(Variables, 'mine_note_collection')}
                   </Text>
 
                   <Text
@@ -628,10 +665,11 @@ const OrganizerOverallBlock = (props) => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App["Custom Color 23"],
-                        fontFamily: "System",
+                        color: palettes.App['Custom Color 23'],
+                        flex: 1,
+                        fontFamily: 'System',
                         fontSize: 15,
-                        fontWeight: "400",
+                        fontWeight: '400',
                         letterSpacing: 0.2,
                         lineHeight: 26,
                         marginLeft: 14,
@@ -639,74 +677,145 @@ const OrganizerOverallBlock = (props) => {
                       dimensions.width
                     )}
                   >
-                    {t(Variables, "spotlight_related_company_total")}
+                    {t(Variables, 'spotlight_related_company_total')}
                     {minuteData?.meta?.total}
-                    {t(Variables, "organizer_minute_tip")}
+                    {t(Variables, 'organizer_minute_tip')}
                   </Text>
                 </View>
-                {/* Custom Code 2 */}
-                <Utils.CustomCodeErrorBoundary>
-                  <Shadow.ShadowComponent
-                    startColor={"#0002"}
-                    endColor={"#0000"}
-                    offset={[14, 0]}
-                    distance={5}
+
+                <Shadow
+                  offsetY={0}
+                  paintInside={true}
+                  showShadowCornerBottomEnd={true}
+                  showShadowCornerBottomStart={true}
+                  showShadowCornerTopEnd={true}
+                  showShadowCornerTopStart={true}
+                  showShadowSideBottom={true}
+                  showShadowSideEnd={true}
+                  showShadowSideStart={true}
+                  showShadowSideTop={true}
+                  offsetX={14}
+                  startColor={palettes.App['Custom Color 105']}
+                  style={StyleSheet.applyWidth(
+                    { borderRadius: 4 },
+                    dimensions.width
+                  )}
+                >
+                  {/* 系列活动-列表 */}
+                  <View
+                    style={StyleSheet.applyWidth(
+                      {
+                        backgroundColor: palettes.App['Custom #ffffff'],
+                        borderRadius: 4,
+                        marginLeft: 14,
+                        marginRight: 14,
+                        overflow: 'hidden',
+                        paddingBottom: 16,
+                        paddingTop: 16,
+                        width: dimensions.width - 28,
+                      },
+                      dimensions.width
+                    )}
                   >
-                    {/* 系列活动-列表 */}
-                    <View
+                    <SimpleStyleFlatList
+                      data={minuteData?.data?.feeds}
+                      decelerationRate={'normal'}
+                      horizontal={false}
+                      inverted={false}
+                      keyExtractor={(listData, index) =>
+                        listData?.id ??
+                        listData?.uuid ??
+                        index?.toString() ??
+                        JSON.stringify(listData)
+                      }
+                      keyboardShouldPersistTaps={'never'}
+                      listKey={
+                        'Scroll View->minute->View->Shadow->系列活动-列表->List'
+                      }
+                      nestedScrollEnabled={false}
+                      numColumns={1}
+                      onEndReachedThreshold={0.5}
+                      pagingEnabled={false}
+                      renderItem={({ item, index }) => {
+                        const listData = item;
+                        return (
+                          <RecommandSectionBlock
+                            dataItem={listData}
+                            hideMenu={true}
+                          />
+                        );
+                      }}
+                      showsHorizontalScrollIndicator={true}
+                      showsVerticalScrollIndicator={true}
+                      snapToAlignment={'start'}
                       style={StyleSheet.applyWidth(
-                        {
-                          borderRadius: 4,
-                          marginLeft: 14,
-                          marginRight: 14,
-                          overflow: "hidden",
-                          width: dimensions.width - 28,
-                        },
+                        { paddingLeft: 16, paddingRight: 16 },
                         dimensions.width
                       )}
-                    >
-                      <SimpleStyleFlatList
-                        data={minuteData?.data?.feeds}
-                        decelerationRate={"normal"}
-                        horizontal={false}
-                        inverted={false}
-                        keyExtractor={(listData, index) =>
-                          listData?.id ??
-                          listData?.uuid ??
-                          index?.toString() ??
-                          JSON.stringify(listData)
-                        }
-                        keyboardShouldPersistTaps={"never"}
-                        listKey={
-                          "Scroll View->minute->View->Custom Code 2->系列活动-列表->List"
-                        }
-                        nestedScrollEnabled={false}
-                        numColumns={1}
-                        onEndReachedThreshold={0.5}
-                        pagingEnabled={false}
-                        renderItem={({ item, index }) => {
-                          const listData = item;
-                          return (
-                            <RecommandSectionBlock
-                              dataItem={listData}
-                              hideMenu={true}
-                            />
-                          );
-                        }}
-                        showsHorizontalScrollIndicator={true}
-                        showsVerticalScrollIndicator={true}
-                        snapToAlignment={"start"}
-                      />
-                      {/* View 3 */}
-                      <>
-                        {!(minuteData?.meta?.total === 0) ? null : (
+                    />
+                    {/* View 3 */}
+                    <>
+                      {!(minuteData?.meta?.total === 0) ? null : (
+                        <View
+                          style={StyleSheet.applyWidth(
+                            {
+                              alignItems: 'center',
+                              backgroundColor: palettes.App.White,
+                              flexDirection: 'row',
+                              justifyContent: 'center',
+                              paddingBottom: 5,
+                              paddingTop: 5,
+                            },
+                            dimensions.width
+                          )}
+                        >
+                          <Text
+                            accessible={true}
+                            selectable={false}
+                            {...GlobalStyles.TextStyles(theme)['Text Title']
+                              .props}
+                            style={StyleSheet.applyWidth(
+                              StyleSheet.compose(
+                                GlobalStyles.TextStyles(theme)['Text Title']
+                                  .style,
+                                {
+                                  color: palettes.App['Custom Color 4'],
+                                  fontFamily: 'System',
+                                  fontSize: 14,
+                                  fontWeight: '400',
+                                  marginRight: null,
+                                }
+                              ),
+                              dimensions.width
+                            )}
+                          >
+                            {t(Variables, 'common_no_content')}
+                          </Text>
+                        </View>
+                      )}
+                    </>
+                    <>
+                      {!(minuteData?.meta?.total > 4) ? null : (
+                        <Touchable
+                          onPress={() => {
+                            try {
+                              changeIndex(3);
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          }}
+                          style={StyleSheet.applyWidth(
+                            { marginBottom: -16 },
+                            dimensions.width
+                          )}
+                        >
                           <View
                             style={StyleSheet.applyWidth(
                               {
-                                alignItems: "center",
+                                alignItems: 'center',
                                 backgroundColor: palettes.App.White,
-                                flexDirection: "row",
-                                justifyContent: "center",
+                                flexDirection: 'row',
+                                justifyContent: 'center',
                                 paddingBottom: 5,
                                 paddingTop: 5,
                               },
@@ -716,86 +825,36 @@ const OrganizerOverallBlock = (props) => {
                             <Text
                               accessible={true}
                               selectable={false}
-                              {...GlobalStyles.TextStyles(theme)["Text Title"]
+                              {...GlobalStyles.TextStyles(theme)['Text Title']
                                 .props}
                               style={StyleSheet.applyWidth(
                                 StyleSheet.compose(
-                                  GlobalStyles.TextStyles(theme)["Text Title"]
+                                  GlobalStyles.TextStyles(theme)['Text Title']
                                     .style,
                                   {
-                                    color: palettes.App["Custom Color 4"],
-                                    fontFamily: "System",
+                                    color: palettes.Brand.appStyle_primary,
+                                    fontFamily: 'System',
                                     fontSize: 14,
-                                    fontWeight: "400",
+                                    fontWeight: '400',
                                     marginRight: null,
                                   }
                                 ),
                                 dimensions.width
                               )}
                             >
-                              {t(Variables, "common_no_content")}
+                              {t(Variables, 'common_get_more')}
                             </Text>
+                            <Icon
+                              color={palettes.Brand.appStyle_primary}
+                              name={'AntDesign/right'}
+                              size={14}
+                            />
                           </View>
-                        )}
-                      </>
-                      <>
-                        {!(minuteData?.meta?.total > 4) ? null : (
-                          <Touchable
-                            onPress={() => {
-                              try {
-                                changeIndex(3);
-                              } catch (err) {
-                                console.error(err);
-                              }
-                            }}
-                          >
-                            <View
-                              style={StyleSheet.applyWidth(
-                                {
-                                  alignItems: "center",
-                                  backgroundColor: palettes.App.White,
-                                  flexDirection: "row",
-                                  justifyContent: "center",
-                                  paddingBottom: 5,
-                                  paddingTop: 5,
-                                },
-                                dimensions.width
-                              )}
-                            >
-                              <Text
-                                accessible={true}
-                                selectable={false}
-                                {...GlobalStyles.TextStyles(theme)["Text Title"]
-                                  .props}
-                                style={StyleSheet.applyWidth(
-                                  StyleSheet.compose(
-                                    GlobalStyles.TextStyles(theme)["Text Title"]
-                                      .style,
-                                    {
-                                      color: palettes.Brand.appStyle_primary,
-                                      fontFamily: "System",
-                                      fontSize: 14,
-                                      fontWeight: "400",
-                                      marginRight: null,
-                                    }
-                                  ),
-                                  dimensions.width
-                                )}
-                              >
-                                {t(Variables, "common_get_more")}
-                              </Text>
-                              <Icon
-                                color={palettes.Brand.appStyle_primary}
-                                name={"AntDesign/right"}
-                                size={14}
-                              />
-                            </View>
-                          </Touchable>
-                        )}
-                      </>
-                    </View>
-                  </Shadow.ShadowComponent>
-                </Utils.CustomCodeErrorBoundary>
+                        </Touchable>
+                      )}
+                    </>
+                  </View>
+                </Shadow>
               </View>
             );
           }}
@@ -803,7 +862,7 @@ const OrganizerOverallBlock = (props) => {
         {/* article */}
         <AceCampTestApi.FetchOrganizerMinute$article$eventGET
           handlers={{
-            onData: (articleData) => {
+            onData: articleData => {
               try {
                 updateCount(4, articleData?.meta?.total);
               } catch (err) {
@@ -813,7 +872,7 @@ const OrganizerOverallBlock = (props) => {
           }}
           organization_id={getOid()}
           page_size={4}
-          source_type={"Article"}
+          source_type={'Article'}
         >
           {({ loading, error, data, refetchOrganizerMinute$article$event }) => {
             const articleData = data?.json;
@@ -829,7 +888,7 @@ const OrganizerOverallBlock = (props) => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    backgroundColor: palettes.App["Custom Color 19"],
+                    backgroundColor: palettes.App['Custom Color 19'],
                     paddingBottom: 10,
                     paddingTop: 20,
                   },
@@ -840,8 +899,8 @@ const OrganizerOverallBlock = (props) => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: "flex-end",
-                      flexDirection: "row",
+                      alignItems: 'flex-end',
+                      flexDirection: 'row',
                       marginBottom: 10,
                       paddingLeft: 16,
                     },
@@ -854,16 +913,16 @@ const OrganizerOverallBlock = (props) => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        fontFamily: "System",
+                        fontFamily: 'System',
                         fontSize: 18,
-                        fontWeight: "700",
+                        fontWeight: '700',
                         letterSpacing: 0.2,
                         lineHeight: 30,
                       },
                       dimensions.width
                     )}
                   >
-                    {t(Variables, "tab_vote_point")}
+                    {t(Variables, 'tab_vote_point')}
                   </Text>
 
                   <Text
@@ -871,10 +930,11 @@ const OrganizerOverallBlock = (props) => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App["Custom Color 23"],
-                        fontFamily: "System",
+                        color: palettes.App['Custom Color 23'],
+                        flex: 1,
+                        fontFamily: 'System',
                         fontSize: 15,
-                        fontWeight: "400",
+                        fontWeight: '400',
                         letterSpacing: 0.2,
                         lineHeight: 26,
                         marginLeft: 14,
@@ -882,74 +942,145 @@ const OrganizerOverallBlock = (props) => {
                       dimensions.width
                     )}
                   >
-                    {t(Variables, "spotlight_related_company_total")}
+                    {t(Variables, 'spotlight_related_company_total')}
                     {articleData?.meta?.total}
-                    {t(Variables, "organizer_minute_tip")}
+                    {t(Variables, 'organizer_minute_tip')}
                   </Text>
                 </View>
-                {/* Custom Code 2 */}
-                <Utils.CustomCodeErrorBoundary>
-                  <Shadow.ShadowComponent
-                    startColor={"#0002"}
-                    endColor={"#0000"}
-                    offset={[14, 0]}
-                    distance={5}
+
+                <Shadow
+                  offsetY={0}
+                  paintInside={true}
+                  showShadowCornerBottomEnd={true}
+                  showShadowCornerBottomStart={true}
+                  showShadowCornerTopEnd={true}
+                  showShadowCornerTopStart={true}
+                  showShadowSideBottom={true}
+                  showShadowSideEnd={true}
+                  showShadowSideStart={true}
+                  showShadowSideTop={true}
+                  offsetX={14}
+                  startColor={palettes.App['Custom Color 105']}
+                  style={StyleSheet.applyWidth(
+                    { borderRadius: 4 },
+                    dimensions.width
+                  )}
+                >
+                  {/* 系列活动-列表 */}
+                  <View
+                    style={StyleSheet.applyWidth(
+                      {
+                        backgroundColor: palettes.App['Custom #ffffff'],
+                        borderRadius: 4,
+                        marginLeft: 14,
+                        marginRight: 14,
+                        overflow: 'hidden',
+                        paddingBottom: 16,
+                        paddingTop: 16,
+                        width: dimensions.width - 28,
+                      },
+                      dimensions.width
+                    )}
                   >
-                    {/* 系列活动-列表 */}
-                    <View
+                    <SimpleStyleFlatList
+                      data={articleData?.data?.feeds}
+                      decelerationRate={'normal'}
+                      horizontal={false}
+                      inverted={false}
+                      keyExtractor={(listData, index) =>
+                        listData?.id ??
+                        listData?.uuid ??
+                        index?.toString() ??
+                        JSON.stringify(listData)
+                      }
+                      keyboardShouldPersistTaps={'never'}
+                      listKey={
+                        'Scroll View->article->View->Shadow->系列活动-列表->List'
+                      }
+                      nestedScrollEnabled={false}
+                      numColumns={1}
+                      onEndReachedThreshold={0.5}
+                      pagingEnabled={false}
+                      renderItem={({ item, index }) => {
+                        const listData = item;
+                        return (
+                          <RecommandSectionBlock
+                            dataItem={listData}
+                            hideMenu={true}
+                          />
+                        );
+                      }}
+                      showsHorizontalScrollIndicator={true}
+                      showsVerticalScrollIndicator={true}
+                      snapToAlignment={'start'}
                       style={StyleSheet.applyWidth(
-                        {
-                          borderRadius: 4,
-                          marginLeft: 14,
-                          marginRight: 14,
-                          overflow: "hidden",
-                          width: dimensions.width - 28,
-                        },
+                        { paddingLeft: 16, paddingRight: 16 },
                         dimensions.width
                       )}
-                    >
-                      <SimpleStyleFlatList
-                        data={articleData?.data?.feeds}
-                        decelerationRate={"normal"}
-                        horizontal={false}
-                        inverted={false}
-                        keyExtractor={(listData, index) =>
-                          listData?.id ??
-                          listData?.uuid ??
-                          index?.toString() ??
-                          JSON.stringify(listData)
-                        }
-                        keyboardShouldPersistTaps={"never"}
-                        listKey={
-                          "Scroll View->article->View->Custom Code 2->系列活动-列表->List"
-                        }
-                        nestedScrollEnabled={false}
-                        numColumns={1}
-                        onEndReachedThreshold={0.5}
-                        pagingEnabled={false}
-                        renderItem={({ item, index }) => {
-                          const listData = item;
-                          return (
-                            <RecommandSectionBlock
-                              dataItem={listData}
-                              hideMenu={true}
-                            />
-                          );
-                        }}
-                        showsHorizontalScrollIndicator={true}
-                        showsVerticalScrollIndicator={true}
-                        snapToAlignment={"start"}
-                      />
-                      {/* View 3 */}
-                      <>
-                        {!(articleData?.meta?.total === 0) ? null : (
+                    />
+                    {/* View 3 */}
+                    <>
+                      {!(articleData?.meta?.total === 0) ? null : (
+                        <View
+                          style={StyleSheet.applyWidth(
+                            {
+                              alignItems: 'center',
+                              backgroundColor: palettes.App.White,
+                              flexDirection: 'row',
+                              justifyContent: 'center',
+                              paddingBottom: 5,
+                              paddingTop: 5,
+                            },
+                            dimensions.width
+                          )}
+                        >
+                          <Text
+                            accessible={true}
+                            selectable={false}
+                            {...GlobalStyles.TextStyles(theme)['Text Title']
+                              .props}
+                            style={StyleSheet.applyWidth(
+                              StyleSheet.compose(
+                                GlobalStyles.TextStyles(theme)['Text Title']
+                                  .style,
+                                {
+                                  color: palettes.App['Custom Color 4'],
+                                  fontFamily: 'System',
+                                  fontSize: 14,
+                                  fontWeight: '400',
+                                  marginRight: null,
+                                }
+                              ),
+                              dimensions.width
+                            )}
+                          >
+                            {t(Variables, 'common_no_content')}
+                          </Text>
+                        </View>
+                      )}
+                    </>
+                    <>
+                      {!(articleData?.meta?.total > 4) ? null : (
+                        <Touchable
+                          onPress={() => {
+                            try {
+                              changeIndex(4);
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          }}
+                          style={StyleSheet.applyWidth(
+                            { marginBottom: -16 },
+                            dimensions.width
+                          )}
+                        >
                           <View
                             style={StyleSheet.applyWidth(
                               {
-                                alignItems: "center",
+                                alignItems: 'center',
                                 backgroundColor: palettes.App.White,
-                                flexDirection: "row",
-                                justifyContent: "center",
+                                flexDirection: 'row',
+                                justifyContent: 'center',
                                 paddingBottom: 5,
                                 paddingTop: 5,
                               },
@@ -959,86 +1090,36 @@ const OrganizerOverallBlock = (props) => {
                             <Text
                               accessible={true}
                               selectable={false}
-                              {...GlobalStyles.TextStyles(theme)["Text Title"]
+                              {...GlobalStyles.TextStyles(theme)['Text Title']
                                 .props}
                               style={StyleSheet.applyWidth(
                                 StyleSheet.compose(
-                                  GlobalStyles.TextStyles(theme)["Text Title"]
+                                  GlobalStyles.TextStyles(theme)['Text Title']
                                     .style,
                                   {
-                                    color: palettes.App["Custom Color 4"],
-                                    fontFamily: "System",
+                                    color: palettes.Brand.appStyle_primary,
+                                    fontFamily: 'System',
                                     fontSize: 14,
-                                    fontWeight: "400",
+                                    fontWeight: '400',
                                     marginRight: null,
                                   }
                                 ),
                                 dimensions.width
                               )}
                             >
-                              {t(Variables, "common_no_content")}
+                              {t(Variables, 'common_get_more')}
                             </Text>
+                            <Icon
+                              color={palettes.Brand.appStyle_primary}
+                              name={'AntDesign/right'}
+                              size={14}
+                            />
                           </View>
-                        )}
-                      </>
-                      <>
-                        {!(articleData?.meta?.total > 4) ? null : (
-                          <Touchable
-                            onPress={() => {
-                              try {
-                                changeIndex(4);
-                              } catch (err) {
-                                console.error(err);
-                              }
-                            }}
-                          >
-                            <View
-                              style={StyleSheet.applyWidth(
-                                {
-                                  alignItems: "center",
-                                  backgroundColor: palettes.App.White,
-                                  flexDirection: "row",
-                                  justifyContent: "center",
-                                  paddingBottom: 5,
-                                  paddingTop: 5,
-                                },
-                                dimensions.width
-                              )}
-                            >
-                              <Text
-                                accessible={true}
-                                selectable={false}
-                                {...GlobalStyles.TextStyles(theme)["Text Title"]
-                                  .props}
-                                style={StyleSheet.applyWidth(
-                                  StyleSheet.compose(
-                                    GlobalStyles.TextStyles(theme)["Text Title"]
-                                      .style,
-                                    {
-                                      color: palettes.Brand.appStyle_primary,
-                                      fontFamily: "System",
-                                      fontSize: 14,
-                                      fontWeight: "400",
-                                      marginRight: null,
-                                    }
-                                  ),
-                                  dimensions.width
-                                )}
-                              >
-                                {t(Variables, "common_get_more")}
-                              </Text>
-                              <Icon
-                                color={palettes.Brand.appStyle_primary}
-                                name={"AntDesign/right"}
-                                size={14}
-                              />
-                            </View>
-                          </Touchable>
-                        )}
-                      </>
-                    </View>
-                  </Shadow.ShadowComponent>
-                </Utils.CustomCodeErrorBoundary>
+                        </Touchable>
+                      )}
+                    </>
+                  </View>
+                </Shadow>
               </View>
             );
           }}

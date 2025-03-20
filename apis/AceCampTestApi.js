@@ -1,23 +1,23 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   useQuery,
   useMutation,
   useIsFetching,
   useQueryClient,
-} from "react-query";
-import useFetch from "react-fetch-hook";
-import { useIsFocused } from "@react-navigation/native";
-import { handleResponse, isOkStatus } from "../utils/handleRestApiResponse";
-import usePrevious from "../utils/usePrevious";
+} from 'react-query';
+import useFetch from 'react-fetch-hook';
+import { useIsFocused } from '@react-navigation/native';
+import { handleResponse, isOkStatus } from '../utils/handleRestApiResponse';
+import usePrevious from '../utils/usePrevious';
 import {
   encodeQueryParam,
   renderParam,
   renderQueryString,
-} from "../utils/encodeQueryParam";
-import * as GlobalVariables from "../config/GlobalVariableContext";
+} from '../utils/encodeQueryParam';
+import * as GlobalVariables from '../config/GlobalVariableContext';
 
-const cleanHeaders = (headers) =>
-  Object.fromEntries(Object.entries(headers).filter((kv) => kv[1] != null));
+const cleanHeaders = headers =>
+  Object.fromEntries(Object.entries(headers).filter(kv => kv[1] != null));
 
 export const addPhonePUT = async (
   Constants,
@@ -31,7 +31,7 @@ export const addPhonePUT = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -47,18 +47,18 @@ export const addPhonePUT = async (
         main_phone: false,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -71,16 +71,16 @@ export const useAddPhonePUT = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => addPhonePUT(Constants, { ...initialArgs, ...args }, handlers),
+    args => addPhonePUT(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -107,7 +107,7 @@ export const aiSchedulersPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -126,18 +126,18 @@ export const aiSchedulersPOST = async (
         },
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -153,17 +153,16 @@ export const useAiSchedulersPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
-      aiSchedulersPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => aiSchedulersPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("ai", previousValue);
+          return queryClient.setQueryData('ai', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("ai");
-        queryClient.invalidateQueries("ais");
+        queryClient.invalidateQueries('ai');
+        queryClient.invalidateQueries('ais');
       },
     }
   );
@@ -231,7 +230,7 @@ export const FetchAiSchedulersPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -258,7 +257,7 @@ export const aiTranslatesPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -274,18 +273,18 @@ export const aiTranslatesPOST = async (
         article_id: article_id,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -301,17 +300,16 @@ export const useAiTranslatesPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
-      aiTranslatesPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => aiTranslatesPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("ai", previousValue);
+          return queryClient.setQueryData('ai', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("ai");
-        queryClient.invalidateQueries("ais");
+        queryClient.invalidateQueries('ai');
+        queryClient.invalidateQueries('ais');
       },
     }
   );
@@ -377,7 +375,7 @@ export const FetchAiTranslatesPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -398,23 +396,23 @@ export const aiTranslatesDetailGET = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -439,7 +437,7 @@ export const useAiTranslatesDetailGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestAiTranslatesDetailGET", args],
+    ['aceCampTestAiTranslatesDetailGET', args],
     () => aiTranslatesDetailGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -449,7 +447,7 @@ export const useAiTranslatesDetailGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestAiTranslatesDetailGETS"]),
+        queryClient.invalidateQueries(['aceCampTestAiTranslatesDetailGETS']),
     }
   );
 };
@@ -500,7 +498,7 @@ export const FetchAiTranslatesDetailGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -519,23 +517,23 @@ export const aiTranslatesGlossariesGET = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -559,7 +557,7 @@ export const useAiTranslatesGlossariesGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["ais", args],
+    ['ais', args],
     () => aiTranslatesGlossariesGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -617,7 +615,7 @@ export const FetchAiTranslatesGlossariesGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -637,40 +635,40 @@ export const aiTranslatesListGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   if (refresh !== undefined) {
-    paramsDict["refresh"] = refresh;
+    paramsDict['refresh'] = refresh;
   }
   const url = `https://api.ca3test.com/api/v1/ai_translates${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -694,7 +692,7 @@ export const useAiTranslatesListGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["ais", args],
+    ['ais', args],
     () => aiTranslatesListGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -755,7 +753,7 @@ export const FetchAiTranslatesListGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -779,56 +777,56 @@ export const appointmentTicketsPOST = async (
 ) => {
   const paramsDict = {};
   if (appointment_type !== undefined) {
-    paramsDict["appointment_type"] = appointment_type;
+    paramsDict['appointment_type'] = appointment_type;
   }
   if (contact !== undefined) {
-    paramsDict["contact"] = contact;
+    paramsDict['contact'] = contact;
   }
   if (contact_type !== undefined) {
-    paramsDict["contact_type"] = contact_type;
+    paramsDict['contact_type'] = contact_type;
   }
   if (source_type !== undefined) {
-    paramsDict["source_type"] = source_type;
+    paramsDict['source_type'] = source_type;
   }
   if (name !== undefined) {
-    paramsDict["name"] = name;
+    paramsDict['name'] = name;
   }
   if (company !== undefined) {
-    paramsDict["company"] = company;
+    paramsDict['company'] = company;
   }
   if (resource_id !== undefined) {
-    paramsDict["resource_id"] = resource_id;
+    paramsDict['resource_id'] = resource_id;
   }
   if (resource_type !== undefined) {
-    paramsDict["resource_type"] = resource_type;
+    paramsDict['resource_type'] = resource_type;
   }
   const url = `https://api.ca3test.com/api/v1/appointment_tickets${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -844,17 +842,17 @@ export const useAppointmentTicketsPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       appointmentTicketsPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -922,7 +920,7 @@ export const FetchAppointmentTicketsPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -936,39 +934,39 @@ export const articleInfoGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   if (id !== undefined) {
-    paramsDict["id"] = id;
+    paramsDict['id'] = id;
   }
   if (locale !== undefined) {
-    paramsDict["locale"] = locale;
+    paramsDict['locale'] = locale;
   }
   const url = `https://api.ca3test.com/api/v1/articles/article_info${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -993,7 +991,7 @@ export const useArticleInfoGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestArticleInfoGET", args],
+    ['aceCampTestArticleInfoGET', args],
     () => articleInfoGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -1003,7 +1001,7 @@ export const useArticleInfoGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestArticleInfoGETS"]),
+        queryClient.invalidateQueries(['aceCampTestArticleInfoGETS']),
     }
   );
 };
@@ -1055,7 +1053,7 @@ export const FetchArticleInfoGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -1069,38 +1067,38 @@ export const articleInfoHotGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
-  paramsDict["collection"] = "similar";
-  paramsDict["topping"] = "false";
+  paramsDict['version'] = '2.0';
+  paramsDict['collection'] = 'similar';
+  paramsDict['topping'] = 'false';
   if (page_size !== undefined) {
-    paramsDict["page_size"] = page_size;
+    paramsDict['page_size'] = page_size;
   }
   const url = `https://api.ca3test.com/api/v1/feeds${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -1125,7 +1123,7 @@ export const useArticleInfoHotGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestArticleInfoHotGET", args],
+    ['aceCampTestArticleInfoHotGET', args],
     () => articleInfoHotGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -1135,7 +1133,7 @@ export const useArticleInfoHotGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestArticleInfoHotGETS"]),
+        queryClient.invalidateQueries(['aceCampTestArticleInfoHotGETS']),
     }
   );
 };
@@ -1186,7 +1184,7 @@ export const FetchArticleInfoHotGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -1200,35 +1198,35 @@ export const articleInfoKeypointGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   if (article_id !== undefined) {
-    paramsDict["article_id"] = article_id;
+    paramsDict['article_id'] = article_id;
   }
   const url = `https://api.ca3test.com/api/v1/transcribes/${encodeQueryParam(
     transcribe_id
-  )}/keypoints${renderQueryString(paramsDict, "brackets")}`;
+  )}/keypoints${renderQueryString(paramsDict, 'brackets')}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -1253,7 +1251,7 @@ export const useArticleInfoKeypointGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestArticleInfoKeypointGET", args],
+    ['aceCampTestArticleInfoKeypointGET', args],
     () => articleInfoKeypointGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -1263,7 +1261,7 @@ export const useArticleInfoKeypointGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestArticleInfoKeypointGETS"]),
+        queryClient.invalidateQueries(['aceCampTestArticleInfoKeypointGETS']),
     }
   );
 };
@@ -1315,7 +1313,7 @@ export const FetchArticleInfoKeypointGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -1334,39 +1332,39 @@ export const articleInfoSimilarGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   if (source_id !== undefined) {
-    paramsDict["source_id"] = source_id;
+    paramsDict['source_id'] = source_id;
   }
   if (source_type !== undefined) {
-    paramsDict["source_type"] = source_type;
+    paramsDict['source_type'] = source_type;
   }
   const url = `https://api.ca3test.com/api/v1/feeds/similar${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -1391,7 +1389,7 @@ export const useArticleInfoSimilarGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestArticleInfoSimilarGET", args],
+    ['aceCampTestArticleInfoSimilarGET', args],
     () => articleInfoSimilarGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -1401,7 +1399,7 @@ export const useArticleInfoSimilarGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestArticleInfoSimilarGETS"]),
+        queryClient.invalidateQueries(['aceCampTestArticleInfoSimilarGETS']),
     }
   );
 };
@@ -1453,7 +1451,7 @@ export const FetchArticleInfoSimilarGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -1468,46 +1466,46 @@ export const articleListGET = async (
 ) => {
   const paramsDict = {};
   if (mine !== undefined) {
-    paramsDict["mine"] = mine;
+    paramsDict['mine'] = mine;
   }
   if (state !== undefined) {
-    paramsDict["state"] = state;
+    paramsDict['state'] = state;
   }
   if (title !== undefined) {
-    paramsDict["title"] = title;
+    paramsDict['title'] = title;
   }
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   const url = `https://api.ca3test.com/api/v1/organization_articles/article_list${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -1531,7 +1529,7 @@ export const useArticleListGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["organizations", args],
+    ['organizations', args],
     () => articleListGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -1594,7 +1592,7 @@ export const FetchArticleListGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -1610,23 +1608,23 @@ export const assetsInfoGET = async (Constants, { id }, handlers, timeout) => {
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -1651,7 +1649,7 @@ export const useAssetsInfoGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["user", args],
+    ['user', args],
     () => assetsInfoGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -1660,7 +1658,7 @@ export const useAssetsInfoGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["users"]),
+      onSuccess: () => queryClient.invalidateQueries(['users']),
     }
   );
 };
@@ -1711,7 +1709,7 @@ export const FetchAssetsInfoGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -1725,40 +1723,40 @@ export const buyMeetingPOST = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["goods_type"] = "Meeting";
+  paramsDict['goods_type'] = 'Meeting';
   if (goods_id !== undefined) {
-    paramsDict["goods_id"] = goods_id;
+    paramsDict['goods_id'] = goods_id;
   }
   if (user_card_sncode !== undefined) {
-    paramsDict["user_card_sncode"] = user_card_sncode;
+    paramsDict['user_card_sncode'] = user_card_sncode;
   }
   const url = `https://api.ca3test.com/api/v1/orders${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -1771,16 +1769,16 @@ export const useBuyMeetingPOST = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => buyMeetingPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => buyMeetingPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("event", previousValue);
+          return queryClient.setQueryData('event', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("event");
-        queryClient.invalidateQueries("events");
+        queryClient.invalidateQueries('event');
+        queryClient.invalidateQueries('events');
       },
     }
   );
@@ -1833,7 +1831,7 @@ export const FetchBuyMeetingPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -1860,7 +1858,7 @@ export const changeEmailPUT = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -1876,18 +1874,18 @@ export const changeEmailPUT = async (
         code: code,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -1900,16 +1898,16 @@ export const useChangeEmailPUT = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => changeEmailPUT(Constants, { ...initialArgs, ...args }, handlers),
+    args => changeEmailPUT(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -1935,7 +1933,7 @@ export const changePasswordPUT = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -1951,18 +1949,18 @@ export const changePasswordPUT = async (
         password_confirmation: password_confirmation,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -1978,17 +1976,16 @@ export const useChangePasswordPUT = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
-      changePasswordPUT(Constants, { ...initialArgs, ...args }, handlers),
+    args => changePasswordPUT(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -2015,7 +2012,7 @@ export const changePhoneNumberPUT = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -2032,18 +2029,18 @@ export const changePhoneNumberPUT = async (
         password: password,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -2059,17 +2056,17 @@ export const useChangePhoneNumberPUT = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       changePhoneNumberPUT(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -2083,44 +2080,44 @@ export const commentListGET = async (
 ) => {
   const paramsDict = {};
   if (subject_type !== undefined) {
-    paramsDict["subject_type"] = subject_type;
+    paramsDict['subject_type'] = subject_type;
   }
   if (subject_id !== undefined) {
-    paramsDict["subject_id"] = subject_id;
+    paramsDict['subject_id'] = subject_id;
   }
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   const url = `https://api.ca3test.com/api/v1/comments/comment_list${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -2144,7 +2141,7 @@ export const useCommentListGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["comments", args],
+    ['comments', args],
     () => commentListGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -2206,7 +2203,7 @@ export const FetchCommentListGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -2221,35 +2218,35 @@ export const commentsDeleteDELETE = async (
 ) => {
   const paramsDict = {};
   if (id !== undefined) {
-    paramsDict["id"] = id;
+    paramsDict['id'] = id;
   }
   const url = `https://api.ca3test.com/api/v1/comments${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: "cookie",
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: 'cookie',
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "DELETE",
+      method: 'DELETE',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -2265,17 +2262,17 @@ export const useCommentsDeleteDELETE = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       commentsDeleteDELETE(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("comment", previousValue);
+          return queryClient.setQueryData('comment', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("comment");
-        queryClient.invalidateQueries("comments");
+        queryClient.invalidateQueries('comment');
+        queryClient.invalidateQueries('comments');
       },
     }
   );
@@ -2293,7 +2290,7 @@ export const commentsAddPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -2306,18 +2303,18 @@ export const commentsAddPOST = async (
         reply_to_id: reply_to_id,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -2333,16 +2330,16 @@ export const useCommentsAddPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => commentsAddPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => commentsAddPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("comment", previousValue);
+          return queryClient.setQueryData('comment', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("comment");
-        queryClient.invalidateQueries("comments");
+        queryClient.invalidateQueries('comment');
+        queryClient.invalidateQueries('comments');
       },
     }
   );
@@ -2397,7 +2394,7 @@ export const FetchCommentsAddPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -2412,45 +2409,45 @@ export const companyFeedsGET = async (
 ) => {
   const paramsDict = {};
   if (page_size !== undefined) {
-    paramsDict["page_size"] = page_size;
+    paramsDict['page_size'] = page_size;
   }
-  paramsDict["topping"] = "false";
+  paramsDict['topping'] = 'false';
   if (corporation_ids !== undefined) {
-    paramsDict["corporation_ids"] = corporation_ids;
+    paramsDict['corporation_ids'] = corporation_ids;
   }
   if (cursor !== undefined) {
-    paramsDict["cursor"] = cursor;
+    paramsDict['cursor'] = cursor;
   }
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   if (source_type !== undefined) {
-    paramsDict["source_type"] = source_type;
+    paramsDict['source_type'] = source_type;
   }
   const url = `https://api.ca3test.com/api/v1/feeds${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -2474,7 +2471,7 @@ export const useCompanyFeedsGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["companies", args],
+    ['companies', args],
     () => companyFeedsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -2536,7 +2533,7 @@ export const FetchCompanyFeedsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -2551,41 +2548,41 @@ export const companyPopularsGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   if (following !== undefined) {
-    paramsDict["following"] = following;
+    paramsDict['following'] = following;
   }
   const url = `https://api.ca3test.com/api/v1/popular_corporations/populars${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -2609,7 +2606,7 @@ export const useCompanyPopularsGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["companies", args],
+    ['companies', args],
     () => companyPopularsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -2670,7 +2667,7 @@ export const FetchCompanyPopularsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -2685,43 +2682,43 @@ export const corporationsListGET = async (
 ) => {
   const paramsDict = {};
   if (active_state !== undefined) {
-    paramsDict["active_state"] = active_state;
+    paramsDict['active_state'] = active_state;
   }
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   if (keyword !== undefined) {
-    paramsDict["keyword"] = keyword;
+    paramsDict['keyword'] = keyword;
   }
   const url = `https://api.ca3test.com/api/v1/sators/corporations${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -2745,7 +2742,7 @@ export const useCorporationsListGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["companies", args],
+    ['companies', args],
     () => corporationsListGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -2807,7 +2804,7 @@ export const FetchCorporationsListGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -2826,7 +2823,7 @@ export const createTranscribesPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -2836,23 +2833,23 @@ export const createTranscribesPOST = async (
         source_url: source_url,
         ai_assistant_language: ai_assistant_language,
         industry_ids: industry_ids,
-        aigc_type: "standard",
+        aigc_type: 'standard',
         title: title,
         source_type: source_type,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -2868,17 +2865,17 @@ export const useCreateTranscribesPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       createTranscribesPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("ai", previousValue);
+          return queryClient.setQueryData('ai', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("ai");
-        queryClient.invalidateQueries("ais");
+        queryClient.invalidateQueries('ai');
+        queryClient.invalidateQueries('ais');
       },
     }
   );
@@ -2934,7 +2931,7 @@ export const FetchCreateTranscribesPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -2949,37 +2946,37 @@ export const customerServiceGET = async (
 ) => {
   const paramsDict = {};
   if (Wechat_Appid !== undefined) {
-    paramsDict["Wechat-Appid"] = Wechat_Appid;
+    paramsDict['Wechat-Appid'] = Wechat_Appid;
   }
   if (Wechat_Code !== undefined) {
-    paramsDict["Wechat-Code"] = Wechat_Code;
+    paramsDict['Wechat-Code'] = Wechat_Code;
   }
   const url = `https://api.ca3test.com/api/v1/users/customer_service_list${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -3003,7 +3000,7 @@ export const useCustomerServiceGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["users", args],
+    ['users', args],
     () => customerServiceGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -3063,7 +3060,7 @@ export const FetchCustomerServiceGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -3078,45 +3075,45 @@ export const dailyupdateFeedsGET = async (
 ) => {
   const paramsDict = {};
   if (page_size !== undefined) {
-    paramsDict["page_size"] = page_size;
+    paramsDict['page_size'] = page_size;
   }
   if (source_type !== undefined) {
-    paramsDict["source_type"] = source_type;
+    paramsDict['source_type'] = source_type;
   }
-  paramsDict["topping"] = "false";
+  paramsDict['topping'] = 'false';
   if (collection !== undefined) {
-    paramsDict["collection"] = collection;
+    paramsDict['collection'] = collection;
   }
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   if (cursor !== undefined) {
-    paramsDict["cursor"] = cursor;
+    paramsDict['cursor'] = cursor;
   }
   const url = `https://api.ca3test.com/api/v1/feeds${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -3140,7 +3137,7 @@ export const useDailyupdateFeedsGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["feeds", args],
+    ['feeds', args],
     () => dailyupdateFeedsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -3202,7 +3199,7 @@ export const FetchDailyupdateFeedsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -3217,41 +3214,41 @@ export const dailyupdateSpotlightGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   if (collection !== undefined) {
-    paramsDict["collection"] = collection;
+    paramsDict['collection'] = collection;
   }
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   const url = `https://api.ca3test.com/api/v1/spotlights${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -3275,7 +3272,7 @@ export const useDailyupdateSpotlightGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["feeds", args],
+    ['feeds', args],
     () => dailyupdateSpotlightGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -3336,7 +3333,7 @@ export const FetchDailyupdateSpotlightGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -3356,48 +3353,48 @@ export const deleteAccountPOST = async (
 ) => {
   const paramsDict = {};
   if (user_country_code_id !== undefined) {
-    paramsDict["user_country_code_id"] = user_country_code_id;
+    paramsDict['user_country_code_id'] = user_country_code_id;
   }
   if (user_phone_number !== undefined) {
-    paramsDict["user_phone_number"] = user_phone_number;
+    paramsDict['user_phone_number'] = user_phone_number;
   }
   if (user_code !== undefined) {
-    paramsDict["user_code"] = user_code;
+    paramsDict['user_code'] = user_code;
   }
   if (reasons !== undefined) {
-    paramsDict["reasons"] = reasons;
+    paramsDict['reasons'] = reasons;
   }
   if (description !== undefined) {
-    paramsDict["description"] = description;
+    paramsDict['description'] = description;
   }
   const url = `https://api.ca3test.com/api/v1/users/delete_account${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -3413,17 +3410,16 @@ export const useDeleteAccountPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
-      deleteAccountPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => deleteAccountPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -3485,7 +3481,7 @@ export const FetchDeleteAccountPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -3504,23 +3500,23 @@ export const deleteAccountReasonGET = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -3544,7 +3540,7 @@ export const useDeleteAccountReasonGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["users", args],
+    ['users', args],
     () => deleteAccountReasonGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -3602,7 +3598,7 @@ export const FetchDeleteAccountReasonGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -3622,18 +3618,18 @@ export const deleteOpinionDELETE = async (
 ) => {
   const paramsDict = {};
   if (id !== undefined) {
-    paramsDict["id"] = id;
+    paramsDict['id'] = id;
   }
   const url = `https://api.ca3test.com/api/v1/production_opinions${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -3641,18 +3637,18 @@ export const deleteOpinionDELETE = async (
     const res = await fetch(url, {
       body: JSON.stringify({}),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "DELETE",
+      method: 'DELETE',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -3668,17 +3664,17 @@ export const useDeleteOpinionDELETE = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       deleteOpinionDELETE(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("opinion", previousValue);
+          return queryClient.setQueryData('opinion', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("opinion");
-        queryClient.invalidateQueries("opinions");
+        queryClient.invalidateQueries('opinion');
+        queryClient.invalidateQueries('opinions');
       },
     }
   );
@@ -3696,7 +3692,7 @@ export const deleteOtherPhoneDELETE = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -3707,18 +3703,18 @@ export const deleteOtherPhoneDELETE = async (
         country_code_id: country_code_id,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "DELETE",
+      method: 'DELETE',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -3734,17 +3730,17 @@ export const useDeleteOtherPhoneDELETE = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       deleteOtherPhoneDELETE(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -3757,22 +3753,22 @@ export const dimensionsGET = async (Constants, _args, handlers, timeout) => {
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -3797,7 +3793,7 @@ export const useDimensionsGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestDimensionsGET", args],
+    ['aceCampTestDimensionsGET', args],
     () => dimensionsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -3807,7 +3803,7 @@ export const useDimensionsGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestDimensionsGETS"]),
+        queryClient.invalidateQueries(['aceCampTestDimensionsGETS']),
     }
   );
 };
@@ -3857,7 +3853,7 @@ export const FetchDimensionsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -3885,7 +3881,7 @@ export const editTopicPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -3902,18 +3898,18 @@ export const editTopicPOST = async (
         vote: vote,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -3926,16 +3922,16 @@ export const useEditTopicPOST = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => editTopicPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => editTopicPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("topic", previousValue);
+          return queryClient.setQueryData('topic', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("topic");
-        queryClient.invalidateQueries("topics");
+        queryClient.invalidateQueries('topic');
+        queryClient.invalidateQueries('topics');
       },
     }
   );
@@ -4003,7 +3999,7 @@ export const FetchEditTopicPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -4013,36 +4009,36 @@ export const FetchEditTopicPOST = ({
 export const eventInfoGET = async (Constants, { id }, handlers, timeout) => {
   const paramsDict = {};
   if (id !== undefined) {
-    paramsDict["id"] = id;
+    paramsDict['id'] = id;
   }
-  paramsDict["get_canceled"] = "true";
-  paramsDict["version"] = "2.0";
+  paramsDict['get_canceled'] = 'true';
+  paramsDict['version'] = '2.0';
   const url = `https://api.ca3test.com/api/v1/events/event_info${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -4067,7 +4063,7 @@ export const useEventInfoGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestEventInfoGET", args],
+    ['aceCampTestEventInfoGET', args],
     () => eventInfoGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -4077,7 +4073,7 @@ export const useEventInfoGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestEventInfoGETS"]),
+        queryClient.invalidateQueries(['aceCampTestEventInfoGETS']),
     }
   );
 };
@@ -4128,7 +4124,7 @@ export const FetchEventInfoGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -4147,7 +4143,7 @@ export const eventsRegisterPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -4155,18 +4151,18 @@ export const eventsRegisterPOST = async (
     const res = await fetch(url, {
       body: JSON.stringify({ event_id: event_id, id: id }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -4182,17 +4178,17 @@ export const useEventsRegisterPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       eventsRegisterPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("event", previousValue);
+          return queryClient.setQueryData('event', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("event");
-        queryClient.invalidateQueries("events");
+        queryClient.invalidateQueries('event');
+        queryClient.invalidateQueries('events');
       },
     }
   );
@@ -4245,7 +4241,7 @@ export const FetchEventsRegisterPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -4264,7 +4260,7 @@ export const favoritesActionPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -4277,18 +4273,18 @@ export const favoritesActionPOST = async (
         to_favorite_id: to_favorite_id,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -4304,17 +4300,17 @@ export const useFavoritesActionPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       favoritesActionPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("favorites", previousValue);
+          return queryClient.setQueryData('favorites', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("favorite");
-        queryClient.invalidateQueries("favorites");
+        queryClient.invalidateQueries('favorite');
+        queryClient.invalidateQueries('favorites');
       },
     }
   );
@@ -4369,7 +4365,7 @@ export const FetchFavoritesActionPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -4388,7 +4384,7 @@ export const favoritesAddPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -4396,18 +4392,18 @@ export const favoritesAddPOST = async (
     const res = await fetch(url, {
       body: JSON.stringify({ name: name }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -4423,17 +4419,16 @@ export const useFavoritesAddPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
-      favoritesAddPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => favoritesAddPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("favorites", previousValue);
+          return queryClient.setQueryData('favorites', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("favorite");
-        queryClient.invalidateQueries("favorites");
+        queryClient.invalidateQueries('favorite');
+        queryClient.invalidateQueries('favorites');
       },
     }
   );
@@ -4485,7 +4480,7 @@ export const FetchFavoritesAddPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -4506,25 +4501,25 @@ export const favoritesDeleteDELETE = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "DELETE",
+      method: 'DELETE',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -4540,17 +4535,17 @@ export const useFavoritesDeleteDELETE = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       favoritesDeleteDELETE(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("favorites", previousValue);
+          return queryClient.setQueryData('favorites', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("favorite");
-        queryClient.invalidateQueries("favorites");
+        queryClient.invalidateQueries('favorite');
+        queryClient.invalidateQueries('favorites');
       },
     }
   );
@@ -4570,7 +4565,7 @@ export const favoritesEditPUT = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -4578,18 +4573,18 @@ export const favoritesEditPUT = async (
     const res = await fetch(url, {
       body: JSON.stringify({ name: name }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -4605,17 +4600,16 @@ export const useFavoritesEditPUT = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
-      favoritesEditPUT(Constants, { ...initialArgs, ...args }, handlers),
+    args => favoritesEditPUT(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("favorites", previousValue);
+          return queryClient.setQueryData('favorites', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("favorite");
-        queryClient.invalidateQueries("favorites");
+        queryClient.invalidateQueries('favorite');
+        queryClient.invalidateQueries('favorites');
       },
     }
   );
@@ -4629,37 +4623,37 @@ export const favoritesItemsGET = async (
 ) => {
   const paramsDict = {};
   if (favorite_id !== undefined) {
-    paramsDict["favorite_id"] = favorite_id;
+    paramsDict['favorite_id'] = favorite_id;
   }
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   const url = `https://api.ca3test.com/api/v1/favorites/items${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -4683,7 +4677,7 @@ export const useFavoritesItemsGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["favorites", args],
+    ['favorites', args],
     () => favoritesItemsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -4743,7 +4737,7 @@ export const FetchFavoritesItemsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -4752,33 +4746,33 @@ export const FetchFavoritesItemsGET = ({
 
 export const favoritesListGET = async (Constants, _args, handlers, timeout) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   const url = `https://api.ca3test.com/api/v1/favorites${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -4802,7 +4796,7 @@ export const useFavoritesListGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["favorites", args],
+    ['favorites', args],
     () => favoritesListGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -4860,7 +4854,7 @@ export const FetchFavoritesListGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -4881,52 +4875,52 @@ export const feedsGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["recommend"] = "true";
-  paramsDict["version"] = "2.0";
+  paramsDict['recommend'] = 'true';
+  paramsDict['version'] = '2.0';
   if (content_language_preference !== undefined) {
-    paramsDict["content_language_preference"] = content_language_preference;
+    paramsDict['content_language_preference'] = content_language_preference;
   }
   if (custom_sector_ids !== undefined) {
-    paramsDict["custom_sector_ids"] = custom_sector_ids;
+    paramsDict['custom_sector_ids'] = custom_sector_ids;
   }
   if (recommend_search !== undefined) {
-    paramsDict["recommend_search"] = recommend_search;
+    paramsDict['recommend_search'] = recommend_search;
   }
   if (follow !== undefined) {
-    paramsDict["follow"] = follow;
+    paramsDict['follow'] = follow;
   }
   if (vip !== undefined) {
-    paramsDict["vip"] = vip;
+    paramsDict['vip'] = vip;
   }
   if (cursor !== undefined) {
-    paramsDict["cursor"] = cursor;
+    paramsDict['cursor'] = cursor;
   }
   const url = `https://api.ca3test.com/api/v1/feeds${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -4951,7 +4945,7 @@ export const useFeedsGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestFeedsGET", args],
+    ['aceCampTestFeedsGET', args],
     () => feedsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -4960,7 +4954,7 @@ export const useFeedsGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["aceCampTestFeedsGETS"]),
+      onSuccess: () => queryClient.invalidateQueries(['aceCampTestFeedsGETS']),
     }
   );
 };
@@ -5023,7 +5017,7 @@ export const FetchFeedsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -5038,35 +5032,35 @@ export const feedsStatisticsGET = async (
 ) => {
   const paramsDict = {};
   if (date_type !== undefined) {
-    paramsDict["date_type"] = date_type;
+    paramsDict['date_type'] = date_type;
   }
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   const url = `https://api.ca3test.com/api/v1/feeds/statistics${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -5091,7 +5085,7 @@ export const useFeedsStatisticsGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["feed", args],
+    ['feed', args],
     () => feedsStatisticsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -5100,7 +5094,7 @@ export const useFeedsStatisticsGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["feeds"]),
+      onSuccess: () => queryClient.invalidateQueries(['feeds']),
     }
   );
 };
@@ -5151,7 +5145,7 @@ export const FetchFeedsStatisticsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -5170,7 +5164,7 @@ export const followOrganizationPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -5178,18 +5172,18 @@ export const followOrganizationPOST = async (
     const res = await fetch(url, {
       body: JSON.stringify({ organization_id: organization_id }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -5205,17 +5199,17 @@ export const useFollowOrganizationPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       followOrganizationPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("follow_organization", previousValue);
+          return queryClient.setQueryData('follow_organization', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("follow_organization");
-        queryClient.invalidateQueries("follow_organizations");
+        queryClient.invalidateQueries('follow_organization');
+        queryClient.invalidateQueries('follow_organizations');
       },
     }
   );
@@ -5267,7 +5261,7 @@ export const FetchFollowOrganizationPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -5276,33 +5270,33 @@ export const FetchFollowOrganizationPOST = ({
 
 export const getPrepayGET = async (Constants, _args, handlers, timeout) => {
   const paramsDict = {};
-  paramsDict["card_type"] = "prepay";
+  paramsDict['card_type'] = 'prepay';
   const url = `https://api.ca3test.com/api/v1/users/cards${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -5327,7 +5321,7 @@ export const useGetPrepayGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["user", args],
+    ['user', args],
     () => getPrepayGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -5336,7 +5330,7 @@ export const useGetPrepayGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["users"]),
+      onSuccess: () => queryClient.invalidateQueries(['users']),
     }
   );
 };
@@ -5386,7 +5380,7 @@ export const FetchGetPrepayGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -5407,23 +5401,23 @@ export const getTranscribesGET = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -5448,7 +5442,7 @@ export const useGetTranscribesGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["ai", args],
+    ['ai', args],
     () => getTranscribesGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -5457,7 +5451,7 @@ export const useGetTranscribesGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["ais"]),
+      onSuccess: () => queryClient.invalidateQueries(['ais']),
     }
   );
 };
@@ -5508,7 +5502,7 @@ export const FetchGetTranscribesGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -5529,23 +5523,23 @@ export const getTranscribesKeynumbersGET = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -5570,7 +5564,7 @@ export const useGetTranscribesKeynumbersGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["ai", args],
+    ['ai', args],
     () => getTranscribesKeynumbersGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -5579,7 +5573,7 @@ export const useGetTranscribesKeynumbersGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["ais"]),
+      onSuccess: () => queryClient.invalidateQueries(['ais']),
     }
   );
 };
@@ -5630,7 +5624,7 @@ export const FetchGetTranscribesKeynumbersGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -5654,7 +5648,7 @@ export const goAuthPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -5667,18 +5661,18 @@ export const goAuthPOST = async (
         company_name: company_name,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -5691,16 +5685,16 @@ export const useGoAuthPOST = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => goAuthPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => goAuthPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -5755,7 +5749,7 @@ export const FetchGoAuthPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -5775,50 +5769,50 @@ export const hotGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["collection"] = "hot";
-  paramsDict["version"] = "2.0";
+  paramsDict['collection'] = 'hot';
+  paramsDict['version'] = '2.0';
   if (content_language_preference !== undefined) {
-    paramsDict["content_language_preference"] = content_language_preference;
+    paramsDict['content_language_preference'] = content_language_preference;
   }
   if (custom_sector_ids !== undefined) {
-    paramsDict["custom_sector_ids"] = custom_sector_ids;
+    paramsDict['custom_sector_ids'] = custom_sector_ids;
   }
   if (recommend_search !== undefined) {
-    paramsDict["recommend_search"] = recommend_search;
+    paramsDict['recommend_search'] = recommend_search;
   }
   if (follow !== undefined) {
-    paramsDict["follow"] = follow;
+    paramsDict['follow'] = follow;
   }
   if (vip !== undefined) {
-    paramsDict["vip"] = vip;
+    paramsDict['vip'] = vip;
   }
-  paramsDict["topping"] = "false";
+  paramsDict['topping'] = 'false';
   const url = `https://api.ca3test.com/api/v1/feeds${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -5843,7 +5837,7 @@ export const useHotGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestHotGET", args],
+    ['aceCampTestHotGET', args],
     () => hotGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -5852,7 +5846,7 @@ export const useHotGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["aceCampTestHotGETS"]),
+      onSuccess: () => queryClient.invalidateQueries(['aceCampTestHotGETS']),
     }
   );
 };
@@ -5913,7 +5907,7 @@ export const FetchHotGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -5927,24 +5921,24 @@ export const ignoreAllPOST = async (Constants, _args, handlers, timeout) => {
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -5957,16 +5951,16 @@ export const useIgnoreAllPOST = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => ignoreAllPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => ignoreAllPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("message_center", previousValue);
+          return queryClient.setQueryData('message_center', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("message_center");
-        queryClient.invalidateQueries("message_centers");
+        queryClient.invalidateQueries('message_center');
+        queryClient.invalidateQueries('message_centers');
       },
     }
   );
@@ -6017,7 +6011,7 @@ export const FetchIgnoreAllPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -6038,31 +6032,31 @@ export const liveTokenPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       body: JSON.stringify({
-        user_type: "user",
+        user_type: 'user',
         demo: true,
         get_canceled: true,
         re_registration: false,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -6075,16 +6069,16 @@ export const useLiveTokenPOST = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => liveTokenPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => liveTokenPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("lives", previousValue);
+          return queryClient.setQueryData('lives', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("life");
-        queryClient.invalidateQueries("lives");
+        queryClient.invalidateQueries('life');
+        queryClient.invalidateQueries('lives');
       },
     }
   );
@@ -6136,7 +6130,7 @@ export const FetchLiveTokenPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -6151,35 +6145,35 @@ export const meetingMonthListGET = async (
 ) => {
   const paramsDict = {};
   if (month_timestamp !== undefined) {
-    paramsDict["month_timestamp"] = month_timestamp;
+    paramsDict['month_timestamp'] = month_timestamp;
   }
-  paramsDict["time_zone_code"] = "Asia/Shanghai";
+  paramsDict['time_zone_code'] = 'Asia/Shanghai';
   const url = `https://api.ca3test.com/api/v1/events/meeting_month_list${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -6203,7 +6197,7 @@ export const useMeetingMonthListGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["events", args],
+    ['events', args],
     () => meetingMonthListGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -6262,7 +6256,7 @@ export const FetchMeetingMonthListGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -6276,36 +6270,36 @@ export const meetingPriceGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["goods_type"] = "Meeting";
+  paramsDict['goods_type'] = 'Meeting';
   if (meeting_id !== undefined) {
-    paramsDict["goods_id"] = meeting_id;
+    paramsDict['goods_id'] = meeting_id;
   }
   const url = `https://api.ca3test.com/api/v1/orders${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -6330,7 +6324,7 @@ export const useMeetingPriceGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["life", args],
+    ['life', args],
     () => meetingPriceGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -6339,7 +6333,7 @@ export const useMeetingPriceGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["lives"]),
+      onSuccess: () => queryClient.invalidateQueries(['lives']),
     }
   );
 };
@@ -6390,7 +6384,7 @@ export const FetchMeetingPriceGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -6399,35 +6393,35 @@ export const FetchMeetingPriceGET = ({
 
 export const myInfoGET = async (Constants, _args, handlers, timeout) => {
   const paramsDict = {};
-  paramsDict["get_follows"] = "true";
-  paramsDict["with_owner"] = "true";
-  paramsDict["with_resume"] = "true";
+  paramsDict['get_follows'] = 'true';
+  paramsDict['with_owner'] = 'true';
+  paramsDict['with_resume'] = 'true';
   const url = `https://api.ca3test.com/api/v1/users/me${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -6452,7 +6446,7 @@ export const useMyInfoGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["user", args],
+    ['user', args],
     () => myInfoGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -6461,7 +6455,7 @@ export const useMyInfoGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["users"]),
+      onSuccess: () => queryClient.invalidateQueries(['users']),
     }
   );
 };
@@ -6511,7 +6505,7 @@ export const FetchMyInfoGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -6526,34 +6520,34 @@ export const myTopicCommentsGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   const url = `https://api.ca3test.com/api/v1/comments/my_topic_comments${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -6577,7 +6571,7 @@ export const useMyTopicCommentsGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["topics", args],
+    ['topics', args],
     () => myTopicCommentsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -6636,7 +6630,7 @@ export const FetchMyTopicCommentsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -6666,7 +6660,7 @@ export const opinionEditPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -6686,18 +6680,18 @@ export const opinionEditPOST = async (
         id: id,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -6713,16 +6707,16 @@ export const useOpinionEditPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => opinionEditPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => opinionEditPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("opinion", previousValue);
+          return queryClient.setQueryData('opinion', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("opinion");
-        queryClient.invalidateQueries("opinions");
+        queryClient.invalidateQueries('opinion');
+        queryClient.invalidateQueries('opinions');
       },
     }
   );
@@ -6794,7 +6788,7 @@ export const FetchOpinionEditPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -6824,7 +6818,7 @@ export const opinionEdit2POST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -6844,18 +6838,18 @@ export const opinionEdit2POST = async (
         id: id,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -6871,17 +6865,16 @@ export const useOpinionEdit2POST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
-      opinionEdit2POST(Constants, { ...initialArgs, ...args }, handlers),
+    args => opinionEdit2POST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("opinion", previousValue);
+          return queryClient.setQueryData('opinion', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("opinion");
-        queryClient.invalidateQueries("opinions");
+        queryClient.invalidateQueries('opinion');
+        queryClient.invalidateQueries('opinions');
       },
     }
   );
@@ -6953,7 +6946,7 @@ export const FetchOpinionEdit2POST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -6962,36 +6955,36 @@ export const FetchOpinionEdit2POST = ({
 
 export const opinionInfoGET = async (Constants, { id }, handlers, timeout) => {
   const paramsDict = {};
-  paramsDict["with_tracing_opinions"] = "true";
+  paramsDict['with_tracing_opinions'] = 'true';
   if (id !== undefined) {
-    paramsDict["id"] = id;
+    paramsDict['id'] = id;
   }
   const url = `https://api.ca3test.com/api/v1/opinions/opinion_info${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -7016,7 +7009,7 @@ export const useOpinionInfoGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["opinion", args],
+    ['opinion', args],
     () => opinionInfoGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -7025,7 +7018,7 @@ export const useOpinionInfoGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["opinions"]),
+      onSuccess: () => queryClient.invalidateQueries(['opinions']),
     }
   );
 };
@@ -7076,7 +7069,7 @@ export const FetchOpinionInfoGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -7091,34 +7084,34 @@ export const opinionInfoEditLoadGET = async (
 ) => {
   const paramsDict = {};
   if (id !== undefined) {
-    paramsDict["id"] = id;
+    paramsDict['id'] = id;
   }
   const url = `https://api.ca3test.com/api/v1/production_opinions/opinion_info${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -7143,7 +7136,7 @@ export const useOpinionInfoEditLoadGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["opinion", args],
+    ['opinion', args],
     () => opinionInfoEditLoadGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -7152,7 +7145,7 @@ export const useOpinionInfoEditLoadGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["opinions"]),
+      onSuccess: () => queryClient.invalidateQueries(['opinions']),
     }
   );
 };
@@ -7203,7 +7196,7 @@ export const FetchOpinionInfoEditLoadGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -7223,43 +7216,43 @@ export const opinionListGET = async (
 ) => {
   const paramsDict = {};
   if (state !== undefined) {
-    paramsDict["state"] = state;
+    paramsDict['state'] = state;
   }
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   if (refresh !== undefined) {
-    paramsDict["refresh"] = refresh;
+    paramsDict['refresh'] = refresh;
   }
   const url = `https://api.ca3test.com/api/v1/production_opinions/opinion_list${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -7283,7 +7276,7 @@ export const useOpinionListGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["opinions", args],
+    ['opinions', args],
     () => opinionListGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -7345,7 +7338,7 @@ export const FetchOpinionListGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -7360,18 +7353,18 @@ export const opinionToDraftPUT = async (
 ) => {
   const paramsDict = {};
   if (id !== undefined) {
-    paramsDict["id"] = id;
+    paramsDict['id'] = id;
   }
   const url = `https://api.ca3test.com/api/v1/production_opinions/to_draft${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -7379,18 +7372,18 @@ export const opinionToDraftPUT = async (
     const res = await fetch(url, {
       body: JSON.stringify({}),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -7406,17 +7399,16 @@ export const useOpinionToDraftPUT = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
-      opinionToDraftPUT(Constants, { ...initialArgs, ...args }, handlers),
+    args => opinionToDraftPUT(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("opinion", previousValue);
+          return queryClient.setQueryData('opinion', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("opinion");
-        queryClient.invalidateQueries("opinions");
+        queryClient.invalidateQueries('opinion');
+        queryClient.invalidateQueries('opinions');
       },
     }
   );
@@ -7429,23 +7421,23 @@ export const opinionStatsGET = async (Constants, _args, handlers, timeout) => {
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -7470,7 +7462,7 @@ export const useOpinionStatsGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["opinion", args],
+    ['opinion', args],
     () => opinionStatsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -7479,7 +7471,7 @@ export const useOpinionStatsGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["opinions"]),
+      onSuccess: () => queryClient.invalidateQueries(['opinions']),
     }
   );
 };
@@ -7529,7 +7521,7 @@ export const FetchOpinionStatsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -7543,42 +7535,42 @@ export const opinionsIndexGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   if (custom_sector_ids !== undefined) {
-    paramsDict["custom_sector_ids"] = custom_sector_ids;
+    paramsDict['custom_sector_ids'] = custom_sector_ids;
   }
   if (opinion_only !== undefined) {
-    paramsDict["opinion_only"] = opinion_only;
+    paramsDict['opinion_only'] = opinion_only;
   }
   if (followed_only !== undefined) {
-    paramsDict["followed_only"] = followed_only;
+    paramsDict['followed_only'] = followed_only;
   }
   const url = `https://api.ca3test.com/api/v1/opinions/index${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -7603,7 +7595,7 @@ export const useOpinionsIndexGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestOpinionsIndexGET", args],
+    ['aceCampTestOpinionsIndexGET', args],
     () => opinionsIndexGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -7613,7 +7605,7 @@ export const useOpinionsIndexGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestOpinionsIndexGETS"]),
+        queryClient.invalidateQueries(['aceCampTestOpinionsIndexGETS']),
     }
   );
 };
@@ -7666,7 +7658,7 @@ export const FetchOpinionsIndexGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -7681,40 +7673,40 @@ export const ordersHistoryGET = async (
 ) => {
   const paramsDict = {};
   if (goods_type !== undefined) {
-    paramsDict["goods_type"] = goods_type;
+    paramsDict['goods_type'] = goods_type;
   }
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   const url = `https://api.ca3test.com/api/v1/orders/history${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -7738,7 +7730,7 @@ export const useOrdersHistoryGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["orders", args],
+    ['orders', args],
     () => ordersHistoryGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -7799,7 +7791,7 @@ export const FetchOrdersHistoryGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -7820,7 +7812,7 @@ export const organizationUpdatePUT = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -7834,18 +7826,18 @@ export const organizationUpdatePUT = async (
         user_code: user_code,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -7861,17 +7853,17 @@ export const useOrganizationUpdatePUT = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       organizationUpdatePUT(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("organization", previousValue);
+          return queryClient.setQueryData('organization', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("organization");
-        queryClient.invalidateQueries("organizations");
+        queryClient.invalidateQueries('organization');
+        queryClient.invalidateQueries('organizations');
       },
     }
   );
@@ -7891,25 +7883,25 @@ export const organizationUsersDismissPUT = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -7925,7 +7917,7 @@ export const useOrganizationUsersDismissPUT = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       organizationUsersDismissPUT(
         Constants,
         { ...initialArgs, ...args },
@@ -7934,12 +7926,12 @@ export const useOrganizationUsersDismissPUT = (
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -7952,36 +7944,36 @@ export const organizerInfoGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   if (organization_id !== undefined) {
-    paramsDict["organization_id"] = organization_id;
+    paramsDict['organization_id'] = organization_id;
   }
   const url = `https://api.ca3test.com/api/v1/events/organizer_info${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -8006,7 +7998,7 @@ export const useOrganizerInfoGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestOrganizerInfoGET", args],
+    ['aceCampTestOrganizerInfoGET', args],
     () => organizerInfoGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -8016,7 +8008,7 @@ export const useOrganizerInfoGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestOrganizerInfoGETS"]),
+        queryClient.invalidateQueries(['aceCampTestOrganizerInfoGETS']),
     }
   );
 };
@@ -8067,7 +8059,7 @@ export const FetchOrganizerInfoGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -8081,49 +8073,49 @@ export const organizerMinute$article$eventGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   if (organization_id !== undefined) {
-    paramsDict["organization_id"] = organization_id;
+    paramsDict['organization_id'] = organization_id;
   }
   if (cursor !== undefined) {
-    paramsDict["cursor"] = cursor;
+    paramsDict['cursor'] = cursor;
   }
   if (source_type !== undefined) {
-    paramsDict["source_type"] = source_type;
+    paramsDict['source_type'] = source_type;
   }
-  paramsDict["topping"] = "false";
+  paramsDict['topping'] = 'false';
   if (page_size !== undefined) {
-    paramsDict["page_size"] = page_size;
+    paramsDict['page_size'] = page_size;
   }
   if (ack !== undefined) {
-    paramsDict["ack"] = ack;
+    paramsDict['ack'] = ack;
   }
   const url = `https://api.ca3test.com/api/v1/feeds${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -8148,7 +8140,7 @@ export const useOrganizerMinute$article$eventGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestOrganizerMinute$article$eventGET", args],
+    ['aceCampTestOrganizerMinute$article$eventGET', args],
     () => organizerMinute$article$eventGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -8159,7 +8151,7 @@ export const useOrganizerMinute$article$eventGET = (
       staleTime,
       onSuccess: () =>
         queryClient.invalidateQueries([
-          "aceCampTestOrganizerMinute$article$eventGETS",
+          'aceCampTestOrganizerMinute$article$eventGETS',
         ]),
     }
   );
@@ -8215,7 +8207,7 @@ export const FetchOrganizerMinute$article$eventGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -8234,42 +8226,42 @@ export const organizerSpotlightsGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   if (organization_id !== undefined) {
-    paramsDict["organization_id"] = organization_id;
+    paramsDict['organization_id'] = organization_id;
   }
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   const url = `https://api.ca3test.com/api/v1/spotlights${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -8294,7 +8286,7 @@ export const useOrganizerSpotlightsGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestOrganizerSpotlightsGET", args],
+    ['aceCampTestOrganizerSpotlightsGET', args],
     () => organizerSpotlightsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -8304,7 +8296,7 @@ export const useOrganizerSpotlightsGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestOrganizerSpotlightsGETS"]),
+        queryClient.invalidateQueries(['aceCampTestOrganizerSpotlightsGETS']),
     }
   );
 };
@@ -8357,7 +8349,7 @@ export const FetchOrganizerSpotlightsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -8377,37 +8369,37 @@ export const ossDownloadUrlGET = async (
 ) => {
   const paramsDict = {};
   if (event_id !== undefined) {
-    paramsDict["event_id"] = event_id;
+    paramsDict['event_id'] = event_id;
   }
   if (file_url !== undefined) {
-    paramsDict["file_url"] = file_url;
+    paramsDict['file_url'] = file_url;
   }
   const url = `https://api.ca3test.com/api/v1/oss/get_download_url${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -8432,7 +8424,7 @@ export const useOssDownloadUrlGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["event", args],
+    ['event', args],
     () => ossDownloadUrlGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -8441,7 +8433,7 @@ export const useOssDownloadUrlGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["events"]),
+      onSuccess: () => queryClient.invalidateQueries(['events']),
     }
   );
 };
@@ -8493,7 +8485,7 @@ export const FetchOssDownloadUrlGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -8509,24 +8501,24 @@ export const readMessagePUT = async (Constants, { id }, handlers, timeout) => {
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -8539,16 +8531,16 @@ export const useReadMessagePUT = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => readMessagePUT(Constants, { ...initialArgs, ...args }, handlers),
+    args => readMessagePUT(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("message_center", previousValue);
+          return queryClient.setQueryData('message_center', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("message_center");
-        queryClient.invalidateQueries("message_centers");
+        queryClient.invalidateQueries('message_center');
+        queryClient.invalidateQueries('message_centers');
       },
     }
   );
@@ -8556,36 +8548,36 @@ export const useReadMessagePUT = (initialArgs = {}, { handlers = {} } = {}) => {
 
 export const regionsGET = async (Constants, { page }, handlers, timeout) => {
   const paramsDict = {};
-  paramsDict["deep_size"] = "1";
+  paramsDict['deep_size'] = '1';
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
-  paramsDict["per_page"] = "20";
+  paramsDict['per_page'] = '20';
   const url = `https://api.ca3test.com/api/v1/regions${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -8610,7 +8602,7 @@ export const useRegionsGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestRegionsGET", args],
+    ['aceCampTestRegionsGET', args],
     () => regionsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -8620,7 +8612,7 @@ export const useRegionsGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestRegionsGETS"]),
+        queryClient.invalidateQueries(['aceCampTestRegionsGETS']),
     }
   );
 };
@@ -8671,7 +8663,7 @@ export const FetchRegionsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -8686,39 +8678,39 @@ export const remindBuyPOST = async (
 ) => {
   const paramsDict = {};
   if (resource_type !== undefined) {
-    paramsDict["resource_type"] = resource_type;
+    paramsDict['resource_type'] = resource_type;
   }
   if (resource_id !== undefined) {
-    paramsDict["resource_id"] = resource_id;
+    paramsDict['resource_id'] = resource_id;
   }
   const url = `https://api.ca3test.com/api/v1/ordering_reminds${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -8731,16 +8723,16 @@ export const useRemindBuyPOST = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => remindBuyPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => remindBuyPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -8793,7 +8785,7 @@ export const FetchRemindBuyPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -8812,7 +8804,7 @@ export const requestCodePOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -8826,18 +8818,18 @@ export const requestCodePOST = async (
         email: email,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -8862,7 +8854,7 @@ export const useRequestCodePOST = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestRequestCodePOST", args],
+    ['aceCampTestRequestCodePOST', args],
     () => requestCodePOST(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -8872,7 +8864,7 @@ export const useRequestCodePOST = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestRequestCodePOSTS"]),
+        queryClient.invalidateQueries(['aceCampTestRequestCodePOSTS']),
     }
   );
 };
@@ -8927,7 +8919,7 @@ export const FetchRequestCodePOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -8946,7 +8938,7 @@ export const resumeAddPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -8960,18 +8952,18 @@ export const resumeAddPOST = async (
         content: content,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -8984,16 +8976,16 @@ export const useResumeAddPOST = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => resumeAddPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => resumeAddPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -9049,7 +9041,7 @@ export const FetchResumeAddPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -9070,7 +9062,7 @@ export const resumeUpdatePUT = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -9084,18 +9076,18 @@ export const resumeUpdatePUT = async (
         content: content,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -9111,16 +9103,16 @@ export const useResumeUpdatePUT = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => resumeUpdatePUT(Constants, { ...initialArgs, ...args }, handlers),
+    args => resumeUpdatePUT(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -9142,53 +9134,53 @@ export const searchGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   if (keyword !== undefined) {
-    paramsDict["keyword"] = keyword;
+    paramsDict['keyword'] = keyword;
   }
   if (custom_sector_ids !== undefined) {
-    paramsDict["custom_sector_ids"] = custom_sector_ids;
+    paramsDict['custom_sector_ids'] = custom_sector_ids;
   }
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   if (industry_ids !== undefined) {
-    paramsDict["industry_ids"] = industry_ids;
+    paramsDict['industry_ids'] = industry_ids;
   }
   if (spotlight !== undefined) {
-    paramsDict["spotlight"] = spotlight;
+    paramsDict['spotlight'] = spotlight;
   }
   if (source_type !== undefined) {
-    paramsDict["source_type"] = source_type;
+    paramsDict['source_type'] = source_type;
   }
   const url = `https://api.ca3test.com/api/v1/feeds/search${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -9212,7 +9204,7 @@ export const useSearchGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["searches", args],
+    ['searches', args],
     () => searchGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -9285,7 +9277,7 @@ export const FetchSearchGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -9300,35 +9292,35 @@ export const searchSuggestGET = async (
 ) => {
   const paramsDict = {};
   if (keyword !== undefined) {
-    paramsDict["keyword"] = keyword;
+    paramsDict['keyword'] = keyword;
   }
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   const url = `https://api.ca3test.com/api/v1/feeds/search_suggest${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -9352,7 +9344,7 @@ export const useSearchSuggestGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["searches", args],
+    ['searches', args],
     () => searchSuggestGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -9411,7 +9403,7 @@ export const FetchSearchSuggestGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -9420,33 +9412,33 @@ export const FetchSearchSuggestGET = ({
 
 export const searchTrendsGET = async (Constants, _args, handlers, timeout) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   const url = `https://api.ca3test.com/api/v1/feeds/trends${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -9470,7 +9462,7 @@ export const useSearchTrendsGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["searches", args],
+    ['searches', args],
     () => searchTrendsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -9528,7 +9520,7 @@ export const FetchSearchTrendsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -9542,24 +9534,24 @@ export const signOutPOST = async (Constants, _args, handlers, timeout) => {
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -9572,16 +9564,16 @@ export const useSignOutPOST = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => signOutPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => signOutPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -9632,7 +9624,7 @@ export const FetchSignOutPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -9651,7 +9643,7 @@ export const snsActionsDoPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -9664,18 +9656,18 @@ export const snsActionsDoPOST = async (
         favorite_ids: favorite_ids,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -9691,17 +9683,16 @@ export const useSnsActionsDoPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
-      snsActionsDoPOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => snsActionsDoPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("company", previousValue);
+          return queryClient.setQueryData('company', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("company");
-        queryClient.invalidateQueries("companies");
+        queryClient.invalidateQueries('company');
+        queryClient.invalidateQueries('companies');
       },
     }
   );
@@ -9756,7 +9747,7 @@ export const FetchSnsActionsDoPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -9771,40 +9762,40 @@ export const snsFollowingCorporationsGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   if (refresh !== undefined) {
-    paramsDict["refresh"] = refresh;
+    paramsDict['refresh'] = refresh;
   }
   const url = `https://api.ca3test.com/api/v1/users/sns/follow/following_corporations${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -9828,7 +9819,7 @@ export const useSnsFollowingCorporationsGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["sns", args],
+    ['sns', args],
     () => snsFollowingCorporationsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -9889,7 +9880,7 @@ export const FetchSnsFollowingCorporationsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -9909,40 +9900,40 @@ export const snsFollowingOrganizationsGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   if (refresh !== undefined) {
-    paramsDict["refresh"] = refresh;
+    paramsDict['refresh'] = refresh;
   }
   const url = `https://api.ca3test.com/api/v1/users/sns/follow/following_organizations${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -9966,7 +9957,7 @@ export const useSnsFollowingOrganizationsGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["sns", args],
+    ['sns', args],
     () => snsFollowingOrganizationsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -10027,7 +10018,7 @@ export const FetchSnsFollowingOrganizationsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -10047,40 +10038,40 @@ export const snsFollowingTopicsGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   if (refresh !== undefined) {
-    paramsDict["refresh"] = refresh;
+    paramsDict['refresh'] = refresh;
   }
   const url = `https://api.ca3test.com/api/v1/users/sns/follow/following_topics${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -10104,7 +10095,7 @@ export const useSnsFollowingTopicsGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["sns", args],
+    ['sns', args],
     () => snsFollowingTopicsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -10165,7 +10156,7 @@ export const FetchSnsFollowingTopicsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -10180,37 +10171,37 @@ export const snsFollowingUsersGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   const url = `https://api.ca3test.com/api/v1/users/sns/follow/following_users${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -10234,7 +10225,7 @@ export const useSnsFollowingUsersGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["sns", args],
+    ['sns', args],
     () => snsFollowingUsersGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -10294,7 +10285,7 @@ export const FetchSnsFollowingUsersGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -10309,40 +10300,40 @@ export const snsLikeArticlesGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   if (type !== undefined) {
-    paramsDict["type"] = type;
+    paramsDict['type'] = type;
   }
   const url = `https://api.ca3test.com/api/v1/users/sns/like/articles${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -10366,7 +10357,7 @@ export const useSnsLikeArticlesGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["sns", args],
+    ['sns', args],
     () => snsLikeArticlesGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -10427,7 +10418,7 @@ export const FetchSnsLikeArticlesGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -10442,37 +10433,37 @@ export const snsLikeOpinionsGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   const url = `https://api.ca3test.com/api/v1/users/sns/like/opinions${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -10496,7 +10487,7 @@ export const useSnsLikeOpinionsGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["sns", args],
+    ['sns', args],
     () => snsLikeOpinionsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -10556,7 +10547,7 @@ export const FetchSnsLikeOpinionsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -10571,34 +10562,34 @@ export const snsUserInfoGET = async (
 ) => {
   const paramsDict = {};
   if (user_id !== undefined) {
-    paramsDict["user_id"] = user_id;
+    paramsDict['user_id'] = user_id;
   }
   const url = `https://api.ca3test.com/api/v1/users/sns/user_info${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -10623,7 +10614,7 @@ export const useSnsUserInfoGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["user", args],
+    ['user', args],
     () => snsUserInfoGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -10632,7 +10623,7 @@ export const useSnsUserInfoGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["users"]),
+      onSuccess: () => queryClient.invalidateQueries(['users']),
     }
   );
 };
@@ -10683,7 +10674,7 @@ export const FetchSnsUserInfoGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -10692,32 +10683,32 @@ export const FetchSnsUserInfoGET = ({
 
 export const spotlightGET = async (Constants, { id }, handlers, timeout) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
+  paramsDict['version'] = '2.0';
   const url = `https://api.ca3test.com/api/v1/spotlights/${encodeQueryParam(
     id
-  )}${renderQueryString(paramsDict, "brackets")}`;
+  )}${renderQueryString(paramsDict, 'brackets')}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -10742,7 +10733,7 @@ export const useSpotlightGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestSpotlightGET", args],
+    ['aceCampTestSpotlightGET', args],
     () => spotlightGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -10752,7 +10743,7 @@ export const useSpotlightGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestSpotlightGETS"]),
+        queryClient.invalidateQueries(['aceCampTestSpotlightGETS']),
     }
   );
 };
@@ -10803,7 +10794,7 @@ export const FetchSpotlightGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -10817,42 +10808,42 @@ export const spotlightEventGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
-  paramsDict["page"] = "1";
-  paramsDict["per_page"] = "40";
+  paramsDict['version'] = '2.0';
+  paramsDict['page'] = '1';
+  paramsDict['per_page'] = '40';
   if (spotlight_id !== undefined) {
-    paramsDict["spotlight_id"] = spotlight_id;
+    paramsDict['spotlight_id'] = spotlight_id;
   }
   if (source_type !== undefined) {
-    paramsDict["source_type"] = source_type;
+    paramsDict['source_type'] = source_type;
   }
-  paramsDict["topping"] = "false";
+  paramsDict['topping'] = 'false';
   const url = `https://api.ca3test.com/api/v1/feeds${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -10877,7 +10868,7 @@ export const useSpotlightEventGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestSpotlightEventGET", args],
+    ['aceCampTestSpotlightEventGET', args],
     () => spotlightEventGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -10887,7 +10878,7 @@ export const useSpotlightEventGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestSpotlightEventGETS"]),
+        queryClient.invalidateQueries(['aceCampTestSpotlightEventGETS']),
     }
   );
 };
@@ -10939,7 +10930,7 @@ export const FetchSpotlightEventGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -10953,39 +10944,39 @@ export const spotlightsGET = async (
   timeout
 ) => {
   const paramsDict = {};
-  paramsDict["version"] = "2.0";
-  paramsDict["per_page"] = "15";
+  paramsDict['version'] = '2.0';
+  paramsDict['per_page'] = '15';
   if (custom_sector_ids !== undefined) {
-    paramsDict["custom_sector_ids"] = custom_sector_ids;
+    paramsDict['custom_sector_ids'] = custom_sector_ids;
   }
-  paramsDict["page"] = "1";
+  paramsDict['page'] = '1';
   const url = `https://api.ca3test.com/api/v1/spotlights${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
+        Accept: 'application/json',
         Cookie:
-          "user_token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1MDUyMjExOCwicmVmcmVzaF9hdCI6MTczMTY5MTczNy4zOTY2MjAzLCJleHBpcmVzX2luIjozMTU1Njk1Mn0.ir3PLsC54e8P7qthcr51QiVHV5seMFOc9T9hYEgyo40; domain=acecamptech.com; path=/; expires=Sat, 15 Nov 2025 17:28:57 GMT; secure; httponly; samesite=lax, _ace_camp_tech_production_session=FNY7G%2Bi2gXRqf7%2FQJk9sUyAF4pUGtZaqpG2o0iBDwjSCIT94FO210UKTK6Cpe8JVTV23rkbj6ROYJvLR6xMCHt2M8NJwk95aLkkcEgjunJvrL95UMcbXubLHkz5wtsu6SXB263XIBg7rFWk96AsjsXWH7y1sx6Yimtu77e%2FdlKvbwjy5QYmTnnLXbiRc7DbyDqRlD7ubNHkF--louW4WlGqgs%2FLSTQ--eqyS89WDs07q9LC5K8thsA%3D%3D; domain=acecamptech.com; path=/; secure; httponly; samesite=lax",
-        "User-Agent": Constants["user-agent"],
+          'user_token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo1MDUyMjExOCwicmVmcmVzaF9hdCI6MTczMTY5MTczNy4zOTY2MjAzLCJleHBpcmVzX2luIjozMTU1Njk1Mn0.ir3PLsC54e8P7qthcr51QiVHV5seMFOc9T9hYEgyo40; domain=acecamptech.com; path=/; expires=Sat, 15 Nov 2025 17:28:57 GMT; secure; httponly; samesite=lax, _ace_camp_tech_production_session=FNY7G%2Bi2gXRqf7%2FQJk9sUyAF4pUGtZaqpG2o0iBDwjSCIT94FO210UKTK6Cpe8JVTV23rkbj6ROYJvLR6xMCHt2M8NJwk95aLkkcEgjunJvrL95UMcbXubLHkz5wtsu6SXB263XIBg7rFWk96AsjsXWH7y1sx6Yimtu77e%2FdlKvbwjy5QYmTnnLXbiRc7DbyDqRlD7ubNHkF--louW4WlGqgs%2FLSTQ--eqyS89WDs07q9LC5K8thsA%3D%3D; domain=acecamptech.com; path=/; secure; httponly; samesite=lax',
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -11010,7 +11001,7 @@ export const useSpotlightsGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestSpotlightsGET", args],
+    ['aceCampTestSpotlightsGET', args],
     () => spotlightsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -11020,7 +11011,7 @@ export const useSpotlightsGET = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestSpotlightsGETS"]),
+        queryClient.invalidateQueries(['aceCampTestSpotlightsGETS']),
     }
   );
 };
@@ -11071,7 +11062,7 @@ export const FetchSpotlightsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -11097,7 +11088,7 @@ export const switchMainPhonePUT = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -11112,18 +11103,18 @@ export const switchMainPhonePUT = async (
         password: password,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -11139,17 +11130,17 @@ export const useSwitchMainPhonePUT = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       switchMainPhonePUT(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -11163,35 +11154,35 @@ export const topicDeleteDELETE = async (
 ) => {
   const paramsDict = {};
   if (id !== undefined) {
-    paramsDict["id"] = id;
+    paramsDict['id'] = id;
   }
   const url = `https://api.ca3test.com/api/v1/production_topics${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "DELETE",
+      method: 'DELETE',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -11207,17 +11198,16 @@ export const useTopicDeleteDELETE = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
-      topicDeleteDELETE(Constants, { ...initialArgs, ...args }, handlers),
+    args => topicDeleteDELETE(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("topic", previousValue);
+          return queryClient.setQueryData('topic', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("topic");
-        queryClient.invalidateQueries("topics");
+        queryClient.invalidateQueries('topic');
+        queryClient.invalidateQueries('topics');
       },
     }
   );
@@ -11231,40 +11221,40 @@ export const topicListGET = async (
 ) => {
   const paramsDict = {};
   if (state !== undefined) {
-    paramsDict["state"] = state;
+    paramsDict['state'] = state;
   }
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   const url = `https://api.ca3test.com/api/v1/production_topics/topic_list${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -11288,7 +11278,7 @@ export const useTopicListGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["topics", args],
+    ['topics', args],
     () => topicListGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -11349,7 +11339,7 @@ export const FetchTopicListGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -11359,34 +11349,34 @@ export const FetchTopicListGET = ({
 export const topicInfoGET = async (Constants, { id }, handlers, timeout) => {
   const paramsDict = {};
   if (id !== undefined) {
-    paramsDict["id"] = id;
+    paramsDict['id'] = id;
   }
   const url = `https://api.ca3test.com/api/v1/production_topics/topic_info${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -11411,7 +11401,7 @@ export const useTopicInfoGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["topic", args],
+    ['topic', args],
     () => topicInfoGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -11420,7 +11410,7 @@ export const useTopicInfoGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["topics"]),
+      onSuccess: () => queryClient.invalidateQueries(['topics']),
     }
   );
 };
@@ -11471,7 +11461,7 @@ export const FetchTopicInfoGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -11490,23 +11480,23 @@ export const topicListStateGET = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -11531,7 +11521,7 @@ export const useTopicListStateGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["topic", args],
+    ['topic', args],
     () => topicListStateGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -11540,7 +11530,7 @@ export const useTopicListStateGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["topics"]),
+      onSuccess: () => queryClient.invalidateQueries(['topics']),
     }
   );
 };
@@ -11590,7 +11580,7 @@ export const FetchTopicListStateGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -11604,23 +11594,23 @@ export const topicStateGET = async (Constants, _args, handlers, timeout) => {
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -11645,7 +11635,7 @@ export const useTopicStateGET = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["topic", args],
+    ['topic', args],
     () => topicStateGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -11654,7 +11644,7 @@ export const useTopicStateGET = (
       refetchOnReconnect,
       retry,
       staleTime,
-      onSuccess: () => queryClient.invalidateQueries(["topics"]),
+      onSuccess: () => queryClient.invalidateQueries(['topics']),
     }
   );
 };
@@ -11704,7 +11694,7 @@ export const FetchTopicStateGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -11718,7 +11708,7 @@ export const topicToDraftPUT = async (Constants, { id }, handlers, timeout) => {
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -11726,18 +11716,18 @@ export const topicToDraftPUT = async (Constants, { id }, handlers, timeout) => {
     const res = await fetch(url, {
       body: JSON.stringify({ id: id }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "PUT",
+      method: 'PUT',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -11753,16 +11743,16 @@ export const useTopicToDraftPUT = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => topicToDraftPUT(Constants, { ...initialArgs, ...args }, handlers),
+    args => topicToDraftPUT(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("topic", previousValue);
+          return queryClient.setQueryData('topic', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("topic");
-        queryClient.invalidateQueries("topics");
+        queryClient.invalidateQueries('topic');
+        queryClient.invalidateQueries('topics');
       },
     }
   );
@@ -11776,37 +11766,37 @@ export const transcribesListGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   const url = `https://api.ca3test.com/api/v1/transcribes${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -11830,7 +11820,7 @@ export const useTranscribesListGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["ais", args],
+    ['ais', args],
     () => transcribesListGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -11890,7 +11880,7 @@ export const FetchTranscribesListGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -11909,7 +11899,7 @@ export const unfollowOrganizationPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -11917,18 +11907,18 @@ export const unfollowOrganizationPOST = async (
     const res = await fetch(url, {
       body: JSON.stringify({ organization_id: organization_id }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -11944,7 +11934,7 @@ export const useUnfollowOrganizationPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       unfollowOrganizationPOST(
         Constants,
         { ...initialArgs, ...args },
@@ -11953,12 +11943,12 @@ export const useUnfollowOrganizationPOST = (
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("follow_organization", previousValue);
+          return queryClient.setQueryData('follow_organization', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("follow_organization");
-        queryClient.invalidateQueries("follow_organizations");
+        queryClient.invalidateQueries('follow_organization');
+        queryClient.invalidateQueries('follow_organizations');
       },
     }
   );
@@ -12010,7 +12000,7 @@ export const FetchUnfollowOrganizationPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -12030,40 +12020,40 @@ export const userNotificationsGET = async (
 ) => {
   const paramsDict = {};
   if (page !== undefined) {
-    paramsDict["page"] = page;
+    paramsDict['page'] = page;
   }
   if (per_page !== undefined) {
-    paramsDict["per_page"] = per_page;
+    paramsDict['per_page'] = per_page;
   }
   if (unread !== undefined) {
-    paramsDict["unread"] = unread;
+    paramsDict['unread'] = unread;
   }
   const url = `https://api.ca3test.com/api/v1/user_notifications${renderQueryString(
     paramsDict,
-    "brackets"
+    'brackets'
   )}`;
   const controller = new AbortController();
   let timeoutObj;
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       headers: cleanHeaders({
-        Accept: "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -12087,7 +12077,7 @@ export const useUserNotificationsGET = (
 ) => {
   const Constants = GlobalVariables.useValues();
   return useQuery(
-    ["message_centers", args],
+    ['message_centers', args],
     () => userNotificationsGET(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -12148,7 +12138,7 @@ export const FetchUserNotificationsGET = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -12162,30 +12152,30 @@ export const usersLoginPOST = async (Constants, _args, handlers, timeout) => {
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
   try {
     const res = await fetch(url, {
       body: JSON.stringify({
-        country_code_id: "+86",
-        phone_number: "18611169707",
-        email: "",
-        code: "",
-        password: "Qwer1234",
+        country_code_id: '+86',
+        phone_number: '18611169707',
+        email: '',
+        code: '',
+        password: 'Qwer1234',
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -12210,7 +12200,7 @@ export const useUsersLoginPOST = (
   const Constants = GlobalVariables.useValues();
   const queryClient = useQueryClient();
   return useQuery(
-    ["aceCampTestUsersLoginPOST", args],
+    ['aceCampTestUsersLoginPOST', args],
     () => usersLoginPOST(Constants, args, handlers, timeout),
     {
       refetchInterval,
@@ -12220,7 +12210,7 @@ export const useUsersLoginPOST = (
       retry,
       staleTime,
       onSuccess: () =>
-        queryClient.invalidateQueries(["aceCampTestUsersLoginPOSTS"]),
+        queryClient.invalidateQueries(['aceCampTestUsersLoginPOSTS']),
     }
   );
 };
@@ -12270,7 +12260,7 @@ export const FetchUsersLoginPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -12289,7 +12279,7 @@ export const verifyCodePOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -12302,18 +12292,18 @@ export const verifyCodePOST = async (
         code_scope: code_scope,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -12326,16 +12316,16 @@ export const useVerifyCodePOST = (initialArgs = {}, { handlers = {} } = {}) => {
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) => verifyCodePOST(Constants, { ...initialArgs, ...args }, handlers),
+    args => verifyCodePOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -12390,7 +12380,7 @@ export const FetchVerifyCodePOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);
@@ -12409,7 +12399,7 @@ export const verifyPasswordPOST = async (
   if (timeout) {
     timeoutObj = setTimeout(() => {
       const err = new Error(`Timeout after ${timeout}ms`);
-      err.__type = "TIMEOUT";
+      err.__type = 'TIMEOUT';
       controller.abort(err);
     }, timeout);
   }
@@ -12421,18 +12411,18 @@ export const verifyPasswordPOST = async (
         user_phone_number: user_phone_number,
       }),
       headers: cleanHeaders({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Cookie: Constants["cookie"],
-        "User-Agent": Constants["user-agent"],
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Cookie: Constants['cookie'],
+        'User-Agent': Constants['user-agent'],
       }),
-      method: "POST",
+      method: 'POST',
       signal: controller.signal,
     });
     timeoutObj && clearTimeout(timeoutObj);
     return handleResponse(res, handlers);
   } catch (e) {
-    if (e.__type === "TIMEOUT") {
+    if (e.__type === 'TIMEOUT') {
       handlers.onTimeout?.();
     } else if (timeoutObj) {
       clearTimeout(timeoutObj);
@@ -12448,17 +12438,17 @@ export const useVerifyPasswordPOST = (
   const queryClient = useQueryClient();
   const Constants = GlobalVariables.useValues();
   return useMutation(
-    (args) =>
+    args =>
       verifyPasswordPOST(Constants, { ...initialArgs, ...args }, handlers),
     {
       onError: (err, variables, { previousValue }) => {
         if (previousValue) {
-          return queryClient.setQueryData("user", previousValue);
+          return queryClient.setQueryData('user', previousValue);
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries("user");
-        queryClient.invalidateQueries("users");
+        queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('users');
       },
     }
   );
@@ -12512,7 +12502,7 @@ export const FetchVerifyPasswordPOST = ({
     if (error) {
       console.error(error);
       if (error.status) {
-        console.error("Fetch error: " + error.status + " " + error.statusText);
+        console.error('Fetch error: ' + error.status + ' ' + error.statusText);
       }
     }
   }, [error]);

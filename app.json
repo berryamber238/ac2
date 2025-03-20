@@ -50,9 +50,7 @@
     "name": "Ace Camp",
     "slug": "acecamp",
     "extra": {
-      "eas": {
-        "projectId": "2e8be6c9-9e1c-4cd8-894b-2cf362e7e0a0"
-      }
+      "eas": {}
     },
     "scheme": "acecamp",
     "splash": {

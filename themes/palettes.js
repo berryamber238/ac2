@@ -436,6 +436,12 @@ export default {
     'Custom Color 102': 'rgba(171, 198, 234, 0.4)',
     custom_rgba_171_198_234_0_2: 'rgba(171, 198, 234, 0.2)',
     'Custom Color 103': 'rgba(171, 198, 234, 0.2)',
+    custom_rgb_52_60_246: 'rgb(52, 60, 246)',
+    'Custom Color 104': 'rgb(52, 60, 246)',
+    custom_rgba_171_198_234_0_3: 'rgba(171, 198, 234, 0.3)',
+    'Custom Color 105': 'rgba(171, 198, 234, 0.3)',
+    custom_rgb_17_0_85: 'rgb(17, 0, 85)',
+    'Custom Color 106': 'rgb(17, 0, 85)',
   },
   Brand: {
     itemBgNormal: 'rgb(244, 245, 246)',

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   IconButton,
   LoadingIndicator,
@@ -6,27 +6,27 @@ import {
   SimpleStyleFlashList,
   Touchable,
   withTheme,
-} from "@draftbit/ui";
-import { useIsFocused } from "@react-navigation/native";
-import { ActivityIndicator, Image, StatusBar, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Fetch } from "react-request";
-import * as GlobalStyles from "../GlobalStyles.js";
-import * as AceCampTestApi from "../apis/AceCampTestApi.js";
-import * as GlobalVariables from "../config/GlobalVariableContext";
-import Images from "../config/Images";
-import * as RefreshControls from "../custom-files/RefreshControls";
-import t from "../global-functions/t";
-import palettes from "../themes/palettes";
-import * as Utils from "../utils";
-import Breakpoints from "../utils/Breakpoints";
-import * as StyleSheet from "../utils/StyleSheet";
-import imageSource from "../utils/imageSource";
-import useWindowDimensions from "../utils/useWindowDimensions";
+} from '@draftbit/ui';
+import { useIsFocused } from '@react-navigation/native';
+import { ActivityIndicator, Image, StatusBar, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Fetch } from 'react-request';
+import * as GlobalStyles from '../GlobalStyles.js';
+import * as AceCampTestApi from '../apis/AceCampTestApi.js';
+import * as GlobalVariables from '../config/GlobalVariableContext';
+import Images from '../config/Images';
+import * as RefreshControls from '../custom-files/RefreshControls';
+import t from '../global-functions/t';
+import palettes from '../themes/palettes';
+import * as Utils from '../utils';
+import Breakpoints from '../utils/Breakpoints';
+import * as StyleSheet from '../utils/StyleSheet';
+import imageSource from '../utils/imageSource';
+import useWindowDimensions from '../utils/useWindowDimensions';
 
 const defaultProps = { callback: () => {}, id: 100, title: null };
 
-const MineCountryCodeListScreen = (props) => {
+const MineCountryCodeListScreen = props => {
   const { theme, navigation } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
@@ -34,18 +34,18 @@ const MineCountryCodeListScreen = (props) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [listData, setListData] = React.useState([]);
   const [page, setPage] = React.useState(2);
-  const listDataUpdate = (newData) => {
+  const listDataUpdate = newData => {
     // Type the code for the body of your function or hook here.
     // Functions can be triggered via Button/Touchable actions.
     // Hooks are run per ReactJS rules.
 
     /* String line breaks are accomplished with backticks ( example: `line one
 line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
-
+    debugger;
     listData.push(...newData);
   };
 
-  const onScroll = async (ev) => {
+  const onScroll = async ev => {
     if (isLoading) {
       return;
     }
@@ -74,7 +74,7 @@ line two` ) and will not work with special characters inside of quotes ( example
         return;
       }
 
-      const entry = StatusBar.pushStackEntry?.({ barStyle: "light-content" });
+      const entry = StatusBar.pushStackEntry?.({ barStyle: 'light-content' });
       return () => StatusBar.popStackEntry?.(entry);
     } catch (err) {
       console.error(err);
@@ -92,12 +92,12 @@ line two` ) and will not work with special characters inside of quotes ( example
         style={StyleSheet.applyWidth(
           {
             backgroundColor: palettes.Brand.appStyle_primary,
-            flexDirection: "column",
+            flexDirection: 'column',
             paddingBottom: 15,
             paddingLeft: 25,
             paddingRight: 25,
             paddingTop: safeAreaInsets.top + 15,
-            width: "100%",
+            width: '100%',
           },
           dimensions.width
         )}
@@ -105,12 +105,12 @@ line two` ) and will not work with special characters inside of quotes ( example
         <View
           style={StyleSheet.applyWidth(
             {
-              alignContent: "center",
-              alignItems: "center",
-              alignSelf: "center",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "100%",
+              alignContent: 'center',
+              alignItems: 'center',
+              alignSelf: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '100%',
             },
             dimensions.width
           )}
@@ -118,9 +118,9 @@ line two` ) and will not work with special characters inside of quotes ( example
           <View
             style={StyleSheet.applyWidth(
               {
-                alignSelf: "flex-start",
+                alignSelf: 'flex-start',
                 height: 25,
-                justifyContent: "center",
+                justifyContent: 'center',
                 width: 25,
               },
               dimensions.width
@@ -136,17 +136,17 @@ line two` ) and will not work with special characters inside of quotes ( example
               }}
               size={32}
               color={palettes.Brand.appStyle_background}
-              icon={"AntDesign/left"}
+              icon={'AntDesign/left'}
             />
           </View>
           {/* View 3 */}
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: "center",
-                flexDirection: "row",
+                alignItems: 'center',
+                flexDirection: 'row',
                 height: 25,
-                justifyContent: "center",
+                justifyContent: 'center',
               },
               dimensions.width
             )}
@@ -154,12 +154,12 @@ line two` ) and will not work with special characters inside of quotes ( example
             <Text
               accessible={true}
               selectable={false}
-              {...GlobalStyles.TextStyles(theme)["Text Form Label"].props}
+              {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
               style={StyleSheet.applyWidth(
                 StyleSheet.compose(
-                  GlobalStyles.TextStyles(theme)["Text Form Label"].style,
+                  GlobalStyles.TextStyles(theme)['Text Form Label'].style,
                   {
-                    alignSelf: "center",
+                    alignSelf: 'center',
                     color: palettes.Brand.appStyle_background,
                     fontSize: 20,
                     lineHeight: 22,
@@ -175,9 +175,9 @@ line two` ) and will not work with special characters inside of quotes ( example
           <View
             style={StyleSheet.applyWidth(
               {
-                alignSelf: "flex-end",
+                alignSelf: 'flex-end',
                 height: 25,
-                justifyContent: "center",
+                justifyContent: 'center',
                 width: 25,
               },
               dimensions.width
@@ -188,7 +188,7 @@ line two` ) and will not work with special characters inside of quotes ( example
 
       <AceCampTestApi.FetchRegionsGET
         handlers={{
-          onData: (fetchData) => {
+          onData: fetchData => {
             try {
               setListData(listData.concat(fetchData?.data));
               /* hidden 'Set Variable' action */
@@ -227,7 +227,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                   horizontal={false}
                   inverted={false}
                   keyExtractor={(flashListData, index) => flashListData?.id}
-                  listKey={"gT71epE4"}
+                  listKey={'gT71epE4'}
                   numColumns={1}
                   onEndReachedThreshold={0.5}
                   renderItem={({ item, index }) => {
@@ -249,10 +249,10 @@ line two` ) and will not work with special characters inside of quotes ( example
                         <View
                           style={StyleSheet.applyWidth(
                             {
-                              alignItems: "center",
-                              flexDirection: "row",
+                              alignItems: 'center',
+                              flexDirection: 'row',
                               height: 50,
-                              justifyContent: "space-between",
+                              justifyContent: 'space-between',
                               paddingBottom: 10,
                               paddingLeft: 16,
                               paddingRight: 16,
@@ -263,7 +263,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         >
                           <View
                             style={StyleSheet.applyWidth(
-                              { alignItems: "center", flexDirection: "row" },
+                              { alignItems: 'center', flexDirection: 'row' },
                               dimensions.width
                             )}
                           >
@@ -272,12 +272,12 @@ line two` ) and will not work with special characters inside of quotes ( example
                               accessible={true}
                               selectable={false}
                               {...GlobalStyles.TextStyles(theme)[
-                                "Text Form Label"
+                                'Text Form Label'
                               ].props}
                               style={StyleSheet.applyWidth(
                                 StyleSheet.compose(
                                   GlobalStyles.TextStyles(theme)[
-                                    "Text Form Label"
+                                    'Text Form Label'
                                   ].style,
                                   { marginLeft: 8, marginRight: 8 }
                                 ),
@@ -290,15 +290,15 @@ line two` ) and will not work with special characters inside of quotes ( example
                             <Text
                               accessible={true}
                               {...GlobalStyles.TextStyles(theme)[
-                                "Text Form Label"
+                                'Text Form Label'
                               ].props}
                               selectable={false}
                               style={StyleSheet.applyWidth(
                                 StyleSheet.compose(
                                   GlobalStyles.TextStyles(theme)[
-                                    "Text Form Label"
+                                    'Text Form Label'
                                   ].style,
-                                  { fontFamily: "System", fontWeight: "400" }
+                                  { fontFamily: 'System', fontWeight: '400' }
                                 ),
                                 dimensions.width
                               )}
@@ -310,9 +310,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                           <View
                             style={StyleSheet.applyWidth(
                               {
-                                alignItems: "center",
-                                flexDirection: "row",
-                                justifyContent: "flex-end",
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                justifyContent: 'flex-end',
                               },
                               dimensions.width
                             )}
@@ -321,16 +321,16 @@ line two` ) and will not work with special characters inside of quotes ( example
                               accessible={true}
                               selectable={false}
                               {...GlobalStyles.TextStyles(theme)[
-                                "Text Form Label"
+                                'Text Form Label'
                               ].props}
                               style={StyleSheet.applyWidth(
                                 GlobalStyles.TextStyles(theme)[
-                                  "Text Form Label"
+                                  'Text Form Label'
                                 ].style,
                                 dimensions.width
                               )}
                             >
-                              {"+"}
+                              {'+'}
                               {flashListData?.country_code}
                             </Text>
                             <>
@@ -339,13 +339,13 @@ line two` ) and will not work with special characters inside of quotes ( example
                                 (props.route?.params?.id ?? defaultProps.id)
                               ) ? null : (
                                 <Image
-                                  resizeMode={"cover"}
-                                  {...GlobalStyles.ImageStyles(theme)["Image"]
+                                  resizeMode={'cover'}
+                                  {...GlobalStyles.ImageStyles(theme)['Image']
                                     .props}
-                                  source={imageSource(Images["iconselectdrop"])}
+                                  source={imageSource(Images['iconselectdrop'])}
                                   style={StyleSheet.applyWidth(
                                     StyleSheet.compose(
-                                      GlobalStyles.ImageStyles(theme)["Image"]
+                                      GlobalStyles.ImageStyles(theme)['Image']
                                         .style,
                                       { height: 20, marginLeft: 8, width: 20 }
                                     ),
@@ -365,11 +365,11 @@ line two` ) and will not work with special characters inside of quotes ( example
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: "center",
+                      alignItems: 'center',
                       borderTopWidth: 0,
-                      flexDirection: "row",
+                      flexDirection: 'row',
                       height: 50,
-                      justifyContent: "center",
+                      justifyContent: 'center',
                       marginTop: 7,
                     },
                     dimensions.width
@@ -378,7 +378,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                   <>
                     {!isLoading ? null : (
                       <LoadingIndicator
-                        type={"circleFade"}
+                        type={'circleFade'}
                         color={palettes.Brand.appStyle_primary}
                         size={16}
                         style={StyleSheet.applyWidth(
@@ -391,18 +391,18 @@ line two` ) and will not work with special characters inside of quotes ( example
                   <Text
                     accessible={true}
                     selectable={false}
-                    {...GlobalStyles.TextStyles(theme)["Text Form Label"].props}
+                    {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
                     style={StyleSheet.applyWidth(
                       StyleSheet.compose(
-                        GlobalStyles.TextStyles(theme)["Text Form Label"].style,
-                        { fontFamily: "Urbanist_400Regular", fontSize: 14 }
+                        GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                        { fontFamily: 'Urbanist_400Regular', fontSize: 14 }
                       ),
                       dimensions.width
                     )}
                   >
                     {isLoading
-                      ? t(Variables, "common_loading")
-                      : t(Variables, "common_load_more")}
+                      ? t(Variables, 'common_loading')
+                      : t(Variables, 'common_load_more')}
                   </Text>
                 </View>
               </RefreshControls.RefreshView>

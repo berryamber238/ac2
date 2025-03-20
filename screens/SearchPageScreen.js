@@ -15,7 +15,7 @@ import {
   withTheme,
 } from '@draftbit/ui';
 import { useIsFocused } from '@react-navigation/native';
-import { ActivityIndicator, Image, Text, View } from 'react-native';
+import { ActivityIndicator, Image, StatusBar, Text, View } from 'react-native';
 import { Fetch } from 'react-request';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
@@ -136,6 +136,16 @@ line two` ) and will not work with special characters inside of quotes ( example
   const removeHistory = (Variables, setGlobalVariableValue) => {
     setGlobalVariableValue({ key: 'search_history', value: [] });
   };
+  const isFocused = useIsFocused();
+
+  React.useEffect(() => {
+    if (!isFocused) {
+      return;
+    }
+    const entry = StatusBar.pushStackEntry?.({ barStyle: 'dark-content' });
+    return () => StatusBar.popStackEntry?.(entry);
+  }, [isFocused]);
+
   const scrollViewContainerViewTextInputRef = React.useRef();
 
   return (

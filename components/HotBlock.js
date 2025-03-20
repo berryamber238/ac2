@@ -10,12 +10,14 @@ import { ActivityIndicator, RefreshControl, Text, View } from 'react-native';
 import { Fetch } from 'react-request';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
+import EmptyViewBlock from '../components/EmptyViewBlock';
 import HotSectionBlock from '../components/HotSectionBlock';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import * as DataContext from '../custom-files/DataContext';
 import * as HttpClient from '../custom-files/HttpClient';
 import * as Shadow from '../custom-files/Shadow';
 import * as Test from '../custom-files/Test';
+import getNoteStatus from '../global-functions/getNoteStatus';
 import palettes from '../themes/palettes';
 import * as Utils from '../utils';
 import Breakpoints from '../utils/Breakpoints';
@@ -247,6 +249,11 @@ const HotBlock = props => {
           </Shadow.ShadowComponent>
         </Utils.CustomCodeErrorBoundary>
       </LinearGradient>
+      <>
+        {getNoteStatus(Variables) === 0 ? null : (
+          <EmptyViewBlock type={getNoteStatus(Variables)} />
+        )}
+      </>
     </View>
   );
 };

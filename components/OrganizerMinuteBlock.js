@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   LoadingIndicator,
+  Shadow,
   SimpleStyleFlashList,
   withTheme,
 } from '@draftbit/ui';
@@ -11,11 +12,9 @@ import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
 import RecommandSectionBlock from '../components/RecommandSectionBlock';
 import * as GlobalVariables from '../config/GlobalVariableContext';
-import * as Shadow from '../custom-files/Shadow';
 import getTimestamp from '../global-functions/getTimestamp';
 import t from '../global-functions/t';
 import palettes from '../themes/palettes';
-import * as Utils from '../utils';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
 import useWindowDimensions from '../utils/useWindowDimensions';
@@ -110,140 +109,152 @@ line two` ) and will not work with special characters inside of quotes ( example
                 dimensions.width
               )}
             >
-              {/* Custom Code 2 */}
-              <Utils.CustomCodeErrorBoundary>
-                <Shadow.ShadowComponent
-                  startColor={'#0002'}
-                  endColor={'#0000'}
-                  offset={[14, 0]}
-                  distance={5}
+              <Shadow
+                offsetY={0}
+                paintInside={true}
+                showShadowCornerBottomEnd={true}
+                showShadowCornerBottomStart={true}
+                showShadowCornerTopEnd={true}
+                showShadowCornerTopStart={true}
+                showShadowSideBottom={true}
+                showShadowSideEnd={true}
+                showShadowSideStart={true}
+                showShadowSideTop={true}
+                offsetX={14}
+                startColor={palettes.App['Custom Color 105']}
+              >
+                {/* 系列活动-列表 */}
+                <View
+                  style={StyleSheet.applyWidth(
+                    {
+                      backgroundColor: palettes.App['Custom #ffffff'],
+                      borderRadius: 4,
+                      height: '100%',
+                      marginLeft: 14,
+                      marginRight: 14,
+                      overflow: 'hidden',
+                      width: [
+                        { minWidth: Breakpoints.Mobile, value: '100%' },
+                        {
+                          minWidth: Breakpoints.Mobile,
+                          value: dimensions.width - 28,
+                        },
+                      ],
+                    },
+                    dimensions.width
+                  )}
                 >
-                  {/* 系列活动-列表 */}
-                  <View
+                  <SimpleStyleFlashList
+                    data={eventData}
+                    estimatedItemSize={50}
+                    horizontal={false}
+                    inverted={false}
+                    keyExtractor={(flashListData, index) =>
+                      flashListData?.source_id
+                    }
+                    listKey={
+                      'minute get->View->Shadow->系列活动-列表->FlashList'
+                    }
+                    numColumns={1}
+                    onEndReached={() => {
+                      const handler = async () => {
+                        try {
+                          if (isLoading) {
+                            return;
+                          }
+                          if (eventData?.length >= minuteGetData?.meta?.total) {
+                            return;
+                          }
+                          setIsLoading(true);
+                          const result = (
+                            await AceCampTestApi.organizerMinute$article$eventGET(
+                              Constants,
+                              {
+                                ack: getTimestamp(),
+                                cursor: cursor,
+                                organization_id: getOid(),
+                                page_size: 20,
+                                source_type: 'Minute',
+                              }
+                            )
+                          )?.json;
+                          /* hidden 'Log to Console' action */
+                          setEventData(eventData.concat(result?.data?.feeds));
+                          setCursor(
+                            (() => {
+                              const e = result?.data?.feeds;
+                              return e[e.length - 1];
+                            })()?.cursor
+                          );
+                          /* hidden 'Log to Console' action */
+                          setIsLoading(false);
+                        } catch (err) {
+                          console.error(err);
+                        }
+                      };
+                      handler();
+                    }}
+                    renderItem={({ item, index }) => {
+                      const flashListData = item;
+                      return (
+                        <RecommandSectionBlock
+                          dataItem={flashListData}
+                          hideMenu={true}
+                        />
+                      );
+                    }}
+                    showsHorizontalScrollIndicator={true}
+                    showsVerticalScrollIndicator={true}
+                    initialNumToRender={minuteGetData?.meta?.total}
+                    onEndReachedThreshold={0.1}
                     style={StyleSheet.applyWidth(
-                      {
-                        borderRadius: 4,
-                        height: '100%',
-                        marginLeft: 14,
-                        marginRight: 14,
-                        overflow: 'hidden',
-                        width: [
-                          { minWidth: Breakpoints.Mobile, value: '100%' },
-                          {
-                            minWidth: Breakpoints.Mobile,
-                            value: dimensions.width - 28,
-                          },
-                        ],
-                      },
+                      { padding: 16 },
                       dimensions.width
                     )}
-                  >
-                    <SimpleStyleFlashList
-                      data={eventData}
-                      estimatedItemSize={50}
-                      horizontal={false}
-                      inverted={false}
-                      keyExtractor={(flashListData, index) =>
-                        flashListData?.source_id
-                      }
-                      listKey={
-                        'minute get->View->Custom Code 2->系列活动-列表->FlashList'
-                      }
-                      numColumns={1}
-                      onEndReached={() => {
-                        const handler = async () => {
-                          try {
-                            if (isLoading) {
-                              return;
-                            }
-                            /* hidden 'Conditional Stop' action */
-                            setIsLoading(true);
-                            const result = (
-                              await AceCampTestApi.organizerMinute$article$eventGET(
-                                Constants,
-                                {
-                                  ack: getTimestamp(),
-                                  cursor: cursor,
-                                  organization_id: getOid(),
-                                  page_size: 20,
-                                  source_type: 'Minute',
-                                }
-                              )
-                            )?.json;
-                            /* hidden 'Log to Console' action */
-                            setEventData(eventData.concat(result?.data?.feeds));
-                            setCursor(
-                              (() => {
-                                const e = result?.data?.feeds;
-                                return e[e.length - 1];
-                              })()?.cursor
-                            );
-                            /* hidden 'Log to Console' action */
-                            setIsLoading(false);
-                          } catch (err) {
-                            console.error(err);
-                          }
-                        };
-                        handler();
-                      }}
-                      renderItem={({ item, index }) => {
-                        const flashListData = item;
-                        return (
-                          <RecommandSectionBlock
-                            dataItem={flashListData}
-                            hideMenu={true}
-                          />
-                        );
-                      }}
-                      showsHorizontalScrollIndicator={true}
-                      showsVerticalScrollIndicator={true}
-                      initialNumToRender={minuteGetData?.meta?.total}
-                      onEndReachedThreshold={0.1}
-                    />
-                    {/* 无内容提示 */}
-                    <>
-                      {!(eventData?.length === 0) ? null : (
-                        <View
+                  />
+                  {/* 无内容提示 */}
+                  <>
+                    {!(eventData?.length === 0) ? null : (
+                      <View
+                        style={StyleSheet.applyWidth(
+                          {
+                            alignItems: 'center',
+                            backgroundColor: palettes.App.White,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            paddingBottom: 5,
+                            paddingTop: 5,
+                          },
+                          dimensions.width
+                        )}
+                      >
+                        <Text
+                          accessible={true}
+                          selectable={false}
+                          {...GlobalStyles.TextStyles(theme)['Text Title']
+                            .props}
                           style={StyleSheet.applyWidth(
-                            {
-                              alignItems: 'center',
-                              backgroundColor: palettes.App.White,
-                              flexDirection: 'row',
-                              justifyContent: 'center',
-                              paddingBottom: 5,
-                              paddingTop: 5,
-                            },
+                            StyleSheet.compose(
+                              GlobalStyles.TextStyles(theme)['Text Title']
+                                .style,
+                              {
+                                color: palettes.App['Custom Color 4'],
+                                fontFamily: 'System',
+                                fontSize: 14,
+                                fontWeight: '400',
+                                marginRight: null,
+                              }
+                            ),
                             dimensions.width
                           )}
                         >
-                          <Text
-                            accessible={true}
-                            selectable={false}
-                            {...GlobalStyles.TextStyles(theme)['Text Title']
-                              .props}
-                            style={StyleSheet.applyWidth(
-                              StyleSheet.compose(
-                                GlobalStyles.TextStyles(theme)['Text Title']
-                                  .style,
-                                {
-                                  color: palettes.App['Custom Color 4'],
-                                  fontFamily: 'System',
-                                  fontSize: 14,
-                                  fontWeight: '400',
-                                  marginRight: null,
-                                }
-                              ),
-                              dimensions.width
-                            )}
-                          >
-                            {t(Variables, 'common_no_content')}
-                          </Text>
-                        </View>
-                      )}
-                    </>
-                  </View>
-                </Shadow.ShadowComponent>
-              </Utils.CustomCodeErrorBoundary>
+                          {t(Variables, 'common_no_content')}
+                        </Text>
+                      </View>
+                    )}
+                  </>
+                </View>
+              </Shadow>
             </View>
           );
         }}

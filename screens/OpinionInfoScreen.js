@@ -36,6 +36,7 @@ import { Fetch } from 'react-request';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
 import * as TestApi from '../apis/TestApi.js';
+import EmptyViewBlock from '../components/EmptyViewBlock';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import Images from '../config/Images';
 import * as CoverView from '../custom-files/CoverView';
@@ -47,6 +48,7 @@ import StringFormat from '../global-functions/StringFormat';
 import fromUnixTimestamp from '../global-functions/fromUnixTimestamp';
 import getArticleType from '../global-functions/getArticleType';
 import getNameById from '../global-functions/getNameById';
+import getNoteStatus from '../global-functions/getNoteStatus';
 import setUndefined from '../global-functions/setUndefined';
 import splitList from '../global-functions/splitList';
 import t from '../global-functions/t';
@@ -4636,6 +4638,11 @@ const OpinionInfoScreen = props => {
       <Utils.CustomCodeErrorBoundary>
         <Toast.ele />
       </Utils.CustomCodeErrorBoundary>
+      <>
+        {getNoteStatus(Variables) === 0 ? null : (
+          <EmptyViewBlock type={getNoteStatus(Variables)} />
+        )}
+      </>
     </ScreenContainer>
   );
 };

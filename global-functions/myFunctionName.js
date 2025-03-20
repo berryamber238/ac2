@@ -1,5 +1,6 @@
-const getNoteStatus = Variables => {
+const myFunctionName = Variables => {
   const data = Variables.user_info;
+
   if (data) {
     if (data.organization_user) {
       if (data.organization_user.state === 'pending') {
@@ -29,4 +30,4 @@ const getNoteStatus = Variables => {
   }
 };
 
-export default getNoteStatus;
+export default myFunctionName;

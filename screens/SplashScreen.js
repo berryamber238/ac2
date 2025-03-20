@@ -1,8 +1,10 @@
 import React from 'react';
 import { LottieAnimation, ScreenContainer, withTheme } from '@draftbit/ui';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as GlobalStyles from '../GlobalStyles.js';
 import Animations from '../config/Animations';
+import * as GlobalVariables from '../config/GlobalVariableContext';
 import Images from '../config/Images';
 import palettes from '../themes/palettes';
 import Breakpoints from '../utils/Breakpoints';
@@ -14,17 +16,23 @@ import waitUtil from '../utils/wait';
 const SplashScreen = props => {
   const { theme, navigation } = props;
   const dimensions = useWindowDimensions();
+  const Constants = GlobalVariables.useValues();
+  const Variables = Constants;
+  const safeAreaInsets = useSafeAreaInsets();
 
   return (
     <ScreenContainer
       hasSafeArea={false}
       scrollable={false}
+      hasBottomSafeArea={true}
       hasLeftSafeArea={false}
       hasRightSafeArea={false}
       style={StyleSheet.applyWidth(
         {
           backgroundColor: palettes.Brand.appStyle_primary,
           height: 5000,
+          justifyContent: 'space-between',
+          paddingBottom: 32,
           width: '100%',
         },
         dimensions.width
@@ -34,7 +42,7 @@ const SplashScreen = props => {
         onLayout={event => {
           const handler = async () => {
             try {
-              await waitUtil({ milliseconds: 5000 });
+              await waitUtil({ milliseconds: 3000 });
               if (navigation.canGoBack()) {
                 navigation.popToTop();
               }
@@ -52,9 +60,7 @@ const SplashScreen = props => {
           {
             alignItems: 'center',
             backgroundColor: palettes.Brand.appStyle_primary,
-            height: dimensions.height,
             justifyContent: 'flex-start',
-            position: 'absolute',
             width: dimensions.width,
           },
           dimensions.width
@@ -76,6 +82,59 @@ const SplashScreen = props => {
             dimensions.width
           )}
         />
+      </View>
+      {/* View 2 */}
+      <View
+        style={StyleSheet.applyWidth(
+          {
+            alignItems: 'center',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            marginBottom: safeAreaInsets.bottom && 32,
+          },
+          dimensions.width
+        )}
+      >
+        <Text
+          accessible={true}
+          selectable={false}
+          {...GlobalStyles.TextStyles(theme)['Text Title'].props}
+          style={StyleSheet.applyWidth(
+            StyleSheet.compose(
+              GlobalStyles.TextStyles(theme)['Text Title'].style,
+              {
+                color: 'rgba(255, 255, 255, 0.74)',
+                fontSize: Constants['current_lang'] === 'CN' ? 18 : 15,
+                lineHeight: 24,
+                marginRight: null,
+              }
+            ),
+            dimensions.width
+          )}
+        >
+          {Constants['current_lang'] === 'CN'
+            ? '您的资本市场灵感大本营！'
+            : 'AceCamp For Your Capital Market Inspiration!'}
+        </Text>
+        {/* Text 2 */}
+        <Text
+          accessible={true}
+          selectable={false}
+          {...GlobalStyles.TextStyles(theme)['12 Regular'].props}
+          style={StyleSheet.applyWidth(
+            StyleSheet.compose(
+              GlobalStyles.TextStyles(theme)['12 Regular'].style,
+              {
+                color: 'rgba(255, 255, 255, 0.4)',
+                letterSpacing: 0.4,
+                marginTop: 16,
+              }
+            ),
+            dimensions.width
+          )}
+        >
+          {'Copyright © 2020-2022 AceCamp本营'}
+        </Text>
       </View>
     </ScreenContainer>
   );

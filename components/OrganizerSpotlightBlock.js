@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   LoadingIndicator,
-  SimpleStyleFlashList,
+  Shadow,
+  SimpleStyleFlatList,
   withTheme,
 } from '@draftbit/ui';
 import { useIsFocused } from '@react-navigation/native';
@@ -11,11 +12,8 @@ import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
 import RecommandSectionBlock from '../components/RecommandSectionBlock';
 import * as GlobalVariables from '../config/GlobalVariableContext';
-import * as Shadow from '../custom-files/Shadow';
-import getTimestamp from '../global-functions/getTimestamp';
 import t from '../global-functions/t';
 import palettes from '../themes/palettes';
-import * as Utils from '../utils';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
 import useWindowDimensions from '../utils/useWindowDimensions';
@@ -72,7 +70,7 @@ line two` ) and will not work with special characters inside of quotes ( example
             const handler = async () => {
               try {
                 setIsLoading(true);
-                console.log(spotlightGetData?.data);
+                console.log(spotlightGetData?.data, 'spotlight');
                 setEventData(eventData.concat(spotlightGetData?.data));
                 setPage(page + 1);
                 setTotalPages(spotlightGetData?.meta?.total_pages);
@@ -112,170 +110,135 @@ line two` ) and will not work with special characters inside of quotes ( example
                 dimensions.width
               )}
             >
-              {/* Custom Code 2 */}
-              <Utils.CustomCodeErrorBoundary>
-                <Shadow.ShadowComponent
-                  startColor={'#0002'}
-                  endColor={'#0000'}
-                  offset={[14, 0]}
-                  distance={5}
+              <Shadow
+                offsetY={0}
+                paintInside={true}
+                showShadowCornerBottomEnd={true}
+                showShadowCornerBottomStart={true}
+                showShadowCornerTopEnd={true}
+                showShadowCornerTopStart={true}
+                showShadowSideBottom={true}
+                showShadowSideEnd={true}
+                showShadowSideStart={true}
+                showShadowSideTop={true}
+                offsetX={14}
+                startColor={palettes.App['Custom Color 105']}
+              >
+                {/* 系列活动-列表 */}
+                <View
+                  style={StyleSheet.applyWidth(
+                    {
+                      backgroundColor: palettes.App['Custom #ffffff'],
+                      borderRadius: 4,
+                      marginLeft: 14,
+                      marginRight: 14,
+                      overflow: 'hidden',
+                      width: dimensions.width - 28,
+                    },
+                    dimensions.width
+                  )}
                 >
-                  {/* 系列活动-列表 */}
-                  <View
-                    style={StyleSheet.applyWidth(
-                      {
-                        borderRadius: 4,
-                        marginLeft: 14,
-                        marginRight: 14,
-                        overflow: 'hidden',
-                        width: dimensions.width - 28,
-                      },
-                      dimensions.width
-                    )}
-                  >
-                    {/* 无内容提示 */}
-                    <>
-                      {!(eventData?.length === 0) ? null : (
-                        <View
+                  {/* 无内容提示 */}
+                  <>
+                    {!(eventData?.length === 0) ? null : (
+                      <View
+                        style={StyleSheet.applyWidth(
+                          {
+                            alignItems: 'center',
+                            backgroundColor: palettes.App.White,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            paddingBottom: 5,
+                            paddingTop: 5,
+                          },
+                          dimensions.width
+                        )}
+                      >
+                        <Text
+                          accessible={true}
+                          selectable={false}
+                          {...GlobalStyles.TextStyles(theme)['Text Title']
+                            .props}
                           style={StyleSheet.applyWidth(
-                            {
-                              alignItems: 'center',
-                              backgroundColor: palettes.App.White,
-                              flexDirection: 'row',
-                              justifyContent: 'center',
-                              paddingBottom: 5,
-                              paddingTop: 5,
-                            },
+                            StyleSheet.compose(
+                              GlobalStyles.TextStyles(theme)['Text Title']
+                                .style,
+                              {
+                                color: palettes.App['Custom Color 4'],
+                                fontFamily: 'System',
+                                fontSize: 14,
+                                fontWeight: '400',
+                                marginRight: null,
+                              }
+                            ),
                             dimensions.width
                           )}
                         >
-                          <Text
-                            accessible={true}
-                            selectable={false}
-                            {...GlobalStyles.TextStyles(theme)['Text Title']
-                              .props}
-                            style={StyleSheet.applyWidth(
-                              StyleSheet.compose(
-                                GlobalStyles.TextStyles(theme)['Text Title']
-                                  .style,
-                                {
-                                  color: palettes.App['Custom Color 4'],
-                                  fontFamily: 'System',
-                                  fontSize: 14,
-                                  fontWeight: '400',
-                                  marginRight: null,
-                                }
-                              ),
-                              dimensions.width
-                            )}
-                          >
-                            {t(Variables, 'common_no_content')}
-                          </Text>
-                        </View>
-                      )}
-                    </>
-                    <SimpleStyleFlashList
-                      data={eventData}
-                      estimatedItemSize={50}
-                      horizontal={false}
-                      inverted={false}
-                      keyExtractor={(flashListData, index) => flashListData?.id}
-                      listKey={
-                        'spotlight get->View->Custom Code 2->系列活动-列表->FlashList'
-                      }
-                      numColumns={1}
-                      onEndReached={() => {
-                        const handler = async () => {
-                          console.log('FlashList ON_END_REACHED Start');
-                          let error = null;
-                          try {
-                            console.log(
-                              'Start ON_END_REACHED:0 CONDITIONAL_STOP'
-                            );
-                            if (isLoading) {
-                              return console.log(
-                                'Complete ON_END_REACHED:0 CONDITIONAL_STOP'
-                              );
-                            } else {
-                              console.log(
-                                'Skipped ON_END_REACHED:0 CONDITIONAL_STOP: condition not met'
-                              );
-                            }
-                            console.log(
-                              'Start ON_END_REACHED:1 CONDITIONAL_STOP'
-                            );
-                            if (page > totalPages) {
-                              return console.log(
-                                'Complete ON_END_REACHED:1 CONDITIONAL_STOP'
-                              );
-                            } else {
-                              console.log(
-                                'Skipped ON_END_REACHED:1 CONDITIONAL_STOP: condition not met'
-                              );
-                            }
-                            console.log('Start ON_END_REACHED:2 SET_VARIABLE');
-                            setIsLoading(true);
-                            console.log(
-                              'Complete ON_END_REACHED:2 SET_VARIABLE'
-                            );
-                            console.log('Start ON_END_REACHED:3 FETCH_REQUEST');
-                            const result = (
-                              await AceCampTestApi.organizerSpotlightsGET(
-                                Constants,
-                                {
-                                  organization_id: getOid(),
-                                  page: null,
-                                  per_page: 20,
-                                }
-                              )
-                            )?.json;
-                            console.log(
-                              'Complete ON_END_REACHED:3 FETCH_REQUEST',
-                              { result }
-                            );
-                            console.log('Start ON_END_REACHED:4 SET_VARIABLE');
-                            setEventData(eventData.concat(result?.data));
-                            console.log(
-                              'Complete ON_END_REACHED:4 SET_VARIABLE'
-                            );
-                            console.log('Start ON_END_REACHED:5 SET_VARIABLE');
-                            setPage(page + 1);
-                            console.log(
-                              'Complete ON_END_REACHED:5 SET_VARIABLE'
-                            );
-                            console.log('Start ON_END_REACHED:6 SET_VARIABLE');
-                            setIsLoading(false);
-                            console.log(
-                              'Complete ON_END_REACHED:6 SET_VARIABLE'
-                            );
-                          } catch (err) {
-                            console.error(err);
-                            error = err.message ?? err;
+                          {t(Variables, 'common_no_content')}
+                        </Text>
+                      </View>
+                    )}
+                  </>
+                  <SimpleStyleFlatList
+                    data={eventData}
+                    decelerationRate={'normal'}
+                    horizontal={false}
+                    inverted={false}
+                    keyExtractor={(listData, index) =>
+                      listData?.id ??
+                      listData?.uuid ??
+                      index?.toString() ??
+                      JSON.stringify(listData)
+                    }
+                    keyboardShouldPersistTaps={'never'}
+                    listKey={'spotlight get->View->Shadow->系列活动-列表->List'}
+                    nestedScrollEnabled={false}
+                    numColumns={1}
+                    onEndReached={() => {
+                      const handler = async () => {
+                        try {
+                          if (isLoading) {
+                            return;
                           }
-                          console.log(
-                            'FlashList ON_END_REACHED Complete',
-                            error ? { error } : 'no error'
-                          );
-                        };
-                        handler();
-                      }}
-                      onEndReachedThreshold={0.5}
-                      renderItem={({ item, index }) => {
-                        const flashListData = item;
-                        return (
-                          <RecommandSectionBlock
-                            dataItem={flashListData}
-                            hideMenu={true}
-                          />
-                        );
-                      }}
-                      showsHorizontalScrollIndicator={true}
-                      showsVerticalScrollIndicator={true}
-                      initialNumToRender={spotlightGetData?.meta?.total}
-                    />
-                  </View>
-                </Shadow.ShadowComponent>
-              </Utils.CustomCodeErrorBoundary>
+                          if (page > spotlightGetData?.meta?.total_pages) {
+                            return;
+                          }
+                          setIsLoading(true);
+                          const result = (
+                            await AceCampTestApi.organizerSpotlightsGET(
+                              Constants,
+                              {
+                                organization_id: getOid(),
+                                page: page,
+                                per_page: 20,
+                              }
+                            )
+                          )?.json;
+                          setEventData(eventData.concat(result?.data));
+                          setPage(page + 1);
+                          setIsLoading(false);
+                        } catch (err) {
+                          console.error(err);
+                        }
+                      };
+                      handler();
+                    }}
+                    onEndReachedThreshold={0.5}
+                    pagingEnabled={false}
+                    renderItem={({ item, index }) => {
+                      const listData = item;
+                      return <RecommandSectionBlock hideMenu={true} />;
+                    }}
+                    showsHorizontalScrollIndicator={true}
+                    showsVerticalScrollIndicator={true}
+                    snapToAlignment={'start'}
+                    style={StyleSheet.applyWidth(
+                      { padding: 16 },
+                      dimensions.width
+                    )}
+                  />
+                </View>
+              </Shadow>
             </View>
           );
         }}

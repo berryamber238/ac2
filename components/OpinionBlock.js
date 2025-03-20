@@ -9,12 +9,14 @@ import { ActivityIndicator, RefreshControl, Text, View } from 'react-native';
 import { Fetch } from 'react-request';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
+import EmptyViewBlock from '../components/EmptyViewBlock';
 import OpinionSectionBlock from '../components/OpinionSectionBlock';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import * as AceCampApi from '../custom-files/AceCampApi';
 import * as DataContext from '../custom-files/DataContext';
 import * as HttpClient from '../custom-files/HttpClient';
 import * as Test from '../custom-files/Test';
+import getNoteStatus from '../global-functions/getNoteStatus';
 import palettes from '../themes/palettes';
 import * as Utils from '../utils';
 import Breakpoints from '../utils/Breakpoints';
@@ -108,7 +110,12 @@ const OpinionBlock = props => {
   }, [queryData]);
 
   return (
-    <View>
+    <View
+      style={StyleSheet.applyWidth(
+        { height: '100%', width: '100%' },
+        dimensions.width
+      )}
+    >
       <SimpleStyleScrollView
         bounces={true}
         horizontal={false}
@@ -189,6 +196,11 @@ const OpinionBlock = props => {
           }}
         </AceCampTestApi.FetchOpinionsIndexGET>
       </SimpleStyleScrollView>
+      <>
+        {getNoteStatus(Variables) === 0 ? null : (
+          <EmptyViewBlock type={getNoteStatus(Variables)} />
+        )}
+      </>
     </View>
   );
 };

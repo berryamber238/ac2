@@ -1,27 +1,27 @@
-import React from "react";
-import { Icon, ScreenContainer, Touchable, withTheme } from "@draftbit/ui";
-import { useIsFocused } from "@react-navigation/native";
-import { Image, Modal, StatusBar, Text, View } from "react-native";
-import * as GlobalStyles from "../GlobalStyles.js";
-import * as AceCampTestApi from "../apis/AceCampTestApi.js";
-import * as GlobalVariables from "../config/GlobalVariableContext";
-import Images from "../config/Images";
-import palettes from "../themes/palettes";
-import Breakpoints from "../utils/Breakpoints";
-import * as StyleSheet from "../utils/StyleSheet";
-import imageSource from "../utils/imageSource";
-import useWindowDimensions from "../utils/useWindowDimensions";
+import React from 'react';
+import { Icon, ScreenContainer, Touchable, withTheme } from '@draftbit/ui';
+import { useIsFocused } from '@react-navigation/native';
+import { Image, Modal, StatusBar, Text, View } from 'react-native';
+import * as GlobalStyles from '../GlobalStyles.js';
+import * as AceCampTestApi from '../apis/AceCampTestApi.js';
+import * as GlobalVariables from '../config/GlobalVariableContext';
+import Images from '../config/Images';
+import palettes from '../themes/palettes';
+import Breakpoints from '../utils/Breakpoints';
+import * as StyleSheet from '../utils/StyleSheet';
+import imageSource from '../utils/imageSource';
+import useWindowDimensions from '../utils/useWindowDimensions';
 
-const MineSettingsScreen = (props) => {
+const MineSettingsScreen = props => {
   const { theme, navigation } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
   const setGlobalVariableValue = GlobalVariables.useSetValue();
-  const [numberInputFour, setNumberInputFour] = React.useState("");
-  const [numberInputOne, setNumberInputOne] = React.useState("");
-  const [numberInputThree, setNumberInputThree] = React.useState("");
-  const [numberInputTwo, setNumberInputTwo] = React.useState("");
+  const [numberInputFour, setNumberInputFour] = React.useState('');
+  const [numberInputOne, setNumberInputOne] = React.useState('');
+  const [numberInputThree, setNumberInputThree] = React.useState('');
+  const [numberInputTwo, setNumberInputTwo] = React.useState('');
   const [ticket_success_modal, setTicket_success_modal] = React.useState(false);
   const aceCampTestSignOutPOST = AceCampTestApi.useSignOutPOST();
   const isFocused = useIsFocused();
@@ -30,7 +30,7 @@ const MineSettingsScreen = (props) => {
     if (!isFocused) {
       return;
     }
-    const entry = StatusBar.pushStackEntry?.({ barStyle: "dark-content" });
+    const entry = StatusBar.pushStackEntry?.({ barStyle: 'dark-content' });
     return () => StatusBar.popStackEntry?.(entry);
   }, [isFocused]);
 
@@ -59,10 +59,10 @@ const MineSettingsScreen = (props) => {
       >
         {/* Page Top */}
         <View
-          {...GlobalStyles.ViewStyles(theme)["Page Top 6"].props}
+          {...GlobalStyles.ViewStyles(theme)['Page Top 6'].props}
           style={StyleSheet.applyWidth(
             StyleSheet.compose(
-              GlobalStyles.ViewStyles(theme)["Page Top 6"].style,
+              GlobalStyles.ViewStyles(theme)['Page Top 6'].style,
               { marginBottom: 24 }
             ),
             dimensions.width
@@ -72,9 +72,9 @@ const MineSettingsScreen = (props) => {
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: "center",
+                alignItems: 'center',
                 height: 28,
-                justifyContent: "center",
+                justifyContent: 'center',
                 marginRight: 16,
                 width: 28,
               },
@@ -93,12 +93,12 @@ const MineSettingsScreen = (props) => {
             >
               {/* Back Icon */}
               <Image
-                resizeMode={"cover"}
-                {...GlobalStyles.ImageStyles(theme)["Image"].props}
-                source={imageSource(Images["ArrowLeft"])}
+                resizeMode={'cover'}
+                {...GlobalStyles.ImageStyles(theme)['Image'].props}
+                source={imageSource(Images['ArrowLeft'])}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ImageStyles(theme)["Image"].style,
+                    GlobalStyles.ImageStyles(theme)['Image'].style,
                     { height: 20, width: 20 }
                   ),
                   dimensions.width
@@ -110,32 +110,32 @@ const MineSettingsScreen = (props) => {
           <Text
             accessible={true}
             selectable={false}
-            {...GlobalStyles.TextStyles(theme)["H4"].props}
+            {...GlobalStyles.TextStyles(theme)['H4'].props}
             style={StyleSheet.applyWidth(
-              StyleSheet.compose(GlobalStyles.TextStyles(theme)["H4"].style, {
+              StyleSheet.compose(GlobalStyles.TextStyles(theme)['H4'].style, {
                 flex: 1,
                 marginRight: 16,
               }),
               dimensions.width
             )}
           >
-            {"通用设置"}
+            {'通用设置'}
           </Text>
         </View>
         {/* Pin Section */}
         <View
           style={StyleSheet.applyWidth(
-            { alignSelf: "auto", flex: 1, gap: 30 },
+            { alignSelf: 'auto', flex: 1, gap: 30 },
             dimensions.width
           )}
         >
           <Touchable
             onPress={() => {
               try {
-                if (Constants["is_login"]) {
-                  navigation.push("SettingAccountSafeScreen");
+                if (Constants['is_login']) {
+                  navigation.push('SettingAccountSafeScreen');
                 } else {
-                  navigation.push("LoginScreen");
+                  navigation.push('LoginScreen');
                 }
               } catch (err) {
                 console.error(err);
@@ -145,9 +145,9 @@ const MineSettingsScreen = (props) => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                 },
                 dimensions.width
               )}
@@ -155,20 +155,20 @@ const MineSettingsScreen = (props) => {
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
+                {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
+                    GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
                     { fontSize: 16 }
                   ),
                   dimensions.width
                 )}
               >
-                {"账户安全"}
+                {'账户安全'}
               </Text>
               <Icon
                 color={palettes.Brand.appStyle_greyscale_400}
-                name={"Entypo/chevron-thin-right"}
+                name={'Entypo/chevron-thin-right'}
                 size={20}
               />
             </View>
@@ -178,9 +178,9 @@ const MineSettingsScreen = (props) => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                 },
                 dimensions.width
               )}
@@ -188,20 +188,20 @@ const MineSettingsScreen = (props) => {
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
+                {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
+                    GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
                     { fontSize: 16 }
                   ),
                   dimensions.width
                 )}
               >
-                {"语言"}
+                {'语言'}
               </Text>
               <Icon
                 color={palettes.Brand.appStyle_greyscale_400}
-                name={"Entypo/chevron-thin-right"}
+                name={'Entypo/chevron-thin-right'}
                 size={20}
               />
             </View>
@@ -210,8 +210,8 @@ const MineSettingsScreen = (props) => {
           <Touchable
             onPress={() => {
               try {
-                navigation.push("WebViewScreen", {
-                  url: "https://terms.acecamptech.com/agreement/index.html",
+                navigation.push('WebViewScreen', {
+                  url: 'https://terms.acecamptech.com/agreement/index.html',
                 });
               } catch (err) {
                 console.error(err);
@@ -221,9 +221,9 @@ const MineSettingsScreen = (props) => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                 },
                 dimensions.width
               )}
@@ -231,20 +231,20 @@ const MineSettingsScreen = (props) => {
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
+                {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
+                    GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
                     { fontSize: 16 }
                   ),
                   dimensions.width
                 )}
               >
-                {"服务协议"}
+                {'服务协议'}
               </Text>
               <Icon
                 color={palettes.Brand.appStyle_greyscale_400}
-                name={"Entypo/chevron-thin-right"}
+                name={'Entypo/chevron-thin-right'}
                 size={20}
               />
             </View>
@@ -253,8 +253,8 @@ const MineSettingsScreen = (props) => {
           <Touchable
             onPress={() => {
               try {
-                navigation.push("WebViewScreen", {
-                  url: "https://terms.acecamptech.com/privacy/20210726/index.html",
+                navigation.push('WebViewScreen', {
+                  url: 'https://terms.acecamptech.com/privacy/20210726/index.html',
                 });
               } catch (err) {
                 console.error(err);
@@ -264,9 +264,9 @@ const MineSettingsScreen = (props) => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                 },
                 dimensions.width
               )}
@@ -274,20 +274,20 @@ const MineSettingsScreen = (props) => {
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
+                {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
+                    GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
                     { fontSize: 16 }
                   ),
                   dimensions.width
                 )}
               >
-                {"隐私政策"}
+                {'隐私政策'}
               </Text>
               <Icon
                 color={palettes.Brand.appStyle_greyscale_400}
-                name={"Entypo/chevron-thin-right"}
+                name={'Entypo/chevron-thin-right'}
                 size={20}
               />
             </View>
@@ -297,9 +297,9 @@ const MineSettingsScreen = (props) => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                 },
                 dimensions.width
               )}
@@ -307,20 +307,20 @@ const MineSettingsScreen = (props) => {
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
+                {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
+                    GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
                     { fontSize: 16 }
                   ),
                   dimensions.width
                 )}
               >
-                {"清除缓存"}
+                {'清除缓存'}
               </Text>
               <Icon
                 color={palettes.Brand.appStyle_greyscale_400}
-                name={"Entypo/chevron-thin-right"}
+                name={'Entypo/chevron-thin-right'}
                 size={20}
               />
             </View>
@@ -330,9 +330,9 @@ const MineSettingsScreen = (props) => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: "center",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                 },
                 dimensions.width
               )}
@@ -340,20 +340,20 @@ const MineSettingsScreen = (props) => {
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)["Body XL Semibold"].props}
+                {...GlobalStyles.TextStyles(theme)['Body XL Semibold'].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)["Body XL Semibold"].style,
+                    GlobalStyles.TextStyles(theme)['Body XL Semibold'].style,
                     { fontSize: 16 }
                   ),
                   dimensions.width
                 )}
               >
-                {"关于我们"}
+                {'关于我们'}
               </Text>
               <Icon
                 color={palettes.Brand.appStyle_greyscale_400}
-                name={"Entypo/chevron-thin-right"}
+                name={'Entypo/chevron-thin-right'}
                 size={20}
               />
             </View>
@@ -362,11 +362,11 @@ const MineSettingsScreen = (props) => {
       </View>
       {/* Continue Button */}
       <>
-        {!Constants["is_login"] ? null : (
+        {!Constants['is_login'] ? null : (
           <View
-            {...GlobalStyles.ViewStyles(theme)["Bottom Button"].props}
+            {...GlobalStyles.ViewStyles(theme)['Bottom Button'].props}
             style={StyleSheet.applyWidth(
-              GlobalStyles.ViewStyles(theme)["Bottom Button"].style,
+              GlobalStyles.ViewStyles(theme)['Bottom Button'].style,
               dimensions.width
             )}
           >
@@ -376,35 +376,35 @@ const MineSettingsScreen = (props) => {
                 const handler = async () => {
                   try {
                     setGlobalVariableValue({
-                      key: "is_login",
+                      key: 'is_login',
                       value: false,
                     });
                     (await aceCampTestSignOutPOST.mutateAsync())?.json;
                     if (navigation.canGoBack()) {
                       navigation.popToTop();
                     }
-                    navigation.replace("Mine");
+                    navigation.replace('Mine');
                   } catch (err) {
                     console.error(err);
                   }
                 };
                 handler();
               }}
-              style={StyleSheet.applyWidth({ width: "100%" }, dimensions.width)}
+              style={StyleSheet.applyWidth({ width: '100%' }, dimensions.width)}
             >
               {/* Button View */}
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: "center",
-                    backgroundColor: "rgba(0, 0, 0, 0)",
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
                     borderColor: palettes.Red[500],
                     borderWidth: 1,
                     height: 50,
-                    justifyContent: "center",
+                    justifyContent: 'center',
                     paddingLeft: 18,
                     paddingRight: 18,
-                    width: "100%",
+                    width: '100%',
                   },
                   dimensions.width
                 )}
@@ -413,16 +413,16 @@ const MineSettingsScreen = (props) => {
                 <Text
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.TextStyles(theme)["Body L Bold"].props}
+                  {...GlobalStyles.TextStyles(theme)['Body L Bold'].props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.TextStyles(theme)["Body L Bold"].style,
+                      GlobalStyles.TextStyles(theme)['Body L Bold'].style,
                       { color: palettes.Red[600] }
                     ),
                     dimensions.width
                   )}
                 >
-                  {"退出登录"}
+                  {'退出登录'}
                 </Text>
               </View>
             </Touchable>

@@ -1229,14 +1229,6 @@ export const ExpoImageStyles = theme =>
     'SVG 2': { style: { height: 100, width: 100 }, props: {} },
   });
 
-export const ExpoImageStyles = theme =>
-  StyleSheet.create({
-    'Image 2': { style: {}, props: {} },
-    'Image 3': { style: {}, props: {} },
-    'Image 4': { style: {}, props: {} },
-    'SVG 2': { style: { height: 100, width: 100 }, props: {} },
-  });
-
 export const SwipeableItemStyles = theme =>
   StyleSheet.create({
     'Swipeable Item': { style: { overflow: 'hidden' }, props: {} },

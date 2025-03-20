@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Divider,
   Icon,
@@ -6,31 +6,31 @@ import {
   SimpleStyleScrollView,
   Touchable,
   withTheme,
-} from "@draftbit/ui";
-import { useIsFocused } from "@react-navigation/native";
-import { ActivityIndicator, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Fetch } from "react-request";
-import * as GlobalStyles from "../GlobalStyles.js";
-import * as AceCampTestApi from "../apis/AceCampTestApi.js";
-import RecommandSectionBlock from "../components/RecommandSectionBlock";
-import * as GlobalVariables from "../config/GlobalVariableContext";
-import * as Shadow from "../custom-files/Shadow";
-import t from "../global-functions/t";
-import palettes from "../themes/palettes";
-import * as Utils from "../utils";
-import Breakpoints from "../utils/Breakpoints";
-import * as StyleSheet from "../utils/StyleSheet";
-import useWindowDimensions from "../utils/useWindowDimensions";
+} from '@draftbit/ui';
+import { useIsFocused } from '@react-navigation/native';
+import { ActivityIndicator, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Fetch } from 'react-request';
+import * as GlobalStyles from '../GlobalStyles.js';
+import * as AceCampTestApi from '../apis/AceCampTestApi.js';
+import RecommandSectionBlock from '../components/RecommandSectionBlock';
+import * as GlobalVariables from '../config/GlobalVariableContext';
+import * as Shadow from '../custom-files/Shadow';
+import t from '../global-functions/t';
+import palettes from '../themes/palettes';
+import * as Utils from '../utils';
+import Breakpoints from '../utils/Breakpoints';
+import * as StyleSheet from '../utils/StyleSheet';
+import useWindowDimensions from '../utils/useWindowDimensions';
 
-const defaultProps = { date_type: "recently", section: "All" };
+const defaultProps = { date_type: 'recently', section: 'All' };
 
-const DailyUpdateOverallBlock = (props) => {
+const DailyUpdateOverallBlock = props => {
   const { theme } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
-  const changeIndex = (index) => {
+  const changeIndex = index => {
     props.setIndex(index);
   };
 
@@ -43,6 +43,8 @@ const DailyUpdateOverallBlock = (props) => {
   };
 
   const updateCount = (type, count) => {
+    debugger;
+
     props.setDataCount(props.headers[type].key, count);
   };
   const safeAreaInsets = useSafeAreaInsets();
@@ -52,14 +54,14 @@ const DailyUpdateOverallBlock = (props) => {
       <SimpleStyleScrollView
         bounces={true}
         horizontal={false}
-        keyboardShouldPersistTaps={"never"}
+        keyboardShouldPersistTaps={'never'}
         nestedScrollEnabled={false}
         showsHorizontalScrollIndicator={true}
         showsVerticalScrollIndicator={true}
         style={StyleSheet.applyWidth(
           {
-            backgroundColor: palettes.App["Custom Color 19"],
-            height: "100%",
+            backgroundColor: palettes.App['Custom Color 19'],
+            height: '100%',
             paddingBottom: 100 + safeAreaInsets.bottom + safeAreaInsets.top,
           },
           dimensions.width
@@ -68,13 +70,13 @@ const DailyUpdateOverallBlock = (props) => {
         {/* event */}
         <>
           {!(
-            (props.section ?? defaultProps.section) === "All" ||
-            (props.section ?? defaultProps.section) === "Event"
+            (props.section ?? defaultProps.section) === 'All' ||
+            (props.section ?? defaultProps.section) === 'Event'
           ) ? null : (
             <AceCampTestApi.FetchDailyupdateFeedsGET
               collection={props.date_type ?? defaultProps.date_type}
               handlers={{
-                onData: (eventData) => {
+                onData: eventData => {
                   try {
                     /* hidden 'Run a Custom Function' action */
                   } catch (err) {
@@ -83,7 +85,7 @@ const DailyUpdateOverallBlock = (props) => {
                 },
               }}
               page_size={4}
-              source_type={"Event"}
+              source_type={'Event'}
             >
               {({ loading, error, data, refetchDailyupdateFeeds }) => {
                 const eventData = data?.json;
@@ -101,7 +103,7 @@ const DailyUpdateOverallBlock = (props) => {
                       <View
                         style={StyleSheet.applyWidth(
                           {
-                            backgroundColor: palettes.App["Custom Color 19"],
+                            backgroundColor: palettes.App['Custom Color 19'],
                             paddingBottom: 5,
                             paddingTop: 20,
                           },
@@ -112,8 +114,8 @@ const DailyUpdateOverallBlock = (props) => {
                         <View
                           style={StyleSheet.applyWidth(
                             {
-                              alignItems: "flex-end",
-                              flexDirection: "row",
+                              alignItems: 'flex-end',
+                              flexDirection: 'row',
                               marginBottom: 10,
                               paddingLeft: 16,
                             },
@@ -126,16 +128,16 @@ const DailyUpdateOverallBlock = (props) => {
                             selectable={false}
                             style={StyleSheet.applyWidth(
                               {
-                                fontFamily: "System",
+                                fontFamily: 'System',
                                 fontSize: 18,
-                                fontWeight: "700",
+                                fontWeight: '700',
                                 letterSpacing: 0.2,
                                 lineHeight: 30,
                               },
                               dimensions.width
                             )}
                           >
-                            {t(Variables, "tab_events")}
+                            {t(Variables, 'tab_events')}
                           </Text>
 
                           <Text
@@ -143,10 +145,10 @@ const DailyUpdateOverallBlock = (props) => {
                             selectable={false}
                             style={StyleSheet.applyWidth(
                               {
-                                color: palettes.App["Custom Color 23"],
-                                fontFamily: "System",
+                                color: palettes.App['Custom Color 23'],
+                                fontFamily: 'System',
                                 fontSize: 15,
-                                fontWeight: "400",
+                                fontWeight: '400',
                                 letterSpacing: 0.2,
                                 lineHeight: 26,
                                 marginLeft: 14,
@@ -154,16 +156,16 @@ const DailyUpdateOverallBlock = (props) => {
                               dimensions.width
                             )}
                           >
-                            {t(Variables, "organizer_event_new")}
+                            {t(Variables, 'organizer_event_new')}
                             {eventData?.meta?.total}
-                            {t(Variables, "spotlight_related_event_total_tip")}
+                            {t(Variables, 'spotlight_related_event_total_tip')}
                           </Text>
                         </View>
                         {/* Custom Code 2 */}
                         <Utils.CustomCodeErrorBoundary>
                           <Shadow.ShadowComponent
-                            startColor={"#0002"}
-                            endColor={"#0000"}
+                            startColor={'#0002'}
+                            endColor={'#0000'}
                             offset={[14, 0]}
                             distance={5}
                           >
@@ -172,11 +174,11 @@ const DailyUpdateOverallBlock = (props) => {
                               style={StyleSheet.applyWidth(
                                 {
                                   backgroundColor:
-                                    palettes.App["Custom #ffffff"],
+                                    palettes.App['Custom #ffffff'],
                                   borderRadius: 4,
                                   marginLeft: 14,
                                   marginRight: 14,
-                                  overflow: "hidden",
+                                  overflow: 'hidden',
                                   width: dimensions.width - 28,
                                 },
                                 dimensions.width
@@ -184,7 +186,7 @@ const DailyUpdateOverallBlock = (props) => {
                             >
                               <SimpleStyleFlatList
                                 data={eventData?.data?.feeds}
-                                decelerationRate={"normal"}
+                                decelerationRate={'normal'}
                                 horizontal={false}
                                 inverted={false}
                                 keyExtractor={(listData, index) =>
@@ -193,9 +195,9 @@ const DailyUpdateOverallBlock = (props) => {
                                   index?.toString() ??
                                   JSON.stringify(listData)
                                 }
-                                keyboardShouldPersistTaps={"never"}
+                                keyboardShouldPersistTaps={'never'}
                                 listKey={
-                                  "Scroll View->event->View->Custom Code 2->系列活动-列表->List"
+                                  'Scroll View->event->View->Custom Code 2->系列活动-列表->List'
                                 }
                                 nestedScrollEnabled={false}
                                 numColumns={1}
@@ -216,7 +218,7 @@ const DailyUpdateOverallBlock = (props) => {
                                 }}
                                 showsHorizontalScrollIndicator={true}
                                 showsVerticalScrollIndicator={true}
-                                snapToAlignment={"start"}
+                                snapToAlignment={'start'}
                                 style={StyleSheet.applyWidth(
                                   { paddingLeft: 8, paddingRight: 8 },
                                   dimensions.width
@@ -228,10 +230,10 @@ const DailyUpdateOverallBlock = (props) => {
                                   <View
                                     style={StyleSheet.applyWidth(
                                       {
-                                        alignItems: "center",
+                                        alignItems: 'center',
                                         backgroundColor: palettes.App.White,
-                                        flexDirection: "row",
-                                        justifyContent: "center",
+                                        flexDirection: 'row',
+                                        justifyContent: 'center',
                                         paddingBottom: 5,
                                         paddingTop: 5,
                                       },
@@ -242,26 +244,26 @@ const DailyUpdateOverallBlock = (props) => {
                                       accessible={true}
                                       selectable={false}
                                       {...GlobalStyles.TextStyles(theme)[
-                                        "Text Title"
+                                        'Text Title'
                                       ].props}
                                       style={StyleSheet.applyWidth(
                                         StyleSheet.compose(
                                           GlobalStyles.TextStyles(theme)[
-                                            "Text Title"
+                                            'Text Title'
                                           ].style,
                                           {
                                             color:
-                                              palettes.App["Custom Color 4"],
-                                            fontFamily: "System",
+                                              palettes.App['Custom Color 4'],
+                                            fontFamily: 'System',
                                             fontSize: 14,
-                                            fontWeight: "400",
+                                            fontWeight: '400',
                                             marginRight: null,
                                           }
                                         ),
                                         dimensions.width
                                       )}
                                     >
-                                      {t(Variables, "common_no_content")}
+                                      {t(Variables, 'common_no_content')}
                                     </Text>
                                   </View>
                                 )}
@@ -285,12 +287,12 @@ const DailyUpdateOverallBlock = (props) => {
                                       {null ? null : (
                                         <Divider
                                           {...GlobalStyles.DividerStyles(theme)[
-                                            "Divider"
+                                            'Divider'
                                           ].props}
-                                          color={palettes.App["Custom Color 4"]}
+                                          color={palettes.App['Custom Color 4']}
                                           style={StyleSheet.applyWidth(
                                             GlobalStyles.DividerStyles(theme)[
-                                              "Divider"
+                                              'Divider'
                                             ].style,
                                             dimensions.width
                                           )}
@@ -302,11 +304,11 @@ const DailyUpdateOverallBlock = (props) => {
                                         <View
                                           style={StyleSheet.applyWidth(
                                             {
-                                              alignItems: "center",
+                                              alignItems: 'center',
                                               backgroundColor:
                                                 palettes.App.White,
-                                              flexDirection: "row",
-                                              justifyContent: "center",
+                                              flexDirection: 'row',
+                                              justifyContent: 'center',
                                               paddingBottom: 5,
                                               paddingTop: 5,
                                             },
@@ -317,33 +319,33 @@ const DailyUpdateOverallBlock = (props) => {
                                             accessible={true}
                                             selectable={false}
                                             {...GlobalStyles.TextStyles(theme)[
-                                              "Text Title"
+                                              'Text Title'
                                             ].props}
                                             style={StyleSheet.applyWidth(
                                               StyleSheet.compose(
                                                 GlobalStyles.TextStyles(theme)[
-                                                  "Text Title"
+                                                  'Text Title'
                                                 ].style,
                                                 {
                                                   color:
                                                     palettes.Brand
                                                       .appStyle_primary,
-                                                  fontFamily: "System",
+                                                  fontFamily: 'System',
                                                   fontSize: 14,
-                                                  fontWeight: "400",
+                                                  fontWeight: '400',
                                                   marginRight: null,
                                                 }
                                               ),
                                               dimensions.width
                                             )}
                                           >
-                                            {t(Variables, "common_get_more")}
+                                            {t(Variables, 'common_get_more')}
                                           </Text>
                                           <Icon
                                             color={
                                               palettes.Brand.appStyle_primary
                                             }
-                                            name={"AntDesign/right"}
+                                            name={'AntDesign/right'}
                                             size={14}
                                           />
                                         </View>
@@ -366,13 +368,13 @@ const DailyUpdateOverallBlock = (props) => {
         {/* minute */}
         <>
           {!(
-            (props.section ?? defaultProps.section) === "All" ||
-            (props.section ?? defaultProps.section) === "Minute"
+            (props.section ?? defaultProps.section) === 'All' ||
+            (props.section ?? defaultProps.section) === 'Minute'
           ) ? null : (
             <AceCampTestApi.FetchDailyupdateFeedsGET
               collection={props.date_type ?? defaultProps.date_type}
               handlers={{
-                onData: (minuteData) => {
+                onData: minuteData => {
                   try {
                     /* hidden 'Run a Custom Function' action */
                   } catch (err) {
@@ -381,7 +383,7 @@ const DailyUpdateOverallBlock = (props) => {
                 },
               }}
               page_size={4}
-              source_type={"Minute"}
+              source_type={'Minute'}
             >
               {({ loading, error, data, refetchDailyupdateFeeds }) => {
                 const minuteData = data?.json;
@@ -399,7 +401,7 @@ const DailyUpdateOverallBlock = (props) => {
                       <View
                         style={StyleSheet.applyWidth(
                           {
-                            backgroundColor: palettes.App["Custom Color 19"],
+                            backgroundColor: palettes.App['Custom Color 19'],
                             paddingBottom: 5,
                             paddingTop: 20,
                           },
@@ -410,8 +412,8 @@ const DailyUpdateOverallBlock = (props) => {
                         <View
                           style={StyleSheet.applyWidth(
                             {
-                              alignItems: "flex-end",
-                              flexDirection: "row",
+                              alignItems: 'flex-end',
+                              flexDirection: 'row',
                               marginBottom: 10,
                               paddingLeft: 16,
                             },
@@ -424,16 +426,16 @@ const DailyUpdateOverallBlock = (props) => {
                             selectable={false}
                             style={StyleSheet.applyWidth(
                               {
-                                fontFamily: "System",
+                                fontFamily: 'System',
                                 fontSize: 18,
-                                fontWeight: "700",
+                                fontWeight: '700',
                                 letterSpacing: 0.2,
                                 lineHeight: 30,
                               },
                               dimensions.width
                             )}
                           >
-                            {t(Variables, "mine_note_collection")}
+                            {t(Variables, 'mine_note_collection')}
                           </Text>
 
                           <Text
@@ -441,10 +443,10 @@ const DailyUpdateOverallBlock = (props) => {
                             selectable={false}
                             style={StyleSheet.applyWidth(
                               {
-                                color: palettes.App["Custom Color 23"],
-                                fontFamily: "System",
+                                color: palettes.App['Custom Color 23'],
+                                fontFamily: 'System',
                                 fontSize: 15,
-                                fontWeight: "400",
+                                fontWeight: '400',
                                 letterSpacing: 0.2,
                                 lineHeight: 26,
                                 marginLeft: 14,
@@ -452,16 +454,16 @@ const DailyUpdateOverallBlock = (props) => {
                               dimensions.width
                             )}
                           >
-                            {t(Variables, "spotlight_related_company_total")}
+                            {t(Variables, 'spotlight_related_company_total')}
                             {minuteData?.meta?.total}
-                            {t(Variables, "organizer_minute_tip")}
+                            {t(Variables, 'organizer_minute_tip')}
                           </Text>
                         </View>
                         {/* Custom Code 2 */}
                         <Utils.CustomCodeErrorBoundary>
                           <Shadow.ShadowComponent
-                            startColor={"#0002"}
-                            endColor={"#0000"}
+                            startColor={'#0002'}
+                            endColor={'#0000'}
                             offset={[14, 0]}
                             distance={5}
                           >
@@ -470,11 +472,11 @@ const DailyUpdateOverallBlock = (props) => {
                               style={StyleSheet.applyWidth(
                                 {
                                   backgroundColor:
-                                    palettes.App["Custom #ffffff"],
+                                    palettes.App['Custom #ffffff'],
                                   borderRadius: 4,
                                   marginLeft: 14,
                                   marginRight: 14,
-                                  overflow: "hidden",
+                                  overflow: 'hidden',
                                   width: dimensions.width - 28,
                                 },
                                 dimensions.width
@@ -482,7 +484,7 @@ const DailyUpdateOverallBlock = (props) => {
                             >
                               <SimpleStyleFlatList
                                 data={minuteData?.data?.feeds}
-                                decelerationRate={"normal"}
+                                decelerationRate={'normal'}
                                 horizontal={false}
                                 inverted={false}
                                 keyExtractor={(listData, index) =>
@@ -491,9 +493,9 @@ const DailyUpdateOverallBlock = (props) => {
                                   index?.toString() ??
                                   JSON.stringify(listData)
                                 }
-                                keyboardShouldPersistTaps={"never"}
+                                keyboardShouldPersistTaps={'never'}
                                 listKey={
-                                  "Scroll View->minute->View->Custom Code 2->系列活动-列表->List"
+                                  'Scroll View->minute->View->Custom Code 2->系列活动-列表->List'
                                 }
                                 nestedScrollEnabled={false}
                                 numColumns={1}
@@ -514,7 +516,7 @@ const DailyUpdateOverallBlock = (props) => {
                                 }}
                                 showsHorizontalScrollIndicator={true}
                                 showsVerticalScrollIndicator={true}
-                                snapToAlignment={"start"}
+                                snapToAlignment={'start'}
                                 style={StyleSheet.applyWidth(
                                   { paddingLeft: 8, paddingRight: 8 },
                                   dimensions.width
@@ -526,10 +528,10 @@ const DailyUpdateOverallBlock = (props) => {
                                   <View
                                     style={StyleSheet.applyWidth(
                                       {
-                                        alignItems: "center",
+                                        alignItems: 'center',
                                         backgroundColor: palettes.App.White,
-                                        flexDirection: "row",
-                                        justifyContent: "center",
+                                        flexDirection: 'row',
+                                        justifyContent: 'center',
                                         paddingBottom: 5,
                                         paddingTop: 5,
                                       },
@@ -540,26 +542,26 @@ const DailyUpdateOverallBlock = (props) => {
                                       accessible={true}
                                       selectable={false}
                                       {...GlobalStyles.TextStyles(theme)[
-                                        "Text Title"
+                                        'Text Title'
                                       ].props}
                                       style={StyleSheet.applyWidth(
                                         StyleSheet.compose(
                                           GlobalStyles.TextStyles(theme)[
-                                            "Text Title"
+                                            'Text Title'
                                           ].style,
                                           {
                                             color:
-                                              palettes.App["Custom Color 4"],
-                                            fontFamily: "System",
+                                              palettes.App['Custom Color 4'],
+                                            fontFamily: 'System',
                                             fontSize: 14,
-                                            fontWeight: "400",
+                                            fontWeight: '400',
                                             marginRight: null,
                                           }
                                         ),
                                         dimensions.width
                                       )}
                                     >
-                                      {t(Variables, "common_no_content")}
+                                      {t(Variables, 'common_no_content')}
                                     </Text>
                                   </View>
                                 )}
@@ -583,12 +585,12 @@ const DailyUpdateOverallBlock = (props) => {
                                       {null ? null : (
                                         <Divider
                                           {...GlobalStyles.DividerStyles(theme)[
-                                            "Divider"
+                                            'Divider'
                                           ].props}
-                                          color={palettes.App["Custom Color 4"]}
+                                          color={palettes.App['Custom Color 4']}
                                           style={StyleSheet.applyWidth(
                                             GlobalStyles.DividerStyles(theme)[
-                                              "Divider"
+                                              'Divider'
                                             ].style,
                                             dimensions.width
                                           )}
@@ -598,10 +600,10 @@ const DailyUpdateOverallBlock = (props) => {
                                     <View
                                       style={StyleSheet.applyWidth(
                                         {
-                                          alignItems: "center",
+                                          alignItems: 'center',
                                           backgroundColor: palettes.App.White,
-                                          flexDirection: "row",
-                                          justifyContent: "center",
+                                          flexDirection: 'row',
+                                          justifyContent: 'center',
                                           paddingBottom: 5,
                                           paddingTop: 5,
                                         },
@@ -612,30 +614,30 @@ const DailyUpdateOverallBlock = (props) => {
                                         accessible={true}
                                         selectable={false}
                                         {...GlobalStyles.TextStyles(theme)[
-                                          "Text Title"
+                                          'Text Title'
                                         ].props}
                                         style={StyleSheet.applyWidth(
                                           StyleSheet.compose(
                                             GlobalStyles.TextStyles(theme)[
-                                              "Text Title"
+                                              'Text Title'
                                             ].style,
                                             {
                                               color:
                                                 palettes.Brand.appStyle_primary,
-                                              fontFamily: "System",
+                                              fontFamily: 'System',
                                               fontSize: 14,
-                                              fontWeight: "400",
+                                              fontWeight: '400',
                                               marginRight: null,
                                             }
                                           ),
                                           dimensions.width
                                         )}
                                       >
-                                        {t(Variables, "common_get_more")}
+                                        {t(Variables, 'common_get_more')}
                                       </Text>
                                       <Icon
                                         color={palettes.Brand.appStyle_primary}
-                                        name={"AntDesign/right"}
+                                        name={'AntDesign/right'}
                                         size={14}
                                       />
                                     </View>
@@ -656,13 +658,13 @@ const DailyUpdateOverallBlock = (props) => {
         {/* article */}
         <>
           {!(
-            (props.section ?? defaultProps.section) === "All" ||
-            (props.section ?? defaultProps.section) === "Article"
+            (props.section ?? defaultProps.section) === 'All' ||
+            (props.section ?? defaultProps.section) === 'Article'
           ) ? null : (
             <AceCampTestApi.FetchDailyupdateFeedsGET
               collection={props.date_type ?? defaultProps.date_type}
               handlers={{
-                onData: (articleData) => {
+                onData: articleData => {
                   try {
                     /* hidden 'Run a Custom Function' action */
                   } catch (err) {
@@ -671,7 +673,7 @@ const DailyUpdateOverallBlock = (props) => {
                 },
               }}
               page_size={4}
-              source_type={"Article"}
+              source_type={'Article'}
             >
               {({ loading, error, data, refetchDailyupdateFeeds }) => {
                 const articleData = data?.json;
@@ -689,7 +691,7 @@ const DailyUpdateOverallBlock = (props) => {
                       <View
                         style={StyleSheet.applyWidth(
                           {
-                            backgroundColor: palettes.App["Custom Color 19"],
+                            backgroundColor: palettes.App['Custom Color 19'],
                             paddingBottom: 10,
                             paddingTop: 20,
                           },
@@ -700,8 +702,8 @@ const DailyUpdateOverallBlock = (props) => {
                         <View
                           style={StyleSheet.applyWidth(
                             {
-                              alignItems: "flex-end",
-                              flexDirection: "row",
+                              alignItems: 'flex-end',
+                              flexDirection: 'row',
                               marginBottom: 10,
                               paddingLeft: 16,
                             },
@@ -714,16 +716,16 @@ const DailyUpdateOverallBlock = (props) => {
                             selectable={false}
                             style={StyleSheet.applyWidth(
                               {
-                                fontFamily: "System",
+                                fontFamily: 'System',
                                 fontSize: 18,
-                                fontWeight: "700",
+                                fontWeight: '700',
                                 letterSpacing: 0.2,
                                 lineHeight: 30,
                               },
                               dimensions.width
                             )}
                           >
-                            {t(Variables, "tab_vote_point")}
+                            {t(Variables, 'tab_vote_point')}
                           </Text>
 
                           <Text
@@ -731,10 +733,10 @@ const DailyUpdateOverallBlock = (props) => {
                             selectable={false}
                             style={StyleSheet.applyWidth(
                               {
-                                color: palettes.App["Custom Color 23"],
-                                fontFamily: "System",
+                                color: palettes.App['Custom Color 23'],
+                                fontFamily: 'System',
                                 fontSize: 15,
-                                fontWeight: "400",
+                                fontWeight: '400',
                                 letterSpacing: 0.2,
                                 lineHeight: 26,
                                 marginLeft: 14,
@@ -742,16 +744,16 @@ const DailyUpdateOverallBlock = (props) => {
                               dimensions.width
                             )}
                           >
-                            {t(Variables, "spotlight_related_company_total")}
+                            {t(Variables, 'spotlight_related_company_total')}
                             {articleData?.meta?.total}
-                            {t(Variables, "organizer_minute_tip")}
+                            {t(Variables, 'organizer_minute_tip')}
                           </Text>
                         </View>
                         {/* Custom Code 2 */}
                         <Utils.CustomCodeErrorBoundary>
                           <Shadow.ShadowComponent
-                            startColor={"#0002"}
-                            endColor={"#0000"}
+                            startColor={'#0002'}
+                            endColor={'#0000'}
                             offset={[14, 0]}
                             distance={5}
                           >
@@ -760,11 +762,11 @@ const DailyUpdateOverallBlock = (props) => {
                               style={StyleSheet.applyWidth(
                                 {
                                   backgroundColor:
-                                    palettes.App["Custom #ffffff"],
+                                    palettes.App['Custom #ffffff'],
                                   borderRadius: 4,
                                   marginLeft: 14,
                                   marginRight: 14,
-                                  overflow: "hidden",
+                                  overflow: 'hidden',
                                   width: dimensions.width - 28,
                                 },
                                 dimensions.width
@@ -772,7 +774,7 @@ const DailyUpdateOverallBlock = (props) => {
                             >
                               <SimpleStyleFlatList
                                 data={articleData?.data?.feeds}
-                                decelerationRate={"normal"}
+                                decelerationRate={'normal'}
                                 horizontal={false}
                                 inverted={false}
                                 keyExtractor={(listData, index) =>
@@ -781,9 +783,9 @@ const DailyUpdateOverallBlock = (props) => {
                                   index?.toString() ??
                                   JSON.stringify(listData)
                                 }
-                                keyboardShouldPersistTaps={"never"}
+                                keyboardShouldPersistTaps={'never'}
                                 listKey={
-                                  "Scroll View->article->View->Custom Code 2->系列活动-列表->List"
+                                  'Scroll View->article->View->Custom Code 2->系列活动-列表->List'
                                 }
                                 nestedScrollEnabled={false}
                                 numColumns={1}
@@ -804,7 +806,7 @@ const DailyUpdateOverallBlock = (props) => {
                                 }}
                                 showsHorizontalScrollIndicator={true}
                                 showsVerticalScrollIndicator={true}
-                                snapToAlignment={"start"}
+                                snapToAlignment={'start'}
                                 style={StyleSheet.applyWidth(
                                   { paddingLeft: 8, paddingRight: 8 },
                                   dimensions.width
@@ -816,10 +818,10 @@ const DailyUpdateOverallBlock = (props) => {
                                   <View
                                     style={StyleSheet.applyWidth(
                                       {
-                                        alignItems: "center",
+                                        alignItems: 'center',
                                         backgroundColor: palettes.App.White,
-                                        flexDirection: "row",
-                                        justifyContent: "center",
+                                        flexDirection: 'row',
+                                        justifyContent: 'center',
                                         paddingBottom: 5,
                                         paddingTop: 5,
                                       },
@@ -830,26 +832,26 @@ const DailyUpdateOverallBlock = (props) => {
                                       accessible={true}
                                       selectable={false}
                                       {...GlobalStyles.TextStyles(theme)[
-                                        "Text Title"
+                                        'Text Title'
                                       ].props}
                                       style={StyleSheet.applyWidth(
                                         StyleSheet.compose(
                                           GlobalStyles.TextStyles(theme)[
-                                            "Text Title"
+                                            'Text Title'
                                           ].style,
                                           {
                                             color:
-                                              palettes.App["Custom Color 4"],
-                                            fontFamily: "System",
+                                              palettes.App['Custom Color 4'],
+                                            fontFamily: 'System',
                                             fontSize: 14,
-                                            fontWeight: "400",
+                                            fontWeight: '400',
                                             marginRight: null,
                                           }
                                         ),
                                         dimensions.width
                                       )}
                                     >
-                                      {t(Variables, "common_no_content")}
+                                      {t(Variables, 'common_no_content')}
                                     </Text>
                                   </View>
                                 )}
@@ -873,12 +875,12 @@ const DailyUpdateOverallBlock = (props) => {
                                       {null ? null : (
                                         <Divider
                                           {...GlobalStyles.DividerStyles(theme)[
-                                            "Divider"
+                                            'Divider'
                                           ].props}
-                                          color={palettes.App["Custom Color 4"]}
+                                          color={palettes.App['Custom Color 4']}
                                           style={StyleSheet.applyWidth(
                                             GlobalStyles.DividerStyles(theme)[
-                                              "Divider"
+                                              'Divider'
                                             ].style,
                                             dimensions.width
                                           )}
@@ -888,10 +890,10 @@ const DailyUpdateOverallBlock = (props) => {
                                     <View
                                       style={StyleSheet.applyWidth(
                                         {
-                                          alignItems: "center",
+                                          alignItems: 'center',
                                           backgroundColor: palettes.App.White,
-                                          flexDirection: "row",
-                                          justifyContent: "center",
+                                          flexDirection: 'row',
+                                          justifyContent: 'center',
                                           paddingBottom: 5,
                                           paddingTop: 5,
                                         },
@@ -902,30 +904,30 @@ const DailyUpdateOverallBlock = (props) => {
                                         accessible={true}
                                         selectable={false}
                                         {...GlobalStyles.TextStyles(theme)[
-                                          "Text Title"
+                                          'Text Title'
                                         ].props}
                                         style={StyleSheet.applyWidth(
                                           StyleSheet.compose(
                                             GlobalStyles.TextStyles(theme)[
-                                              "Text Title"
+                                              'Text Title'
                                             ].style,
                                             {
                                               color:
                                                 palettes.Brand.appStyle_primary,
-                                              fontFamily: "System",
+                                              fontFamily: 'System',
                                               fontSize: 14,
-                                              fontWeight: "400",
+                                              fontWeight: '400',
                                               marginRight: null,
                                             }
                                           ),
                                           dimensions.width
                                         )}
                                       >
-                                        {t(Variables, "common_get_more")}
+                                        {t(Variables, 'common_get_more')}
                                       </Text>
                                       <Icon
                                         color={palettes.Brand.appStyle_primary}
-                                        name={"AntDesign/right"}
+                                        name={'AntDesign/right'}
                                         size={14}
                                       />
                                     </View>
@@ -946,13 +948,13 @@ const DailyUpdateOverallBlock = (props) => {
         {/* spotlights fetch */}
         <>
           {!(
-            (props.section ?? defaultProps.section) === "All" ||
-            (props.section ?? defaultProps.section) === "Spotlight"
+            (props.section ?? defaultProps.section) === 'All' ||
+            (props.section ?? defaultProps.section) === 'Spotlight'
           ) ? null : (
             <AceCampTestApi.FetchDailyupdateSpotlightGET
               collection={props.date_type ?? defaultProps.date_type}
               handlers={{
-                onData: (spotlightsFetchData) => {
+                onData: spotlightsFetchData => {
                   try {
                     /* hidden 'Run a Custom Function' action */
                   } catch (err) {
@@ -979,7 +981,7 @@ const DailyUpdateOverallBlock = (props) => {
                       <View
                         style={StyleSheet.applyWidth(
                           {
-                            backgroundColor: palettes.App["Custom Color 19"],
+                            backgroundColor: palettes.App['Custom Color 19'],
                             paddingBottom: 5,
                             paddingTop: 10,
                           },
@@ -990,8 +992,8 @@ const DailyUpdateOverallBlock = (props) => {
                         <View
                           style={StyleSheet.applyWidth(
                             {
-                              alignItems: "flex-end",
-                              flexDirection: "row",
+                              alignItems: 'flex-end',
+                              flexDirection: 'row',
                               marginBottom: 10,
                               paddingLeft: 16,
                             },
@@ -1004,16 +1006,16 @@ const DailyUpdateOverallBlock = (props) => {
                             selectable={false}
                             style={StyleSheet.applyWidth(
                               {
-                                fontFamily: "System",
+                                fontFamily: 'System',
                                 fontSize: 18,
-                                fontWeight: "700",
+                                fontWeight: '700',
                                 letterSpacing: 0.2,
                                 lineHeight: 30,
                               },
                               dimensions.width
                             )}
                           >
-                            {t(Variables, "home_special")}
+                            {t(Variables, 'home_special')}
                           </Text>
 
                           <Text
@@ -1021,10 +1023,10 @@ const DailyUpdateOverallBlock = (props) => {
                             selectable={false}
                             style={StyleSheet.applyWidth(
                               {
-                                color: palettes.App["Custom Color 23"],
-                                fontFamily: "System",
+                                color: palettes.App['Custom Color 23'],
+                                fontFamily: 'System',
                                 fontSize: 15,
-                                fontWeight: "400",
+                                fontWeight: '400',
                                 letterSpacing: 0.2,
                                 lineHeight: 26,
                                 marginLeft: 14,
@@ -1032,16 +1034,16 @@ const DailyUpdateOverallBlock = (props) => {
                               dimensions.width
                             )}
                           >
-                            {t(Variables, "spotlight_related_company_total")}
+                            {t(Variables, 'spotlight_related_company_total')}
                             {spotlightsFetchData?.meta?.total}
-                            {t(Variables, "organizer_spotlights_total")}
+                            {t(Variables, 'organizer_spotlights_total')}
                           </Text>
                         </View>
                         {/* Custom Code 2 */}
                         <Utils.CustomCodeErrorBoundary>
                           <Shadow.ShadowComponent
-                            startColor={"#0002"}
-                            endColor={"#0000"}
+                            startColor={'#0002'}
+                            endColor={'#0000'}
                             offset={[14, 0]}
                             distance={5}
                           >
@@ -1050,11 +1052,11 @@ const DailyUpdateOverallBlock = (props) => {
                               style={StyleSheet.applyWidth(
                                 {
                                   backgroundColor:
-                                    palettes.App["Custom #ffffff"],
+                                    palettes.App['Custom #ffffff'],
                                   borderRadius: 4,
                                   marginLeft: 14,
                                   marginRight: 14,
-                                  overflow: "hidden",
+                                  overflow: 'hidden',
                                   width: dimensions.width - 28,
                                 },
                                 dimensions.width
@@ -1062,7 +1064,7 @@ const DailyUpdateOverallBlock = (props) => {
                             >
                               <SimpleStyleFlatList
                                 data={spotlightsFetchData?.data}
-                                decelerationRate={"normal"}
+                                decelerationRate={'normal'}
                                 horizontal={false}
                                 inverted={false}
                                 keyExtractor={(listData, index) =>
@@ -1071,9 +1073,9 @@ const DailyUpdateOverallBlock = (props) => {
                                   index?.toString() ??
                                   JSON.stringify(listData)
                                 }
-                                keyboardShouldPersistTaps={"never"}
+                                keyboardShouldPersistTaps={'never'}
                                 listKey={
-                                  "Scroll View->spotlights fetch->View->Custom Code 2->系列活动-列表->List"
+                                  'Scroll View->spotlights fetch->View->Custom Code 2->系列活动-列表->List'
                                 }
                                 nestedScrollEnabled={false}
                                 numColumns={1}
@@ -1094,7 +1096,7 @@ const DailyUpdateOverallBlock = (props) => {
                                 }}
                                 showsHorizontalScrollIndicator={true}
                                 showsVerticalScrollIndicator={true}
-                                snapToAlignment={"start"}
+                                snapToAlignment={'start'}
                                 scrollEnabled={false}
                                 style={StyleSheet.applyWidth(
                                   { paddingLeft: 8, paddingRight: 8 },
@@ -1109,10 +1111,10 @@ const DailyUpdateOverallBlock = (props) => {
                                   <View
                                     style={StyleSheet.applyWidth(
                                       {
-                                        alignItems: "center",
+                                        alignItems: 'center',
                                         backgroundColor: palettes.App.White,
-                                        flexDirection: "row",
-                                        justifyContent: "center",
+                                        flexDirection: 'row',
+                                        justifyContent: 'center',
                                         paddingBottom: 5,
                                         paddingTop: 5,
                                       },
@@ -1123,26 +1125,26 @@ const DailyUpdateOverallBlock = (props) => {
                                       accessible={true}
                                       selectable={false}
                                       {...GlobalStyles.TextStyles(theme)[
-                                        "Text Title"
+                                        'Text Title'
                                       ].props}
                                       style={StyleSheet.applyWidth(
                                         StyleSheet.compose(
                                           GlobalStyles.TextStyles(theme)[
-                                            "Text Title"
+                                            'Text Title'
                                           ].style,
                                           {
                                             color:
-                                              palettes.App["Custom Color 4"],
-                                            fontFamily: "System",
+                                              palettes.App['Custom Color 4'],
+                                            fontFamily: 'System',
                                             fontSize: 14,
-                                            fontWeight: "400",
+                                            fontWeight: '400',
                                             marginRight: null,
                                           }
                                         ),
                                         dimensions.width
                                       )}
                                     >
-                                      {t(Variables, "common_no_content")}
+                                      {t(Variables, 'common_no_content')}
                                     </Text>
                                   </View>
                                 )}
@@ -1168,12 +1170,12 @@ const DailyUpdateOverallBlock = (props) => {
                                       {null ? null : (
                                         <Divider
                                           {...GlobalStyles.DividerStyles(theme)[
-                                            "Divider"
+                                            'Divider'
                                           ].props}
-                                          color={palettes.App["Custom Color 4"]}
+                                          color={palettes.App['Custom Color 4']}
                                           style={StyleSheet.applyWidth(
                                             GlobalStyles.DividerStyles(theme)[
-                                              "Divider"
+                                              'Divider'
                                             ].style,
                                             dimensions.width
                                           )}
@@ -1187,11 +1189,11 @@ const DailyUpdateOverallBlock = (props) => {
                                         <View
                                           style={StyleSheet.applyWidth(
                                             {
-                                              alignItems: "center",
+                                              alignItems: 'center',
                                               backgroundColor:
                                                 palettes.App.White,
-                                              flexDirection: "row",
-                                              justifyContent: "center",
+                                              flexDirection: 'row',
+                                              justifyContent: 'center',
                                               paddingBottom: 5,
                                               paddingTop: 5,
                                             },
@@ -1202,33 +1204,33 @@ const DailyUpdateOverallBlock = (props) => {
                                             accessible={true}
                                             selectable={false}
                                             {...GlobalStyles.TextStyles(theme)[
-                                              "Text Title"
+                                              'Text Title'
                                             ].props}
                                             style={StyleSheet.applyWidth(
                                               StyleSheet.compose(
                                                 GlobalStyles.TextStyles(theme)[
-                                                  "Text Title"
+                                                  'Text Title'
                                                 ].style,
                                                 {
                                                   color:
                                                     palettes.Brand
                                                       .appStyle_primary,
-                                                  fontFamily: "System",
+                                                  fontFamily: 'System',
                                                   fontSize: 14,
-                                                  fontWeight: "400",
+                                                  fontWeight: '400',
                                                   marginRight: null,
                                                 }
                                               ),
                                               dimensions.width
                                             )}
                                           >
-                                            {t(Variables, "common_get_more")}
+                                            {t(Variables, 'common_get_more')}
                                           </Text>
                                           <Icon
                                             color={
                                               palettes.Brand.appStyle_primary
                                             }
-                                            name={"AntDesign/right"}
+                                            name={'AntDesign/right'}
                                             size={14}
                                           />
                                         </View>

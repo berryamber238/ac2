@@ -15,8 +15,10 @@ import * as AceCampTestApi from '../apis/AceCampTestApi.js';
 import DailyUpdateFeedsBlock from '../components/DailyUpdateFeedsBlock';
 import DailyUpdateOverallBlock from '../components/DailyUpdateOverallBlock';
 import DailyUpdateSpotlightBlock from '../components/DailyUpdateSpotlightBlock';
+import EmptyViewBlock from '../components/EmptyViewBlock';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import Images from '../config/Images';
+import getNoteStatus from '../global-functions/getNoteStatus';
 import t from '../global-functions/t';
 import palettes from '../themes/palettes';
 import Breakpoints from '../utils/Breakpoints';
@@ -51,17 +53,13 @@ const DailyUpdateScreen = props => {
   };
   const safeAreaInsets = useSafeAreaInsets();
   const isFocused = useIsFocused();
-  React.useEffect(() => {
-    try {
-      if (!isFocused) {
-        return;
-      }
 
-      const entry = StatusBar.pushStackEntry?.({ barStyle: 'light-content' });
-      return () => StatusBar.popStackEntry?.(entry);
-    } catch (err) {
-      console.error(err);
+  React.useEffect(() => {
+    if (!isFocused) {
+      return;
     }
+    const entry = StatusBar.pushStackEntry?.({ barStyle: 'light-content' });
+    return () => StatusBar.popStackEntry?.(entry);
   }, [isFocused]);
 
   return (
@@ -501,6 +499,11 @@ const DailyUpdateScreen = props => {
       <>
         {!(section_type === 'Spotlight') ? null : (
           <DailyUpdateSpotlightBlock date_type={date_type} />
+        )}
+      </>
+      <>
+        {getNoteStatus(Variables) === 0 ? null : (
+          <EmptyViewBlock type={getNoteStatus(Variables)} />
         )}
       </>
     </ScreenContainer>

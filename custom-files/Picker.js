@@ -1,4 +1,4 @@
-import React, { Component, createRef } from "react";
+import React, { Component, createRef } from 'react';
 import {
   Text,
   View,
@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   ScrollView,
   ListView,
-} from "react-native";
+} from 'react-native';
 
-import { CSS } from "./CSS";
+import { CSS } from './CSS';
 
 export default class Picker extends Component {
   constructor(props) {
@@ -42,15 +42,15 @@ export default class Picker extends Component {
           key={i}
           style={{
             height: this._h,
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <Text
             style={{
-              fontSize: size == "big" ? CSS.pixel(36) : CSS.pixel(28),
-              color: size == "big" ? "#4a4a4a" : "#a0a0a0",
-              backgroundColor: "rgba(0,0,0,0)",
+              fontSize: size == 'big' ? CSS.pixel(36) : CSS.pixel(28),
+              color: size == 'big' ? '#4a4a4a' : '#a0a0a0',
+              backgroundColor: 'rgba(0,0,0,0)',
             }}
           >
             {this.props.name ? item[this.props.name] : item}
@@ -99,6 +99,7 @@ export default class Picker extends Component {
   }
 
   _onScrollEnd(y) {
+    debugger;
     let y1 = y - (y % this._h);
     if (y % this._h > this._h / 2) {
       y1 = y1 + this._h;
@@ -128,16 +129,16 @@ export default class Picker extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ height: 125, backgroundColor: "#ffffff" }}>
+        <View style={{ height: 125, backgroundColor: '#ffffff' }}>
           <ScrollView
             bounces={false}
-            onScrollEndDrag={(e) => {
+            onScrollEndDrag={e => {
               this._onScrollEndDrag(e);
             }}
-            onMomentumScrollEnd={(e) => {
+            onMomentumScrollEnd={e => {
               this._onMomentumScrollEnd(e);
             }}
-            onScroll={(e) => {
+            onScroll={e => {
               this._onScroll(e);
             }}
             scrollEventThrottle={16}
@@ -145,7 +146,7 @@ export default class Picker extends Component {
             ref={this._ScrollView}
           >
             <View style={{ height: 50 }} />
-            {this.getItem("small")}
+            {this.getItem('small')}
             <View style={{ height: 50 }} />
           </ScrollView>
         </View>
@@ -153,19 +154,19 @@ export default class Picker extends Component {
           style={{
             height: this._h,
             marginTop: -80,
-            backgroundColor: "#ffffff",
+            backgroundColor: '#ffffff',
           }}
           pointerEvents="none"
         >
-          <View style={{ height: CSS.pixel(1), backgroundColor: "#a2a2a2" }} />
+          <View style={{ height: CSS.pixel(1), backgroundColor: '#a2a2a2' }} />
           <ScrollView
-            style={{ backgroundColor: "#CCCCCC" }}
+            style={{ backgroundColor: '#CCCCCC' }}
             showsVerticalScrollIndicator={false}
             ref={this._ScrollView2}
           >
-            {this.getItem("big")}
+            {this.getItem('big')}
           </ScrollView>
-          <View style={{ height: CSS.pixel(1), backgroundColor: "#dddddd" }} />
+          <View style={{ height: CSS.pixel(1), backgroundColor: '#dddddd' }} />
         </View>
         <View style={{ height: 100 }} pointerEvents="none" />
       </View>
