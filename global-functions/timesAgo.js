@@ -1,4 +1,4 @@
-import * as gf from '../custom-files/gf';
+import fromUnixTimestamp from "./fromUnixTimestamp";
 
 const timesAgo = (Variables, date) => {
   const now = new Date();
@@ -16,7 +16,7 @@ const timesAgo = (Variables, date) => {
   if (secondsPast < 2592000) {
     return `${Math.floor(secondsPast / 86400)}天前`;
   }
-  return gf.fromUnixTimestamp(Variables, date, 'YYYY/MM/DD HH:mm');
+  return fromUnixTimestamp(Variables, date, "YYYY/MM/DD HH:mm");
 };
 
 export default timesAgo;

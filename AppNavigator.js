@@ -1,69 +1,70 @@
-import React from 'react';
-import { Icon, Touchable, useTheme } from '@draftbit/ui';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { I18nManager, Platform, StyleSheet, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { systemWeights } from 'react-native-typography';
-import LinkingConfiguration from './LinkingConfiguration';
-import TabBarBlock from './components/TabBarBlock';
-import * as GlobalVariables from './config/GlobalVariableContext';
-import setUndefined from './global-functions/setUndefined';
-import t from './global-functions/t';
-import AIAssistantScreen from './screens/AIAssistantScreen';
-import AITranscribeDetailScreen from './screens/AITranscribeDetailScreen';
-import AITranslateDetailScreen from './screens/AITranslateDetailScreen';
-import AccountCancellationCheckScreen from './screens/AccountCancellationCheckScreen';
-import AccountCancellationReasonScreen from './screens/AccountCancellationReasonScreen';
-import AccountCancellationScreen from './screens/AccountCancellationScreen';
-import AccountCancellationSubmitScreen from './screens/AccountCancellationSubmitScreen';
-import ArticleDetailScreen from './screens/ArticleDetailScreen';
-import CalendarScreen from './screens/CalendarScreen';
-import ChangeUserEmailScreen from './screens/ChangeUserEmailScreen';
-import ChangeUserPhoneScreen from './screens/ChangeUserPhoneScreen';
-import CompanyInfoScreen from './screens/CompanyInfoScreen';
-import CompanyListScreen from './screens/CompanyListScreen';
-import CreatePointScreen from './screens/CreatePointScreen';
-import CreateTopicScreen from './screens/CreateTopicScreen';
-import DailyUpdateScreen from './screens/DailyUpdateScreen';
-import DrawerNavScreen from './screens/DrawerNavScreen';
-import EventDetailScreen from './screens/EventDetailScreen';
-import HomeScreen from './screens/HomeScreen';
-import LiveScreen from './screens/LiveScreen';
-import LoginScreen from './screens/LoginScreen';
-import MessageCenterScreen from './screens/MessageCenterScreen';
-import MineAuthScreen from './screens/MineAuthScreen';
-import MineBuyArticleScreen from './screens/MineBuyArticleScreen';
-import MineBuyLiveScreen from './screens/MineBuyLiveScreen';
-import MineCountryCodeListScreen from './screens/MineCountryCodeListScreen';
-import MineIdentityInfoScreen from './screens/MineIdentityInfoScreen';
-import MineIndexScreen from './screens/MineIndexScreen';
-import MineMyFansScreen from './screens/MineMyFansScreen';
-import MineMyFavoritesDetail2Screen from './screens/MineMyFavoritesDetail2Screen';
-import MineMyFavoritesDetailScreen from './screens/MineMyFavoritesDetailScreen';
-import MineMyFavoritesScreen from './screens/MineMyFavoritesScreen';
-import MineMyFollowScreen from './screens/MineMyFollowScreen';
-import MineMyLikeScreen from './screens/MineMyLikeScreen';
-import MineMyPointScreen from './screens/MineMyPointScreen';
-import MineMyTopicScreen from './screens/MineMyTopicScreen';
-import MineSettingsScreen from './screens/MineSettingsScreen';
-import MineUserInfoScreen from './screens/MineUserInfoScreen';
-import OpinionInfoScreen from './screens/OpinionInfoScreen';
-import OrganizerScreen from './screens/OrganizerScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import SearchPageScreen from './screens/SearchPageScreen';
-import SettingAccountSafeScreen from './screens/SettingAccountSafeScreen';
-import SettingChangePasswordScreen from './screens/SettingChangePasswordScreen';
-import SettingUserPhoneScreen from './screens/SettingUserPhoneScreen';
-import SplashScreen from './screens/SplashScreen';
-import SpotlightDetailScreen from './screens/SpotlightDetailScreen';
-import VipInfoScreen from './screens/VipInfoScreen';
-import WebViewScreen from './screens/WebViewScreen';
-import palettes from './themes/palettes';
-import Breakpoints from './utils/Breakpoints';
-import useWindowDimensions from './utils/useWindowDimensions';
+import React from "react";
+import { Icon, Touchable, useTheme } from "@draftbit/ui";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { I18nManager, Platform, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { systemWeights } from "react-native-typography";
+import LinkingConfiguration from "./LinkingConfiguration";
+import TabBarBlock from "./components/TabBarBlock";
+import * as GlobalVariables from "./config/GlobalVariableContext";
+import setUndefined from "./global-functions/setUndefined";
+import t from "./global-functions/t";
+import AIAssistantScreen from "./screens/AIAssistantScreen";
+import AITranscribeDetailScreen from "./screens/AITranscribeDetailScreen";
+import AITranslateDetailScreen from "./screens/AITranslateDetailScreen";
+import AccountCancellationCheckScreen from "./screens/AccountCancellationCheckScreen";
+import AccountCancellationReasonScreen from "./screens/AccountCancellationReasonScreen";
+import AccountCancellationScreen from "./screens/AccountCancellationScreen";
+import AccountCancellationSubmitScreen from "./screens/AccountCancellationSubmitScreen";
+import ArticleDetailScreen from "./screens/ArticleDetailScreen";
+import CalendarScreen from "./screens/CalendarScreen";
+import ChangeUserEmailScreen from "./screens/ChangeUserEmailScreen";
+import ChangeUserPhoneScreen from "./screens/ChangeUserPhoneScreen";
+import CompanyInfoScreen from "./screens/CompanyInfoScreen";
+import CompanyListScreen from "./screens/CompanyListScreen";
+import CreatePointScreen from "./screens/CreatePointScreen";
+import CreateTopicScreen from "./screens/CreateTopicScreen";
+import DailyUpdateScreen from "./screens/DailyUpdateScreen";
+import DrawerNavScreen from "./screens/DrawerNavScreen";
+import EventDetailScreen from "./screens/EventDetailScreen";
+import HomeScreen from "./screens/HomeScreen";
+import LiveScreen from "./screens/LiveScreen";
+import LoginScreen from "./screens/LoginScreen";
+import MessageCenterScreen from "./screens/MessageCenterScreen";
+import MineAuthScreen from "./screens/MineAuthScreen";
+import MineBuyArticleScreen from "./screens/MineBuyArticleScreen";
+import MineBuyLiveScreen from "./screens/MineBuyLiveScreen";
+import MineCountryCodeListScreen from "./screens/MineCountryCodeListScreen";
+import MineIdentityInfoScreen from "./screens/MineIdentityInfoScreen";
+import MineIndexScreen from "./screens/MineIndexScreen";
+import MineMyFansScreen from "./screens/MineMyFansScreen";
+import MineMyFavoritesDetail2Screen from "./screens/MineMyFavoritesDetail2Screen";
+import MineMyFavoritesDetailScreen from "./screens/MineMyFavoritesDetailScreen";
+import MineMyFavoritesScreen from "./screens/MineMyFavoritesScreen";
+import MineMyFollowScreen from "./screens/MineMyFollowScreen";
+import MineMyLikeScreen from "./screens/MineMyLikeScreen";
+import MineMyPointScreen from "./screens/MineMyPointScreen";
+import MineMyTopicScreen from "./screens/MineMyTopicScreen";
+import MineSettingsScreen from "./screens/MineSettingsScreen";
+import MineUserInfoScreen from "./screens/MineUserInfoScreen";
+import OpinionInfoScreen from "./screens/OpinionInfoScreen";
+import OrganizerScreen from "./screens/OrganizerScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import SearchPageScreen from "./screens/SearchPageScreen";
+import SettingAccountSafeScreen from "./screens/SettingAccountSafeScreen";
+import SettingChangePasswordScreen from "./screens/SettingChangePasswordScreen";
+import SettingUserPhoneScreen from "./screens/SettingUserPhoneScreen";
+import SplashScreen from "./screens/SplashScreen";
+import SpotlightDetailScreen from "./screens/SpotlightDetailScreen";
+import VipInfoScreen from "./screens/VipInfoScreen";
+import WebViewScreen from "./screens/WebViewScreen";
+import palettes from "./themes/palettes";
+import Breakpoints from "./utils/Breakpoints";
+import useWindowDimensions from "./utils/useWindowDimensions";
+import LoginPrompt from "./custom-files/LoginPrompt";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -100,12 +101,12 @@ function DefaultDrawerIcon({ tintColor, navigation }) {
 
 function AI({ navigation }) {
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('tabPress', e => {
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
       e.preventDefault();
 
-      navigation.navigate('BottomTabNavigator', {
-        screen: 'AI',
-        params: { screen: 'AIAssistantScreen' },
+      navigation.navigate("BottomTabNavigator", {
+        screen: "AI",
+        params: { screen: "AIAssistantScreen" },
       });
     });
 
@@ -124,8 +125,8 @@ function AI({ navigation }) {
       screenOptions={({ navigation }) => ({
         cardStyle: { flex: 1 },
         headerBackImage:
-          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-        headerMode: 'none',
+          Platform.OS === "android" ? DefaultAndroidBackIcon : null,
+        headerMode: "none",
         headerShown: false,
       })}
     >
@@ -133,7 +134,7 @@ function AI({ navigation }) {
         name="AIAssistantScreen"
         component={AIAssistantScreen}
         options={({ navigation }) => ({
-          title: 'AI-Assistant',
+          title: "AI-Assistant",
         })}
       />
     </Stack.Navigator>
@@ -142,12 +143,12 @@ function AI({ navigation }) {
 
 function Company({ navigation }) {
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('tabPress', e => {
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
       e.preventDefault();
 
-      navigation.navigate('BottomTabNavigator', {
-        screen: 'Company',
-        params: { screen: 'CompanyListScreen' },
+      navigation.navigate("BottomTabNavigator", {
+        screen: "Company",
+        params: { screen: "CompanyListScreen" },
       });
     });
 
@@ -163,10 +164,10 @@ function Company({ navigation }) {
       initialRouteName="CompanyListScreen"
       tabPressToInitialScreen={true}
       screenOptions={({ navigation }) => ({
-        cardStyle: { flex: 1, backgroundColor: palettes.App['Custom #ffffff'] },
+        cardStyle: { flex: 1, backgroundColor: palettes.App["Custom #ffffff"] },
         headerBackImage:
-          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-        headerMode: 'none',
+          Platform.OS === "android" ? DefaultAndroidBackIcon : null,
+        headerMode: "none",
         headerShown: false,
       })}
     >
@@ -174,8 +175,8 @@ function Company({ navigation }) {
         name="CompanyInfoScreen"
         component={CompanyInfoScreen}
         options={({ navigation }) => ({
-          cardStyle: { backgroundColor: palettes.App['Custom #ffffff'] },
-          title: 'Company-Info',
+          cardStyle: { backgroundColor: palettes.App["Custom #ffffff"] },
+          title: "Company-Info",
         })}
       />
       <Stack.Screen
@@ -183,7 +184,7 @@ function Company({ navigation }) {
         component={CompanyListScreen}
         options={({ navigation }) => ({
           headerShown: false,
-          title: 'Company-List',
+          title: "Company-List",
         })}
       />
     </Stack.Navigator>
@@ -192,12 +193,12 @@ function Company({ navigation }) {
 
 function Home({ navigation }) {
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('tabPress', e => {
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
       e.preventDefault();
 
-      navigation.navigate('BottomTabNavigator', {
-        screen: 'Home',
-        params: { screen: 'DrawerNavScreen' },
+      navigation.navigate("BottomTabNavigator", {
+        screen: "Home",
+        params: { screen: "DrawerNavScreen" },
       });
     });
 
@@ -220,8 +221,8 @@ function Home({ navigation }) {
         cardStyle: { flex: 1 },
         gestureEnabled: true,
         headerBackImage:
-          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-        headerMode: 'none',
+          Platform.OS === "android" ? DefaultAndroidBackIcon : null,
+        headerMode: "none",
         headerShown: false,
       })}
     >
@@ -229,7 +230,7 @@ function Home({ navigation }) {
         name="DrawerNavScreen"
         component={DrawerNavScreen}
         options={({ navigation }) => ({
-          title: 'DrawerNav',
+          title: "DrawerNav",
         })}
       />
       <Stack.Screen
@@ -237,9 +238,9 @@ function Home({ navigation }) {
         component={HomeScreen}
         options={({ navigation }) => ({
           headerShown: false,
-          headerTitle: 'home',
+          headerTitle: "home",
           headerTransparent: false,
-          title: 'Home',
+          title: "Home",
         })}
       />
       <Stack.Screen
@@ -247,7 +248,7 @@ function Home({ navigation }) {
         component={OrganizerScreen}
         options={({ navigation }) => ({
           headerShown: false,
-          title: 'Organizer',
+          title: "Organizer",
         })}
       />
       <Stack.Screen
@@ -255,8 +256,8 @@ function Home({ navigation }) {
         component={SpotlightDetailScreen}
         options={({ navigation }) => ({
           headerShown: false,
-          headerTintColor: palettes.App['Custom #ffffff'],
-          title: 'Spotlight-detail',
+          headerTintColor: palettes.App["Custom #ffffff"],
+          title: "Spotlight-detail",
         })}
       />
     </Stack.Navigator>
@@ -265,12 +266,12 @@ function Home({ navigation }) {
 
 function Mine({ navigation }) {
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('tabPress', e => {
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
       e.preventDefault();
 
-      navigation.navigate('BottomTabNavigator', {
-        screen: 'Mine',
-        params: { screen: 'MineIndexScreen' },
+      navigation.navigate("BottomTabNavigator", {
+        screen: "Mine",
+        params: { screen: "MineIndexScreen" },
       });
     });
 
@@ -287,8 +288,8 @@ function Mine({ navigation }) {
         animationEnabled: true,
         cardStyle: { flex: 1 },
         headerBackImage:
-          Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-        headerMode: 'none',
+          Platform.OS === "android" ? DefaultAndroidBackIcon : null,
+        headerMode: "none",
         headerShown: false,
         headerTransparent: false,
       })}
@@ -297,11 +298,11 @@ function Mine({ navigation }) {
         name="MineIndexScreen"
         component={MineIndexScreen}
         options={({ navigation }) => ({
-          headerMode: 'float',
+          headerMode: "float",
           headerShown: false,
-          headerStyle: { backgroundColor: 'transparent' },
+          headerStyle: { backgroundColor: "transparent" },
           headerTransparent: true,
-          title: 'Mine-index',
+          title: "Mine-index",
         })}
       />
       <Stack.Screen
@@ -310,14 +311,14 @@ function Mine({ navigation }) {
         options={({ navigation }) => ({
           animationEnabled: true,
           gestureEnabled: true,
-          title: 'Mine-My-Favorites-Detail 2',
+          title: "Mine-My-Favorites-Detail 2",
         })}
       />
       <Stack.Screen
         name="MineMyFavoritesScreen"
         component={MineMyFavoritesScreen}
         options={({ navigation }) => ({
-          title: 'Mine-My-Favorites',
+          title: "Mine-My-Favorites",
         })}
       />
       <Stack.Screen
@@ -326,14 +327,14 @@ function Mine({ navigation }) {
         options={({ navigation }) => ({
           animationEnabled: true,
           headerShown: false,
-          title: 'Mine-Settings',
+          title: "Mine-Settings",
         })}
       />
       <Stack.Screen
         name="MineUserInfoScreen"
         component={MineUserInfoScreen}
         options={({ navigation }) => ({
-          title: 'Mine-UserInfo',
+          title: "Mine-UserInfo",
         })}
       />
     </Stack.Navigator>
@@ -346,22 +347,22 @@ function BottomTabNavigator() {
   const safeAreaInsets = useSafeAreaInsets();
 
   const tabBarOrDrawerIcons = {
-    Home: 'AntDesign/home',
-    Company: 'Ionicons/search',
-    AI: 'MaterialCommunityIcons/ticket-confirmation',
-    Mine: 'Ionicons/person',
+    Home: "AntDesign/home",
+    Company: "Ionicons/search",
+    AI: "MaterialCommunityIcons/ticket-confirmation",
+    Mine: "Ionicons/person",
   };
 
   return (
     <Tab.Navigator
       initialRouteName="Home"
       tabBar={({ state, descriptors }) => {
-        const mapRoute = route => {
+        const mapRoute = (route) => {
           const descriptor = descriptors[route.key];
           return {
             name: route.name,
             label: descriptor.options.tabBarLabel ?? route.name,
-            icon: tabBarOrDrawerIcons[route.name] ?? '',
+            icon: tabBarOrDrawerIcons[route.name] ?? "",
           };
         };
         const routes = state.routes.map(mapRoute);
@@ -376,17 +377,17 @@ function BottomTabNavigator() {
       }}
       backBehavior="history"
       screenOptions={({ navigation }) => ({
-        headerMode: 'screen',
+        headerMode: "screen",
         headerShown: false,
-        headerStyle: { backgroundColor: 'transparent' },
+        headerStyle: { backgroundColor: "transparent" },
         headerTransparent: true,
         tabBarActiveBackgroundColor: 'theme.colors["White"]',
         tabBarInactiveBackgroundColor: 'theme.colors["White"]',
-        tabBarLabelPosition: 'below-icon',
+        tabBarLabelPosition: "below-icon",
         tabBarLabelStyle: theme.typography.custom22,
         tabBarStyle: {
           backgroundColor: palettes.App.White,
-          borderTopColor: 'transparent',
+          borderTopColor: "transparent",
         },
       })}
     >
@@ -397,8 +398,8 @@ function BottomTabNavigator() {
           tabBarIcon: ({ focused, color }) => (
             <Icon name="AntDesign/home" size={25} color={color} />
           ),
-          tabBarLabel: '首页',
-          title: 'Home',
+          tabBarLabel: "首页",
+          title: "Home",
         })}
       />
       <Tab.Screen
@@ -408,8 +409,8 @@ function BottomTabNavigator() {
           tabBarIcon: ({ focused, color }) => (
             <Icon name="Ionicons/search" size={25} color={color} />
           ),
-          tabBarLabel: '公司',
-          title: 'Company',
+          tabBarLabel: "公司",
+          title: "Company",
         })}
       />
       <Tab.Screen
@@ -423,8 +424,8 @@ function BottomTabNavigator() {
               color={color}
             />
           ),
-          tabBarLabel: 'AI助手',
-          title: 'AI',
+          tabBarLabel: "AI助手",
+          title: "AI",
         })}
       />
       <Tab.Screen
@@ -434,8 +435,8 @@ function BottomTabNavigator() {
           tabBarIcon: ({ focused, color }) => (
             <Icon name="Ionicons/person" size={25} color={color} />
           ),
-          tabBarLabel: '我的',
-          title: 'Mine',
+          tabBarLabel: "我的",
+          title: "Mine",
         })}
       />
     </Tab.Navigator>
@@ -469,16 +470,16 @@ export default function RootAppNavigator() {
           animationEnabled: true,
           cardStyle: {
             flex: 1,
-            backgroundColor: palettes.App['Custom #ffffff'],
+            backgroundColor: palettes.App["Custom #ffffff"],
           },
           gestureEnabled: true,
           headerBackImage:
-            Platform.OS === 'android' ? DefaultAndroidBackIcon : null,
-          headerMode: 'screen',
+            Platform.OS === "android" ? DefaultAndroidBackIcon : null,
+          headerMode: "screen",
           headerShown: false,
           headerStyle: {
-            backgroundColor: palettes.App['Custom #ffffff'],
-            borderBottomColor: 'transparent',
+            backgroundColor: palettes.App["Custom #ffffff"],
+            borderBottomColor: "transparent",
             elevation: 0,
             shadowOpacity: 0,
           },
@@ -489,42 +490,42 @@ export default function RootAppNavigator() {
           name="AITranscribeDetailScreen"
           component={AITranscribeDetailScreen}
           options={({ navigation }) => ({
-            title: 'AI-Transcribe-Detail',
+            title: "AI-Transcribe-Detail",
           })}
         />
         <Stack.Screen
           name="AITranslateDetailScreen"
           component={AITranslateDetailScreen}
           options={({ navigation }) => ({
-            title: 'AI-Translate-Detail',
+            title: "AI-Translate-Detail",
           })}
         />
         <Stack.Screen
           name="AccountCancellationCheckScreen"
           component={AccountCancellationCheckScreen}
           options={({ navigation }) => ({
-            title: 'Account-Cancellation-Check',
+            title: "Account-Cancellation-Check",
           })}
         />
         <Stack.Screen
           name="AccountCancellationReasonScreen"
           component={AccountCancellationReasonScreen}
           options={({ navigation }) => ({
-            title: 'Account-Cancellation-Reason',
+            title: "Account-Cancellation-Reason",
           })}
         />
         <Stack.Screen
           name="AccountCancellationScreen"
           component={AccountCancellationScreen}
           options={({ navigation }) => ({
-            title: 'Account-Cancellation',
+            title: "Account-Cancellation",
           })}
         />
         <Stack.Screen
           name="AccountCancellationSubmitScreen"
           component={AccountCancellationSubmitScreen}
           options={({ navigation }) => ({
-            title: 'Account-Cancellation-Submit',
+            title: "Account-Cancellation-Submit",
           })}
         />
         <Stack.Screen
@@ -532,10 +533,10 @@ export default function RootAppNavigator() {
           component={ArticleDetailScreen}
           options={({ navigation }) => ({
             animationEnabled: true,
-            gestureDirection: 'horizontal',
+            gestureDirection: "horizontal",
             gestureEnabled: true,
             headerShown: false,
-            title: 'Article-Detail',
+            title: "Article-Detail",
           })}
         />
         <Stack.Screen
@@ -543,21 +544,21 @@ export default function RootAppNavigator() {
           component={CalendarScreen}
           options={({ navigation }) => ({
             headerShown: false,
-            title: 'Calendar',
+            title: "Calendar",
           })}
         />
         <Stack.Screen
           name="ChangeUserEmailScreen"
           component={ChangeUserEmailScreen}
           options={({ navigation }) => ({
-            title: 'Change-User-email',
+            title: "Change-User-email",
           })}
         />
         <Stack.Screen
           name="ChangeUserPhoneScreen"
           component={ChangeUserPhoneScreen}
           options={({ navigation }) => ({
-            title: 'Change-User-Phone',
+            title: "Change-User-Phone",
           })}
         />
         <Stack.Screen
@@ -567,14 +568,14 @@ export default function RootAppNavigator() {
             animationEnabled: true,
             gestureEnabled: true,
             headerShown: false,
-            title: 'Create-Point',
+            title: "Create-Point",
           })}
         />
         <Stack.Screen
           name="CreateTopicScreen"
           component={CreateTopicScreen}
           options={({ navigation }) => ({
-            title: 'Create-Topic',
+            title: "Create-Topic",
           })}
         />
         <Stack.Screen
@@ -582,7 +583,7 @@ export default function RootAppNavigator() {
           component={DailyUpdateScreen}
           options={({ navigation }) => ({
             headerShown: false,
-            title: 'DailyUpdate',
+            title: "DailyUpdate",
           })}
         />
         <Stack.Screen
@@ -591,7 +592,7 @@ export default function RootAppNavigator() {
           options={({ navigation }) => ({
             gestureEnabled: true,
             headerShown: false,
-            title: 'Event-Detail',
+            title: "Event-Detail",
           })}
         />
         <Stack.Screen
@@ -599,18 +600,18 @@ export default function RootAppNavigator() {
           component={LiveScreen}
           options={({ navigation }) => ({
             headerShown: false,
-            title: 'Live',
+            title: "Live",
           })}
         />
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
           options={({ navigation }) => ({
-            headerMode: 'screen',
+            headerMode: "screen",
             headerShown: false,
-            headerStyle: { backgroundColor: 'transparent' },
+            headerStyle: { backgroundColor: "transparent" },
             headerTransparent: true,
-            title: 'Login',
+            title: "Login",
           })}
         />
         <Stack.Screen
@@ -618,28 +619,28 @@ export default function RootAppNavigator() {
           component={MessageCenterScreen}
           options={({ navigation }) => ({
             headerShown: false,
-            title: 'MessageCenter',
+            title: "MessageCenter",
           })}
         />
         <Stack.Screen
           name="MineAuthScreen"
           component={MineAuthScreen}
           options={({ navigation }) => ({
-            title: 'Mine-Auth',
+            title: "Mine-Auth",
           })}
         />
         <Stack.Screen
           name="MineBuyArticleScreen"
           component={MineBuyArticleScreen}
           options={({ navigation }) => ({
-            title: 'Mine-Buy-Article',
+            title: "Mine-Buy-Article",
           })}
         />
         <Stack.Screen
           name="MineBuyLiveScreen"
           component={MineBuyLiveScreen}
           options={({ navigation }) => ({
-            title: 'Mine-Buy-Live',
+            title: "Mine-Buy-Live",
           })}
         />
         <Stack.Screen
@@ -654,21 +655,21 @@ export default function RootAppNavigator() {
                 >
                   <Icon
                     name="AntDesign/arrowleft"
-                    size={Platform.OS === 'ios' ? 21 : 24}
-                    color={palettes.App['Custom #d8d8d8']}
+                    size={Platform.OS === "ios" ? 21 : 24}
+                    color={palettes.App["Custom #d8d8d8"]}
                     style={[styles.headerIcon, styles.headerIconLeft]}
                   />
                 </View>
               ),
-            headerMode: 'screen',
+            headerMode: "screen",
             headerShown: false,
             headerStyle: {
               backgroundColor: palettes.Brand.appStyle_primary,
-              borderBottomColor: 'transparent',
+              borderBottomColor: "transparent",
             },
-            headerTitle: ' ',
+            headerTitle: " ",
             headerTransparent: false,
-            title: 'Mine-CountryCodeList',
+            title: "Mine-CountryCodeList",
           })}
         />
         <Stack.Screen
@@ -676,49 +677,49 @@ export default function RootAppNavigator() {
           component={MineIdentityInfoScreen}
           options={({ navigation }) => ({
             headerShown: false,
-            title: 'Mine-IdentityInfo',
+            title: "Mine-IdentityInfo",
           })}
         />
         <Stack.Screen
           name="MineMyFansScreen"
           component={MineMyFansScreen}
           options={({ navigation }) => ({
-            title: 'Mine-My-Fans',
+            title: "Mine-My-Fans",
           })}
         />
         <Stack.Screen
           name="MineMyFavoritesDetailScreen"
           component={MineMyFavoritesDetailScreen}
           options={({ navigation }) => ({
-            title: 'Mine-My-Favorites-Detail',
+            title: "Mine-My-Favorites-Detail",
           })}
         />
         <Stack.Screen
           name="MineMyFollowScreen"
           component={MineMyFollowScreen}
           options={({ navigation }) => ({
-            title: 'Mine-My-Follow',
+            title: "Mine-My-Follow",
           })}
         />
         <Stack.Screen
           name="MineMyLikeScreen"
           component={MineMyLikeScreen}
           options={({ navigation }) => ({
-            title: 'Mine-My-Like',
+            title: "Mine-My-Like",
           })}
         />
         <Stack.Screen
           name="MineMyPointScreen"
           component={MineMyPointScreen}
           options={({ navigation }) => ({
-            title: 'Mine-MyPoint',
+            title: "Mine-MyPoint",
           })}
         />
         <Stack.Screen
           name="MineMyTopicScreen"
           component={MineMyTopicScreen}
           options={({ navigation }) => ({
-            title: 'Mine-MyTopic',
+            title: "Mine-MyTopic",
           })}
         />
         <Stack.Screen
@@ -729,7 +730,7 @@ export default function RootAppNavigator() {
             cardOverlayEnabled: false,
             gestureEnabled: true,
             headerShown: false,
-            title: 'Opinion-Info',
+            title: "Opinion-Info",
           })}
         />
         <Stack.Screen
@@ -737,7 +738,7 @@ export default function RootAppNavigator() {
           component={RegisterScreen}
           options={({ navigation }) => ({
             headerShown: false,
-            title: 'Register',
+            title: "Register",
           })}
         />
         <Stack.Screen
@@ -745,42 +746,42 @@ export default function RootAppNavigator() {
           component={SearchPageScreen}
           options={({ navigation }) => ({
             headerShown: false,
-            title: 'SearchPage',
+            title: "SearchPage",
           })}
         />
         <Stack.Screen
           name="SettingAccountSafeScreen"
           component={SettingAccountSafeScreen}
           options={({ navigation }) => ({
-            title: 'Setting-Account-Safe',
+            title: "Setting-Account-Safe",
           })}
         />
         <Stack.Screen
           name="SettingChangePasswordScreen"
           component={SettingChangePasswordScreen}
           options={({ navigation }) => ({
-            title: 'Setting-Change-Password',
+            title: "Setting-Change-Password",
           })}
         />
         <Stack.Screen
           name="SettingUserPhoneScreen"
           component={SettingUserPhoneScreen}
           options={({ navigation }) => ({
-            title: 'Setting-User-Phone',
+            title: "Setting-User-Phone",
           })}
         />
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
           options={({ navigation }) => ({
-            title: 'Splash',
+            title: "Splash",
           })}
         />
         <Stack.Screen
           name="VipInfoScreen"
           component={VipInfoScreen}
           options={({ navigation }) => ({
-            title: 'Vip-Info',
+            title: "Vip-Info",
           })}
         />
         <Stack.Screen
@@ -802,23 +803,23 @@ export default function RootAppNavigator() {
                 >
                   <Icon
                     name="AntDesign/arrowleft"
-                    size={Platform.OS === 'ios' ? 21 : 24}
+                    size={Platform.OS === "ios" ? 21 : 24}
                     color={tintColor}
                     style={[styles.headerIcon, styles.headerIconLeft]}
                   />
                 </Touchable>
               ),
-            headerMode: 'float',
+            headerMode: "float",
             headerShown: false,
             headerStyle: {
               backgroundColor: palettes.Brand.appStyle_primary,
-              borderBottomColor: 'transparent',
+              borderBottomColor: "transparent",
             },
             headerTintColor: palettes.Brand.appStyle_background,
-            headerTitle: 'APP隐私协议',
-            headerTitleAlign: 'center',
+            headerTitle: "APP隐私协议",
+            headerTitleAlign: "center",
             headerTransparent: false,
-            title: 'WebView',
+            title: "WebView",
           })}
         />
         <Stack.Screen
@@ -826,7 +827,7 @@ export default function RootAppNavigator() {
           component={BottomTabNavigator}
           options={({ navigation }) => ({
             headerShown: false,
-            title: 'Bottom Tab Navigator',
+            title: "Bottom Tab Navigator",
           })}
         />
       </Stack.Navigator>
@@ -836,8 +837,8 @@ export default function RootAppNavigator() {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    flexDirection: "row",
     ...Platform.select({
       ios: null,
       default: {
@@ -850,12 +851,12 @@ const styles = StyleSheet.create({
   headerIcon: Platform.select({
     ios: {
       marginVertical: 12,
-      resizeMode: 'contain',
+      resizeMode: "contain",
       transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
     },
     default: {
       margin: 3,
-      resizeMode: 'contain',
+      resizeMode: "contain",
       transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
     },
   }),

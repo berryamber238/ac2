@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Icon,
   LinearGradient,
@@ -12,48 +12,46 @@ import {
   TextInput,
   Touchable,
   withTheme,
-} from '@draftbit/ui';
-import { useIsFocused } from '@react-navigation/native';
-import { ActivityIndicator, Image, StatusBar, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fetch } from 'react-request';
-import * as GlobalStyles from '../GlobalStyles.js';
-import * as AceCampTestApi from '../apis/AceCampTestApi.js';
-import * as GlobalVariables from '../config/GlobalVariableContext';
-import Images from '../config/Images';
-import t from '../global-functions/t';
-import palettes from '../themes/palettes';
-import * as Utils from '../utils';
-import Breakpoints from '../utils/Breakpoints';
-import * as StyleSheet from '../utils/StyleSheet';
-import imageSource from '../utils/imageSource';
-import showAlertUtil from '../utils/showAlert';
-import useWindowDimensions from '../utils/useWindowDimensions';
-import waitUtil from '../utils/wait';
+} from "@draftbit/ui";
+import { useIsFocused } from "@react-navigation/native";
+import { ActivityIndicator, Image, StatusBar, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Fetch } from "react-request";
+import * as GlobalStyles from "../GlobalStyles.js";
+import * as AceCampTestApi from "../apis/AceCampTestApi.js";
+import * as GlobalVariables from "../config/GlobalVariableContext";
+import Images from "../config/Images";
+import t from "../global-functions/t";
+import palettes from "../themes/palettes";
+import * as Utils from "../utils";
+import Breakpoints from "../utils/Breakpoints";
+import * as StyleSheet from "../utils/StyleSheet";
+import imageSource from "../utils/imageSource";
+import showAlertUtil from "../utils/showAlert";
+import useWindowDimensions from "../utils/useWindowDimensions";
+import waitUtil from "../utils/wait";
 
-const CompanyListScreen = props => {
+const CompanyListScreen = (props) => {
   const { theme, navigation } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
   const [company_list, setCompany_list] = React.useState([]);
   const [is_loading, setIs_loading] = React.useState(
-    Constants['tag_all_selected']
+    Constants["tag_all_selected"]
   );
   const [is_popular, setIs_popular] = React.useState(true);
   const [is_searching, setIs_searching] = React.useState(false);
   const [page, setPage] = React.useState(2);
-  const [textInputValue, setTextInputValue] = React.useState('');
+  const [textInputValue, setTextInputValue] = React.useState("");
   const [total_record, setTotal_record] = React.useState(0);
-  const setFollowingData = listItem => {
+  const setFollowingData = (listItem) => {
     if (listItem.following) {
       listItem.following = null;
     } else {
       listItem.following = true;
     }
   };
-  const safeAreaInsets = useSafeAreaInsets();
-  const aceCampTestSnsActionsDoPOST = AceCampTestApi.useSnsActionsDoPOST();
   const isFocused = useIsFocused();
   React.useEffect(() => {
     try {
@@ -61,12 +59,14 @@ const CompanyListScreen = props => {
         return;
       }
 
-      const entry = StatusBar.pushStackEntry?.({ barStyle: 'dark-content' });
+      const entry = StatusBar.pushStackEntry?.({ barStyle: "dark-content" });
       return () => StatusBar.popStackEntry?.(entry);
     } catch (err) {
       console.error(err);
     }
   }, [isFocused]);
+  const safeAreaInsets = useSafeAreaInsets();
+  const aceCampTestSnsActionsDoPOST = AceCampTestApi.useSnsActionsDoPOST();
 
   return (
     <ScreenContainer
@@ -77,7 +77,7 @@ const CompanyListScreen = props => {
       <AceCampTestApi.FetchCompanyPopularsGET
         following={!is_popular}
         handlers={{
-          onData: fetchData => {
+          onData: (fetchData) => {
             const handler = async () => {
               try {
                 setCompany_list(fetchData?.data?.corporations);
@@ -119,8 +119,8 @@ const CompanyListScreen = props => {
                   style={StyleSheet.applyWidth(
                     {
                       backgroundColor: palettes.App.White,
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                       paddingLeft: 16,
                       paddingRight: 16,
                       zIndex: 100,
@@ -130,17 +130,17 @@ const CompanyListScreen = props => {
                 >
                   <View
                     style={StyleSheet.applyWidth(
-                      { alignItems: 'center', flexDirection: 'row' },
+                      { alignItems: "center", flexDirection: "row" },
                       dimensions.width
                     )}
                   >
                     <Image
-                      resizeMode={'cover'}
-                      {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                      source={imageSource(Images['logo'])}
+                      resizeMode={"cover"}
+                      {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                      source={imageSource(Images["logo"])}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.ImageStyles(theme)['Image'].style,
+                          GlobalStyles.ImageStyles(theme)["Image"].style,
                           { height: 26, width: 26 }
                         ),
                         dimensions.width
@@ -152,9 +152,9 @@ const CompanyListScreen = props => {
                       style={StyleSheet.applyWidth(
                         {
                           color: palettes.Brand.appStyle_primary,
-                          fontFamily: 'System',
+                          fontFamily: "System",
                           fontSize: 18,
-                          fontWeight: '700',
+                          fontWeight: "700",
                           letterSpacing: 0.2,
                           lineHeight: 24,
                           marginLeft: 4,
@@ -163,7 +163,7 @@ const CompanyListScreen = props => {
                         dimensions.width
                       )}
                     >
-                      {t(Variables, 'company_list_title')}
+                      {t(Variables, "company_list_title")}
                     </Text>
                   </View>
                   {/* View 2 */}
@@ -171,8 +171,8 @@ const CompanyListScreen = props => {
                     style={StyleSheet.applyWidth(
                       {
                         flex: 1,
-                        flexDirection: 'row',
-                        justifyContent: 'flex-end',
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
                       },
                       dimensions.width
                     )}
@@ -180,27 +180,27 @@ const CompanyListScreen = props => {
                     <View
                       style={StyleSheet.applyWidth(
                         {
-                          alignItems: 'center',
-                          borderColor: 'rgba(43, 51, 230, 0.3)',
+                          alignItems: "center",
+                          borderColor: "rgba(43, 51, 230, 0.3)",
                           borderRadius: 20,
                           borderWidth: 2,
-                          flexDirection: 'row',
+                          flexDirection: "row",
                           paddingRight: 8,
-                          width: '70%',
+                          width: "70%",
                         },
                         dimensions.width
                       )}
                     >
                       <Icon
                         size={24}
-                        color={palettes.App['Custom Color 9']}
-                        name={'EvilIcons/search'}
+                        color={palettes.App["Custom Color 9"]}
+                        name={"EvilIcons/search"}
                       />
                       <TextInput
-                        autoCapitalize={'none'}
+                        autoCapitalize={"none"}
                         autoCorrect={true}
                         changeTextDelay={500}
-                        onChangeText={newTextInputValue => {
+                        onChangeText={(newTextInputValue) => {
                           const textInputValue = newTextInputValue;
                           try {
                             setTextInputValue(newTextInputValue);
@@ -208,7 +208,7 @@ const CompanyListScreen = props => {
                             console.error(err);
                           }
                         }}
-                        onChangeTextDelayed={newTextInputValue => {
+                        onChangeTextDelayed={(newTextInputValue) => {
                           const handler = async () => {
                             const textInputValue = newTextInputValue;
                             try {
@@ -236,22 +236,22 @@ const CompanyListScreen = props => {
                           handler();
                         }}
                         webShowOutline={true}
-                        {...GlobalStyles.TextInputStyles(theme)['Login Input']
+                        {...GlobalStyles.TextInputStyles(theme)["Login Input"]
                           .props}
                         placeholder={t(
                           Variables,
-                          'company_list_search_placehold'
+                          "company_list_search_placehold"
                         ).toString()}
-                        placeholderTextColor={palettes.App['Custom Color 9']}
-                        returnKeyType={'search'}
+                        placeholderTextColor={palettes.App["Custom Color 9"]}
+                        returnKeyType={"search"}
                         style={StyleSheet.applyWidth(
                           StyleSheet.compose(
-                            GlobalStyles.TextInputStyles(theme)['Login Input']
+                            GlobalStyles.TextInputStyles(theme)["Login Input"]
                               .style,
                             {
-                              fontFamily: 'System',
+                              fontFamily: "System",
                               fontSize: 13,
-                              fontWeight: '400',
+                              fontWeight: "400",
                               lineHeight: 17,
                               paddingBottom: 6,
                               paddingTop: 6,
@@ -269,7 +269,7 @@ const CompanyListScreen = props => {
                   style={StyleSheet.applyWidth(
                     {
                       backgroundColor: palettes.App.White,
-                      flexDirection: 'row',
+                      flexDirection: "row",
                       paddingLeft: 8,
                       paddingRight: 8,
                       paddingTop: 8,
@@ -291,16 +291,16 @@ const CompanyListScreen = props => {
                     <Text
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.TextStyles(theme)['Company List Menu']
+                      {...GlobalStyles.TextStyles(theme)["Company List Menu"]
                         .props}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.TextStyles(theme)['Company List Menu']
+                          GlobalStyles.TextStyles(theme)["Company List Menu"]
                             .style,
                           {
                             color: is_popular
                               ? palettes.Brand.appStyle_primary
-                              : palettes.App['Custom Color 23'],
+                              : palettes.App["Custom Color 23"],
                             marginBottom: 4,
                             marginLeft: 8,
                             marginRight: 4,
@@ -310,7 +310,7 @@ const CompanyListScreen = props => {
                         dimensions.width
                       )}
                     >
-                      {t(Variables, 'company_list_hot')}
+                      {t(Variables, "company_list_hot")}
                     </Text>
                   </Touchable>
                   {/* Touchable 2 */}
@@ -328,15 +328,15 @@ const CompanyListScreen = props => {
                     <Text
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.TextStyles(theme)['Company List Menu']
+                      {...GlobalStyles.TextStyles(theme)["Company List Menu"]
                         .props}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.TextStyles(theme)['Company List Menu']
+                          GlobalStyles.TextStyles(theme)["Company List Menu"]
                             .style,
                           {
                             color: is_popular
-                              ? palettes.App['Custom Color 23']
+                              ? palettes.App["Custom Color 23"]
                               : palettes.Brand.appStyle_primary,
                             marginBottom: 4,
                             marginLeft: 4,
@@ -347,7 +347,7 @@ const CompanyListScreen = props => {
                         dimensions.width
                       )}
                     >
-                      {t(Variables, 'company_list_my_follow')}
+                      {t(Variables, "company_list_my_follow")}
                     </Text>
                   </Touchable>
                 </View>
@@ -355,9 +355,9 @@ const CompanyListScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      height: '100%',
+                      height: "100%",
                       paddingBottom: safeAreaInsets.bottom + 50,
-                      width: '100%',
+                      width: "100%",
                     },
                     dimensions.width
                   )}
@@ -367,17 +367,17 @@ const CompanyListScreen = props => {
                     startX={0}
                     startY={0}
                     {...GlobalStyles.LinearGradientStyles(theme)[
-                      'Linear Gradient'
+                      "Linear Gradient"
                     ].props}
-                    color1={palettes.App['Custom Color 13']}
+                    color1={palettes.App["Custom Color 13"]}
                     color2={palettes.App.White}
                     endX={0}
                     style={StyleSheet.applyWidth(
                       StyleSheet.compose(
                         GlobalStyles.LinearGradientStyles(theme)[
-                          'Linear Gradient'
+                          "Linear Gradient"
                         ].style,
-                        { position: 'absolute' }
+                        { position: "absolute" }
                       ),
                       dimensions.width
                     )}
@@ -388,17 +388,17 @@ const CompanyListScreen = props => {
                       <View
                         style={StyleSheet.applyWidth(
                           {
-                            alignItems: 'center',
-                            flexDirection: 'column',
+                            alignItems: "center",
+                            flexDirection: "column",
                             marginTop: 150,
-                            width: '100%',
+                            width: "100%",
                           },
                           dimensions.width
                         )}
                       >
                         <SVG
                           source={
-                            'https://static.acecamptech.com/system/empty.svg'
+                            "https://static.acecamptech.com/system/empty.svg"
                           }
                           style={StyleSheet.applyWidth(
                             { height: 50, width: 50 },
@@ -410,17 +410,17 @@ const CompanyListScreen = props => {
                           selectable={false}
                           style={StyleSheet.applyWidth(
                             {
-                              color: palettes.App['Custom Color 4'],
-                              fontFamily: 'System',
+                              color: palettes.App["Custom Color 4"],
+                              fontFamily: "System",
                               fontSize: 12,
-                              fontWeight: '400',
+                              fontWeight: "400",
                               letterSpacing: 0.3,
                               lineHeight: 20,
                             },
                             dimensions.width
                           )}
                         >
-                          {t(Variables, 'common_no_content')}
+                          {t(Variables, "common_no_content")}
                         </Text>
                       </View>
                     )}
@@ -428,14 +428,14 @@ const CompanyListScreen = props => {
                   {/* FlashList */}
                   <SimpleStyleFlatList
                     data={company_list}
-                    decelerationRate={'normal'}
+                    decelerationRate={"normal"}
                     horizontal={false}
                     inverted={false}
                     keyExtractor={(flashListData, index) =>
                       flashListData?.corporation_id
                     }
-                    keyboardShouldPersistTaps={'never'}
-                    listKey={'Fetch->Container->View->FlashList'}
+                    keyboardShouldPersistTaps={"never"}
+                    listKey={"Fetch->Container->View->FlashList"}
                     nestedScrollEnabled={false}
                     numColumns={1}
                     onEndReached={() => {
@@ -479,10 +479,10 @@ const CompanyListScreen = props => {
                         <Touchable
                           onPress={() => {
                             try {
-                              navigation.push('BottomTabNavigator', {
-                                screen: 'Company',
+                              navigation.push("BottomTabNavigator", {
+                                screen: "Company",
                                 params: {
-                                  screen: 'CompanyInfoScreen',
+                                  screen: "CompanyInfoScreen",
                                   params: {
                                     ticker: flashListData?.ticker,
                                     name: flashListData?.name,
@@ -510,18 +510,18 @@ const CompanyListScreen = props => {
                             showShadowSideTop={true}
                             distance={6}
                             paintInside={true}
-                            startColor={palettes.App['Custom Color 48']}
+                            startColor={palettes.App["Custom Color 48"]}
                             stretch={false}
                             style={StyleSheet.applyWidth(
                               {
-                                borderColor: 'rgba(0, 0, 0, 0)',
+                                borderColor: "rgba(0, 0, 0, 0)",
                                 borderRadius: 8,
                                 marginBottom: 8,
                                 marginTop: 8,
                                 width: [
                                   {
                                     minWidth: Breakpoints.Mobile,
-                                    value: '100%',
+                                    value: "100%",
                                   },
                                   {
                                     minWidth: Breakpoints.Mobile,
@@ -536,13 +536,13 @@ const CompanyListScreen = props => {
                             <View
                               style={StyleSheet.applyWidth(
                                 {
-                                  alignItems: 'center',
+                                  alignItems: "center",
                                   backgroundColor: palettes.App.White,
-                                  borderColor: palettes.App['Custom Color 48'],
+                                  borderColor: palettes.App["Custom Color 48"],
                                   borderRadius: 6,
-                                  flexDirection: 'row',
+                                  flexDirection: "row",
                                   height: 70,
-                                  justifyContent: 'space-between',
+                                  justifyContent: "space-between",
                                   paddingBottom: 9,
                                   paddingLeft: 16,
                                   paddingRight: 16,
@@ -560,9 +560,9 @@ const CompanyListScreen = props => {
                                 <>
                                   {!flashListData?.logo ? null : (
                                     <Image
-                                      resizeMode={'cover'}
+                                      resizeMode={"cover"}
                                       {...GlobalStyles.ImageStyles(theme)[
-                                        'Image'
+                                        "Image"
                                       ].props}
                                       source={imageSource(
                                         `${flashListData?.logo}`
@@ -570,7 +570,7 @@ const CompanyListScreen = props => {
                                       style={StyleSheet.applyWidth(
                                         StyleSheet.compose(
                                           GlobalStyles.ImageStyles(theme)[
-                                            'Image'
+                                            "Image"
                                           ].style,
                                           { height: 32, width: 32 }
                                         ),
@@ -582,14 +582,14 @@ const CompanyListScreen = props => {
                                 <>
                                   {flashListData?.logo ? null : (
                                     <SVG
-                                      {...GlobalStyles.SVGStyles(theme)['SVG']
+                                      {...GlobalStyles.SVGStyles(theme)["SVG"]
                                         .props}
                                       source={
-                                        'https://static.acecamptech.com/www/static/media/relation-company.179798304f24764e14e2a7584e0facaa.svg'
+                                        "https://static.acecamptech.com/www/static/media/relation-company.179798304f24764e14e2a7584e0facaa.svg"
                                       }
                                       style={StyleSheet.applyWidth(
                                         StyleSheet.compose(
-                                          GlobalStyles.SVGStyles(theme)['SVG']
+                                          GlobalStyles.SVGStyles(theme)["SVG"]
                                             .style,
                                           { height: 32, width: 32 }
                                         ),
@@ -605,17 +605,17 @@ const CompanyListScreen = props => {
                                   accessible={true}
                                   selectable={false}
                                   {...GlobalStyles.TextStyles(theme)[
-                                    'Text Title'
+                                    "Text Title"
                                   ].props}
                                   style={StyleSheet.applyWidth(
                                     StyleSheet.compose(
                                       GlobalStyles.TextStyles(theme)[
-                                        'Text Title'
+                                        "Text Title"
                                       ].style,
                                       {
-                                        fontFamily: 'System',
+                                        fontFamily: "System",
                                         fontSize: 15,
-                                        fontWeight: '600',
+                                        fontWeight: "600",
                                         lineHeight: 20,
                                       }
                                     ),
@@ -629,18 +629,18 @@ const CompanyListScreen = props => {
                                   accessible={true}
                                   selectable={false}
                                   {...GlobalStyles.TextStyles(theme)[
-                                    'Text Title'
+                                    "Text Title"
                                   ].props}
                                   style={StyleSheet.applyWidth(
                                     StyleSheet.compose(
                                       GlobalStyles.TextStyles(theme)[
-                                        'Text Title'
+                                        "Text Title"
                                       ].style,
                                       {
-                                        color: palettes.App['Custom Color 24'],
-                                        fontFamily: 'System',
+                                        color: palettes.App["Custom Color 24"],
+                                        fontFamily: "System",
                                         fontSize: 12,
-                                        fontWeight: '600',
+                                        fontWeight: "600",
                                         lineHeight: 20,
                                       }
                                     ),
@@ -653,16 +653,16 @@ const CompanyListScreen = props => {
                               {/* View 3 */}
                               <View
                                 style={StyleSheet.applyWidth(
-                                  { alignItems: 'flex-end', flex: 1 },
+                                  { alignItems: "flex-end", flex: 1 },
                                   dimensions.width
                                 )}
                               >
                                 <View
                                   style={StyleSheet.applyWidth(
                                     {
-                                      alignItems: 'center',
-                                      flexDirection: 'row',
-                                      justifyContent: 'flex-end',
+                                      alignItems: "center",
+                                      flexDirection: "row",
+                                      justifyContent: "flex-end",
                                     },
                                     dimensions.width
                                   )}
@@ -671,17 +671,17 @@ const CompanyListScreen = props => {
                                     accessible={true}
                                     selectable={false}
                                     {...GlobalStyles.TextStyles(theme)[
-                                      'Text Title'
+                                      "Text Title"
                                     ].props}
                                     style={StyleSheet.applyWidth(
                                       StyleSheet.compose(
                                         GlobalStyles.TextStyles(theme)[
-                                          'Text Title'
+                                          "Text Title"
                                         ].style,
                                         {
                                           color: undefined
-                                            ? '#F3321F'
-                                            : '#088232',
+                                            ? "#F3321F"
+                                            : "#088232",
                                           fontSize: 12,
                                           lineHeight: 20,
                                         }
@@ -696,8 +696,8 @@ const CompanyListScreen = props => {
                                     style={StyleSheet.applyWidth(
                                       {
                                         backgroundColor: undefined
-                                          ? '#ff4b4b1a'
-                                          : '#14b66c1a',
+                                          ? "#ff4b4b1a"
+                                          : "#14b66c1a",
                                         paddingBottom: 0,
                                         paddingTop: 0,
                                       },
@@ -709,20 +709,20 @@ const CompanyListScreen = props => {
                                       accessible={true}
                                       selectable={false}
                                       {...GlobalStyles.TextStyles(theme)[
-                                        'Text Title'
+                                        "Text Title"
                                       ].props}
                                       style={StyleSheet.applyWidth(
                                         StyleSheet.compose(
                                           GlobalStyles.TextStyles(theme)[
-                                            'Text Title'
+                                            "Text Title"
                                           ].style,
                                           {
                                             color: undefined
-                                              ? '#F3321F'
-                                              : '#088232',
-                                            fontFamily: 'System',
+                                              ? "#F3321F"
+                                              : "#088232",
+                                            fontFamily: "System",
                                             fontSize: 12,
-                                            fontWeight: '400',
+                                            fontWeight: "400",
                                             lineHeight: 20,
                                             marginLeft: 4,
                                             marginRight: 4,
@@ -732,7 +732,7 @@ const CompanyListScreen = props => {
                                       )}
                                     >
                                       {flashListData?.current_change_percent}
-                                      {'%'}
+                                      {"%"}
                                     </Text>
                                   </View>
                                 </View>
@@ -745,13 +745,13 @@ const CompanyListScreen = props => {
                                           await aceCampTestSnsActionsDoPOST.mutateAsync(
                                             {
                                               action: flashListData?.following
-                                                ? 'unfollow'
-                                                : 'follow',
+                                                ? "unfollow"
+                                                : "follow",
                                               target_id:
                                                 flashListData?.corporation_id
                                                   ? flashListData?.corporation_id
                                                   : flashListData?.id,
-                                              target_type: 'Corporation',
+                                              target_type: "Corporation",
                                             }
                                           )
                                         )?.json;
@@ -772,8 +772,8 @@ const CompanyListScreen = props => {
                                       <View
                                         style={StyleSheet.applyWidth(
                                           {
-                                            alignItems: 'center',
-                                            flexDirection: 'row',
+                                            alignItems: "center",
+                                            flexDirection: "row",
                                             marginTop: 4,
                                           },
                                           dimensions.width
@@ -783,27 +783,27 @@ const CompanyListScreen = props => {
                                           color={
                                             palettes.Brand.appStyle_primary
                                           }
-                                          name={'AntDesign/pluscircleo'}
+                                          name={"AntDesign/pluscircleo"}
                                           size={18}
                                         />
                                         <Text
                                           accessible={true}
                                           selectable={false}
                                           {...GlobalStyles.TextStyles(theme)[
-                                            'Text Title'
+                                            "Text Title"
                                           ].props}
                                           style={StyleSheet.applyWidth(
                                             StyleSheet.compose(
                                               GlobalStyles.TextStyles(theme)[
-                                                'Text Title'
+                                                "Text Title"
                                               ].style,
                                               {
                                                 color:
                                                   palettes.Brand
                                                     .appStyle_primary,
-                                                fontFamily: 'System',
+                                                fontFamily: "System",
                                                 fontSize: 14,
-                                                fontWeight: '600',
+                                                fontWeight: "600",
                                                 lineHeight: 20,
                                                 marginLeft: 4,
                                                 marginRight: null,
@@ -812,7 +812,7 @@ const CompanyListScreen = props => {
                                             dimensions.width
                                           )}
                                         >
-                                          {t(Variables, 'tab_circle_follow')}
+                                          {t(Variables, "tab_circle_follow")}
                                         </Text>
                                       </View>
                                     )}
@@ -823,7 +823,7 @@ const CompanyListScreen = props => {
                                         style={StyleSheet.applyWidth(
                                           {
                                             backgroundColor:
-                                              palettes.App['Custom Color 27'],
+                                              palettes.App["Custom Color 27"],
                                             borderRadius: 8,
                                             marginTop: 4,
                                           },
@@ -834,21 +834,21 @@ const CompanyListScreen = props => {
                                           accessible={true}
                                           selectable={false}
                                           {...GlobalStyles.TextStyles(theme)[
-                                            'Text Title'
+                                            "Text Title"
                                           ].props}
                                           style={StyleSheet.applyWidth(
                                             StyleSheet.compose(
                                               GlobalStyles.TextStyles(theme)[
-                                                'Text Title'
+                                                "Text Title"
                                               ].style,
                                               {
                                                 color:
                                                   palettes.App[
-                                                    'Custom #ffffff'
+                                                    "Custom #ffffff"
                                                   ],
-                                                fontFamily: 'System',
+                                                fontFamily: "System",
                                                 fontSize: 14,
-                                                fontWeight: '600',
+                                                fontWeight: "600",
                                                 lineHeight: 20,
                                                 marginLeft: 4,
                                                 marginRight: 4,
@@ -857,7 +857,7 @@ const CompanyListScreen = props => {
                                             dimensions.width
                                           )}
                                         >
-                                          {t(Variables, 'common_followed')}
+                                          {t(Variables, "common_followed")}
                                         </Text>
                                       </View>
                                     )}
@@ -869,7 +869,7 @@ const CompanyListScreen = props => {
                         </Touchable>
                       );
                     }}
-                    snapToAlignment={'start'}
+                    snapToAlignment={"start"}
                     onEndReachedThreshold={0.1}
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
@@ -890,21 +890,21 @@ const CompanyListScreen = props => {
                     <View
                       style={StyleSheet.applyWidth(
                         {
-                          alignItems: 'center',
+                          alignItems: "center",
                           height: [
-                            { minWidth: Breakpoints.Mobile, value: '100%' },
+                            { minWidth: Breakpoints.Mobile, value: "100%" },
                             {
                               minWidth: Breakpoints.Mobile,
                               value: dimensions.height,
                             },
                           ],
-                          justifyContent: 'center',
+                          justifyContent: "center",
                           left: 0,
                           opacity: 1,
-                          position: 'absolute',
+                          position: "absolute",
                           top: 0,
                           width: [
-                            { minWidth: Breakpoints.Mobile, value: '100%' },
+                            { minWidth: Breakpoints.Mobile, value: "100%" },
                             {
                               minWidth: Breakpoints.Mobile,
                               value: dimensions.width,
@@ -918,11 +918,11 @@ const CompanyListScreen = props => {
                       <View
                         style={StyleSheet.applyWidth(
                           {
-                            alignItems: 'center',
-                            backgroundColor: palettes.App['Custom Color 5'],
+                            alignItems: "center",
+                            backgroundColor: palettes.App["Custom Color 5"],
                             borderRadius: 8,
                             height: 70,
-                            justifyContent: 'center',
+                            justifyContent: "center",
                             opacity: 0.6,
                             width: 70,
                             zIndex: 200,
@@ -933,20 +933,20 @@ const CompanyListScreen = props => {
                         <LoadingIndicator
                           size={30}
                           color={palettes.Brand.appStyle_primary}
-                          type={'wave'}
+                          type={"wave"}
                         />
                       </View>
                       {/* View 2 */}
                       <View
                         style={StyleSheet.applyWidth(
                           {
-                            backgroundColor: palettes.App['Custom Color 5'],
-                            height: '100%',
+                            backgroundColor: palettes.App["Custom Color 5"],
+                            height: "100%",
                             left: 0,
                             opacity: 0.43,
-                            position: 'absolute',
+                            position: "absolute",
                             top: 0,
-                            width: '100%',
+                            width: "100%",
                           },
                           dimensions.width
                         )}

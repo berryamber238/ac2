@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Animated,
   View,
@@ -7,18 +7,19 @@ import {
   StatusBar,
   Text,
   TouchableHighlight,
-} from 'react-native';
-import { Icon } from '@draftbit/ui';
-import { TabView, SceneMap } from 'react-native-tab-view';
-import t from '../global-functions/t';
-import * as GlobalVariables from '../config/GlobalVariableContext';
-import * as DataContext from './DataContext';
+} from "react-native";
+import { Icon } from "@draftbit/ui";
+import { TabView, SceneMap } from "react-native-tab-view";
+import t from "../global-functions/t";
+import * as GlobalVariables from "../config/GlobalVariableContext";
+import * as DataContext from "./DataContext";
 
 const createScene = (Component, props) => () => <Component {...props} />;
 
 export class TabViewExample extends React.Component {
-  getSceneObj = sceneObj => {
+  getSceneObj = (sceneObj) => {
     let newSceneObj = {};
+    console.log(sceneObj);
     for (const key in sceneObj) {
       if (sceneObj.hasOwnProperty(key)) {
         newSceneObj[key] = createScene(sceneObj[key], {
@@ -42,23 +43,23 @@ export class TabViewExample extends React.Component {
     newDataCount[tabName] = count;
     this.setState({ dataCount: newDataCount });
   };
-  _handleIndexChange = index => {
+  _handleIndexChange = (index) => {
     if (this.props.updatePosition) {
       this.props.updatePosition(index);
     }
     this.setState({ index });
   };
 
-  _renderTabBar = props => {
+  _renderTabBar = (props) => {
     const inputRange = props.navigationState.routes.map((x, i) => i);
     const Constants = GlobalVariables.useValues();
     const Variables = Constants;
     return (
       <View
         style={{
-          alignItems: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+          alignItems: "center",
+          flexDirection: "row",
+          justifyContent: "space-between",
         }}
       >
         <View style={styles.tabBar}>
@@ -94,7 +95,7 @@ export class TabViewExample extends React.Component {
                 {i === this.props.iconIndex ? (
                   <Icon
                     color="#FF4C4C"
-                    name={'MaterialCommunityIcons/fire'}
+                    name={"MaterialCommunityIcons/fire"}
                     size={20}
                   />
                 ) : null}
@@ -102,11 +103,11 @@ export class TabViewExample extends React.Component {
                   style={{
                     color: color,
                     fontSize: this.props.fontSize,
-                    fontWeight: 'bold',
+                    fontWeight: "bold",
                   }}
                 >
-                  {t(Variables, route.title)}{' '}
-                  {this.state.dataCount ? this.state.dataCount[route.key] : ''}
+                  {t(Variables, route.title)}{" "}
+                  {this.state.dataCount ? this.state.dataCount[route.key] : ""}
                 </Animated.Text>
               </TouchableOpacity>
             );
@@ -118,7 +119,7 @@ export class TabViewExample extends React.Component {
             style={{ paddingRight: 20 }}
             underlayColor="white"
           >
-            <Icon color="#2b33e6" name={'AntDesign/filter'} size={20} />
+            <Icon color="#2b33e6" name={"AntDesign/filter"} size={20} />
           </TouchableHighlight>
         )}
       </View>
@@ -149,12 +150,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tabBar: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
     // paddingTop: StatusBar.currentHeight,
   },
   tabItem: {
-    alignItems: 'center',
+    alignItems: "center",
   },
 });

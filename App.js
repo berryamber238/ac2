@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { Provider as ThemeProvider } from '@draftbit/ui';
-import { useFonts } from 'expo-font';
-import * as Notifications from 'expo-notifications';
-import * as SplashScreen from 'expo-splash-screen';
+import * as React from "react";
+import { Provider as ThemeProvider } from "@draftbit/ui";
+import { useFonts } from "expo-font";
+import * as Notifications from "expo-notifications";
+import * as SplashScreen from "expo-splash-screen";
 import {
   ActivityIndicator,
   AppState,
@@ -13,19 +13,20 @@ import {
   TextInput,
   View,
   useColorScheme,
-} from 'react-native';
+} from "react-native";
 import {
   SafeAreaFrameContext,
   SafeAreaProvider,
   initialWindowMetrics,
-} from 'react-native-safe-area-context';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import AppNavigator from './AppNavigator';
-import Fonts from './config/Fonts.js';
-import { GlobalVariableProvider } from './config/GlobalVariableContext';
-import cacheAssetsAsync from './config/cacheAssetsAsync';
-import Draftbit from './themes/Draftbit';
-import useWindowDimensions from './utils/useWindowDimensions';
+} from "react-native-safe-area-context";
+import { QueryClient, QueryClientProvider } from "react-query";
+import AppNavigator from "./AppNavigator";
+import Fonts from "./config/Fonts.js";
+import { GlobalVariableProvider } from "./config/GlobalVariableContext";
+import cacheAssetsAsync from "./config/cacheAssetsAsync";
+import Draftbit from "./themes/Draftbit";
+import useWindowDimensions from "./utils/useWindowDimensions";
+import { LogBox } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,45 +45,45 @@ const queryClient = new QueryClient();
 //
 // This reimplementation is a workaround to allow the app to switch between light and dark schemes
 // by storing the selection in the data-theme attribute of the document element.
-if (Platform.OS === 'web') {
-  Appearance.setColorScheme = scheme => {
-    document.documentElement.setAttribute('data-theme', scheme);
+if (Platform.OS === "web") {
+  Appearance.setColorScheme = (scheme) => {
+    document.documentElement.setAttribute("data-theme", scheme);
   };
 
   Appearance.getColorScheme = () => {
-    const systemValue = window.matchMedia('(prefers-color-scheme: dark)')
+    const systemValue = window.matchMedia("(prefers-color-scheme: dark)")
       .matches
-      ? 'dark'
-      : 'light';
-    const userValue = document.documentElement.getAttribute('data-theme');
-    return userValue && userValue !== 'null' ? userValue : systemValue;
+      ? "dark"
+      : "light";
+    const userValue = document.documentElement.getAttribute("data-theme");
+    return userValue && userValue !== "null" ? userValue : systemValue;
   };
 
-  Appearance.addChangeListener = listener => {
+  Appearance.addChangeListener = (listener) => {
     // Listen for changes of system value
-    const systemValueListener = e => {
-      const newSystemValue = e.matches ? 'dark' : 'light';
-      const userValue = document.documentElement.getAttribute('data-theme');
+    const systemValueListener = (e) => {
+      const newSystemValue = e.matches ? "dark" : "light";
+      const userValue = document.documentElement.getAttribute("data-theme");
       listener({
         colorScheme:
-          userValue && userValue !== 'null' ? userValue : newSystemValue,
+          userValue && userValue !== "null" ? userValue : newSystemValue,
       });
     };
-    const systemValue = window.matchMedia('(prefers-color-scheme: dark)');
-    systemValue.addEventListener('change', systemValueListener);
+    const systemValue = window.matchMedia("(prefers-color-scheme: dark)");
+    systemValue.addEventListener("change", systemValueListener);
 
     // Listen for changes of user set value
-    const observer = new MutationObserver(mutationsList => {
+    const observer = new MutationObserver((mutationsList) => {
       for (const mutation of mutationsList) {
-        if (mutation.attributeName === 'data-theme') {
+        if (mutation.attributeName === "data-theme") {
           listener({ colorScheme: Appearance.getColorScheme() });
         }
       }
     });
     observer.observe(document.documentElement, { attributes: true });
 
-    function remove(): void {
-      systemValue.removeEventListener('change', systemValueListener);
+    function remove() {
+      systemValue.removeEventListener("change", systemValueListener);
       observer.disconnect();
     }
 
@@ -91,6 +92,7 @@ if (Platform.OS === 'web') {
 }
 
 const App = () => {
+  LogBox.ignoreAllLogs(true);
   const [areAssetsCached, setAreAssetsCached] = React.useState(false);
 
   const [fontsLoaded] = useFonts({
@@ -124,7 +126,7 @@ const App = () => {
   // The Drawer snippet that relies on useSafeAreaFrame: https://github.com/react-navigation/react-navigation/blob/bddcc44ab0e0ad5630f7ee0feb69496412a00217/packages/drawer/src/views/DrawerView.tsx#L112
   // Issue regarding broken useSafeAreaFrame: https://github.com/th3rdwave/react-native-safe-area-context/issues/184
   const SafeAreaFrameContextProvider =
-    Platform.OS === 'web' ? SafeAreaFrameContext.Provider : React.Fragment;
+    Platform.OS === "web" ? SafeAreaFrameContext.Provider : React.Fragment;
 
   Text.defaultProps = Text.defaultProps || {};
   Text.defaultProps.allowFontScaling = false;
@@ -145,24 +147,26 @@ const App = () => {
 
   return (
     <>
-      {Platform.OS === 'ios' ? (
+      {Platform.OS === "ios" ? (
         <StatusBar
-          barStyle={'light-content'}
+          barStyle={"light-content"}
           hidden={false}
           networkActivityIndicatorVisible={true}
         />
       ) : null}
-      {Platform.OS === 'android' ? (
+
+      {Platform.OS === "android" ? (
         <StatusBar
-          barStyle={'light-content'}
+          barStyle={"light-content"}
           hidden={false}
+          backgroundColor={"#00000000"}
           translucent={true}
         />
       ) : null}
       <ThemeProvider
         themes={[Draftbit]}
         breakpoints={{}}
-        initialThemeName={'Draftbit'}
+        initialThemeName={"Draftbit"}
       >
         <SafeAreaProvider
           initialMetrics={initialWindowMetrics}

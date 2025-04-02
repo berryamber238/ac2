@@ -1,78 +1,78 @@
-import * as StyleSheet from './utils/StyleSheet';
+import * as StyleSheet from "./utils/StyleSheet";
 
-import Breakpoints from './utils/Breakpoints';
+import Breakpoints from "./utils/Breakpoints";
 
-import palettes from './themes/palettes';
+import palettes from "./themes/palettes";
 
-export const TextStyles = theme =>
+export const TextStyles = (theme) =>
   StyleSheet.create({
     12: {
       style: {
-        color: 'rgb(0, 0, 0)',
-        fontFamily: 'System',
+        color: "rgb(0, 0, 0)",
+        fontFamily: "System",
         fontSize: 18,
-        fontWeight: '700',
+        fontWeight: "700",
         letterSpacing: 0.2,
         lineHeight: 32,
         marginRight: 10,
       },
       props: {},
     },
-    '12 Regular': {
+    "12 Regular": {
       style: {
-        fontFamily: 'System',
+        fontFamily: "System",
         fontSize: 12,
-        fontWeight: '400',
+        fontWeight: "400",
         letterSpacing: 0.2,
         lineHeight: 14,
       },
       props: {},
     },
-    '13 Regular': {
+    "13 Regular": {
       style: {
-        color: 'rgb(0, 0, 0)',
-        fontFamily: 'System',
+        color: "rgb(0, 0, 0)",
+        fontFamily: "System",
         fontSize: 13,
-        fontWeight: '400',
+        fontWeight: "400",
         letterSpacing: 0.2,
         lineHeight: 15,
       },
       props: {},
     },
-    '14 Regular': {
+    "14 Regular": {
       style: {
-        fontFamily: 'System',
+        fontFamily: "System",
         fontSize: 14,
-        fontWeight: '400',
+        fontWeight: "400",
         letterSpacing: 0.2,
         lineHeight: 16,
       },
       props: {},
     },
-    '15 Regular': {
+    "15 Regular": {
       style: {
-        fontFamily: 'System',
+        fontFamily: "System",
         fontSize: 15,
-        fontWeight: '400',
+        fontWeight: "400",
         letterSpacing: 0.2,
         lineHeight: 17,
       },
       props: {},
     },
-    '16_Title': {
+    "16_Title": {
       style: {
-        color: palettes.App['Custom Color 5'],
-        fontFamily: 'Urbanist_600SemiBold',
+        color: palettes.App["Custom Color 5"],
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 16,
         letterSpacing: 0.2,
         lineHeight: 19.6,
       },
       props: {},
     },
-    '16_Title 2': {
+    "16_Title 2": {
       style: {
-        color: palettes.App['Custom Color 4'],
-        fontFamily: 'Urbanist_600SemiBold',
+        color: palettes.App["Custom Color 4"],
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 14,
         letterSpacing: 0.2,
         lineHeight: 19.6,
@@ -80,96 +80,96 @@ export const TextStyles = theme =>
       },
       props: {},
     },
-    '18_Title': {
+    "18_Title": {
       style: {
         color: palettes.App.appStyle_greyscale_800,
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 18,
         letterSpacing: 0.2,
         lineHeight: 19.6,
       },
       props: {},
     },
-    'Body L Bold': {
+    "Body L Bold": {
       style: {
         color: theme.colors.branding.primary,
-        fontFamily: 'Urbanist_700Bold',
+        fontFamily: "Urbanist_700Bold",
         fontSize: 16,
         letterSpacing: 0.2,
         lineHeight: 22.4,
       },
       props: {},
     },
-    'Body L Medium': {
+    "Body L Medium": {
       style: {
         color: palettes.App.appStyle_greyscale_800,
-        fontFamily: 'Urbanist_500Medium',
+        fontFamily: "Urbanist_500Medium",
         fontSize: 16,
         letterSpacing: 0.2,
         lineHeight: 22.4,
       },
       props: {},
     },
-    'Body L Regular': {
+    "Body L Regular": {
       style: {
         color: 'theme.colors["Greyscale 600"]',
-        fontFamily: 'Urbanist_400Regular',
+        fontFamily: "Urbanist_400Regular",
         fontSize: 16,
         letterSpacing: 0.2,
         lineHeight: 22.4,
       },
       props: {},
     },
-    'Body L Semibold': {
+    "Body L Semibold": {
       style: {
         color: theme.colors.branding.primary,
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 16,
         letterSpacing: 0.2,
         lineHeight: 22.4,
       },
       props: {},
     },
-    'Body M Medium': {
+    "Body M Medium": {
       style: {
         color: palettes.Brand.appStyle_greyscale_700,
-        fontFamily: 'Urbanist_500Medium',
+        fontFamily: "Urbanist_500Medium",
         letterSpacing: 0.2,
         lineHeight: 19.6,
       },
       props: {},
     },
-    'Body M Regular': {
+    "Body M Regular": {
       style: {
         color: palettes.App.appStyle_greyscale_800,
-        fontFamily: 'Urbanist_400Regular',
+        fontFamily: "Urbanist_400Regular",
         letterSpacing: 0.2,
         lineHeight: 19.6,
       },
       props: {},
     },
-    'Body M Semibold': {
+    "Body M Semibold": {
       style: {
         color: palettes.Brand.appStyle_primary,
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         letterSpacing: 0.2,
         lineHeight: 19.6,
       },
       props: {},
     },
-    'Body S Medium': {
+    "Body S Medium": {
       style: {
-        alignSelf: 'auto',
+        alignSelf: "auto",
         color: palettes.Brand.appStyle_greyscale_700,
-        fontFamily: 'Urbanist_500Medium',
+        fontFamily: "Urbanist_500Medium",
         fontSize: 14,
       },
       props: {},
     },
-    'Body S Semibold': {
+    "Body S Semibold": {
       style: {
         color: palettes.Brand.appStyle_primary,
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 12,
         letterSpacing: 0.2,
         lineHeight: 14.4,
@@ -177,116 +177,116 @@ export const TextStyles = theme =>
       },
       props: {},
     },
-    'Body XL Bold': {
+    "Body XL Bold": {
       style: {
         color: palettes.Brand.appStyle_greyscale_900,
-        fontFamily: 'Urbanist_700Bold',
+        fontFamily: "Urbanist_700Bold",
         fontSize: 18,
         letterSpacing: 0.2,
         lineHeight: 25.2,
       },
       props: {},
     },
-    'Body XL Medium': {
+    "Body XL Medium": {
       style: {
         color: palettes.Brand.appStyle_greyscale_700,
-        fontFamily: 'Urbanist_500Medium',
+        fontFamily: "Urbanist_500Medium",
         fontSize: 18,
         letterSpacing: 0.2,
         lineHeight: 25.2,
       },
       props: {},
     },
-    'Body XL Semibold': {
+    "Body XL Semibold": {
       style: {
         color: palettes.Brand.appStyle_greyscale_900,
         flex: 1,
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 18,
         letterSpacing: 0.2,
         lineHeight: 25.2,
       },
       props: {},
     },
-    'Body XS Bold': {
+    "Body XS Bold": {
       style: {
         color: theme.colors.branding.primary,
-        fontFamily: 'Urbanist_700Bold',
+        fontFamily: "Urbanist_700Bold",
         fontSize: 10,
         letterSpacing: 0.2,
         lineHeight: 12,
       },
       props: {},
     },
-    'Body XS Medium': {
+    "Body XS Medium": {
       style: {
         color: 'theme.colors["Greyscale 500"]',
-        fontFamily: 'Urbanist_500Medium',
+        fontFamily: "Urbanist_500Medium",
         fontSize: 10,
         letterSpacing: 0.2,
         lineHeight: 12,
       },
       props: {},
     },
-    'Body XS Semibold': {
+    "Body XS Semibold": {
       style: {
         color: 'theme.colors["White"]',
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 10,
         letterSpacing: 0.2,
         lineHeight: 12,
       },
       props: {},
     },
-    'Company Form Tip': {
+    "Company Form Tip": {
       style: {
-        color: palettes.App['Custom Color 59'],
-        fontFamily: 'System',
+        color: palettes.App["Custom Color 59"],
+        fontFamily: "System",
         fontSize: 12,
-        fontWeight: '400',
+        fontWeight: "400",
         lineHeight: 14,
         marginTop: 4,
       },
       props: {},
     },
-    'Company Form Title': {
+    "Company Form Title": {
       style: {
-        fontFamily: 'System',
+        fontFamily: "System",
         fontSize: 12,
-        fontWeight: '400',
+        fontWeight: "400",
         letterSpacing: 0.2,
         lineHeight: 14,
       },
       props: {},
     },
-    'Company List Menu': {
+    "Company List Menu": {
       style: {
-        color: palettes.App['Custom Color 23'],
-        fontFamily: 'System',
+        color: palettes.App["Custom Color 23"],
+        fontFamily: "System",
         fontSize: 14,
-        fontWeight: '600',
+        fontWeight: "600",
         letterSpacing: 0.2,
         lineHeight: 20,
       },
       props: {},
     },
-    'Create Opinion Label': {
+    "Create Opinion Label": {
       style: {
-        color: palettes.App['Custom Color 2'],
-        fontFamily: 'System',
+        color: palettes.App["Custom Color 2"],
+        fontFamily: "System",
         fontSize: 15,
-        fontWeight: '600',
+        fontWeight: "600",
         letterSpacing: 0.2,
         lineHeight: 20,
       },
       props: {},
     },
-    'Daily Update Title': {
+    "Daily Update Title": {
       style: {
-        color: palettes.App['Custom #ffffff'],
-        fontFamily: 'System',
+        color: palettes.App["Custom #ffffff"],
+        fontFamily: "System",
         fontSize: 15,
-        fontWeight: '600',
+        fontWeight: "600",
         letterSpacing: 0.2,
         lineHeight: 22,
         marginLeft: 16,
@@ -294,34 +294,34 @@ export const TextStyles = theme =>
       },
       props: {},
     },
-    'Event Confirm Info': {
+    "Event Confirm Info": {
       style: {
-        color: 'rgb(0, 0, 0)',
-        fontFamily: 'System',
+        color: "rgb(0, 0, 0)",
+        fontFamily: "System",
         fontSize: 16,
-        fontWeight: '700',
+        fontWeight: "700",
         letterSpacing: 0.2,
         lineHeight: 32,
         marginRight: 10,
       },
       props: {},
     },
-    'Event Text': {
+    "Event Text": {
       style: {
-        color: palettes.App['Custom Color 41'],
-        fontFamily: 'System',
+        color: palettes.App["Custom Color 41"],
+        fontFamily: "System",
         fontSize: 14,
-        fontWeight: '600',
+        fontWeight: "600",
         letterSpacing: 0.2,
         lineHeight: 19,
       },
       props: {},
     },
-    'Form Label': { style: { fontSize: 14, paddingTop: 16 }, props: {} },
+    "Form Label": { style: { fontSize: 14, paddingTop: 16 }, props: {} },
     H3: {
       style: {
         color: palettes.Brand.appStyle_greyscale_900,
-        fontFamily: 'Urbanist_700Bold',
+        fontFamily: "Urbanist_700Bold",
         fontSize: 32,
         lineHeight: 38.4,
       },
@@ -330,7 +330,7 @@ export const TextStyles = theme =>
     H4: {
       style: {
         color: palettes.Brand.appStyle_greyscale_900,
-        fontFamily: 'Urbanist_700Bold',
+        fontFamily: "Urbanist_700Bold",
         fontSize: 24,
         lineHeight: 28.8,
       },
@@ -339,7 +339,7 @@ export const TextStyles = theme =>
     H5: {
       style: {
         color: palettes.Brand.appStyle_greyscale_900,
-        fontFamily: 'Urbanist_700Bold',
+        fontFamily: "Urbanist_700Bold",
         fontSize: 20,
         lineHeight: 24,
       },
@@ -348,81 +348,81 @@ export const TextStyles = theme =>
     H6: {
       style: {
         color: palettes.Brand.appStyle_greyscale_900,
-        fontFamily: 'Urbanist_700Bold',
+        fontFamily: "Urbanist_700Bold",
         fontSize: 18,
         lineHeight: 21.6,
       },
       props: {},
     },
-    'Search Hot Normal': {
+    "Search Hot Normal": {
       style: {
-        fontFamily: 'System',
+        fontFamily: "System",
         fontSize: 14,
-        fontWeight: '400',
+        fontWeight: "400",
         letterSpacing: 0.3,
         lineHeight: 25,
       },
       props: {},
     },
-    'Search Hot Top': {
+    "Search Hot Top": {
       style: {
-        color: palettes.App['Custom Color 12'],
-        fontFamily: 'System',
+        color: palettes.App["Custom Color 12"],
+        fontFamily: "System",
         fontSize: 14,
-        fontWeight: '600',
+        fontWeight: "600",
         letterSpacing: 0.3,
         lineHeight: 25,
       },
       props: {},
     },
     Text: { style: { color: theme.colors.text.strong }, props: {} },
-    'Text 2111': { style: {}, props: {} },
-    'Text 2113': {
+    "Text 2111": { style: {}, props: {} },
+    "Text 2113": {
       style: {
         color: palettes.App.appStyle_greyscale_800,
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 15,
         letterSpacing: 0.2,
         lineHeight: 19.6,
       },
       props: {},
     },
-    'Text Form Label': {
+    "Text Form Label": {
       style: {
         color: palettes.App.appStyle_greyscale_800,
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 16,
         letterSpacing: 0.2,
         lineHeight: 19.6,
       },
       props: {},
     },
-    'Text Form Label 2': {
+    "Text Form Label 2": {
       style: {
         color: palettes.Brand.appStyle_primary,
-        fontFamily: 'Urbanist_400Regular',
+        fontFamily: "Urbanist_400Regular",
         fontSize: 14,
         letterSpacing: 0.2,
         lineHeight: 19.6,
       },
       props: {},
     },
-    'Text Tip': {
+    "Text Tip": {
       style: {
         color: palettes.Brand.itemTextNomal,
-        fontFamily: 'Urbanist_400Regular',
+        fontFamily: "Urbanist_400Regular",
         fontSize: 14,
         letterSpacing: 0.2,
         lineHeight: 19.6,
       },
       props: {},
     },
-    'Text Title': {
+    "Text Title": {
       style: {
-        color: 'rgb(0, 0, 0)',
-        fontFamily: 'System',
+        color: "rgb(0, 0, 0)",
+        fontFamily: "System",
         fontSize: 18,
-        fontWeight: '700',
+        fontWeight: "700",
         letterSpacing: 0.2,
         lineHeight: 32,
         marginRight: 10,
@@ -431,36 +431,36 @@ export const TextStyles = theme =>
     },
   });
 
-export const DividerStyles = theme =>
+export const DividerStyles = (theme) =>
   StyleSheet.create({ Divider: { style: {}, props: {} } });
 
-export const TabViewItemStyles = theme =>
-  StyleSheet.create({ 'Tab View Item': { style: {}, props: {} } });
+export const TabViewItemStyles = (theme) =>
+  StyleSheet.create({ "Tab View Item": { style: {}, props: {} } });
 
-export const SwiperStyles = theme =>
+export const SwiperStyles = (theme) =>
   StyleSheet.create({ Swiper: { style: {}, props: {} } });
 
-export const ImageStyles = theme =>
+export const ImageStyles = (theme) =>
   StyleSheet.create({ Image: { style: {}, props: {} } });
 
-export const ViewStyles = theme =>
+export const ViewStyles = (theme) =>
   StyleSheet.create({
-    'Bottom Button': {
+    "Bottom Button": {
       style: {
-        alignItems: 'center',
+        alignItems: "center",
         backgroundColor: palettes.App.appStyle_white,
         bottom: 0,
-        justifyContent: 'center',
+        justifyContent: "center",
         paddingBottom: 36,
         paddingLeft: 24,
         paddingRight: 24,
         paddingTop: 24,
-        position: 'absolute',
-        width: '100%',
+        position: "absolute",
+        width: "100%",
       },
       props: {},
     },
-    'Bottom Tab Navigation': {
+    "Bottom Tab Navigation": {
       style: {
         backgroundColor: 'theme.colors["White"]',
         bottom: 0,
@@ -468,12 +468,12 @@ export const ViewStyles = theme =>
         paddingLeft: 32,
         paddingRight: 32,
         paddingTop: 8,
-        position: 'absolute',
-        width: '100%',
+        position: "absolute",
+        width: "100%",
       },
       props: {},
     },
-    'Bottom Tab Navigation 2': {
+    "Bottom Tab Navigation 2": {
       style: {
         backgroundColor: 'theme.colors["White"]',
         bottom: 0,
@@ -481,19 +481,19 @@ export const ViewStyles = theme =>
         paddingLeft: 32,
         paddingRight: 32,
         paddingTop: 8,
-        position: 'absolute',
-        width: '100%',
+        position: "absolute",
+        width: "100%",
       },
       props: {},
     },
-    'Button With Icon': {
+    "Button With Icon": {
       style: {
-        alignItems: 'center',
-        alignSelf: 'flex-start',
+        alignItems: "center",
+        alignSelf: "flex-start",
         borderColor: theme.colors.branding.primary,
         borderRadius: 50,
         borderWidth: 1,
-        flexDirection: 'row',
+        flexDirection: "row",
         paddingBottom: 6,
         paddingLeft: 16,
         paddingRight: 16,
@@ -501,14 +501,14 @@ export const ViewStyles = theme =>
       },
       props: {},
     },
-    'Button With Icon Filled': {
+    "Button With Icon Filled": {
       style: {
-        alignItems: 'center',
-        alignSelf: 'flex-start',
+        alignItems: "center",
+        alignSelf: "flex-start",
         borderColor: theme.colors.branding.primary,
         borderRadius: 50,
         borderWidth: 1,
-        flexDirection: 'row',
+        flexDirection: "row",
         paddingBottom: 6,
         paddingLeft: 16,
         paddingRight: 16,
@@ -516,74 +516,74 @@ export const ViewStyles = theme =>
       },
       props: {},
     },
-    'Favorite Button Small': {
-      style: { alignItems: 'center', justifyContent: 'center' },
+    "Favorite Button Small": {
+      style: { alignItems: "center", justifyContent: "center" },
       props: {},
     },
-    'Favorite Button Small 2': {
-      style: { alignItems: 'center', justifyContent: 'center' },
+    "Favorite Button Small 2": {
+      style: { alignItems: "center", justifyContent: "center" },
       props: {},
     },
-    'Favorite Medium': {
-      style: { alignItems: 'center', justifyContent: 'center' },
+    "Favorite Medium": {
+      style: { alignItems: "center", justifyContent: "center" },
       props: {},
     },
-    'Horizontal Buttons': {
-      style: { flexDirection: 'row', justifyContent: 'center', width: '100%' },
+    "Horizontal Buttons": {
+      style: { flexDirection: "row", justifyContent: "center", width: "100%" },
       props: {},
     },
-    'Image Item 120x120': {
+    "Image Item 120x120": {
       style: {
-        alignItems: 'center',
+        alignItems: "center",
         borderRadius: 20,
         height: 120,
-        justifyContent: 'center',
+        justifyContent: "center",
         marginRight: 16,
-        overflow: 'hidden',
+        overflow: "hidden",
         width: 120,
       },
       props: {},
     },
-    'Image Item 120x121': {
+    "Image Item 120x121": {
       style: {
-        alignItems: 'center',
+        alignItems: "center",
         borderRadius: 20,
         height: 120,
-        justifyContent: 'center',
-        overflow: 'hidden',
+        justifyContent: "center",
+        overflow: "hidden",
         width: 120,
       },
       props: {},
     },
-    'Information Card': {
+    "Information Card": {
       style: {
         backgroundColor: 'theme.colors["White"]',
         borderRadius: 28,
-        flexDirection: 'column',
+        flexDirection: "column",
         padding: 24,
-        width: '100%',
+        width: "100%",
       },
       props: {},
     },
-    'Light Purple Button 2': {
+    "Light Purple Button 2": {
       style: {
-        alignItems: 'center',
+        alignItems: "center",
         backgroundColor: 'theme.colors["Primary 100"]',
         borderRadius: 30,
         height: 58,
-        justifyContent: 'center',
-        position: 'absolute',
-        width: '100%',
+        justifyContent: "center",
+        position: "absolute",
+        width: "100%",
       },
       props: {},
     },
-    'Login Form Container': {
+    "Login Form Container": {
       style: {
-        alignItems: 'center',
-        borderColor: palettes.App['Custom Color 4'],
+        alignItems: "center",
+        borderColor: palettes.App["Custom Color 4"],
         borderRadius: 3,
         borderWidth: 1,
-        flexDirection: 'row',
+        flexDirection: "row",
         height: 45,
         marginTop: 8,
         paddingBottom: 4,
@@ -592,11 +592,11 @@ export const ViewStyles = theme =>
       },
       props: {},
     },
-    'Main Content': {
+    "Main Content": {
       style: { flex: 1, paddingBottom: 16, paddingTop: 16 },
       props: {},
     },
-    'Main Content 2': {
+    "Main Content 2": {
       style: {
         flex: 1,
         paddingBottom: 16,
@@ -606,88 +606,88 @@ export const ViewStyles = theme =>
       },
       props: {},
     },
-    'Main Content 3': { style: { flex: 1, paddingTop: 16 }, props: {} },
-    'Main Content 4': { style: { paddingTop: 16 }, props: {} },
-    'Main Content 5': { style: { flex: 1 }, props: {} },
-    'Notification Item': { style: { marginBottom: 24 }, props: {} },
-    'Notification Item 2': { style: { marginBottom: 24 }, props: {} },
-    'Page Top': {
+    "Main Content 3": { style: { flex: 1, paddingTop: 16 }, props: {} },
+    "Main Content 4": { style: { paddingTop: 16 }, props: {} },
+    "Main Content 5": { style: { flex: 1 }, props: {} },
+    "Notification Item": { style: { marginBottom: 24 }, props: {} },
+    "Notification Item 2": { style: { marginBottom: 24 }, props: {} },
+    "Page Top": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
+        alignItems: "center",
+        flexDirection: "row",
         height: 48,
-        width: '100%',
+        width: "100%",
       },
       props: {},
     },
-    'Page Top 2': {
+    "Page Top 2": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
+        alignItems: "center",
+        flexDirection: "row",
         height: 48,
-        width: '100%',
+        width: "100%",
       },
       props: {},
     },
-    'Page Top 3': {
+    "Page Top 3": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
+        alignItems: "center",
+        flexDirection: "row",
         height: 48,
-        width: '100%',
+        width: "100%",
       },
       props: {},
     },
-    'Page Top 4': {
+    "Page Top 4": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
+        alignItems: "center",
+        flexDirection: "row",
         height: 48,
-        width: '100%',
+        width: "100%",
       },
       props: {},
     },
-    'Page Top 5': {
+    "Page Top 5": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
+        alignItems: "center",
+        flexDirection: "row",
         height: 48,
-        width: '100%',
+        width: "100%",
       },
       props: {},
     },
-    'Page Top 6': {
+    "Page Top 6": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
+        alignItems: "center",
+        flexDirection: "row",
         height: 48,
-        width: '100%',
+        width: "100%",
       },
       props: {},
     },
-    'Page Top 7': {
+    "Page Top 7": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
+        alignItems: "center",
+        flexDirection: "row",
         height: 48,
-        width: '100%',
+        width: "100%",
       },
       props: {},
     },
-    'Page Top 8': {
+    "Page Top 8": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
+        alignItems: "center",
+        flexDirection: "row",
         height: 48,
-        width: '100%',
+        width: "100%",
       },
       props: {},
     },
-    'Picker Section': {
+    "Picker Section": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "flex-start",
         marginBottom: 4,
         marginTop: -4,
       },
@@ -695,10 +695,10 @@ export const ViewStyles = theme =>
     },
     PickupItem: {
       style: {
-        alignSelf: 'flex-start',
+        alignSelf: "flex-start",
         backgroundColor: palettes.Brand.itemBgNormal,
         flex: 1,
-        flexWrap: 'nowrap',
+        flexWrap: "nowrap",
         margin: 12,
         paddingBottom: 8,
         paddingLeft: 16,
@@ -707,102 +707,102 @@ export const ViewStyles = theme =>
       },
       props: {},
     },
-    'Popular Events List': {
+    "Popular Events List": {
       style: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'flex-start',
-        width: '100%',
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "flex-start",
+        width: "100%",
       },
       props: {},
     },
-    'Popular Events List 2': {
+    "Popular Events List 2": {
       style: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'flex-start',
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "flex-start",
         paddingLeft: 24,
-        width: '100%',
+        width: "100%",
       },
       props: {},
     },
-    'Popular Tags': {
-      style: { flexDirection: 'row', height: 38, marginBottom: 24 },
+    "Popular Tags": {
+      style: { flexDirection: "row", height: 38, marginBottom: 24 },
       props: {},
     },
-    'Popular Tags 2': {
-      style: { flexDirection: 'row', height: 38, marginBottom: 24 },
+    "Popular Tags 2": {
+      style: { flexDirection: "row", height: 38, marginBottom: 24 },
       props: {},
     },
-    'Popular Tags 3': {
-      style: { flexDirection: 'row', height: 38 },
+    "Popular Tags 3": {
+      style: { flexDirection: "row", height: 38 },
       props: {},
     },
-    'Popular Tags 4': {
-      style: { flexDirection: 'row', height: 38, marginBottom: 24 },
+    "Popular Tags 4": {
+      style: { flexDirection: "row", height: 38, marginBottom: 24 },
       props: {},
     },
-    'Profile Top Item': {
-      style: { alignItems: 'center', paddingBottom: 24 },
+    "Profile Top Item": {
+      style: { alignItems: "center", paddingBottom: 24 },
       props: {},
     },
-    'Result Item': { style: { flexDirection: 'row', padding: 14 }, props: {} },
-    'Result Item 2': {
-      style: { flexDirection: 'row', padding: 14 },
+    "Result Item": { style: { flexDirection: "row", padding: 14 }, props: {} },
+    "Result Item 2": {
+      style: { flexDirection: "row", padding: 14 },
       props: {},
     },
-    'Search Item': {
+    "Search Item": {
       style: {
-        alignItems: 'center',
+        alignItems: "center",
         backgroundColor: 'theme.colors["Greyscale 100"]',
         borderRadius: 16,
-        flexDirection: 'row',
+        flexDirection: "row",
         height: 56,
-        justifyContent: 'flex-start',
+        justifyContent: "flex-start",
       },
       props: {},
     },
-    'Section Top': {
+    "Section Top": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
         marginBottom: 24,
       },
       props: {},
     },
-    'Section Top 2': {
+    "Section Top 2": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
         marginBottom: 24,
       },
       props: {},
     },
-    'Section Top 3': {
+    "Section Top 3": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
       },
       props: {},
     },
-    'Section Top 4': {
+    "Section Top 4": {
       style: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
       },
       props: {},
     },
-    'Status Tag': {
+    "Status Tag": {
       style: {
-        alignItems: 'center',
+        alignItems: "center",
         borderColor: theme.colors.branding.primary,
         borderRadius: 6,
         borderWidth: 1,
-        justifyContent: 'center',
+        justifyContent: "center",
         paddingBottom: 6,
         paddingLeft: 10,
         paddingRight: 10,
@@ -812,87 +812,87 @@ export const ViewStyles = theme =>
     },
     Tabs: { style: { zIndex: 0 }, props: {} },
     Tag: { style: {}, props: {} },
-    'Tag 2': { style: { marginRight: 12 }, props: {} },
+    "Tag 2": { style: { marginRight: 12 }, props: {} },
     Tags: {
-      style: { flexDirection: 'row', height: 38, marginBottom: 24 },
+      style: { flexDirection: "row", height: 38, marginBottom: 24 },
       props: {},
     },
-    'Tags 2': {
-      style: { flexDirection: 'row', height: 38, marginBottom: 24 },
+    "Tags 2": {
+      style: { flexDirection: "row", height: 38, marginBottom: 24 },
       props: {},
     },
-    'Tags 3': {
-      style: { flexDirection: 'row', height: 38, marginBottom: 24 },
+    "Tags 3": {
+      style: { flexDirection: "row", height: 38, marginBottom: 24 },
       props: {},
     },
-    'Tags 4': {
-      style: { flexDirection: 'row', height: 38, marginBottom: 24 },
+    "Tags 4": {
+      style: { flexDirection: "row", height: 38, marginBottom: 24 },
       props: {},
     },
   });
 
-export const ModalStyles = theme =>
+export const ModalStyles = (theme) =>
   StyleSheet.create({ Modal: { style: {}, props: {} } });
 
-export const IconStyles = theme =>
-  StyleSheet.create({ 'Arrow Right': { style: {}, props: {} } });
+export const IconStyles = (theme) =>
+  StyleSheet.create({ "Arrow Right": { style: {}, props: {} } });
 
-export const MapViewStyles = theme =>
+export const MapViewStyles = (theme) =>
   StyleSheet.create({
-    'Map View': {
-      style: { flex: 1, height: '100%', width: '100%' },
+    "Map View": {
+      style: { flex: 1, height: "100%", width: "100%" },
       props: {},
     },
   });
 
-export const ShadowStyles = theme =>
+export const ShadowStyles = (theme) =>
   StyleSheet.create({
-    'Event Card': { style: { borderRadius: 40, opacity: 1 }, props: {} },
-    'Event Card 2': { style: { borderRadius: 40, opacity: 1 }, props: {} },
-    'Event Card 3': { style: { borderRadius: 40, opacity: 1 }, props: {} },
-    'Information Card 2': {
-      style: { borderRadius: 28, marginBottom: 24, width: '100%' },
+    "Event Card": { style: { borderRadius: 40, opacity: 1 }, props: {} },
+    "Event Card 2": { style: { borderRadius: 40, opacity: 1 }, props: {} },
+    "Event Card 3": { style: { borderRadius: 40, opacity: 1 }, props: {} },
+    "Information Card 2": {
+      style: { borderRadius: 28, marginBottom: 24, width: "100%" },
       props: {},
     },
-    'Information Card 3': {
-      style: { borderRadius: 28, marginBottom: 24, width: '100%' },
+    "Information Card 3": {
+      style: { borderRadius: 28, marginBottom: 24, width: "100%" },
       props: {},
     },
-    'Total Card': {
-      style: { borderRadius: 28, marginBottom: 24, width: '100%' },
+    "Total Card": {
+      style: { borderRadius: 28, marginBottom: 24, width: "100%" },
       props: {},
     },
   });
 
-export const TouchableStyles = theme =>
+export const TouchableStyles = (theme) =>
   StyleSheet.create({
-    'Light Purple Button': {
-      style: { height: '100%', width: '100%' },
+    "Light Purple Button": {
+      style: { height: "100%", width: "100%" },
       props: {},
     },
-    'Popular Card': { style: { width: '50%' }, props: {} },
-    'Popular Card 2': { style: { width: '50%' }, props: {} },
+    "Popular Card": { style: { width: "50%" }, props: {} },
+    "Popular Card 2": { style: { width: "50%" }, props: {} },
   });
 
-export const FetchStyles = theme =>
+export const FetchStyles = (theme) =>
   StyleSheet.create({ Fetch: { style: { minHeight: 40 }, props: {} } });
 
-export const SVGStyles = theme =>
+export const SVGStyles = (theme) =>
   StyleSheet.create({ SVG: { style: { height: 100, width: 100 }, props: {} } });
 
-export const LinearGradientStyles = theme =>
+export const LinearGradientStyles = (theme) =>
   StyleSheet.create({
-    'Linear Gradient': { style: { height: '100%', width: '100%' }, props: {} },
+    "Linear Gradient": { style: { height: "100%", width: "100%" }, props: {} },
   });
 
-export const CheckboxRowStyles = theme =>
+export const CheckboxRowStyles = (theme) =>
   StyleSheet.create({
-    'Checkbox Row': { style: { minHeight: 50 }, props: {} },
+    "Checkbox Row": { style: { minHeight: 50 }, props: {} },
   });
 
-export const NumberInputStyles = theme =>
+export const NumberInputStyles = (theme) =>
   StyleSheet.create({
-    'Number Input': {
+    "Number Input": {
       style: {
         borderColor: theme.colors.border.brand,
         borderRadius: 8,
@@ -905,21 +905,21 @@ export const NumberInputStyles = theme =>
     },
   });
 
-export const ScrollViewStyles = theme =>
+export const ScrollViewStyles = (theme) =>
   StyleSheet.create({
-    'Featured Scroll View': {
+    "Featured Scroll View": {
       style: { paddingBottom: 24, paddingLeft: 24, paddingTop: 24 },
       props: {},
     },
-    'Featured Scroll View 2': { style: { paddingBottom: 24 }, props: {} },
+    "Featured Scroll View 2": { style: { paddingBottom: 24 }, props: {} },
   });
 
-export const LinkStyles = theme =>
+export const LinkStyles = (theme) =>
   StyleSheet.create({
-    'InText Link': {
+    "InText Link": {
       style: {
         color: palettes.Brand.appStyle_primary,
-        fontFamily: 'Urbanist_400Regular',
+        fontFamily: "Urbanist_400Regular",
         fontSize: 16,
         letterSpacing: 0.2,
         lineHeight: 22.4,
@@ -927,20 +927,20 @@ export const LinkStyles = theme =>
       props: {},
     },
     Link: { style: { color: theme.colors.branding.primary }, props: {} },
-    'Text Link': {
+    "Text Link": {
       style: {
         color: palettes.Brand.appStyle_primary,
-        fontFamily: 'Urbanist_700Bold',
+        fontFamily: "Urbanist_700Bold",
         fontSize: 16,
         letterSpacing: 0.2,
         lineHeight: 22.4,
       },
       props: {},
     },
-    'inText link Bold': {
+    "inText link Bold": {
       style: {
         color: palettes.Brand.appStyle_primary,
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 18,
         letterSpacing: 0.2,
         lineHeight: 25.2,
@@ -949,21 +949,21 @@ export const LinkStyles = theme =>
     },
   });
 
-export const TabViewStyles = theme =>
+export const TabViewStyles = (theme) =>
   StyleSheet.create({
-    'Events Scroll': {
+    "Events Scroll": {
       style: {
         flex: 1,
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 18,
         letterSpacing: 0.2,
         lineHeight: 25.2,
       },
       props: {},
     },
-    'Events Scroll 2': {
+    "Events Scroll 2": {
       style: {
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 18,
         letterSpacing: 0.2,
         lineHeight: 25.2,
@@ -972,36 +972,36 @@ export const TabViewStyles = theme =>
     },
   });
 
-export const DeckSwiperStyles = theme =>
+export const DeckSwiperStyles = (theme) =>
   StyleSheet.create({
-    'Deck Swiper': { style: { position: 'absolute' }, props: {} },
+    "Deck Swiper": { style: { position: "absolute" }, props: {} },
   });
 
-export const DeckSwiperCardStyles = theme =>
+export const DeckSwiperCardStyles = (theme) =>
   StyleSheet.create({
-    'Deck Swiper Card': {
+    "Deck Swiper Card": {
       style: {
-        alignItems: 'center',
+        alignItems: "center",
         borderWidth: 2,
-        justifyContent: 'center',
+        justifyContent: "center",
         padding: 20,
       },
       props: {},
     },
   });
 
-export const ImageBackgroundStyles = theme =>
-  StyleSheet.create({ 'Image Background': { style: { flex: 1 }, props: {} } });
+export const ImageBackgroundStyles = (theme) =>
+  StyleSheet.create({ "Image Background": { style: { flex: 1 }, props: {} } });
 
-export const WebViewStyles = theme =>
+export const WebViewStyles = (theme) =>
   StyleSheet.create({
-    'HTML View': { style: { flex: 1 }, props: {} },
-    'Web View': { style: { flex: 1 }, props: {} },
+    "HTML View": { style: { flex: 1 }, props: {} },
+    "Web View": { style: { flex: 1 }, props: {} },
   });
 
-export const BottomSheetStyles = theme =>
+export const BottomSheetStyles = (theme) =>
   StyleSheet.create({
-    'Bottom Sheet': {
+    "Bottom Sheet": {
       style: {
         paddingBottom: 10,
         paddingLeft: 16,
@@ -1012,12 +1012,12 @@ export const BottomSheetStyles = theme =>
     },
   });
 
-export const ActionSheetItemStyles = theme =>
+export const ActionSheetItemStyles = (theme) =>
   StyleSheet.create({
-    'Action Sheet Item': { style: { textAlign: 'center' }, props: {} },
+    "Action Sheet Item": { style: { textAlign: "center" }, props: {} },
   });
 
-export const AccordionGroupStyles = theme =>
+export const AccordionGroupStyles = (theme) =>
   StyleSheet.create({
     Accordion: {
       style: {
@@ -1031,91 +1031,91 @@ export const AccordionGroupStyles = theme =>
     },
   });
 
-export const ButtonStyles = theme =>
+export const ButtonStyles = (theme) =>
   StyleSheet.create({
     Button: {
       style: {
         backgroundColor: palettes.Brand.appStyle_primary,
         borderRadius: 4,
-        fontFamily: 'System',
-        fontWeight: '700',
-        textAlign: 'center',
+        fontFamily: "System",
+        fontWeight: "700",
+        textAlign: "center",
       },
       props: { iconSize: 14 },
     },
-    'Button (default)': {
+    "Button (default)": {
       style: {
         backgroundColor: theme.colors.branding.primary,
         borderRadius: 8,
-        fontFamily: 'System',
-        fontWeight: '700',
-        textAlign: 'center',
+        fontFamily: "System",
+        fontWeight: "700",
+        textAlign: "center",
       },
       props: {},
     },
-    'Cancel Btn': {
+    "Cancel Btn": {
       style: {
-        backgroundColor: 'rgba(0, 0, 0, 0)',
+        backgroundColor: "rgba(0, 0, 0, 0)",
         borderRadius: 4,
         color: palettes.Brand.appStyle_primary,
-        fontFamily: 'System',
+        fontFamily: "System",
         fontSize: 12,
-        fontWeight: '400',
-        textAlign: 'center',
+        fontWeight: "400",
+        textAlign: "center",
       },
       props: { iconSize: 14 },
     },
-    'Confirm Btn': {
+    "Confirm Btn": {
       style: {
-        backgroundColor: 'rgba(0, 0, 0, 0)',
+        backgroundColor: "rgba(0, 0, 0, 0)",
         borderRadius: 4,
         color: palettes.Brand.appStyle_primary,
-        fontFamily: 'System',
+        fontFamily: "System",
         fontSize: 12,
-        fontWeight: '400',
-        textAlign: 'center',
+        fontWeight: "400",
+        textAlign: "center",
       },
       props: { iconSize: 14 },
     },
-    'Text Button With Primary': {
+    "Text Button With Primary": {
       style: {
-        backgroundColor: 'rgba(0, 0, 0, 0)',
+        backgroundColor: "rgba(0, 0, 0, 0)",
         borderRadius: 4,
         color: palettes.App.appStyle_black,
-        fontFamily: 'System',
+        fontFamily: "System",
         fontSize: 16,
-        fontWeight: '400',
+        fontWeight: "400",
         paddingBottom: 0,
         paddingLeft: 0,
         paddingRight: 0,
         paddingTop: 0,
-        textAlign: 'center',
+        textAlign: "center",
       },
       props: { iconSize: 14 },
     },
   });
 
-export const TextInputStyles = theme =>
+export const TextInputStyles = (theme) =>
   StyleSheet.create({
-    'Company Form Input': {
+    "Company Form Input": {
       style: {
-        fontFamily: 'System',
+        fontFamily: "System",
         fontSize: 14,
-        fontWeight: '400',
+        fontWeight: "400",
         letterSpacing: 0.2,
         lineHeight: 16,
         paddingBottom: 6,
         paddingTop: 8,
       },
-      props: { placeholderTextColor: palettes.App['Custom Color 4'] },
+      props: { placeholderTextColor: palettes.App["Custom Color 4"] },
     },
-    'Login Input': {
+    "Login Input": {
       style: {
         backgroundColor: 'theme.colors["Greyscale 50"]',
-        borderColor: palettes.App['Custom Color 4'],
-        color: palettes.App['Custom Color 5'],
+        borderColor: palettes.App["Custom Color 4"],
+        color: palettes.App["Custom Color 5"],
         flex: 1,
-        fontFamily: 'Urbanist_400Regular',
+        fontFamily: "Urbanist_400Regular",
         fontSize: 14,
         letterSpacing: 0.3,
         lineHeight: 19.6,
@@ -1126,7 +1126,7 @@ export const TextInputStyles = theme =>
       },
       props: { placeholderTextColor: palettes.Brand.appStyle_greyscale_400 },
     },
-    'Text Area': {
+    "Text Area": {
       style: {
         borderBottomWidth: 1,
         borderColor: theme.colors.border.base,
@@ -1141,12 +1141,12 @@ export const TextInputStyles = theme =>
       },
       props: {},
     },
-    'Text Input': {
+    "Text Input": {
       style: {
         backgroundColor: 'theme.colors["Greyscale 50"]',
         color: 'theme.colors["Greyscale 900"]',
         flex: 1,
-        fontFamily: 'Urbanist_600SemiBold',
+        fontFamily: "Urbanist_600SemiBold",
         fontSize: 16,
         height: 36,
         letterSpacing: 0.2,
@@ -1159,12 +1159,12 @@ export const TextInputStyles = theme =>
     },
   });
 
-export const DatePickerStyles = theme =>
-  StyleSheet.create({ 'Date Picker': { style: {}, props: {} } });
+export const DatePickerStyles = (theme) =>
+  StyleSheet.create({ "Date Picker": { style: {}, props: {} } });
 
-export const TextFieldStyles = theme =>
+export const TextFieldStyles = (theme) =>
   StyleSheet.create({
-    'Login Input 2': {
+    "Login Input 2": {
       style: {
         borderBottomLeftRadius: 4,
         borderBottomRightRadius: 0,
@@ -1181,109 +1181,109 @@ export const TextFieldStyles = theme =>
       },
       props: {
         activeBorderColor: palettes.Brand.Primary,
-        leftIconMode: 'inset',
-        placeholderTextColor: palettes.App['Custom Color 4'],
+        leftIconMode: "inset",
+        placeholderTextColor: palettes.App["Custom Color 4"],
       },
     },
-    'Styled Text Field': { style: {}, props: {} },
+    "Styled Text Field": { style: {}, props: {} },
   });
 
-export const TimerStyles = theme =>
+export const TimerStyles = (theme) =>
   StyleSheet.create({
     Timer: {
       style: {
         color: theme.colors.text.strong,
         fontSize: 24,
-        textAlign: 'left',
+        textAlign: "left",
       },
       props: {},
     },
   });
 
-export const ActivityIndicatorStyles = theme =>
+export const ActivityIndicatorStyles = (theme) =>
   StyleSheet.create({
-    'Activity Indicator': { style: { height: 36, width: 36 }, props: {} },
+    "Activity Indicator": { style: { height: 36, width: 36 }, props: {} },
   });
 
-export const LottieAnimationStyles = theme =>
+export const LottieAnimationStyles = (theme) =>
   StyleSheet.create({
-    'Lottie Animation': { style: { height: 100, width: 100 }, props: {} },
+    "Lottie Animation": { style: { height: 100, width: 100 }, props: {} },
   });
 
-export const SurfaceStyles = theme =>
+export const SurfaceStyles = (theme) =>
   StyleSheet.create({ Surface: { style: { minHeight: 40 }, props: {} } });
 
-export const BlurViewStyles = theme =>
+export const BlurViewStyles = (theme) =>
   StyleSheet.create({
-    'Blur View': {
+    "Blur View": {
       style: { flexBasis: 0, flexGrow: 1, flexShrink: 1 },
       props: {},
     },
   });
 
-export const ExpoImageStyles = theme =>
+export const ExpoImageStyles = (theme) =>
   StyleSheet.create({
-    'Image 2': { style: {}, props: {} },
-    'Image 3': { style: {}, props: {} },
-    'Image 4': { style: {}, props: {} },
-    'SVG 2': { style: { height: 100, width: 100 }, props: {} },
+    "Image 2": { style: {}, props: {} },
+    "Image 3": { style: {}, props: {} },
+    "Image 4": { style: {}, props: {} },
+    "SVG 2": { style: { height: 100, width: 100 }, props: {} },
   });
 
-export const SwipeableItemStyles = theme =>
+export const SwipeableItemStyles = (theme) =>
   StyleSheet.create({
-    'Swipeable Item': { style: { overflow: 'hidden' }, props: {} },
+    "Swipeable Item": { style: { overflow: "hidden" }, props: {} },
   });
 
-export const AudioPlayerStyles = theme =>
+export const AudioPlayerStyles = (theme) =>
   StyleSheet.create({
-    'Audio Player': {
+    "Audio Player": {
       style: {
-        alignItems: 'center',
+        alignItems: "center",
         borderRadius: 8,
         borderWidth: 1,
-        flexDirection: 'row',
+        flexDirection: "row",
         padding: 8,
       },
       props: {},
     },
   });
 
-export const SliderStyles = theme =>
+export const SliderStyles = (theme) =>
   StyleSheet.create({
     Slider: { style: { marginLeft: 12, marginRight: 12 }, props: {} },
   });
 
-export const H1Styles = theme =>
+export const H1Styles = (theme) =>
   StyleSheet.create({
     H1: {
       style: {
         color: theme.colors.text.strong,
         fontSize: 32,
-        fontWeight: 'bold',
+        fontWeight: "bold",
       },
       props: {},
     },
   });
 
-export const CircleStyles = theme =>
+export const CircleStyles = (theme) =>
   StyleSheet.create({
     Circle: {
       style: {
-        alignItems: 'center',
+        alignItems: "center",
         backgroundColor: theme.colors.branding.primary,
-        justifyContent: 'center',
+        justifyContent: "center",
       },
       props: {},
     },
   });
 
-export const PickerStyles = theme =>
+export const PickerStyles = (theme) =>
   StyleSheet.create({ Picker: { style: {}, props: {} } });
 
-export const TableStyles = theme =>
+export const TableStyles = (theme) =>
   StyleSheet.create({ Table: { style: { flex: 1 }, props: {} } });
 
-export const TableCellStyles = theme =>
+export const TableCellStyles = (theme) =>
   StyleSheet.create({
-    'Table Cell': { style: { flex: 1, flexDirection: 'row' }, props: {} },
+    "Table Cell": { style: { flex: 1, flexDirection: "row" }, props: {} },
   });

@@ -1,31 +1,31 @@
-import React from 'react';
+import React from "react";
 import {
   SimpleStyleFlashList,
   SimpleStyleScrollView,
   withTheme,
-} from '@draftbit/ui';
-import { useIsFocused } from '@react-navigation/native';
-import { ActivityIndicator, RefreshControl, Text, View } from 'react-native';
-import { Fetch } from 'react-request';
-import * as GlobalStyles from '../GlobalStyles.js';
-import * as AceCampTestApi from '../apis/AceCampTestApi.js';
-import EmptyViewBlock from '../components/EmptyViewBlock';
-import OpinionSectionBlock from '../components/OpinionSectionBlock';
-import * as GlobalVariables from '../config/GlobalVariableContext';
-import * as AceCampApi from '../custom-files/AceCampApi';
-import * as DataContext from '../custom-files/DataContext';
-import * as HttpClient from '../custom-files/HttpClient';
-import * as Test from '../custom-files/Test';
-import getNoteStatus from '../global-functions/getNoteStatus';
-import palettes from '../themes/palettes';
-import * as Utils from '../utils';
-import Breakpoints from '../utils/Breakpoints';
-import * as StyleSheet from '../utils/StyleSheet';
-import useWindowDimensions from '../utils/useWindowDimensions';
+} from "@draftbit/ui";
+import { useIsFocused } from "@react-navigation/native";
+import { ActivityIndicator, RefreshControl, Text, View } from "react-native";
+import { Fetch } from "react-request";
+import * as GlobalStyles from "../GlobalStyles.js";
+import * as AceCampTestApi from "../apis/AceCampTestApi.js";
+import EmptyViewBlock from "../components/EmptyViewBlock";
+import OpinionSectionBlock from "../components/OpinionSectionBlock";
+import * as GlobalVariables from "../config/GlobalVariableContext";
+import * as AceCampApi from "../custom-files/AceCampApi";
+import * as DataContext from "../custom-files/DataContext";
+import * as HttpClient from "../custom-files/HttpClient";
+import * as Test from "../custom-files/Test";
+import getNoteStatus from "../global-functions/getNoteStatus";
+import palettes from "../themes/palettes";
+import * as Utils from "../utils";
+import Breakpoints from "../utils/Breakpoints";
+import * as StyleSheet from "../utils/StyleSheet";
+import useWindowDimensions from "../utils/useWindowDimensions";
 
 const defaultProps = { gotoScreen: () => {} };
 
-const OpinionBlock = props => {
+const OpinionBlock = (props) => {
   const { theme } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
@@ -37,41 +37,41 @@ const OpinionBlock = props => {
     data: [
       {
         id: 142,
-        link: 'https://www.acecamptech.com/vip_infos',
-        title: '本营会员计划',
+        link: "https://www.acecamptech.com/vip_infos",
+        title: "本营会员计划",
         image_url:
-          'https://image.acecamptech.com/banner/11/0.15096961053540503.png',
+          "https://image.acecamptech.com/banner/11/0.15096961053540503.png",
         h5_image_url:
-          'https://image.acecamptech.com/banner/11/0.15096961053540503.png',
-        app_link_type: 'url',
+          "https://image.acecamptech.com/banner/11/0.15096961053540503.png",
+        app_link_type: "url",
         web_image_url:
-          'https://image.acecamptech.com/banner/11/0.4401433685894576.png',
+          "https://image.acecamptech.com/banner/11/0.4401433685894576.png",
         app_link_params: {},
       },
       {
         id: 143,
-        link: 'https://www.acecamptech.com/article/detail/70539717',
-        title: '本营AI助手宣传',
+        link: "https://www.acecamptech.com/article/detail/70539717",
+        title: "本营AI助手宣传",
         image_url:
-          'https://image.acecamptech.com/banner/51/0.3849892055895564.png',
+          "https://image.acecamptech.com/banner/51/0.3849892055895564.png",
         h5_image_url:
-          'https://image.acecamptech.com/banner/51/0.3849892055895564.png',
-        app_link_type: 'url',
+          "https://image.acecamptech.com/banner/51/0.3849892055895564.png",
+        app_link_type: "url",
         web_image_url:
-          'https://image.acecamptech.com/banner/51/0.3344699627593397.png',
+          "https://image.acecamptech.com/banner/51/0.3344699627593397.png",
         app_link_params: {},
       },
       {
         id: 108,
-        link: 'https://www.acecamptech.com/article/detail/70534239',
-        title: '全职/兼职研究分析师邀请',
+        link: "https://www.acecamptech.com/article/detail/70534239",
+        title: "全职/兼职研究分析师邀请",
         image_url:
-          'https://image.acecamptech.com/banner/51/0.7706755021180371.png',
+          "https://image.acecamptech.com/banner/51/0.7706755021180371.png",
         h5_image_url:
-          'https://image.acecamptech.com/banner/51/0.7706755021180371.png',
-        app_link_type: 'url',
+          "https://image.acecamptech.com/banner/51/0.7706755021180371.png",
+        app_link_type: "url",
         web_image_url:
-          'https://image.acecamptech.com/banner/51/0.9415021805672252.png',
+          "https://image.acecamptech.com/banner/51/0.9415021805672252.png",
         app_link_params: {},
       },
     ],
@@ -93,15 +93,15 @@ const OpinionBlock = props => {
     setCustom_sector_ids(queryData?.custom_sector_ids);
     if (queryData?.opinion_search?.length > 0) {
       switch (queryData?.opinion_search[0]) {
-        case 'all':
+        case "all":
           setOpinion_only(false);
           setFollowed_only(false);
           break;
-        case 'opinion_only':
+        case "opinion_only":
           setOpinion_only(true);
           setFollowed_only(false);
           break;
-        case 'followed_only':
+        case "followed_only":
           setFollowed_only(true);
           setOpinion_only(false);
           break;
@@ -112,14 +112,14 @@ const OpinionBlock = props => {
   return (
     <View
       style={StyleSheet.applyWidth(
-        { height: '100%', width: '100%' },
+        { height: "100%", width: "100%" },
         dimensions.width
       )}
     >
       <SimpleStyleScrollView
         bounces={true}
         horizontal={false}
-        keyboardShouldPersistTaps={'never'}
+        keyboardShouldPersistTaps={"never"}
         nestedScrollEnabled={false}
         refreshControl={
           <RefreshControl
@@ -127,7 +127,7 @@ const OpinionBlock = props => {
             onRefresh={() => {
               try {
                 setRefreshingScrollView(true);
-                console.log('refresh');
+                console.log("refresh");
                 setRefreshingScrollView(false);
               } catch (err) {
                 console.error(err);
@@ -140,7 +140,7 @@ const OpinionBlock = props => {
         showsVerticalScrollIndicator={true}
         scrollEnabled={true}
         style={StyleSheet.applyWidth(
-          { height: '100%', width: '100%' },
+          { height: "100%", width: "100%" },
           dimensions.width
         )}
       >
@@ -151,6 +151,7 @@ const OpinionBlock = props => {
         >
           {({ loading, error, data, refetchOpinionsIndex }) => {
             const fetchData = data?.json;
+            refetchFunc = refetchOpinionsIndex;
             if (loading) {
               return <ActivityIndicator />;
             }
@@ -172,7 +173,7 @@ const OpinionBlock = props => {
                     index?.toString() ??
                     JSON.stringify(flashListData)
                   }
-                  listKey={'Scroll View->Fetch->FlashList'}
+                  listKey={"Scroll View->Fetch->FlashList"}
                   numColumns={1}
                   onEndReachedThreshold={0.5}
                   renderItem={({ item, index }) => {
@@ -188,9 +189,6 @@ const OpinionBlock = props => {
                   showsVerticalScrollIndicator={true}
                   scrollEnabled={true}
                 />
-                <Utils.CustomCodeErrorBoundary>
-                  {refetchFunc ? '' : (refetchFunc = refetchOpinionsIndex)}
-                </Utils.CustomCodeErrorBoundary>
               </>
             );
           }}
