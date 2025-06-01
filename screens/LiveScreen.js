@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Button,
+  ExpoImage,
   Icon,
   IconButton,
   LinearGradient,
@@ -9,10 +10,10 @@ import {
   ScreenContainer,
   SimpleStyleFlatList,
   TextField,
+  Touchable,
   withTheme,
 } from '@draftbit/ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
 import {
   ActivityIndicator,
   Image,
@@ -25,10 +26,17 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fetch } from 'react-request';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as AceCampTestApi from '../apis/AceCampTestApi.js';
+import PayForLiveDialogBlock from '../components/PayForLiveDialogBlock';
+import TryVipDialogBlock from '../components/TryVipDialogBlock';
+import UpgradeVipDialogBlock from '../components/UpgradeVipDialogBlock';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import Images from '../config/Images';
+import * as ConfirmDialog from '../custom-files/ConfirmDialog';
+import * as EventTypeEnum from '../custom-files/EventTypeEnum';
 import * as HttpClient from '../custom-files/HttpClient';
 import * as MemberChange from '../custom-files/MemberChange';
+import * as eventBus from '../custom-files/eventBus';
+import * as gf from '../custom-files/gf';
 import getDicArrayForPicker from '../global-functions/getDicArrayForPicker';
 import t from '../global-functions/t';
 import palettes from '../themes/palettes';
@@ -36,13 +44,18 @@ import * as Utils from '../utils';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
 import imageSource from '../utils/imageSource';
+import useIsFocused from '../utils/useIsFocused';
+import useNavigation from '../utils/useNavigation';
+import useParams from '../utils/useParams';
 import useWindowDimensions from '../utils/useWindowDimensions';
 
 const defaultProps = { meeting_id: 10001376, url: null };
 
 const LiveScreen = props => {
-  const { theme, navigation } = props;
+  const { theme } = props;
   const dimensions = useWindowDimensions();
+  const navigation = useNavigation();
+  const params = useParams();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
   const setGlobalVariableValue = GlobalVariables.useSetValue();
@@ -58,12 +71,20 @@ const LiveScreen = props => {
         'https://work.weixin.qq.com/kfid/kfc4932588fb2a00cf5',
     },
   ]);
+  const [dialog_type, setDialog_type] = React.useState(4);
   const [is_guest, setIs_guest] = React.useState(false);
   const [is_mute, setIs_mute] = React.useState(true);
   const [is_show_file, setIs_show_file] = React.useState(false);
   const [is_video_show, setIs_video_show] = React.useState(false);
-  const [msg_count, setMsg_count] = React.useState(22);
+  const [liveInfo, setLiveInfo] = React.useState({});
+  const [meeting, setMeeting] = React.useState({});
+  const [members_title, setMembers_title] = React.useState(
+    t(Variables, 'live_member')
+  );
   const [pickerValue, setPickerValue] = React.useState('');
+  const [prepay, setPrepay] = React.useState(0);
+  const [read_num, setRead_num] = React.useState(22);
+  const [show_try_vip_dialog, setShow_try_vip_dialog] = React.useState(false);
   const [show_waiting_index, setShow_waiting_index] = React.useState(-1);
   const [styledTextFieldValue, setStyledTextFieldValue] = React.useState('');
   const [styledTextFieldValue2, setStyledTextFieldValue2] = React.useState('');
@@ -293,6 +314,44 @@ const LiveScreen = props => {
         break;
     }
   };
+  const actionSheetRef = React.useRef();
+  const SP_LIVE_NAME_SPACE = 'sp_live_name_space';
+  eventBus.default.addListener(
+    EventTypeEnum.default.ON_LIVE_TOKEN_UPDATED,
+    liveInfo => {
+      setToken(liveInfo);
+    }
+  );
+
+  eventBus.default.addListener(
+    EventTypeEnum.default.ON_READ_NUM_UPDATED,
+    num => {
+      setRead_num(num);
+    }
+  );
+
+  eventBus.default.addListener(
+    EventTypeEnum.default.ON_MEMBER_NUM_UPDATED,
+    num => {
+      const title = t(Variables, 'live_member') + '(' + num + ')';
+      setMember_title(title);
+    }
+  );
+
+  eventBus.default.addListener(
+    EventTypeEnum.default.ON_USER_PREPAYS,
+    prepay => {
+      setPrePay(prepay);
+    }
+  );
+
+  eventBus.default.addListener(
+    EventTypeEnum.default.SHOW_TRY_VIP_DIALOG,
+    show => {
+      setShow_try_vip_dialog(true);
+      setDialog_type(show);
+    }
+  );
   const safeAreaInsets = useSafeAreaInsets();
   React.useEffect(() => {
     // if(!(props.route?.params?.expert_id ?? defaultProps.expert_id))
@@ -353,15 +412,12 @@ const LiveScreen = props => {
   }, []);
   const aceCampTestLiveTokenPOST = AceCampTestApi.useLiveTokenPOST();
   React.useEffect(() => {
-    const handler = async () => {
-      try {
-        const result = (await aceCampTestLiveTokenPOST.mutateAsync({}))?.json;
-        setToken(result?.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    handler();
+    try {
+      /* hidden 'API Request' action */
+      /* hidden 'Set Variable' action */
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
   const isFocused = useIsFocused();
   React.useEffect(() => {
@@ -419,15 +475,13 @@ const LiveScreen = props => {
           const handler = async () => {
             try {
               if (
-                (props.route?.params?.meeting_id ?? defaultProps.meeting_id) ===
-                'tutorial'
+                (params?.meeting_id ?? defaultProps.meeting_id) === 'tutorial'
               ) {
                 return;
               }
               let result = (
                 await AceCampTestApi.meetingPriceGET(Constants, {
-                  meeting_id:
-                    props.route?.params?.meeting_id ?? defaultProps.meeting_id,
+                  meeting_id: params?.meeting_id ?? defaultProps.meeting_id,
                 })
               )?.json;
               result = {
@@ -555,11 +609,9 @@ const LiveScreen = props => {
             alignItems: 'center',
             flexDirection: 'row',
             height: 45,
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             marginTop: safeAreaInsets.top,
             paddingBottom: 5,
-            paddingLeft: 14,
-            paddingRight: 14,
             paddingTop: 5,
             width: '100%',
             zIndex: 1000,
@@ -579,6 +631,10 @@ const LiveScreen = props => {
           color={palettes.App['Custom #ffffff']}
           icon={'AntDesign/left'}
           size={22}
+          style={StyleSheet.applyWidth(
+            { left: 16, position: 'absolute' },
+            dimensions.width
+          )}
         />
         {/* View 2 */}
         <View
@@ -586,9 +642,13 @@ const LiveScreen = props => {
             {
               alignItems: 'center',
               flexDirection: 'row',
+              justifyContent: 'center',
+              left: 0,
               marginLeft: 10,
               paddingLeft: 4,
               paddingRight: 4,
+              position: 'relative',
+              right: 0,
             },
             dimensions.width
           )}
@@ -623,41 +683,49 @@ const LiveScreen = props => {
             size={20}
           />
         </View>
-
-        <View
-          style={StyleSheet.applyWidth(
-            {
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
-            },
-            dimensions.width
+        <>
+          {token?.vendor === 'rtmp' ? null : (
+            <View
+              style={StyleSheet.applyWidth(
+                {
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  position: 'absolute',
+                  right: 16,
+                },
+                dimensions.width
+              )}
+            >
+              <Icon
+                color={palettes.App['Custom Color 53']}
+                name={'Foundation/info'}
+                size={20}
+                style={StyleSheet.applyWidth(
+                  { marginRight: 4 },
+                  dimensions.width
+                )}
+              />
+              {/* 注意事项 */}
+              <Link
+                accessible={true}
+                selectable={false}
+                style={StyleSheet.applyWidth(
+                  {
+                    color: palettes.App['Custom Color 53'],
+                    fontFamily: 'System',
+                    fontSize: 14,
+                    fontWeight: '400',
+                    letterSpacing: 0.2,
+                    lineHeight: 24,
+                  },
+                  dimensions.width
+                )}
+                title={`${t(Variables, 'live_question_style')}`}
+              />
+            </View>
           )}
-        >
-          <Icon
-            color={palettes.App['Custom Color 53']}
-            name={'Foundation/info'}
-            size={20}
-            style={StyleSheet.applyWidth({ marginRight: 4 }, dimensions.width)}
-          />
-          {/* 注意事项 */}
-          <Link
-            accessible={true}
-            selectable={false}
-            style={StyleSheet.applyWidth(
-              {
-                color: palettes.App['Custom Color 53'],
-                fontFamily: 'System',
-                fontSize: 14,
-                fontWeight: '400',
-                letterSpacing: 0.2,
-                lineHeight: 24,
-              },
-              dimensions.width
-            )}
-            title={`${t(Variables, 'live_question_style')}`}
-          />
-        </View>
+        </>
       </View>
       {/* View 2 */}
       <View
@@ -667,91 +735,105 @@ const LiveScreen = props => {
         )}
       >
         {/* 公告信息 */}
-        <View
-          style={StyleSheet.applyWidth(
-            {
-              alignItems: 'center',
-              backgroundColor: 'rgb(87, 134, 255)',
-              flexDirection: 'row',
-              height: 36,
-              justifyContent: 'space-between',
-              marginLeft: 8,
-              marginRight: 8,
-              paddingLeft: 8,
-              paddingRight: 8,
-              position: 'absolute',
-              top: 0,
-              width: [
-                { minWidth: Breakpoints.Mobile, value: 100 },
-                { minWidth: Breakpoints.Mobile, value: dimensions.width - 16 },
-              ],
-              zIndex: 200,
-            },
-            dimensions.width
-          )}
-        >
-          <View
-            style={StyleSheet.applyWidth(
-              {
-                backgroundColor: palettes.App['Custom #ffffff'],
-                borderRadius: 16,
-                marginRight: 4,
-                padding: 4,
-              },
-              dimensions.width
-            )}
-          >
-            <Icon
-              color={palettes.App['Custom Color 56']}
-              name={'FontAwesome/volume-up'}
-              size={12}
-            />
-          </View>
-          {/* View 2 */}
-          <View style={StyleSheet.applyWidth({ flex: 1 }, dimensions.width)}>
-            <Text
-              accessible={true}
-              selectable={false}
+        <>
+          {token?.announcement?.key &&
+          Constants['CLOSE_NOTICE_KEY'] &&
+          Constants['CLOSE_NOTICE_KEY'] !== token?.announcement?.key ? null : (
+            <View
               style={StyleSheet.applyWidth(
                 {
-                  color: palettes.App['Custom #ffffff'],
-                  fontFamily: 'System',
-                  fontSize: 14,
-                  fontWeight: '400',
-                  letterSpacing: 0.2,
-                  lineHeight: 19,
+                  alignItems: 'center',
+                  backgroundColor: 'rgb(87, 134, 255)',
+                  flexDirection: 'row',
+                  height: 36,
+                  justifyContent: 'space-between',
+                  marginLeft: 8,
+                  marginRight: 8,
+                  paddingLeft: 8,
+                  paddingRight: 8,
+                  position: 'absolute',
+                  top: 0,
+                  width: [
+                    { minWidth: Breakpoints.Mobile, value: 100 },
+                    {
+                      minWidth: Breakpoints.Mobile,
+                      value: dimensions.width - 16,
+                    },
+                  ],
+                  zIndex: 200,
                 },
                 dimensions.width
               )}
             >
-              {'Lorem ipsum dolor sit amet'}
-            </Text>
-          </View>
-          {/* View 3 */}
-          <View
-            style={StyleSheet.applyWidth(
-              {
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-              },
-              dimensions.width
-            )}
-          >
-            <Icon
-              color={palettes.App['Custom Color_11']}
-              name={'FontAwesome/trash-o'}
-              size={16}
-            />
-            {/* Icon 2 */}
-            <Icon
-              color={palettes.App['Custom #ffffff']}
-              name={'AntDesign/close'}
-              size={16}
-              style={StyleSheet.applyWidth({ marginLeft: 8 }, dimensions.width)}
-            />
-          </View>
-        </View>
+              <View
+                style={StyleSheet.applyWidth(
+                  {
+                    backgroundColor: palettes.App['Custom #ffffff'],
+                    borderRadius: 16,
+                    marginRight: 4,
+                    padding: 4,
+                  },
+                  dimensions.width
+                )}
+              >
+                <Icon
+                  color={palettes.App['Custom Color 56']}
+                  name={'FontAwesome/volume-up'}
+                  size={12}
+                />
+              </View>
+              {/* View 2 */}
+              <View
+                style={StyleSheet.applyWidth({ flex: 1 }, dimensions.width)}
+              >
+                <Text
+                  accessible={true}
+                  selectable={false}
+                  style={StyleSheet.applyWidth(
+                    {
+                      color: palettes.App['Custom #ffffff'],
+                      fontFamily: 'System',
+                      fontSize: 14,
+                      fontWeight: '400',
+                      letterSpacing: 0.2,
+                      lineHeight: 19,
+                    },
+                    dimensions.width
+                  )}
+                >
+                  {token?.announcement?.content}
+                </Text>
+              </View>
+              {/* View 3 */}
+              <View
+                style={StyleSheet.applyWidth(
+                  {
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                  },
+                  dimensions.width
+                )}
+              >
+                <Icon
+                  color={palettes.App['Custom Color_11']}
+                  name={'FontAwesome/trash-o'}
+                  size={16}
+                />
+                {/* Icon 2 */}
+                <Icon
+                  color={palettes.App['Custom #ffffff']}
+                  name={'AntDesign/close'}
+                  size={16}
+                  style={StyleSheet.applyWidth(
+                    { marginLeft: 8 },
+                    dimensions.width
+                  )}
+                />
+              </View>
+            </View>
+          )}
+        </>
         {/* 支付提示 */}
         <>
           {token?.role === 'broadcaster' ||
@@ -1439,6 +1521,7 @@ const LiveScreen = props => {
                           'Linear Gradient'
                         ].style,
                         {
+                          borderRadius: 4,
                           justifyContent: 'center',
                           paddingLeft: 24,
                           paddingRight: 24,
@@ -1477,6 +1560,7 @@ const LiveScreen = props => {
                     {
                       alignItems: 'center',
                       backgroundColor: palettes.Brand.Primary,
+                      borderRadius: 4,
                       justifyContent: 'center',
                       marginLeft: 16,
                     },
@@ -1634,14 +1718,29 @@ const LiveScreen = props => {
                                     dimensions.width
                                   )}
                                 >
-                                  <Icon
-                                    size={24}
-                                    color={palettes.App['Custom #ffffff']}
-                                    name={
-                                      'MaterialCommunityIcons/comment-account'
-                                    }
+                                  <ExpoImage
+                                    allowDownscaling={true}
+                                    cachePolicy={'disk'}
+                                    contentPosition={'center'}
+                                    resizeMode={'cover'}
+                                    transitionDuration={300}
+                                    transitionEffect={'cross-dissolve'}
+                                    transitionTiming={'ease-in-out'}
+                                    {...GlobalStyles.ExpoImageStyles(theme)[
+                                      'SVG 2'
+                                    ].props}
+                                    source={imageSource(Images['iccomments'])}
                                     style={StyleSheet.applyWidth(
-                                      { marginRight: 8 },
+                                      StyleSheet.compose(
+                                        GlobalStyles.ExpoImageStyles(theme)[
+                                          'SVG 2'
+                                        ].style,
+                                        {
+                                          height: 20,
+                                          marginRight: 5,
+                                          width: 20,
+                                        }
+                                      ),
                                       dimensions.width
                                     )}
                                   />
@@ -1826,7 +1925,9 @@ const LiveScreen = props => {
         </View>
         {/* 显示文件 */}
         <>
-          {is_show_file ? null : (
+          {token?.role !== 'broadcaster' &&
+          token?.live_preview_files &&
+          token?.live_preview_files?.length > 0 ? null : (
             <View
               style={StyleSheet.applyWidth(
                 {
@@ -1865,7 +1966,7 @@ const LiveScreen = props => {
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
                       GlobalStyles.ImageStyles(theme)['Image'].style,
-                      { height: 18, width: 18 }
+                      { height: 16, width: 16 }
                     ),
                     dimensions.width
                   )}
@@ -1877,10 +1978,10 @@ const LiveScreen = props => {
                     {
                       color: palettes.App['Custom #ffffff'],
                       fontFamily: 'System',
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: '400',
                       letterSpacing: 0.2,
-                      lineHeight: 20,
+                      lineHeight: 16,
                       paddingLeft: 4,
                       paddingRight: 4,
                     },
@@ -1893,7 +1994,7 @@ const LiveScreen = props => {
                 <Icon
                   color={palettes.App['Custom #ffffff']}
                   name={'AntDesign/right'}
-                  size={18}
+                  size={16}
                 />
               </View>
             </View>
@@ -2643,7 +2744,7 @@ const LiveScreen = props => {
               dimensions.width
             )}
           >
-            {t(Variables, 'live_member')}
+            {members_title}
           </Text>
         </View>
         {/* 消息 */}
@@ -2699,7 +2800,7 @@ const LiveScreen = props => {
           </Text>
           {/* View 2 */}
           <>
-            {!(msg_count > 0) ? null : (
+            {!(read_num > 0) ? null : (
               <View
                 style={StyleSheet.applyWidth(
                   {
@@ -2731,65 +2832,152 @@ const LiveScreen = props => {
                     dimensions.width
                   )}
                 >
-                  {msg_count}
+                  {read_num}
                 </Text>
               </View>
             )}
           </>
         </View>
-        {/* 更多 */}
-        <View
-          style={StyleSheet.applyWidth(
-            {
-              alignItems: 'center',
-              paddingBottom: 8,
-              paddingTop: 8,
-              width: 72,
-            },
-            dimensions.width
-          )}
+
+        <Touchable
+          onPress={() => {
+            try {
+              const currentValueSetVariable0 = token;
+              if (
+                typeof currentValueSetVariable0 !== 'object' &&
+                !Array.isArray(currentValueSetVariable0)
+              ) {
+                console.warn(
+                  'Can only set path on object or array values, skipping...'
+                );
+                return;
+              }
+              const updatedValueSetVariable0 = Array.isArray(
+                currentValueSetVariable0
+              )
+                ? [...currentValueSetVariable0]
+                : { ...currentValueSetVariable0 };
+              updatedValueSetVariable0.announcement.content = 'aaaaaaaaaaaaa';
+              setToken(updatedValueSetVariable0);
+            } catch (err) {
+              console.error(err);
+            }
+          }}
         >
+          {/* 更多 */}
           <View
             style={StyleSheet.applyWidth(
               {
                 alignItems: 'center',
-                backgroundColor: 'rgba(73, 73, 73, 0.4)',
-                borderRadius: 20,
-                height: 38,
-                justifyContent: 'center',
-                padding: 8,
-                width: 38,
+                paddingBottom: 8,
+                paddingTop: 8,
+                width: 72,
               },
               dimensions.width
             )}
           >
-            <Icon
-              color={palettes.App['Custom #ffffff']}
-              name={'MaterialIcons/dehaze'}
-              size={20}
-            />
-          </View>
+            <View
+              style={StyleSheet.applyWidth(
+                {
+                  alignItems: 'center',
+                  backgroundColor: 'rgba(73, 73, 73, 0.4)',
+                  borderRadius: 20,
+                  height: 38,
+                  justifyContent: 'center',
+                  padding: 8,
+                  width: 38,
+                },
+                dimensions.width
+              )}
+            >
+              <Icon
+                color={palettes.App['Custom #ffffff']}
+                name={'MaterialIcons/dehaze'}
+                size={20}
+              />
+            </View>
 
-          <Text
-            accessible={true}
-            selectable={false}
-            style={StyleSheet.applyWidth(
-              {
-                color: palettes.App['Custom #ffffff'],
-                fontFamily: 'System',
-                fontSize: 12,
-                fontWeight: '400',
-                letterSpacing: 0.2,
-                lineHeight: 19,
-                marginTop: 4,
-              },
-              dimensions.width
-            )}
-          >
-            {t(Variables, 'common_more')}
-          </Text>
-        </View>
+            <Text
+              accessible={true}
+              selectable={false}
+              style={StyleSheet.applyWidth(
+                {
+                  color: palettes.App['Custom #ffffff'],
+                  fontFamily: 'System',
+                  fontSize: 12,
+                  fontWeight: '400',
+                  letterSpacing: 0.2,
+                  lineHeight: 19,
+                  marginTop: 4,
+                },
+                dimensions.width
+              )}
+            >
+              {t(Variables, 'common_more')}
+            </Text>
+          </View>
+        </Touchable>
       </View>
+      <Utils.CustomCodeErrorBoundary>
+        <ConfirmDialog.ConfirmDialog
+          title={t(Variables, 'live_free_finish')}
+          message={t(Variables, 'live_pay_for_continue')}
+          negativeBtn={
+            Variables.user_info?.has_vip
+              ? t(Variables, 'mine_upgrade_vip')
+              : t(Variables, 'live_try_vip')
+          }
+          confirmBtn={
+            t(Variables, 'live_user_pay') +
+            (token.meeting?.current_price ? token.meeting?.current_price : 0) +
+            t(Variables, 'live_user_a_currency')
+          }
+          onConfirm={() => {
+            setShow_try_vip_dialog(false);
+
+            actionSheetRef.current?.show();
+          }}
+          onNegative={() => {
+            setShow_try_vip_dialog(false);
+            Variables.user_info?.has_vip
+              ? setDialog_type(2)
+              : setDialog_type(3);
+            actionSheetRef.current?.show();
+          }}
+          visible={show_try_vip_dialog}
+        />
+      </Utils.CustomCodeErrorBoundary>
+      {/* 试听到期 */}
+      <Utils.CustomCodeErrorBoundary>
+        <gf.ActionSheet
+          indicatorStyle={{
+            marginTop: 10,
+            width: 150,
+          }}
+          gestureEnabled
+          drawUnderStatusBar
+          ref={actionSheetRef}
+        >
+          <>
+            {!(dialog_type === 3) ? null : (
+              <TryVipDialogBlock
+                resource_id={meeting?.id}
+                resource_type={'Meeting'}
+              />
+            )}
+          </>
+          <>
+            {!(dialog_type === 2) ? null : (
+              <UpgradeVipDialogBlock type={'upgrade_vip'} />
+            )}
+          </>
+          <>
+            {!(dialog_type === 4) ? null : (
+              <PayForLiveDialogBlock payNum={meeting} prepay={prepay} />
+            )}
+          </>
+        </gf.ActionSheet>
+      </Utils.CustomCodeErrorBoundary>
     </ScreenContainer>
   );
 };

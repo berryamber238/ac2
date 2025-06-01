@@ -1307,7 +1307,7 @@ ${canonicalizedResource}`;
                 console.error(err);
               }
             }}
-            disabled={!can_submit}
+            disabled={Boolean(!can_submit)}
           >
             {/* 右侧BTN */}
             <View
@@ -2600,7 +2600,7 @@ ${canonicalizedResource}`;
           dimensions.width
         )}
         transparent={true}
-        visible={Constants['scroll_picker_modal_shown']}
+        visible={Boolean(Constants['scroll_picker_modal_shown'])}
       >
         <Touchable
           onPress={() => {
@@ -2760,7 +2760,7 @@ ${canonicalizedResource}`;
         animationType={'slide'}
         presentationStyle={'overFullScreen'}
         transparent={true}
-        visible={corporation_list_shown}
+        visible={Boolean(corporation_list_shown)}
       >
         <Touchable
           onPress={() => {
@@ -3216,7 +3216,7 @@ ${canonicalizedResource}`;
         animationType={'slide'}
         presentationStyle={'overFullScreen'}
         transparent={true}
-        visible={draft_list_modal_shown}
+        visible={Boolean(draft_list_modal_shown)}
       >
         <Touchable
           onPress={() => {
@@ -3669,7 +3669,7 @@ ${canonicalizedResource}`;
           dimensions.width
         )}
         transparent={true}
-        visible={Constants['label_picker_modal_shown']}
+        visible={Boolean(Constants['label_picker_modal_shown'])}
       >
         <Touchable
           onPress={() => {
@@ -4001,7 +4001,7 @@ ${canonicalizedResource}`;
         animationType={'fade'}
         presentationStyle={'overFullScreen'}
         transparent={true}
-        visible={add_link_modal_shown}
+        visible={Boolean(add_link_modal_shown)}
       >
         {/* 背景层 */}
         <View
@@ -4237,7 +4237,7 @@ ${canonicalizedResource}`;
         animationType={'fade'}
         presentationStyle={'overFullScreen'}
         transparent={true}
-        visible={add_vote_item_shown}
+        visible={Boolean(add_vote_item_shown)}
       >
         {/* 背景层 */}
         <View

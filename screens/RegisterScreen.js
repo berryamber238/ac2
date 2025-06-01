@@ -932,7 +932,7 @@ ${canonicalizedResource}`;
                         };
                         handler();
                       }}
-                      disabled={vCodeStatus === 'waiting'}
+                      disabled={Boolean(vCodeStatus === 'waiting')}
                     >
                       <Text
                         accessible={true}
@@ -1583,8 +1583,8 @@ ${canonicalizedResource}`;
               };
               handler();
             }}
-            disabled={isLoading}
-            loading={isLoading}
+            disabled={Boolean(isLoading)}
+            loading={Boolean(isLoading)}
             style={StyleSheet.applyWidth(
               {
                 backgroundColor: palettes.Brand.appStyle_primary,

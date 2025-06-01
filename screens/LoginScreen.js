@@ -7,7 +7,6 @@ import {
   Pressable,
   ScreenContainer,
   SimpleStyleKeyboardAwareScrollView,
-  Spacer,
   TextField,
   TextInput,
   Timer,
@@ -201,9 +200,9 @@ line two` ) and will not work with special characters inside of quotes ( example
       scrollable={false}
       hasBottomSafeArea={false}
       hasSafeArea={false}
-      hasTopSafeArea={true}
+      hasTopSafeArea={false}
       style={StyleSheet.applyWidth(
-        { justifyContent: 'space-between' },
+        { justifyContent: 'flex-start', paddingLeft: 28, paddingRight: 28 },
         dimensions.width
       )}
     >
@@ -221,8 +220,7 @@ line two` ) and will not work with special characters inside of quotes ( example
             alignItems: 'center',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            paddingLeft: 28,
-            paddingRight: 28,
+            marginTop: safeAreaInsets.top + 40,
             width: '100%',
           },
           dimensions.width
@@ -236,7 +234,14 @@ line two` ) and will not work with special characters inside of quotes ( example
           style={StyleSheet.applyWidth(
             StyleSheet.compose(
               GlobalStyles.TextStyles(theme)['Text 2113'].style,
-              { fontSize: 28, lineHeight: 36, margin: 5 }
+              {
+                color: palettes.App.appStyle_black,
+                fontFamily: 'System',
+                fontSize: 26,
+                fontWeight: '600',
+                lineHeight: 36,
+                margin: 5,
+              }
             ),
             dimensions.width
           )}
@@ -251,33 +256,34 @@ line two` ) and will not work with special characters inside of quotes ( example
               console.error(err);
             }
           }}
-          color={palettes.App.appStyle_greyscale_800}
+          color={palettes.App.appStyle_black}
           icon={'AntDesign/close'}
           size={28}
         />
       </View>
       {/* Login Form */}
-      <View
-        style={StyleSheet.applyWidth(
-          {
-            marginTop: safeAreaInsets.top + 24,
-            paddingLeft: 36,
-            paddingRight: 36,
-          },
-          dimensions.width
-        )}
-      >
+      <View style={StyleSheet.applyWidth({ flex: 1 }, dimensions.width)}>
         {/* 手机号Form Item */}
         <>
           {!phoneLogin ? null : (
-            <View>
+            <View
+              style={StyleSheet.applyWidth({ marginTop: 50 }, dimensions.width)}
+            >
               {/* 手机号Label */}
               <Text
                 accessible={true}
                 selectable={false}
                 {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
                 style={StyleSheet.applyWidth(
-                  GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                  StyleSheet.compose(
+                    GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                    {
+                      color: palettes.App.appStyle_black,
+                      fontFamily: 'System',
+                      fontSize: 14,
+                      fontWeight: '600',
+                    }
+                  ),
                   dimensions.width
                 )}
               >
@@ -297,8 +303,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                           ? palettes.Brand.Primary
                           : userError
                           ? palettes.Brand.Error
-                          : palettes.App['Custom Color 4'],
-                      borderWidth: focus === 1 || userError ? 1.5 : 1,
+                          : '#e2e4e7',
+                      borderRadius: 4,
+                      borderWidth: focus === 1 || userError ? 1 : 1,
                     }
                   ),
                   dimensions.width
@@ -322,8 +329,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                         GlobalStyles.TextStyles(theme)['Text Form Label'].style,
                         {
                           color: palettes.Brand.appStyle_primary,
-                          fontFamily: 'Urbanist_400Regular',
+                          fontFamily: 'System',
                           fontSize: 14,
+                          fontWeight: '400',
                           paddingRight: 2,
                         }
                       ),
@@ -381,9 +389,20 @@ line two` ) and will not work with special characters inside of quotes ( example
                   placeholder={
                     t(Variables, 'login_enter_your_phone').toString() ?? 'Email'
                   }
+                  placeholderTextColor={palettes.App['Custom Color 4']}
                   returnKeyType={'next'}
                   style={StyleSheet.applyWidth(
-                    GlobalStyles.TextInputStyles(theme)['Login Input'].style,
+                    StyleSheet.compose(
+                      GlobalStyles.TextInputStyles(theme)['Login Input'].style,
+                      {
+                        borderColor: palettes.App['Custom Color 6'],
+                        color: palettes.App.appStyle_black,
+                        fontFamily: 'System',
+                        fontWeight: '400',
+                        paddingLeft: 14,
+                        width: null,
+                      }
+                    ),
                     dimensions.width
                   )}
                   textContentType={'emailAddress'}
@@ -396,15 +415,25 @@ line two` ) and will not work with special characters inside of quotes ( example
         </>
         {/* 邮件Form Item */}
         <>
-          {!!phoneLogin ? null : (
-            <View>
+          {phoneLogin ? null : (
+            <View
+              style={StyleSheet.applyWidth({ marginTop: 50 }, dimensions.width)}
+            >
               {/* 邮件地址Label */}
               <Text
                 accessible={true}
                 selectable={false}
                 {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
                 style={StyleSheet.applyWidth(
-                  GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                  StyleSheet.compose(
+                    GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                    {
+                      color: palettes.App.appStyle_black,
+                      fontFamily: 'System',
+                      fontSize: 14,
+                      fontWeight: '600',
+                    }
+                  ),
                   dimensions.width
                 )}
               >
@@ -424,14 +453,17 @@ line two` ) and will not work with special characters inside of quotes ( example
                           ? palettes.Brand.Primary
                           : userError
                           ? palettes.Brand.Error
-                          : palettes.App['Custom Color 4'],
+                          : '#e2e4e5',
                       borderWidth: [
                         { minWidth: Breakpoints.Mobile, value: 1.5 },
                         {
                           minWidth: Breakpoints.Mobile,
-                          value: focus === 2 || userError ? 1.5 : 1,
+                          value: focus === 2 || userError ? 1 : 1,
                         },
                       ],
+                      paddingBottom: null,
+                      paddingLeft: null,
+                      paddingTop: null,
                     }
                   ),
                   dimensions.width
@@ -469,11 +501,20 @@ line two` ) and will not work with special characters inside of quotes ( example
                   placeholder={
                     t(Variables, 'login_enter_your_email').toString() ?? 'Email'
                   }
+                  placeholderTextColor={palettes.App['Custom Color 4']}
                   returnKeyType={'next'}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
                       GlobalStyles.TextInputStyles(theme)['Login Input'].style,
-                      { paddingLeft: null }
+                      {
+                        fontFamily: 'System',
+                        fontWeight: '400',
+                        lineHeight: null,
+                        paddingBottom: 0,
+                        paddingLeft: 14,
+                        paddingTop: 0,
+                        width: null,
+                      }
                     ),
                     dimensions.width
                   )}
@@ -485,41 +526,49 @@ line two` ) and will not work with special characters inside of quotes ( example
             </View>
           )}
         </>
-        <View style={StyleSheet.applyWidth({ height: 20 }, dimensions.width)}>
-          {/* 用户信息提醒 */}
-          <>
-            {!userError ? null : (
-              <Text
-                accessible={true}
-                selectable={false}
-                {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
-                style={StyleSheet.applyWidth(
-                  StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)['Text Form Label'].style,
-                    {
-                      color: 'rgb(255, 75, 75)',
-                      fontFamily: 'System',
-                      fontSize: 14,
-                      fontWeight: '400',
-                    }
-                  ),
-                  dimensions.width
+        <>
+          {!userError ? null : (
+            <View
+              style={StyleSheet.applyWidth({ height: 20 }, dimensions.width)}
+            >
+              {/* 用户信息提醒 */}
+              <>
+                {!userError ? null : (
+                  <Text
+                    accessible={true}
+                    selectable={false}
+                    {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
+                    style={StyleSheet.applyWidth(
+                      StyleSheet.compose(
+                        GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                        {
+                          color: palettes.App['Custom Color 59'],
+                          fontFamily: 'System',
+                          fontSize: 12,
+                          fontWeight: '400',
+                          paddingTop: 4,
+                        }
+                      ),
+                      dimensions.width
+                    )}
+                  >
+                    {userError
+                      ? phoneLogin
+                        ? t(Variables, 'warning_phone_required')
+                        : t(Variables, 'warning_email_valid')
+                      : 'ttttt'}
+                  </Text>
                 )}
-              >
-                {userError
-                  ? phoneLogin
-                    ? t(Variables, 'warning_phone_required')
-                    : t(Variables, 'warning_email_valid')
-                  : undefined}
-              </Text>
-            )}
-          </>
-        </View>
-        <Spacer left={8} right={8} bottom={3} top={3} />
+              </>
+            </View>
+          )}
+        </>
         {/* 验证码Form Item */}
         <>
           {!vcodeLogin ? null : (
-            <View>
+            <View
+              style={StyleSheet.applyWidth({ marginTop: 26 }, dimensions.width)}
+            >
               <View
                 style={StyleSheet.applyWidth(
                   {
@@ -537,7 +586,16 @@ line two` ) and will not work with special characters inside of quotes ( example
                   selectable={false}
                   {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
                   style={StyleSheet.applyWidth(
-                    GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                    StyleSheet.compose(
+                      GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                      {
+                        color: palettes.App.appStyle_black,
+                        fontFamily: 'System',
+                        fontSize: 14,
+                        fontWeight: '600',
+                        lineHeight: null,
+                      }
+                    ),
                     dimensions.width
                   )}
                 >
@@ -561,7 +619,16 @@ line two` ) and will not work with special characters inside of quotes ( example
                       .props}
                     allowFontScaling={false}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.TextStyles(theme)['Text Form Label 2'].style,
+                      StyleSheet.compose(
+                        GlobalStyles.TextStyles(theme)['Text Form Label 2']
+                          .style,
+                        {
+                          fontFamily: 'System',
+                          fontSize: 12,
+                          fontWeight: '400',
+                          lineHeight: null,
+                        }
+                      ),
                       dimensions.width
                     )}
                   >
@@ -583,12 +650,12 @@ line two` ) and will not work with special characters inside of quotes ( example
                           ? palettes.Brand.Primary
                           : codeError
                           ? palettes.Brand.Error
-                          : palettes.App['Custom Color 4'],
+                          : '#e2e4e7',
                       borderWidth: [
                         { minWidth: Breakpoints.Mobile, value: 1.5 },
                         {
                           minWidth: Breakpoints.Mobile,
-                          value: focus === 3 || codeError ? 1.5 : 1,
+                          value: focus === 3 || codeError ? 1 : 1,
                         },
                       ],
                     }
@@ -630,11 +697,17 @@ line two` ) and will not work with special characters inside of quotes ( example
                     t(Variables, 'login_enter_verification_code').toString() ??
                     'Email'
                   }
+                  placeholderTextColor={palettes.App['Custom Color 4']}
                   returnKeyType={'next'}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
                       GlobalStyles.TextInputStyles(theme)['Login Input'].style,
-                      { paddingLeft: null }
+                      {
+                        borderColor: palettes.App['Custom Color 6'],
+                        fontFamily: 'System',
+                        fontWeight: '400',
+                        paddingLeft: null,
+                      }
                     ),
                     dimensions.width
                   )}
@@ -671,7 +744,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                       };
                       handler();
                     }}
-                    disabled={vCodeStatus === 'waiting'}
+                    disabled={Boolean(vCodeStatus === 'waiting')}
                   >
                     <Text
                       accessible={true}
@@ -696,7 +769,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                                     : '#596a7a',
                               },
                             ],
-                            fontFamily: 'Urbanist_400Regular',
+                            fontFamily: 'System',
+                            fontSize: 14,
+                            fontWeight: '400',
                           }
                         ),
                         dimensions.width
@@ -716,8 +791,10 @@ line two` ) and will not work with special characters inside of quotes ( example
         </>
         {/* 密码Form Item */}
         <>
-          {!!vcodeLogin ? null : (
-            <View>
+          {vcodeLogin ? null : (
+            <View
+              style={StyleSheet.applyWidth({ marginTop: 26 }, dimensions.width)}
+            >
               <View
                 style={StyleSheet.applyWidth(
                   {
@@ -734,7 +811,16 @@ line two` ) and will not work with special characters inside of quotes ( example
                   selectable={false}
                   {...GlobalStyles.TextStyles(theme)['Text Form Label'].props}
                   style={StyleSheet.applyWidth(
-                    GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                    StyleSheet.compose(
+                      GlobalStyles.TextStyles(theme)['Text Form Label'].style,
+                      {
+                        color: palettes.App.appStyle_black,
+                        fontFamily: 'System',
+                        fontSize: 14,
+                        fontWeight: '600',
+                        lineHeight: null,
+                      }
+                    ),
                     dimensions.width
                   )}
                 >
@@ -757,7 +843,16 @@ line two` ) and will not work with special characters inside of quotes ( example
                       .props}
                     allowFontScaling={false}
                     style={StyleSheet.applyWidth(
-                      GlobalStyles.TextStyles(theme)['Text Form Label 2'].style,
+                      StyleSheet.compose(
+                        GlobalStyles.TextStyles(theme)['Text Form Label 2']
+                          .style,
+                        {
+                          fontFamily: 'System',
+                          fontSize: 12,
+                          fontWeight: '400',
+                          lineHeight: null,
+                        }
+                      ),
                       dimensions.width
                     )}
                   >
@@ -779,12 +874,12 @@ line two` ) and will not work with special characters inside of quotes ( example
                           ? palettes.Brand.Primary
                           : codeError
                           ? palettes.Brand.Error
-                          : palettes.App['Custom Color 4'],
+                          : '#e2e4e7',
                       borderWidth: [
                         { minWidth: Breakpoints.Mobile, value: 1.5 },
                         {
                           minWidth: Breakpoints.Mobile,
-                          value: focus === 4 || codeError ? 1.5 : 1,
+                          value: focus === 4 || codeError ? 1 : 1,
                         },
                       ],
                     }
@@ -825,12 +920,18 @@ line two` ) and will not work with special characters inside of quotes ( example
                     t(Variables, 'login_enter_your_password').toString() ??
                     'Email'
                   }
+                  placeholderTextColor={palettes.App['Custom Color 4']}
                   returnKeyType={'next'}
-                  secureTextEntry={hidePassword}
+                  secureTextEntry={Boolean(hidePassword)}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
                       GlobalStyles.TextInputStyles(theme)['Login Input'].style,
-                      { paddingLeft: null }
+                      {
+                        fontFamily: 'System',
+                        fontWeight: '400',
+                        lineHeight: null,
+                        paddingLeft: null,
+                      }
                     ),
                     dimensions.width
                   )}
@@ -858,8 +959,45 @@ line two` ) and will not work with special characters inside of quotes ( example
             </View>
           )}
         </>
+        {/* Sign In Button */}
+        <Button
+          accessible={true}
+          iconPosition={'left'}
+          onPress={() => {
+            const handler = async () => {
+              try {
+                Keyboard.dismiss();
+                const result = await login(navigation, setGlobalVariableValue);
+                /* hidden 'Run a Custom Function' action */
+              } catch (err) {
+                console.error(err);
+              }
+            };
+            handler();
+          }}
+          disabled={Boolean(isLoading)}
+          loading={Boolean(isLoading)}
+          style={StyleSheet.applyWidth(
+            {
+              backgroundColor: palettes.Brand.appStyle_primary,
+              borderRadius: 4,
+              fontFamily: 'System',
+              fontSize: 14,
+              fontWeight: '700',
+              height: 45,
+              marginTop: 24,
+              textAlign: 'center',
+            },
+            dimensions.width
+          )}
+          title={`${t(Variables, 'login_in')}`}
+        >
+          {'Sign Up'}
+        </Button>
         {/* View 2 */}
-        <View style={StyleSheet.applyWidth({ height: 20 }, dimensions.width)}>
+        <View
+          style={StyleSheet.applyWidth({ paddingTop: 4 }, dimensions.width)}
+        >
           {/* 发送成功提醒 */}
           <>
             {!(showVcodeTip && vcodeLogin) ? null : (
@@ -873,7 +1011,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                     {
                       color: palettes.Brand.appStyle_primary,
                       fontFamily: 'System',
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: '400',
                     }
                   ),
@@ -897,7 +1035,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                 {
                   color: 'rgb(255, 75, 75)',
                   fontFamily: 'System',
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: '400',
                 }
               ),
@@ -911,41 +1049,6 @@ line two` ) and will not work with special characters inside of quotes ( example
               : undefined}
           </Text>
         </View>
-        {/* Sign In Button */}
-        <Button
-          accessible={true}
-          iconPosition={'left'}
-          onPress={() => {
-            const handler = async () => {
-              try {
-                Keyboard.dismiss();
-                const result = await login(navigation, setGlobalVariableValue);
-                /* hidden 'Run a Custom Function' action */
-              } catch (err) {
-                console.error(err);
-              }
-            };
-            handler();
-          }}
-          disabled={isLoading}
-          loading={isLoading}
-          style={StyleSheet.applyWidth(
-            {
-              backgroundColor: palettes.Brand.appStyle_primary,
-              borderRadius: 4,
-              fontFamily: 'System',
-              fontSize: 16,
-              fontWeight: '700',
-              height: 45,
-              marginTop: 30,
-              textAlign: 'center',
-            },
-            dimensions.width
-          )}
-          title={`${t(Variables, 'login_in')}`}
-        >
-          {'Sign Up'}
-        </Button>
         {/* 注册&忘记密码View */}
         <View
           style={StyleSheet.applyWidth(
@@ -967,8 +1070,11 @@ line two` ) and will not work with special characters inside of quotes ( example
             {...GlobalStyles.ButtonStyles(theme)['Text Button With Primary']
               .props}
             style={StyleSheet.applyWidth(
-              GlobalStyles.ButtonStyles(theme)['Text Button With Primary']
-                .style,
+              StyleSheet.compose(
+                GlobalStyles.ButtonStyles(theme)['Text Button With Primary']
+                  .style,
+                { fontSize: 14 }
+              ),
               dimensions.width
             )}
             title={`${t(Variables, 'login_sign_up_now')}`}
@@ -989,8 +1095,11 @@ line two` ) and will not work with special characters inside of quotes ( example
             {...GlobalStyles.ButtonStyles(theme)['Text Button With Primary']
               .props}
             style={StyleSheet.applyWidth(
-              GlobalStyles.ButtonStyles(theme)['Text Button With Primary']
-                .style,
+              StyleSheet.compose(
+                GlobalStyles.ButtonStyles(theme)['Text Button With Primary']
+                  .style,
+                { fontSize: 14 }
+              ),
               dimensions.width
             )}
             title={`${t(Variables, 'login_forgot')}`}
@@ -999,7 +1108,11 @@ line two` ) and will not work with special characters inside of quotes ( example
         {/* 分隔符 */}
         <View
           style={StyleSheet.applyWidth(
-            { height: 50, justifyContent: 'center' },
+            {
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+            },
             dimensions.width
           )}
         >
@@ -1007,9 +1120,10 @@ line two` ) and will not work with special characters inside of quotes ( example
             style={StyleSheet.applyWidth(
               {
                 alignItems: 'center',
-                backgroundColor: palettes.App['Custom Color_6'],
+                backgroundColor: palettes.App['Custom Color 6'],
+                flex: 1,
                 flexDirection: 'row',
-                height: 2,
+                height: 1,
                 justifyContent: 'center',
               },
               dimensions.width
@@ -1022,9 +1136,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                 alignItems: 'center',
                 alignSelf: 'center',
                 backgroundColor: palettes.Brand.Background,
-                height: 50,
                 justifyContent: 'center',
-                position: 'absolute',
+                paddingLeft: 14,
+                paddingRight: 14,
               },
               dimensions.width
             )}
@@ -1033,18 +1147,32 @@ line two` ) and will not work with special characters inside of quotes ( example
               accessible={true}
               selectable={false}
               style={StyleSheet.applyWidth(
-                { fontFamily: 'System', fontSize: 14, fontWeight: '700' },
+                { fontFamily: 'System', fontSize: 12, fontWeight: '700' },
                 dimensions.width
               )}
             >
               {t(Variables, 'login_in_by_other_style')}
             </Text>
           </View>
+          {/* View 2 */}
+          <View
+            style={StyleSheet.applyWidth(
+              {
+                alignItems: 'center',
+                backgroundColor: palettes.App['Custom Color 6'],
+                flex: 1,
+                flexDirection: 'row',
+                height: 1,
+                justifyContent: 'center',
+              },
+              dimensions.width
+            )}
+          />
         </View>
         {/* 切换登录方式按钮 */}
         <View
           style={StyleSheet.applyWidth(
-            { alignItems: 'center' },
+            { alignItems: 'center', marginTop: 24 },
             dimensions.width
           )}
         >
@@ -1062,11 +1190,12 @@ line two` ) and will not work with special characters inside of quotes ( example
               style={StyleSheet.applyWidth(
                 {
                   alignItems: 'center',
+                  alignSelf: 'center',
                   backgroundColor: palettes.App['Custom Color 7'],
                   borderRadius: 100,
-                  height: 60,
+                  height: 54,
                   justifyContent: 'center',
-                  width: 60,
+                  width: 54,
                 },
                 dimensions.width
               )}
@@ -1094,7 +1223,12 @@ line two` ) and will not work with special characters inside of quotes ( example
               style={StyleSheet.applyWidth(
                 StyleSheet.compose(
                   GlobalStyles.TextStyles(theme)['Text Tip'].style,
-                  { marginTop: 10 }
+                  {
+                    fontFamily: 'System',
+                    fontSize: 12,
+                    fontWeight: '400',
+                    marginTop: 4,
+                  }
                 ),
                 dimensions.width
               )}
@@ -1137,114 +1271,128 @@ line two` ) and will not work with special characters inside of quotes ( example
         )}
         timerEndTime={0}
       />
-      {/* Custom Code 2 */}
-      <Utils.CustomCodeErrorBoundary>
-        <ShakeAnimation.view ref={shakeAnimationRef}>
-          <View
-            style={StyleSheet.applyWidth(
-              {
-                alignItems: 'center',
-                alignSelf: 'center',
-                flexDirection: 'row',
-                height: 50,
-                justifyContent: 'center',
-                width: '100%',
-              },
-              dimensions.width
-            )}
-          >
-            <Touchable
-              onPress={() => {
-                try {
-                  setAgreementChecked(!agreementChecked);
-                } catch (err) {
-                  console.error(err);
-                }
-              }}
+      <View>
+        {/* Custom Code 2 */}
+        <Utils.CustomCodeErrorBoundary>
+          <ShakeAnimation.view ref={shakeAnimationRef}>
+            <View
+              style={StyleSheet.applyWidth(
+                {
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                  flexDirection: 'row',
+                  height: 50,
+                  justifyContent: 'center',
+                  width: '100%',
+                },
+                dimensions.width
+              )}
             >
-              <Image
-                resizeMode={'cover'}
-                {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                source={imageSource(
-                  agreementChecked
-                    ? Images['icselectactive']
-                    : Images['icselectdefault']
-                )}
+              <Touchable
+                onPress={() => {
+                  try {
+                    setAgreementChecked(!agreementChecked);
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+              >
+                <Image
+                  resizeMode={'cover'}
+                  {...GlobalStyles.ImageStyles(theme)['Image'].props}
+                  source={imageSource(
+                    agreementChecked
+                      ? Images['icselectactive']
+                      : Images['icselectdefault']
+                  )}
+                  style={StyleSheet.applyWidth(
+                    StyleSheet.compose(
+                      GlobalStyles.ImageStyles(theme)['Image'].style,
+                      { height: 16, marginRight: 4, width: 16 }
+                    ),
+                    dimensions.width
+                  )}
+                />
+              </Touchable>
+
+              <Text
+                accessible={true}
+                selectable={false}
+                {...GlobalStyles.TextStyles(theme)['Text Tip'].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ImageStyles(theme)['Image'].style,
-                    { height: 16, marginRight: 4, width: 16 }
+                    GlobalStyles.TextStyles(theme)['Text Tip'].style,
+                    { fontFamily: 'System', fontWeight: '400' }
                   ),
                   dimensions.width
                 )}
+              >
+                {t(Variables, 'login_in_agree')}
+              </Text>
+              <Link
+                accessible={true}
+                onPress={() => {
+                  try {
+                    navigation.navigate('WebViewScreen', {
+                      url: 'https://terms.acecamptech.com/privacy/20210726/index.html',
+                    });
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+                selectable={false}
+                {...GlobalStyles.LinkStyles(theme)['Link'].props}
+                style={StyleSheet.applyWidth(
+                  StyleSheet.compose(
+                    GlobalStyles.LinkStyles(theme)['Link'].style,
+                    { fontFamily: 'System', fontSize: 14, fontWeight: '400' }
+                  ),
+                  dimensions.width
+                )}
+                title={`${t(Variables, 'the_privacy')}`}
               />
-            </Touchable>
-
-            <Text
-              accessible={true}
-              selectable={false}
-              {...GlobalStyles.TextStyles(theme)['Text Tip'].props}
-              style={StyleSheet.applyWidth(
-                GlobalStyles.TextStyles(theme)['Text Tip'].style,
-                dimensions.width
-              )}
-            >
-              {t(Variables, 'login_in_agree')}
-            </Text>
-            <Link
-              accessible={true}
-              onPress={() => {
-                try {
-                  navigation.navigate('WebViewScreen', {
-                    url: 'https://terms.acecamptech.com/privacy/20210726/index.html',
-                  });
-                } catch (err) {
-                  console.error(err);
-                }
-              }}
-              selectable={false}
-              {...GlobalStyles.LinkStyles(theme)['Link'].props}
-              style={StyleSheet.applyWidth(
-                GlobalStyles.LinkStyles(theme)['Link'].style,
-                dimensions.width
-              )}
-              title={`${t(Variables, 'the_privacy')}`}
-            />
-            {/* Text 2 */}
-            <Text
-              accessible={true}
-              selectable={false}
-              {...GlobalStyles.TextStyles(theme)['Text Tip'].props}
-              style={StyleSheet.applyWidth(
-                GlobalStyles.TextStyles(theme)['Text Tip'].style,
-                dimensions.width
-              )}
-            >
-              {t(Variables, 'common_and')}
-            </Text>
-            {/* Link 2 */}
-            <Link
-              accessible={true}
-              onPress={() => {
-                try {
-                  navigation.navigate('WebViewScreen', {
-                    url: 'https://terms.acecamptech.com/agreement/index.html',
-                  });
-                } catch (err) {
-                  console.error(err);
-                }
-              }}
-              selectable={false}
-              {...GlobalStyles.LinkStyles(theme)['Link'].props}
-              style={StyleSheet.applyWidth(
-                GlobalStyles.LinkStyles(theme)['Link'].style,
-                dimensions.width
-              )}
-              title={`${t(Variables, 'login_in_service')}`}
-            />
-          </View>
-        </ShakeAnimation.view>
-      </Utils.CustomCodeErrorBoundary>
+              {/* Text 2 */}
+              <Text
+                accessible={true}
+                selectable={false}
+                {...GlobalStyles.TextStyles(theme)['Text Tip'].props}
+                style={StyleSheet.applyWidth(
+                  StyleSheet.compose(
+                    GlobalStyles.TextStyles(theme)['Text Tip'].style,
+                    { fontFamily: 'System', fontWeight: '400' }
+                  ),
+                  dimensions.width
+                )}
+              >
+                {t(Variables, 'common_and')}
+              </Text>
+              {/* Link 2 */}
+              <Link
+                accessible={true}
+                onPress={() => {
+                  try {
+                    navigation.navigate('WebViewScreen', {
+                      url: 'https://terms.acecamptech.com/agreement/index.html',
+                    });
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+                selectable={false}
+                {...GlobalStyles.LinkStyles(theme)['Link'].props}
+                style={StyleSheet.applyWidth(
+                  StyleSheet.compose(
+                    GlobalStyles.LinkStyles(theme)['Link'].style,
+                    { fontFamily: 'System', fontSize: 14, fontWeight: '400' }
+                  ),
+                  dimensions.width
+                )}
+                title={`${t(Variables, 'login_in_service')}`}
+              />
+            </View>
+          </ShakeAnimation.view>
+        </Utils.CustomCodeErrorBoundary>
+      </View>
       <Utils.CustomCodeErrorBoundary>
         <Toast.ele />
       </Utils.CustomCodeErrorBoundary>

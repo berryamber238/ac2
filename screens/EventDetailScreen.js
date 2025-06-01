@@ -15,7 +15,6 @@ import {
   Touchable,
   withTheme,
 } from '@draftbit/ui';
-import { useIsFocused } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
 import {
@@ -59,16 +58,22 @@ import * as Utils from '../utils';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
 import imageSource from '../utils/imageSource';
+import useIsFocused from '../utils/useIsFocused';
+import useNavigation from '../utils/useNavigation';
+import useParams from '../utils/useParams';
 import useWindowDimensions from '../utils/useWindowDimensions';
 
 const defaultProps = { event_id: 10001081 };
 
 const EventDetailScreen = props => {
-  const { theme, navigation } = props;
+  const { theme } = props;
   const dimensions = useWindowDimensions();
+  const navigation = useNavigation();
+  const params = useParams();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
   const setGlobalVariableValue = GlobalVariables.useSetValue();
+  const safeAreaInsets = useSafeAreaInsets();
   const [bottomSheetTitle, setBottomSheetTitle] = React.useState('');
   const [btnColor, setBtnColor] = React.useState('');
   const [btnText, setBtnText] = React.useState('');
@@ -392,12 +397,6 @@ const EventDetailScreen = props => {
           //有回放
           setBtnText(t(Variables, 'event_detail_playback'));
           setBtnColor('#2B33E6');
-          // tv_bottom_right.setOnClickListener(view -> {
-          //     Intent intent = new Intent(this, WebActivity.class);
-          //     intent.putExtra("title", "AceCamp");
-          //     intent.putExtra("url", Constants.BASE_URL_WEB + "/playback/" + meeting.getLive().getId());
-          //     startActivity(intent);
-          // });
         } else {
           setBtnText(t(Variables, 'mine_events_pass'));
           setBtnColor('#C6D0D9');
@@ -421,12 +420,6 @@ const EventDetailScreen = props => {
 
                     setBtnText(t(Variables, 'event_detail_playback'));
                     setBtnColor('#2B33E6');
-                    // tv_bottom_right.setOnClickListener(view -> {
-                    //     Intent intent = new Intent(this, WebActivity.class);
-                    //     intent.putExtra("title", "AceCamp");
-                    //     intent.putExtra("url", Constants.BASE_URL_WEB + "/playback/" + meeting.getLive().getId());
-                    //     startActivity(intent);
-                    // });
                   } else {
                     setBtnText(t(Variables, 'mine_events_pass'));
                     setBtnColor('#C6D0D9');
@@ -444,16 +437,10 @@ const EventDetailScreen = props => {
                       //参会方式
                       setBtnText(t(Variables, 'event_detail_join_style'));
                       setBtnColor('#2B33E6');
-                      // tv_bottom_right.setOnClickListener(view -> {
-                      //     EventJoinStyleDialog.newInstance(meeting.getOnline_address(), meeting.getOnline_password()).setConvertListener(string -> {
-                      //         jumpMeeting(meeting);
-                      //     }).show(this);
-                      // });
                     } else {
                       //进入会议
                       setBtnText(t(Variables, 'event_detail_join_meeting'));
                       setBtnColor('#2B33E6');
-                      // tv_bottom_right.setOnClickListener(view -> jumpMeeting(meeting));
                     }
                     if (!meeting.free && !meeting.has_paid)
                       initTips(5, meeting);
@@ -479,12 +466,6 @@ const EventDetailScreen = props => {
                   //有回放
                   setBtnText(t(Variables, 'event_detail_playback'));
                   setBtnColor('#2b33e6');
-                  // tv_bottom_right.setOnClickListener(view -> {
-                  //     Intent intent = new Intent(this, WebActivity.class);
-                  //     intent.putExtra("title", "AceCamp");
-                  //     intent.putExtra("url", Constants.BASE_URL_WEB + "/playback/" + meeting.getLive().getId());
-                  //     startActivity(intent);
-                  // });
                 } else {
                   setBtnText(t(Variables, 'mine_events_pass'));
                   setBtnColor('#C6D0D9');
@@ -498,33 +479,7 @@ const EventDetailScreen = props => {
               case 'normal': //可以报名
                 setBtnText(t(Variables, 'dialog_sign_up_now'));
                 setBtnColor('#2B33E6');
-                // tv_bottom_right.setOnClickListener(view -> {//去报名
-                //     if(!meeting.isFree()&&userInfo.getOrganization_user().getOrganization()!=null
-                //             &&userInfo.getOrganization_user().getOrganization().getBelongs_organization_id()!=null){
-                //         String content;
-                //         if(userInfo.getOrganization_user().getOrganization().getBelongs_organization_contact()!=null){
-                //             content = String.format(getString(R.string.event_detail_other_buy),userInfo.getOrganization_user().getOrganization().getBelongs_organization_name())+userInfo.getOrganization_user().getOrganization().getBelongs_organization_contact();
-                //         }else {
-                //             content = String.format(getString(R.string.event_detail_other_buy),userInfo.getOrganization_user().getOrganization().getBelongs_organization_name());
-                //         }
-                //         DefaultDialog.newInstance(content,
-                //                 getString(R.string.common_cancel),
-                //                 getString(R.string.common_ok_more),
-                //                 false).setConvertListener(position -> {
 
-                //         }).show(this);
-                //     }else {
-                //         if(meeting.getMeeting_type().equals("private")){
-                //             EventWarningDialog.newInstance(getString(R.string.event_detail_sure_warning_title),
-                //                     getString(R.string.event_detail_sure_warning_content),
-                //                     getString(R.string.event_detail_give_up),getString(R.string.common_ok_more)).setConvertListener(position -> {
-                //                 mPresenter.eventRegister(eventId, meeting.getId());
-                //             }).show(this);
-                //         }else {
-                //             mPresenter.eventRegister(eventId, meeting.getId());
-                //         }
-                //     }
-                // });
                 break;
             }
           } else {
@@ -533,11 +488,6 @@ const EventDetailScreen = props => {
               //未认证且不在范围
               setBtnText(t(Variables, 'dialog_sign_up_now'));
               setBtnColor('#2B33E6');
-              // tv_bottom_right.setOnClickListener(view -> {//弹框提示身份未认证
-              //     EventNoAuthDialog.newInstance().setConvertListener(string -> {
-              //         startActivity(new Intent(this, AuthActivity.class));
-              //     }).show(this);
-              // });
             } else {
               if (eventInfo.can_registration_online) {
                 //开放线上报名，不能报名
@@ -548,12 +498,6 @@ const EventDetailScreen = props => {
                         //有回放
                         setBtnText(t(Variables, 'event_detail_playback'));
                         setBtnColor('#2B33E6');
-                        //  tv_bottom_right.setOnClickListener(view -> {
-                        //     Intent intent = new Intent(this, WebActivity.class);
-                        //     intent.putExtra("title", "AceCamp");
-                        //     intent.putExtra("url", Constants.BASE_URL_WEB + "/playback/" + meeting.getLive().getId());
-                        //     startActivity(intent);
-                        // });
                       } else {
                         setBtnText(t(Variables, 'mine_events_pass'));
                         setBtnColor('#C6D0D9');
@@ -571,11 +515,6 @@ const EventDetailScreen = props => {
                           //参会方式
                           setBtnText(t(Variables, 'event_detail_join_style'));
                           setBtnColor('#2B33E6');
-                          // tv_bottom_right.setOnClickListener(view -> {
-                          //     EventJoinStyleDialog.newInstance(meeting.getOnline_address(), meeting.getOnline_password()).setConvertListener(string -> {
-                          //         jumpMeeting(meeting);
-                          //     }).show(this);
-                          // });
                         } else {
                           //进入会议
                           setBtnText(t(Variables, 'event_detail_join_meeting'));
@@ -610,12 +549,6 @@ const EventDetailScreen = props => {
                       //有回放
                       setBtnText(t(Variables, 'event_detail_playback'));
                       setBtnColor('#2B33E6');
-                      // tv_bottom_right.setOnClickListener(view -> {
-                      //     Intent intent = new Intent(this, WebActivity.class);
-                      //     intent.putExtra("title", "AceCamp");
-                      //     intent.putExtra("url", Constants.BASE_URL_WEB + "/playback/" + meeting.getLive().getId());
-                      //     startActivity(intent);
-                      // });
                     } else {
                       console.log('=========');
                       setBtnText(t(Variables, 'mine_events_pass'));
@@ -651,9 +584,6 @@ const EventDetailScreen = props => {
         case 1: //未登录
           setBtnText(t(Variables, 'dialog_sign_up_now'));
           setBtnColor('#2B33E6');
-          // tv_bottom_right.setOnClickListener(view -> {//去登陆
-          //     startActivity(new Intent(this, LoginActivity.class));
-          // });
           break;
       }
     }
@@ -960,7 +890,6 @@ const EventDetailScreen = props => {
     }
   }, [meeting, has_vip]);
   const actionSheetRef = React.useRef();
-  const safeAreaInsets = useSafeAreaInsets();
   const aceCampTestUnfollowOrganizationPOST =
     AceCampTestApi.useUnfollowOrganizationPOST();
   const aceCampTestFollowOrganizationPOST =
@@ -1007,12 +936,12 @@ const EventDetailScreen = props => {
             }
           },
         }}
-        id={props.route?.params?.event_id ?? defaultProps.event_id}
+        id={params?.event_id ?? defaultProps.event_id}
       >
         {({ loading, error, data, refetchEventInfo }) => {
           const fetchData = data?.json;
           if (loading) {
-            return <ActivityIndicator />;
+            return <View />;
           }
 
           if (error || data?.status < 200 || data?.status >= 300) {
@@ -3396,7 +3325,6 @@ const EventDetailScreen = props => {
                     justifyContent: 'flex-end',
                     marginBottom: safeAreaInsets.bottom,
                     paddingBottom: 10,
-                    paddingLeft: 10,
                     paddingTop: 10,
                   },
                   dimensions.width
@@ -3917,7 +3845,7 @@ const EventDetailScreen = props => {
           dimensions.width
         )}
         transparent={true}
-        visible={showConfirmModal}
+        visible={Boolean(showConfirmModal)}
       >
         <Touchable
           onPress={() => {
@@ -4163,8 +4091,7 @@ const EventDetailScreen = props => {
                   /* hidden 'Run a Custom Function' action */
                   const result = (
                     await aceCampTestEventsRegisterPOST.mutateAsync({
-                      event_id:
-                        props.route?.params?.event_id ?? defaultProps.event_id,
+                      event_id: params?.event_id ?? defaultProps.event_id,
                       id: id,
                     })
                   )?.json;

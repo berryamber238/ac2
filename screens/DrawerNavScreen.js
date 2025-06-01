@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, ScreenContainer, Touchable, withTheme } from '@draftbit/ui';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import * as reactNativeToastMessage from 'react-native-toast-message';
 import { Fetch } from 'react-request';
@@ -11,15 +10,20 @@ import * as GlobalVariables from '../config/GlobalVariableContext';
 import * as DrawerNav from '../custom-files/DrawerNav';
 import * as HttpClient from '../custom-files/HttpClient';
 import * as Toast from '../custom-files/Toast';
+import * as eventBus from '../custom-files/eventBus';
 import palettes from '../themes/palettes';
 import * as Utils from '../utils';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
+import useIsFocused from '../utils/useIsFocused';
+import useNavigation from '../utils/useNavigation';
+import useParams from '../utils/useParams';
 import useWindowDimensions from '../utils/useWindowDimensions';
 
 const DrawerNavScreen = props => {
-  const { theme, navigation } = props;
+  const { theme } = props;
   const dimensions = useWindowDimensions();
+  const navigation = useNavigation();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
   const setGlobalVariableValue = GlobalVariables.useSetValue();
@@ -73,16 +77,22 @@ line two` ) and will not work with special characters inside of quotes ( example
     });
   };
   React.useEffect(() => {
-    console.log('=============');
-    console.log(Variables.customer_info);
-  }, [Variables.customer_info]);
+    console.log(eventBus);
+    const defaultEvent = eventBus.default.addListener('defaultEvent', type => {
+      console.log('============!!!!!!!!!!!!!!!!!!!!', type);
+    });
+
+    return () => {
+      defaultEvent.remove();
+    };
+  }, []);
   React.useEffect(() => {
     const getUserInfo = async () => {
       const url = HttpClient.apiEndpoints['me_info'];
       const response = await HttpClient.fetcher(url.url, url.method);
       const responseCookies = await AsyncStorage.getItem('cookies');
       const responseStr = await response.json();
-      console.log(responseStr);
+      console.log('=====是否登录' + responseStr);
       if (response.ok && response.data) {
         setGlobalVariableValue({ key: 'user_info', value: responseStr.data });
         setGlobalVariableValue({ key: 'cookie', value: responseCookies });

@@ -4,6 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const DeviceVariables = {
+  CLOSE_NOTICE_KEY: '',
   cookie:
     'aceid=1728914880.f2086a4ea71e; Hm_lvt_8b0b90b98a9a419fb90141d00647118e=1739973940,1740344530,1740923914,1741336604; HMACCOUNT=82C625BCCCAAED83; user_token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMDAwMDQxMiwicmVmcmVzaF9hdCI6MTc0MTk1NzU3NS4zMjY0MTY3LCJleHBpcmVzX2luIjozMTU1Njk1Mn0.vjgUQj70fmCNaRR4kJf2EEKMhtKS-5Hoscw1DEnHxs8; Hm_lpvt_8b0b90b98a9a419fb90141d00647118e=1742033593; _ace_camp_tech_testing_session=TD%2Bnk6hISf9Vul%2Fof4Gz2vfmVsESuae05lmCvwkz77YbQqHDHRoT8vVuVGnV5CZ%2BoAFY102Ldyhbof4RbU0QKcqvgbnr06DPHzEOvKMZ9WiLP%2F5m3kIHRa9Pjw6qNPV6h%2B1UDbYuOCa1EkI2eGG26IB%2FNSAblmVd1w1sznIYBfFf7SHGsqDMZ4JM9%2F3n78OZY7jxQYrhGxY8efC4uZAz6u4YU5m972DdIDsxxk%2B%2BiCaYj2dk2sorULtZIMg6TV6kamvI9xeMurwDKA%3D%3D--lQbrCqYkow5pSm5%2F--s4FJAIzqb6kE4EXVY1MMWw%3D%3D',
   country: [

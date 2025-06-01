@@ -37,15 +37,7 @@ export const view = forwardRef((props, ref) => {
     startShake,
   }));
   return (
-    <Animated.View
-      style={[
-        {
-          transform: [
-            { translateX: shakeAnimation, translateY: shakeAnimation },
-          ],
-        },
-      ]}
-    >
+    <Animated.View style={[{ transform: [{ translateX: shakeAnimation }] }]}>
       {children}
     </Animated.View>
   );
