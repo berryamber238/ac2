@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Button,
   Icon,
@@ -10,9 +10,9 @@ import {
   SimpleStyleFlatList,
   TextField,
   withTheme,
-} from '@draftbit/ui';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useIsFocused } from '@react-navigation/native';
+} from "@draftbit/ui";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 import {
   ActivityIndicator,
   Image,
@@ -20,27 +20,28 @@ import {
   StatusBar,
   Text,
   View,
-} from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Fetch } from 'react-request';
-import * as GlobalStyles from '../GlobalStyles.js';
-import * as AceCampTestApi from '../apis/AceCampTestApi.js';
-import * as GlobalVariables from '../config/GlobalVariableContext';
-import Images from '../config/Images';
-import * as HttpClient from '../custom-files/HttpClient';
-import * as MemberChange from '../custom-files/MemberChange';
-import getDicArrayForPicker from '../global-functions/getDicArrayForPicker';
-import t from '../global-functions/t';
-import palettes from '../themes/palettes';
-import * as Utils from '../utils';
-import Breakpoints from '../utils/Breakpoints';
-import * as StyleSheet from '../utils/StyleSheet';
-import imageSource from '../utils/imageSource';
-import useWindowDimensions from '../utils/useWindowDimensions';
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Fetch } from "react-request";
+import * as GlobalStyles from "../GlobalStyles.js";
+import * as AceCampTestApi from "../apis/AceCampTestApi.js";
+import * as GlobalVariables from "../config/GlobalVariableContext";
+import Images from "../config/Images";
+import * as HttpClient from "../custom-files/HttpClient";
+import * as MemberChange from "../custom-files/MemberChange";
+import getDicArrayForPicker from "../global-functions/getDicArrayForPicker";
+import t from "../global-functions/t";
+import palettes from "../themes/palettes";
+import * as Utils from "../utils";
+import Breakpoints from "../utils/Breakpoints";
+import * as StyleSheet from "../utils/StyleSheet";
+import imageSource from "../utils/imageSource";
+import useWindowDimensions from "../utils/useWindowDimensions";
+import JoinChannelVideo from "../custom-files/JoinChannelVideo";
 
 const defaultProps = { meeting_id: 10001376, url: null };
 
-const LiveScreen = props => {
+const LiveScreen = (props) => {
   const { theme, navigation } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
@@ -49,13 +50,13 @@ const LiveScreen = props => {
   const [current_price, setCurrent_price] = React.useState(0);
   const [customer_list, setCustomer_list] = React.useState([
     {
-      name: 'Lu Yu',
-      email: 'luyu@acecamptech.com',
+      name: "Lu Yu",
+      email: "luyu@acecamptech.com",
       avatar:
-        'https://wework.qpic.cn/wwpic3az/654320_Q8xGVqwjTXqivOC_1727064850/0',
-      phone_number: '+8613261690696',
+        "https://wework.qpic.cn/wwpic3az/654320_Q8xGVqwjTXqivOC_1727064850/0",
+      phone_number: "+8613261690696",
       customer_service_url:
-        'https://work.weixin.qq.com/kfid/kfc4932588fb2a00cf5',
+        "https://work.weixin.qq.com/kfid/kfc4932588fb2a00cf5",
     },
   ]);
   const [is_guest, setIs_guest] = React.useState(false);
@@ -63,35 +64,35 @@ const LiveScreen = props => {
   const [is_show_file, setIs_show_file] = React.useState(false);
   const [is_video_show, setIs_video_show] = React.useState(false);
   const [msg_count, setMsg_count] = React.useState(22);
-  const [pickerValue, setPickerValue] = React.useState('');
+  const [pickerValue, setPickerValue] = React.useState("");
   const [show_waiting_index, setShow_waiting_index] = React.useState(-1);
-  const [styledTextFieldValue, setStyledTextFieldValue] = React.useState('');
-  const [styledTextFieldValue2, setStyledTextFieldValue2] = React.useState('');
+  const [styledTextFieldValue, setStyledTextFieldValue] = React.useState("");
+  const [styledTextFieldValue2, setStyledTextFieldValue2] = React.useState("");
   const [token, setToken] = React.useState({
     id: 1117942,
     rtc: {
       token:
-        '006a9b90cd983ad4910b82aba3339cf8b23IADtP96knTYzMQOLp0KMRwx120fro/+UYfOJs5COgAfu4z1hm6osdb78IgCmj9VnHDV9ZwQAAQDJDXxnAgDJDXxnAwDJDXxnBADJDXxn',
-      channel: 'ACE_665594299D2_RTC_TESTING',
+        "006a9b90cd983ad4910b82aba3339cf8b23IADtP96knTYzMQOLp0KMRwx120fro/+UYfOJs5COgAfu4z1hm6osdb78IgCmj9VnHDV9ZwQAAQDJDXxnAgDJDXxnAwDJDXxnBADJDXxn",
+      channel: "ACE_665594299D2_RTC_TESTING",
     },
     rtm: {
       token:
-        '006a9b90cd983ad4910b82aba3339cf8b23IACelMBCsBMDdWYZbmNjGvDEZkC8v/5z3PE+66Ju6cM2FSx1vvwAAAAAEAAB1PUUHDV9ZwEA6APJDXxn',
-      channel: 'ACE_665594299D2_RTM_TESTING',
+        "006a9b90cd983ad4910b82aba3339cf8b23IACelMBCsBMDdWYZbmNjGvDEZkC8v/5z3PE+66Ju6cM2FSx1vvwAAAAAEAAB1PUUHDV9ZwEA6APJDXxn",
+      channel: "ACE_665594299D2_RTM_TESTING",
     },
     demo: true,
-    help: '注意事项\n1.点击【举手】排队等待发言，或发送问题给主持人，主持人代为提问;\n2.主持人允许您发言时，系统将使用您的麦克风，请点击“允许”。',
+    help: "注意事项\n1.点击【举手】排队等待发言，或发送问题给主持人，主持人代为提问;\n2.主持人允许您发言时，系统将使用您的麦克风，请点击“允许”。",
     logo: null,
-    name: 'Test LL',
-    role: 'broadcaster',
-    state: 'unprepare',
-    app_id: 'a9b90cd983ad4910b82aba3339cf8b23',
-    vendor: 'agora',
+    name: "Test LL",
+    role: "broadcaster",
+    state: "unprepare",
+    app_id: "a9b90cd983ad4910b82aba3339cf8b23",
+    vendor: "agora",
     en_help:
       'Attention\n1.Click [Raise Hand], wait for the host to unmute, or send the question to the host\n2.When the host allows you to speak, the system will access your microphone , please click "Allow".',
     meeting: {},
     sc_help:
-      '注意事项\n1.点击【举手】排队等待发言，或发送问题给主持人，主持人代为提问;\n2.主持人允许您发言时，系统将使用您的麦克风，请点击“允许”。',
+      "注意事项\n1.点击【举手】排队等待发言，或发送问题给主持人，主持人代为提问;\n2.主持人允许您发言时，系统将使用您的麦克风，请点击“允许”。",
     user_id: 10000412,
     settings: {
       hide: false,
@@ -104,44 +105,44 @@ const LiveScreen = props => {
       view_member_count: true,
       virtual_background: null,
     },
-    connector: { title: 'Connector', online_state: 'notcall' },
-    user_type: 'user',
+    connector: { title: "Connector", online_state: "notcall" },
+    user_type: "user",
     background: null,
     banner_url: null,
     user_score: 5,
-    description: '',
+    description: "",
     announcement: {},
     live_experts: [],
-    position_name: 'Chairman',
+    position_name: "Chairman",
     primary_users: {
       staff: [],
       experts: [],
       converter: null,
-      broadcasters: ['10000412'],
+      broadcasters: ["10000412"],
       online_player: null,
       unmute_audiences: [],
       hands_up_audiences: [],
     },
     remindered_at: null,
-    user_nickname: '用户10000412',
-    en_description: '',
-    sc_description: '',
-    user_full_name: 'Test LL',
+    user_nickname: "用户10000412",
+    en_description: "",
+    sc_description: "",
+    user_full_name: "Test LL",
     super_moderator: true,
     organization_name: null,
     live_preview_files: [],
     organization_score: 0,
     virtual_backgrounds: [
-      'https://image.acecamptech.com/virtual_backgrounds/1.png',
-      'https://image.acecamptech.com/virtual_backgrounds/2.png',
-      'https://image.acecamptech.com/virtual_backgrounds/3.png',
-      'https://image.acecamptech.com/virtual_backgrounds/4.png',
-      'https://image.acecamptech.com/virtual_backgrounds/5.png',
-      'https://image.acecamptech.com/virtual_backgrounds/6.png',
-      'https://image.acecamptech.com/virtual_backgrounds/7.png',
-      'https://image.acecamptech.com/virtual_backgrounds/8.png',
-      'https://image.acecamptech.com/virtual_backgrounds/9.png',
-      'https://image.acecamptech.com/virtual_backgrounds/10.png',
+      "https://image.acecamptech.com/virtual_backgrounds/1.png",
+      "https://image.acecamptech.com/virtual_backgrounds/2.png",
+      "https://image.acecamptech.com/virtual_backgrounds/3.png",
+      "https://image.acecamptech.com/virtual_backgrounds/4.png",
+      "https://image.acecamptech.com/virtual_backgrounds/5.png",
+      "https://image.acecamptech.com/virtual_backgrounds/6.png",
+      "https://image.acecamptech.com/virtual_backgrounds/7.png",
+      "https://image.acecamptech.com/virtual_backgrounds/8.png",
+      "https://image.acecamptech.com/virtual_backgrounds/9.png",
+      "https://image.acecamptech.com/virtual_backgrounds/10.png",
     ],
     allow_public_channel: false,
     en_organization_name: null,
@@ -151,19 +152,19 @@ const LiveScreen = props => {
     screen_share_user_id: null,
     can_upload_background: true,
     compliance_risk_audio:
-      'https://static.acecamptech.com/system/live/compliance_risk_warning.mp3',
+      "https://static.acecamptech.com/system/live/compliance_risk_warning.mp3",
     compliance_risk_audio_en:
-      'https://static.acecamptech.com/system/live/compliance_risk_warning_en.mp3',
+      "https://static.acecamptech.com/system/live/compliance_risk_warning_en.mp3",
   });
-  const [user_type, setUser_type] = React.useState('user');
-  const [textFieldValue, setTextFieldValue] = React.useState('');
-  const LiveAction = it => {
+  const [user_type, setUser_type] = React.useState("user");
+  const [textFieldValue, setTextFieldValue] = React.useState("");
+  const LiveAction = (it) => {
     switch (it.type) {
-      case '1': //查看详细资料
+      case "1": //查看详细资料
         // MemberInfoDialog.newInstance(it.getLogo(), it.getName(),
         //         it.getCompanyName(), DictUtil.getNameById(DictUtil.DICT_ORGANIZATION_TYPES, it.getIdentity()), it.getPosition()).show(this);
         break;
-      case '2': //静音or解除静音
+      case "2": //静音or解除静音
         // if (it.isStatus()) {
         //     sendPeerMessage(it.getUid(), "muteVolume");
         //     mPresenter.setMemberInfo(liveId, it.getUid(), "mute");
@@ -172,21 +173,21 @@ const LiveScreen = props => {
         //     mPresenter.setMemberInfo(liveId, it.getUid(), "unmute");
         // }
         break;
-      case '3': //停止嘉宾共享
+      case "3": //停止嘉宾共享
         // DefaultDialog.newInstance(getResources().getString(R.string.live_sure_stop_share),
         //         getResources().getString(R.string.common_cancel),
         //         getResources().getString(R.string.common_ok_more)).setConvertListener(position -> {
         //     sendPeerMessage(it.getUid(), "stopUserShareScreen");
         // }).show(this);
         break;
-      case '4': //停止嘉宾视频
+      case "4": //停止嘉宾视频
         // DefaultDialog.newInstance(getResources().getString(R.string.live_sure_stop_expert_video),
         //         getResources().getString(R.string.common_cancel),
         //         getResources().getString(R.string.common_ok_more)).setConvertListener(position -> {
         //     sendPeerMessage(it.getUid(), "stopUserVideo");
         // }).show(this);
         break;
-      case '5': //转为嘉宾or撤销嘉宾
+      case "5": //转为嘉宾or撤销嘉宾
         // if (it.isStatus()) {
         //     sendPeerMessage(it.getUid(), "toExpert");
         //     mPresenter.setMemberInfo(liveId, it.getUid(), "to_expert");
@@ -200,7 +201,7 @@ const LiveScreen = props => {
         //     }).show(this);
         // }
         break;
-      case '6': //转为主持人
+      case "6": //转为主持人
         // DefaultDialog.newInstance(getString(R.string.live_are_you_sure_trans_host) + it.getName() + getString(R.string.live_are_you_sure_trans_host_right),
         //         getResources().getString(R.string.common_cancel),
         //         getResources().getString(R.string.common_ok_more)).setConvertListener(position -> {
@@ -223,19 +224,19 @@ const LiveScreen = props => {
         //     });
         // }).show(this);
         break;
-      case '7': //允许or停止查看观众名单
+      case "7": //允许or停止查看观众名单
         // sendPeerMessage(it.getUid(), it.isStatus() ? "allowViewAllList" : "stopViewAllList");
         // mPresenter.setMemberInfo(liveId, it.getUid(), it.isStatus() ? "view_attendee" : "unview_attendee");
         break;
-      case '8': //允许or停止查看观众提问
+      case "8": //允许or停止查看观众提问
         // sendPeerMessage(it.getUid(), it.isStatus() ? "allowViewMessage" : "stopViewMessage");
         // mPresenter.setMemberInfo(liveId, it.getUid(), it.isStatus() ? "view_message" : "unview_message");
         break;
-      case '9': //允许or停止查看观众数量
+      case "9": //允许or停止查看观众数量
         // sendPeerMessage(it.getUid(), it.isStatus() ? "allowViewCount" : "stopViewCount");
         // mPresenter.setMemberInfo(liveId, it.getUid(), it.isStatus() ? "view_member_count" : "unview_member_count");
         break;
-      case '10': //收回主持人
+      case "10": //收回主持人
         // DefaultDialog.newInstance(getResources().getString(R.string.live_sure_back_broadcaster),
         //         getResources().getString(R.string.common_cancel),
         //         getResources().getString(R.string.common_ok_more)).setConvertListener(position -> {
@@ -259,13 +260,13 @@ const LiveScreen = props => {
         //     });
         // }).show(this);
         break;
-      case '11': //发起提问
+      case "11": //发起提问
         // MemberChatDialog.newInstance(it.getChatMessageBean(), liveInfo).show(this);
         break;
-      case '12': //发送消息
+      case "12": //发送消息
         // sendChannelMessage(it.getUid(), it.getName(),it.isStatus());
         break;
-      case '13': //一键移除
+      case "13": //一键移除
         // DefaultDialog.newInstance(getResources().getString(R.string.live_sure_remove_no_pay),
         //         getResources().getString(R.string.live_remove_no_join),
         //         getResources().getString(R.string.common_cancel),
@@ -274,7 +275,7 @@ const LiveScreen = props => {
         //             mPresenter.removeAll(liveId);
         //         }).show(this);
         break;
-      case '14': //发送付费提醒
+      case "14": //发送付费提醒
         // DefaultDialog.newInstance(
         //         getResources().getString(R.string.live_sure_show_remind),
         //         getResources().getString(R.string.common_cancel),
@@ -283,11 +284,11 @@ const LiveScreen = props => {
         //             mPresenter.payForReminder(liveId);
         //         }).show(this);
         break;
-      case '15': //手放下
+      case "15": //手放下
         // sendPeerMessage(it.getUid(), "handsDown");
         // mPresenter.setMemberInfo(liveId, it.getUid(), "hands_down");
         break;
-      case '16': //停止or允许自由发言
+      case "16": //停止or允许自由发言
         // sendPeerMessage(it.getUid(), it.isStatus() ? "allowManageMute" : "stopManageMute");
         // mPresenter.setMemberInfo(liveId, it.getUid(), it.isStatus() ? "manage_mute" : "unmanage_mute");
         break;
@@ -379,7 +380,7 @@ const LiveScreen = props => {
     if (!isFocused) {
       return;
     }
-    const entry = StatusBar.pushStackEntry?.({ barStyle: 'light-content' });
+    const entry = StatusBar.pushStackEntry?.({ barStyle: "light-content" });
     return () => StatusBar.popStackEntry?.(entry);
   }, [isFocused]);
 
@@ -390,23 +391,23 @@ const LiveScreen = props => {
       hasLeftSafeArea={false}
       hasRightSafeArea={false}
       style={StyleSheet.applyWidth(
-        { justifyContent: 'space-between' },
+        { justifyContent: "space-between" },
         dimensions.width
       )}
     >
       <ImageBackground
-        {...GlobalStyles.ImageBackgroundStyles(theme)['Image Background'].props}
-        backfaceVisibility={'visible'}
-        resizeMode={'repeat'}
-        source={imageSource(Images['bgliveacecamp'])}
+        {...GlobalStyles.ImageBackgroundStyles(theme)["Image Background"].props}
+        backfaceVisibility={"visible"}
+        resizeMode={"repeat"}
+        source={imageSource(Images["bgliveacecamp"])}
         style={StyleSheet.applyWidth(
           StyleSheet.compose(
-            GlobalStyles.ImageBackgroundStyles(theme)['Image Background'].style,
+            GlobalStyles.ImageBackgroundStyles(theme)["Image Background"].style,
             {
               bottom: 0,
               flex: null,
-              height: '100%',
-              position: 'absolute',
+              height: "100%",
+              position: "absolute",
               width: dimensions.width,
             }
           ),
@@ -415,12 +416,12 @@ const LiveScreen = props => {
       />
       {/* 标题 */}
       <View
-        onLayout={event => {
+        onLayout={(event) => {
           const handler = async () => {
             try {
               if (
                 (props.route?.params?.meeting_id ?? defaultProps.meeting_id) ===
-                'tutorial'
+                "tutorial"
               ) {
                 return;
               }
@@ -441,72 +442,72 @@ const LiveScreen = props => {
                     free: false,
                     event: {
                       id: 10001030,
-                      name: '11111212',
-                      type: 'PublicEvent',
-                      state: 'finished',
-                      en_name: '11111212',
+                      name: "11111212",
+                      type: "PublicEvent",
+                      state: "finished",
+                      en_name: "11111212",
                       is_test: false,
-                      sc_name: '11111212',
+                      sc_name: "11111212",
                       event_type_id: 3,
                       event_type_group_id: 1,
                     },
                     expert: {
                       id: 113,
-                      name: '丁希华',
+                      name: "丁希华",
                       tags: [],
-                      state: 'interview_accepted',
-                      gender: 'male',
+                      state: "interview_accepted",
+                      gender: "male",
                       signed: false,
                       source: {
                         id: 101,
-                        name: '吕梦洋',
+                        name: "吕梦洋",
                         avatar:
-                          'https://wework.qpic.cn/wwpic3az/907248_piJSdFHOSY2BVwj_1735722853/0',
+                          "https://wework.qpic.cn/wwpic3az/907248_piJSdFHOSY2BVwj_1735722853/0",
                         is_expert: false,
                         is_analyst: false,
                       },
-                      company: '北京融易通信息技术有限公司',
-                      position: '前端开发工程师',
+                      company: "北京融易通信息技术有限公司",
+                      position: "前端开发工程师",
                       has_email: true,
                       created_at: 1733972954,
                       deleted_at: null,
-                      industries: ['互联网'],
-                      expert_role: 'unknown',
+                      industries: ["互联网"],
+                      expert_role: "unknown",
                       attachment_tags: [],
                     },
                     end_time: 1735552800,
                     assistant: null,
                     expert_id: 113,
                     start_time: 1735549200,
-                    expert_role: 'employee',
-                    meeting_way: 'default_online',
+                    expert_role: "employee",
+                    meeting_way: "default_online",
                     assistant_id: null,
-                    meeting_type: 'public',
+                    meeting_type: "public",
                     time_zone_id: 1,
                     current_price: 300,
                     expert_demand: {
                       id: 333,
-                      name: '医保局专家（中等-指派伊）',
+                      name: "医保局专家（中等-指派伊）",
                       staff: {
                         id: 46,
-                        name: '伊珊慧',
+                        name: "伊珊慧",
                         avatar:
-                          'https://wework.qpic.cn/wwpic3az/785648_2SodsfYqRCqWRtm_1731288022/0',
+                          "https://wework.qpic.cn/wwpic3az/785648_2SodsfYqRCqWRtm_1731288022/0",
                         is_expert: false,
                         is_analyst: false,
                       },
-                      state: 'finished',
+                      state: "finished",
                       staffs: [],
                       priority: 30,
                       created_at: 1735200330,
                       deleted_at: null,
                       organization: {
                         id: 10000241,
-                        logo: 'https://image.ca3test.com/avatar/10000408/0.17917076636607354.jpg?x-oss-process=style/avatar_w256',
-                        name: '崔-分析师',
-                        state: 'passed',
-                        en_name: '崔-分析师',
-                        sc_name: '崔-分析师',
+                        logo: "https://image.ca3test.com/avatar/10000408/0.17917076636607354.jpg?x-oss-process=style/avatar_w256",
+                        name: "崔-分析师",
+                        state: "passed",
+                        en_name: "崔-分析师",
+                        sc_name: "崔-分析师",
                         description: null,
                         en_description: null,
                         sc_description: null,
@@ -514,25 +515,25 @@ const LiveScreen = props => {
                       },
                       organization_user: {
                         id: 20001156,
-                        tel: '15075351924',
-                        email: '1573250559@qq.com',
-                        state: 'passed',
+                        tel: "15075351924",
+                        email: "1573250559@qq.com",
+                        state: "passed",
                         user_id: 10000408,
-                        real_name: '崔-分析师',
+                        real_name: "崔-分析师",
                         position_id: null,
-                        country_code: '86',
+                        country_code: "86",
                         dismissed_at: null,
-                        introduction: '自我介绍',
+                        introduction: "自我介绍",
                         state_events: [],
                         position_name: null,
                         country_code_id: 100,
                       },
                     },
-                    expert_source: 'AceCamp',
+                    expert_source: "AceCamp",
                     original_price: 300,
                     expert_demand_id: 333,
                   },
-                  goods_type: 'Meeting',
+                  goods_type: "Meeting",
                 },
                 meta: { ts: 1736228700 },
               };
@@ -552,16 +553,16 @@ const LiveScreen = props => {
         }}
         style={StyleSheet.applyWidth(
           {
-            alignItems: 'center',
-            flexDirection: 'row',
+            alignItems: "center",
+            flexDirection: "row",
             height: 45,
-            justifyContent: 'space-between',
+            justifyContent: "space-between",
             marginTop: safeAreaInsets.top,
             paddingBottom: 5,
             paddingLeft: 14,
             paddingRight: 14,
             paddingTop: 5,
-            width: '100%',
+            width: "100%",
             zIndex: 1000,
           },
           dimensions.width
@@ -576,16 +577,16 @@ const LiveScreen = props => {
               console.error(err);
             }
           }}
-          color={palettes.App['Custom #ffffff']}
-          icon={'AntDesign/left'}
+          color={palettes.App["Custom #ffffff"]}
+          icon={"AntDesign/left"}
           size={22}
         />
         {/* View 2 */}
         <View
           style={StyleSheet.applyWidth(
             {
-              alignItems: 'center',
-              flexDirection: 'row',
+              alignItems: "center",
+              flexDirection: "row",
               marginLeft: 10,
               paddingLeft: 4,
               paddingRight: 4,
@@ -598,28 +599,28 @@ const LiveScreen = props => {
             accessible={true}
             selectable={false}
             adjustsFontSizeToFit={true}
-            ellipsizeMode={'tail'}
+            ellipsizeMode={"tail"}
             numberOfLines={1}
             style={StyleSheet.applyWidth(
               {
-                alignSelf: 'flex-start',
-                color: palettes.App['Custom #ffffff'],
+                alignSelf: "flex-start",
+                color: palettes.App["Custom #ffffff"],
                 flexShrink: 1,
-                fontFamily: 'System',
+                fontFamily: "System",
                 fontSize: 16,
-                fontWeight: '400',
+                fontWeight: "400",
                 letterSpacing: 0.2,
                 lineHeight: 28,
-                textAlign: 'center',
+                textAlign: "center",
               },
               dimensions.width
             )}
           >
-            {t(Variables, 'live_meeting_info')}
+            {t(Variables, "live_meeting_info")}
           </Text>
           <Icon
-            color={palettes.App['Custom #ffffff']}
-            name={'EvilIcons/exclamation'}
+            color={palettes.App["Custom #ffffff"]}
+            name={"EvilIcons/exclamation"}
             size={20}
           />
         </View>
@@ -627,16 +628,16 @@ const LiveScreen = props => {
         <View
           style={StyleSheet.applyWidth(
             {
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'flex-end',
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "flex-end",
             },
             dimensions.width
           )}
         >
           <Icon
-            color={palettes.App['Custom Color 53']}
-            name={'Foundation/info'}
+            color={palettes.App["Custom Color 53"]}
+            name={"Foundation/info"}
             size={20}
             style={StyleSheet.applyWidth({ marginRight: 4 }, dimensions.width)}
           />
@@ -646,16 +647,16 @@ const LiveScreen = props => {
             selectable={false}
             style={StyleSheet.applyWidth(
               {
-                color: palettes.App['Custom Color 53'],
-                fontFamily: 'System',
+                color: palettes.App["Custom Color 53"],
+                fontFamily: "System",
                 fontSize: 14,
-                fontWeight: '400',
+                fontWeight: "400",
                 letterSpacing: 0.2,
                 lineHeight: 24,
               },
               dimensions.width
             )}
-            title={`${t(Variables, 'live_question_style')}`}
+            title={`${t(Variables, "live_question_style")}`}
           />
         </View>
       </View>
@@ -670,16 +671,16 @@ const LiveScreen = props => {
         <View
           style={StyleSheet.applyWidth(
             {
-              alignItems: 'center',
-              backgroundColor: 'rgb(87, 134, 255)',
-              flexDirection: 'row',
+              alignItems: "center",
+              backgroundColor: "rgb(87, 134, 255)",
+              flexDirection: "row",
               height: 36,
-              justifyContent: 'space-between',
+              justifyContent: "space-between",
               marginLeft: 8,
               marginRight: 8,
               paddingLeft: 8,
               paddingRight: 8,
-              position: 'absolute',
+              position: "absolute",
               top: 0,
               width: [
                 { minWidth: Breakpoints.Mobile, value: 100 },
@@ -693,7 +694,7 @@ const LiveScreen = props => {
           <View
             style={StyleSheet.applyWidth(
               {
-                backgroundColor: palettes.App['Custom #ffffff'],
+                backgroundColor: palettes.App["Custom #ffffff"],
                 borderRadius: 16,
                 marginRight: 4,
                 padding: 4,
@@ -702,8 +703,8 @@ const LiveScreen = props => {
             )}
           >
             <Icon
-              color={palettes.App['Custom Color 56']}
-              name={'FontAwesome/volume-up'}
+              color={palettes.App["Custom Color 56"]}
+              name={"FontAwesome/volume-up"}
               size={12}
             />
           </View>
@@ -714,39 +715,39 @@ const LiveScreen = props => {
               selectable={false}
               style={StyleSheet.applyWidth(
                 {
-                  color: palettes.App['Custom #ffffff'],
-                  fontFamily: 'System',
+                  color: palettes.App["Custom #ffffff"],
+                  fontFamily: "System",
                   fontSize: 14,
-                  fontWeight: '400',
+                  fontWeight: "400",
                   letterSpacing: 0.2,
                   lineHeight: 19,
                 },
                 dimensions.width
               )}
             >
-              {'Lorem ipsum dolor sit amet'}
+              {"Lorem ipsum dolor sit amet"}
             </Text>
           </View>
           {/* View 3 */}
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: 'center',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "flex-end",
               },
               dimensions.width
             )}
           >
             <Icon
-              color={palettes.App['Custom Color_11']}
-              name={'FontAwesome/trash-o'}
+              color={palettes.App["Custom Color_11"]}
+              name={"FontAwesome/trash-o"}
               size={16}
             />
             {/* Icon 2 */}
             <Icon
-              color={palettes.App['Custom #ffffff']}
-              name={'AntDesign/close'}
+              color={palettes.App["Custom #ffffff"]}
+              name={"AntDesign/close"}
               size={16}
               style={StyleSheet.applyWidth({ marginLeft: 8 }, dimensions.width)}
             />
@@ -754,24 +755,24 @@ const LiveScreen = props => {
         </View>
         {/* 支付提示 */}
         <>
-          {token?.role === 'broadcaster' ||
+          {token?.role === "broadcaster" ||
           !token?.meeting ||
           !token?.meeting?.id ||
           token?.meeting?.free ||
           token?.meeting?.has_paid ||
           undefined ||
-          token?.state === 'stopped' ? null : (
+          token?.state === "stopped" ? null : (
             <View
               style={StyleSheet.applyWidth(
                 {
-                  backgroundColor: palettes.App['Custom Color 54'],
+                  backgroundColor: palettes.App["Custom Color 54"],
                   marginLeft: 8,
                   marginRight: 8,
                   paddingBottom: 4,
                   paddingLeft: 16,
                   paddingRight: 16,
                   paddingTop: 4,
-                  position: 'absolute',
+                  position: "absolute",
                   top: 0,
                   width: dimensions.width - 16,
                   zIndex: 200,
@@ -784,62 +785,62 @@ const LiveScreen = props => {
                 selectable={false}
                 style={StyleSheet.applyWidth(
                   {
-                    color: palettes.App['Custom Color 55'],
-                    fontFamily: 'System',
+                    color: palettes.App["Custom Color 55"],
+                    fontFamily: "System",
                     fontSize: 14,
-                    fontWeight: '400',
+                    fontWeight: "400",
                     letterSpacing: 0.2,
                     lineHeight: 19.6,
                   },
                   dimensions.width
                 )}
               >
-                {t(Variables, 'live_for_free_five_min')}
+                {t(Variables, "live_for_free_five_min")}
                 {/* 升级VIP */}
                 <>
-                  {!Constants['is_vip'] ? null : (
+                  {!Constants["is_vip"] ? null : (
                     <Link
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.LinkStyles(theme)['Link'].props}
+                      {...GlobalStyles.LinkStyles(theme)["Link"].props}
                       style={StyleSheet.applyWidth(
-                        GlobalStyles.LinkStyles(theme)['Link'].style,
+                        GlobalStyles.LinkStyles(theme)["Link"].style,
                         dimensions.width
                       )}
-                      title={`${t(Variables, 'mine_upgrade_vip')}`}
+                      title={`${t(Variables, "mine_upgrade_vip")}`}
                     />
                   )}
                 </>
                 {/* 试用VIP */}
                 <>
-                  {Constants['is_vip'] ? null : (
+                  {Constants["is_vip"] ? null : (
                     <Link
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.LinkStyles(theme)['Link'].props}
+                      {...GlobalStyles.LinkStyles(theme)["Link"].props}
                       style={StyleSheet.applyWidth(
-                        GlobalStyles.LinkStyles(theme)['Link'].style,
+                        GlobalStyles.LinkStyles(theme)["Link"].style,
                         dimensions.width
                       )}
-                      title={`${t(Variables, 'live_try_vip')}`}
+                      title={`${t(Variables, "live_try_vip")}`}
                     />
                   )}
                 </>
                 <Text accessible={true} selectable={false}>
-                  {t(Variables, 'live_or')}
+                  {t(Variables, "live_or")}
                 </Text>
                 {/* 支付A币 */}
                 <Link
                   accessible={true}
                   selectable={false}
-                  {...GlobalStyles.LinkStyles(theme)['Link'].props}
+                  {...GlobalStyles.LinkStyles(theme)["Link"].props}
                   style={StyleSheet.applyWidth(
-                    GlobalStyles.LinkStyles(theme)['Link'].style,
+                    GlobalStyles.LinkStyles(theme)["Link"].style,
                     dimensions.width
                   )}
-                  title={`${t(Variables, 'live_user_pay')}${current_price} ${t(
+                  title={`${t(Variables, "live_user_pay")}${current_price} ${t(
                     Variables,
-                    'live_user_a_currency'
+                    "live_user_a_currency"
                   )}`}
                 />
               </Text>
@@ -852,27 +853,27 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  height: '100%',
-                  justifyContent: 'center',
-                  width: '100%',
+                  alignItems: "center",
+                  height: "100%",
+                  justifyContent: "center",
+                  width: "100%",
                 },
                 dimensions.width
               )}
             >
               <Button
                 accessible={true}
-                iconPosition={'left'}
-                {...GlobalStyles.ButtonStyles(theme)['Button (default)'].props}
+                iconPosition={"left"}
+                {...GlobalStyles.ButtonStyles(theme)["Button (default)"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ButtonStyles(theme)['Button (default)'].style,
+                    GlobalStyles.ButtonStyles(theme)["Button (default)"].style,
                     {
                       backgroundColor: palettes.Brand.Primary,
                       borderRadius: 0,
-                      fontFamily: 'System',
+                      fontFamily: "System",
                       fontSize: 18,
-                      fontWeight: '600',
+                      fontWeight: "600",
                       height: 48,
                       paddingLeft: 70,
                       paddingRight: 70,
@@ -880,20 +881,20 @@ const LiveScreen = props => {
                   ),
                   dimensions.width
                 )}
-                title={`${t(Variables, 'live_prepare_meeting')}`}
+                title={`${t(Variables, "live_prepare_meeting")}`}
               />
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)['Text Title'].props}
+                {...GlobalStyles.TextStyles(theme)["Text Title"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)['Text Title'].style,
+                    GlobalStyles.TextStyles(theme)["Text Title"].style,
                     {
-                      color: palettes.App['Custom #ffffff'],
-                      fontFamily: 'System',
+                      color: palettes.App["Custom #ffffff"],
+                      fontFamily: "System",
                       fontSize: 16,
-                      fontWeight: '600',
+                      fontWeight: "600",
                       lineHeight: 26,
                       marginTop: 16,
                     }
@@ -901,7 +902,7 @@ const LiveScreen = props => {
                   dimensions.width
                 )}
               >
-                {t(Variables, 'live_prepare_info')}
+                {t(Variables, "live_prepare_info")}
               </Text>
             </View>
           )}
@@ -912,10 +913,10 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  height: '100%',
-                  justifyContent: 'flex-end',
-                  width: '100%',
+                  alignItems: "center",
+                  height: "100%",
+                  justifyContent: "flex-end",
+                  width: "100%",
                 },
                 dimensions.width
               )}
@@ -923,12 +924,12 @@ const LiveScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    backgroundColor: palettes.App['Custom Color 5'],
+                    backgroundColor: palettes.App["Custom Color 5"],
                     bottom: 0,
                     height: 60,
                     opacity: 0.31,
-                    position: 'absolute',
-                    width: '100%',
+                    position: "absolute",
+                    width: "100%",
                   },
                   dimensions.width
                 )}
@@ -937,18 +938,18 @@ const LiveScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    flexDirection: 'row',
+                    alignItems: "center",
+                    flexDirection: "row",
                     height: 60,
-                    justifyContent: 'center',
-                    width: '100%',
+                    justifyContent: "center",
+                    width: "100%",
                   },
                   dimensions.width
                 )}
               >
                 <Icon
-                  color={palettes.App['Custom #ffffff']}
-                  name={'AntDesign/hourglass'}
+                  color={palettes.App["Custom #ffffff"]}
+                  name={"AntDesign/hourglass"}
                   size={24}
                   style={StyleSheet.applyWidth(
                     { marginRight: 8 },
@@ -960,17 +961,17 @@ const LiveScreen = props => {
                   selectable={false}
                   style={StyleSheet.applyWidth(
                     {
-                      color: palettes.App['Custom #ffffff'],
-                      fontFamily: 'System',
+                      color: palettes.App["Custom #ffffff"],
+                      fontFamily: "System",
                       fontSize: 16,
-                      fontWeight: '600',
+                      fontWeight: "600",
                       letterSpacing: 0.2,
                       lineHeight: 22,
                     },
                     dimensions.width
                   )}
                 >
-                  {t(Variables, 'live_waiting_start')}
+                  {t(Variables, "live_waiting_start")}
                 </Text>
               </View>
             </View>
@@ -982,27 +983,27 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  height: '100%',
-                  justifyContent: 'center',
-                  width: '100%',
+                  alignItems: "center",
+                  height: "100%",
+                  justifyContent: "center",
+                  width: "100%",
                 },
                 dimensions.width
               )}
             >
               <Button
                 accessible={true}
-                iconPosition={'left'}
-                {...GlobalStyles.ButtonStyles(theme)['Button (default)'].props}
+                iconPosition={"left"}
+                {...GlobalStyles.ButtonStyles(theme)["Button (default)"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ButtonStyles(theme)['Button (default)'].style,
+                    GlobalStyles.ButtonStyles(theme)["Button (default)"].style,
                     {
                       backgroundColor: palettes.Brand.Primary,
                       borderRadius: 0,
-                      fontFamily: 'System',
+                      fontFamily: "System",
                       fontSize: 18,
-                      fontWeight: '600',
+                      fontWeight: "600",
                       height: 48,
                       paddingLeft: 70,
                       paddingRight: 70,
@@ -1010,20 +1011,20 @@ const LiveScreen = props => {
                   ),
                   dimensions.width
                 )}
-                title={`${t(Variables, 'live_start_meeting')}`}
+                title={`${t(Variables, "live_start_meeting")}`}
               />
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)['Text Title'].props}
+                {...GlobalStyles.TextStyles(theme)["Text Title"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)['Text Title'].style,
+                    GlobalStyles.TextStyles(theme)["Text Title"].style,
                     {
-                      color: palettes.App['Custom #ffffff'],
-                      fontFamily: 'System',
+                      color: palettes.App["Custom #ffffff"],
+                      fontFamily: "System",
                       fontSize: 16,
-                      fontWeight: '600',
+                      fontWeight: "600",
                       lineHeight: 26,
                       marginTop: 16,
                     }
@@ -1031,7 +1032,7 @@ const LiveScreen = props => {
                   dimensions.width
                 )}
               >
-                {t(Variables, 'live_start_info')}
+                {t(Variables, "live_start_info")}
               </Text>
             </View>
           )}
@@ -1042,22 +1043,22 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  height: '100%',
-                  justifyContent: 'flex-start',
+                  alignItems: "center",
+                  height: "100%",
+                  justifyContent: "flex-start",
                   paddingTop: 30,
-                  width: '100%',
+                  width: "100%",
                 },
                 dimensions.width
               )}
             >
               <Image
-                resizeMode={'cover'}
-                {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                source={imageSource(Images['icliveend'])}
+                resizeMode={"cover"}
+                {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                source={imageSource(Images["icliveend"])}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ImageStyles(theme)['Image'].style,
+                    GlobalStyles.ImageStyles(theme)["Image"].style,
                     { height: 150, width: 150 }
                   ),
                   dimensions.width
@@ -1066,15 +1067,15 @@ const LiveScreen = props => {
               <Text
                 accessible={true}
                 selectable={false}
-                {...GlobalStyles.TextStyles(theme)['Text Title'].props}
+                {...GlobalStyles.TextStyles(theme)["Text Title"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.TextStyles(theme)['Text Title'].style,
+                    GlobalStyles.TextStyles(theme)["Text Title"].style,
                     {
-                      color: palettes.App['Custom #ffffff'],
-                      fontFamily: 'System',
+                      color: palettes.App["Custom #ffffff"],
+                      fontFamily: "System",
                       fontSize: 16,
-                      fontWeight: '600',
+                      fontWeight: "600",
                       lineHeight: 26,
                       marginTop: 16,
                     }
@@ -1082,7 +1083,7 @@ const LiveScreen = props => {
                   dimensions.width
                 )}
               >
-                {t(Variables, 'live_meeting_end')}
+                {t(Variables, "live_meeting_end")}
               </Text>
             </View>
           )}
@@ -1093,31 +1094,31 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  height: '100%',
-                  justifyContent: 'center',
-                  width: '100%',
+                  alignItems: "center",
+                  height: "100%",
+                  justifyContent: "center",
+                  width: "100%",
                 },
                 dimensions.width
               )}
             >
               <Image
-                resizeMode={'cover'}
-                {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                source={imageSource(Images['iclivepassword'])}
+                resizeMode={"cover"}
+                {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                source={imageSource(Images["iclivepassword"])}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ImageStyles(theme)['Image'].style,
+                    GlobalStyles.ImageStyles(theme)["Image"].style,
                     { height: 150, width: 150 }
                   ),
                   dimensions.width
                 )}
               />
               <TextField
-                autoCapitalize={'none'}
+                autoCapitalize={"none"}
                 autoCorrect={true}
                 changeTextDelay={500}
-                onChangeText={newStyledTextFieldValue => {
+                onChangeText={(newStyledTextFieldValue) => {
                   const textFieldValue = newStyledTextFieldValue;
                   try {
                     setStyledTextFieldValue(newStyledTextFieldValue);
@@ -1125,26 +1126,26 @@ const LiveScreen = props => {
                     console.error(err);
                   }
                 }}
-                type={'solid'}
+                type={"solid"}
                 underlineColor={theme.colors.text.light}
                 webShowOutline={true}
                 activeBorderColor={palettes.Brand.Primary}
-                placeholder={t(Variables, 'mine_please_enter_meeting_password')}
+                placeholder={t(Variables, "mine_please_enter_meeting_password")}
                 style={StyleSheet.applyWidth(
                   {
-                    alignSelf: 'center',
-                    backgroundColor: palettes.App['Custom #ffffff'],
+                    alignSelf: "center",
+                    backgroundColor: palettes.App["Custom #ffffff"],
                     borderRadius: 5,
-                    fontFamily: 'System',
+                    fontFamily: "System",
                     fontSize: 13,
-                    fontWeight: '400',
+                    fontWeight: "400",
                     letterSpacing: 0.2,
                     lineHeight: 20,
                     marginBottom: 20,
                     paddingBottom: 10,
                     paddingTop: 10,
-                    textAlign: 'center',
-                    width: '75%',
+                    textAlign: "center",
+                    width: "75%",
                   },
                   dimensions.width
                 )}
@@ -1152,27 +1153,27 @@ const LiveScreen = props => {
               />
               <Button
                 accessible={true}
-                iconPosition={'left'}
-                {...GlobalStyles.ButtonStyles(theme)['Button (default)'].props}
+                iconPosition={"left"}
+                {...GlobalStyles.ButtonStyles(theme)["Button (default)"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ButtonStyles(theme)['Button (default)'].style,
+                    GlobalStyles.ButtonStyles(theme)["Button (default)"].style,
                     {
                       backgroundColor: palettes.Brand.Primary,
                       borderRadius: 5,
-                      fontFamily: 'System',
+                      fontFamily: "System",
                       fontSize: 18,
-                      fontWeight: '600',
+                      fontWeight: "600",
                       height: 48,
                       letterSpacing: 5,
                       paddingLeft: 70,
                       paddingRight: 70,
-                      width: '75%',
+                      width: "75%",
                     }
                   ),
                   dimensions.width
                 )}
-                title={`${t(Variables, 'common_yes')}`}
+                title={`${t(Variables, "common_yes")}`}
               />
             </View>
           )}
@@ -1183,21 +1184,21 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  height: '100%',
-                  justifyContent: 'center',
-                  width: '100%',
+                  alignItems: "center",
+                  height: "100%",
+                  justifyContent: "center",
+                  width: "100%",
                 },
                 dimensions.width
               )}
             >
               <Image
-                resizeMode={'cover'}
-                {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                source={imageSource(Images['iclivelogin'])}
+                resizeMode={"cover"}
+                {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                source={imageSource(Images["iclivelogin"])}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ImageStyles(theme)['Image'].style,
+                    GlobalStyles.ImageStyles(theme)["Image"].style,
                     { height: 150, width: 150 }
                   ),
                   dimensions.width
@@ -1208,10 +1209,10 @@ const LiveScreen = props => {
                 selectable={false}
                 style={StyleSheet.applyWidth(
                   {
-                    color: palettes.App['Custom #ffffff'],
-                    fontFamily: 'System',
+                    color: palettes.App["Custom #ffffff"],
+                    fontFamily: "System",
                     fontSize: 16,
-                    fontWeight: '600',
+                    fontWeight: "600",
                     letterSpacing: 0.2,
                     lineHeight: 22,
                     marginBottom: 20,
@@ -1219,31 +1220,31 @@ const LiveScreen = props => {
                   dimensions.width
                 )}
               >
-                {t(Variables, 'live_not_login')}
+                {t(Variables, "live_not_login")}
               </Text>
               <Button
                 accessible={true}
-                iconPosition={'left'}
-                {...GlobalStyles.ButtonStyles(theme)['Button (default)'].props}
+                iconPosition={"left"}
+                {...GlobalStyles.ButtonStyles(theme)["Button (default)"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ButtonStyles(theme)['Button (default)'].style,
+                    GlobalStyles.ButtonStyles(theme)["Button (default)"].style,
                     {
                       backgroundColor: palettes.Brand.Primary,
                       borderRadius: 5,
-                      fontFamily: 'System',
+                      fontFamily: "System",
                       fontSize: 18,
-                      fontWeight: '400',
+                      fontWeight: "400",
                       height: 48,
                       letterSpacing: 5,
                       paddingLeft: 70,
                       paddingRight: 70,
-                      width: '75%',
+                      width: "75%",
                     }
                   ),
                   dimensions.width
                 )}
-                title={`${t(Variables, 'login_in')}`}
+                title={`${t(Variables, "login_in")}`}
               />
             </View>
           )}
@@ -1254,21 +1255,21 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  height: '100%',
-                  justifyContent: 'center',
-                  width: '100%',
+                  alignItems: "center",
+                  height: "100%",
+                  justifyContent: "center",
+                  width: "100%",
                 },
                 dimensions.width
               )}
             >
               <Image
-                resizeMode={'cover'}
-                {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                source={imageSource(Images['iclivesign'])}
+                resizeMode={"cover"}
+                {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                source={imageSource(Images["iclivesign"])}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ImageStyles(theme)['Image'].style,
+                    GlobalStyles.ImageStyles(theme)["Image"].style,
                     { height: 150, width: 150 }
                   ),
                   dimensions.width
@@ -1279,10 +1280,10 @@ const LiveScreen = props => {
                 selectable={false}
                 style={StyleSheet.applyWidth(
                   {
-                    color: palettes.App['Custom #ffffff'],
-                    fontFamily: 'System',
+                    color: palettes.App["Custom #ffffff"],
+                    fontFamily: "System",
                     fontSize: 16,
-                    fontWeight: '600',
+                    fontWeight: "600",
                     letterSpacing: 0.3,
                     lineHeight: 22,
                     marginBottom: 20,
@@ -1290,31 +1291,31 @@ const LiveScreen = props => {
                   dimensions.width
                 )}
               >
-                {t(Variables, 'live_need_sign_up')}
+                {t(Variables, "live_need_sign_up")}
               </Text>
               <Button
                 accessible={true}
-                iconPosition={'left'}
-                {...GlobalStyles.ButtonStyles(theme)['Button (default)'].props}
+                iconPosition={"left"}
+                {...GlobalStyles.ButtonStyles(theme)["Button (default)"].props}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ButtonStyles(theme)['Button (default)'].style,
+                    GlobalStyles.ButtonStyles(theme)["Button (default)"].style,
                     {
                       backgroundColor: palettes.Brand.Primary,
                       borderRadius: 5,
-                      fontFamily: 'System',
+                      fontFamily: "System",
                       fontSize: 18,
-                      fontWeight: '400',
+                      fontWeight: "400",
                       height: 48,
                       letterSpacing: 0.3,
                       paddingLeft: 70,
                       paddingRight: 70,
-                      width: '75%',
+                      width: "75%",
                     }
                   ),
                   dimensions.width
                 )}
-                title={`${t(Variables, 'dialog_sign_up_now')}`}
+                title={`${t(Variables, "dialog_sign_up_now")}`}
               />
             </View>
           )}
@@ -1325,21 +1326,21 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  height: '100%',
-                  justifyContent: 'center',
-                  width: '100%',
+                  alignItems: "center",
+                  height: "100%",
+                  justifyContent: "center",
+                  width: "100%",
                 },
                 dimensions.width
               )}
             >
               <Image
-                resizeMode={'cover'}
-                {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                source={imageSource(Images['iclivewaitinghalf'])}
+                resizeMode={"cover"}
+                {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                source={imageSource(Images["iclivewaitinghalf"])}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ImageStyles(theme)['Image'].style,
+                    GlobalStyles.ImageStyles(theme)["Image"].style,
                     { height: 150, width: 150 }
                   ),
                   dimensions.width
@@ -1350,10 +1351,10 @@ const LiveScreen = props => {
                 selectable={false}
                 style={StyleSheet.applyWidth(
                   {
-                    color: palettes.App['Custom #ffffff'],
-                    fontFamily: 'System',
+                    color: palettes.App["Custom #ffffff"],
+                    fontFamily: "System",
                     fontSize: 16,
-                    fontWeight: '600',
+                    fontWeight: "600",
                     letterSpacing: 0.3,
                     lineHeight: 22,
                     marginBottom: 20,
@@ -1361,7 +1362,7 @@ const LiveScreen = props => {
                   dimensions.width
                 )}
               >
-                {t(Variables, 'live_no_start')}
+                {t(Variables, "live_no_start")}
               </Text>
             </View>
           )}
@@ -1372,21 +1373,21 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  height: '100%',
-                  justifyContent: 'flex-start',
-                  width: '100%',
+                  alignItems: "center",
+                  height: "100%",
+                  justifyContent: "flex-start",
+                  width: "100%",
                 },
                 dimensions.width
               )}
             >
               <Image
-                resizeMode={'cover'}
-                {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                source={imageSource(Images['icliveopenvip'])}
+                resizeMode={"cover"}
+                {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                source={imageSource(Images["icliveopenvip"])}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ImageStyles(theme)['Image'].style,
+                    GlobalStyles.ImageStyles(theme)["Image"].style,
                     { height: 150, marginTop: 2, width: 150 }
                   ),
                   dimensions.width
@@ -1397,10 +1398,10 @@ const LiveScreen = props => {
                 selectable={false}
                 style={StyleSheet.applyWidth(
                   {
-                    color: palettes.App['Custom #ffffff'],
-                    fontFamily: 'System',
+                    color: palettes.App["Custom #ffffff"],
+                    fontFamily: "System",
                     fontSize: 18,
-                    fontWeight: '600',
+                    fontWeight: "600",
                     letterSpacing: 0.3,
                     lineHeight: 22,
                     marginBottom: 20,
@@ -1408,12 +1409,12 @@ const LiveScreen = props => {
                   dimensions.width
                 )}
               >
-                {t(Variables, 'live_try_is_over')}
+                {t(Variables, "live_try_is_over")}
               </Text>
 
               <View
                 style={StyleSheet.applyWidth(
-                  { flexDirection: 'row' },
+                  { flexDirection: "row" },
                   dimensions.width
                 )}
               >
@@ -1429,17 +1430,17 @@ const LiveScreen = props => {
                     startX={0}
                     startY={0}
                     {...GlobalStyles.LinearGradientStyles(theme)[
-                      'Linear Gradient'
+                      "Linear Gradient"
                     ].props}
-                    color1={palettes.App['Custom Color 57']}
-                    color2={palettes.App['Custom Color 58']}
+                    color1={palettes.App["Custom Color 57"]}
+                    color2={palettes.App["Custom Color 58"]}
                     style={StyleSheet.applyWidth(
                       StyleSheet.compose(
                         GlobalStyles.LinearGradientStyles(theme)[
-                          'Linear Gradient'
+                          "Linear Gradient"
                         ].style,
                         {
-                          justifyContent: 'center',
+                          justifyContent: "center",
                           paddingLeft: 24,
                           paddingRight: 24,
                         }
@@ -1450,24 +1451,24 @@ const LiveScreen = props => {
                     <Text
                       accessible={true}
                       selectable={false}
-                      {...GlobalStyles.TextStyles(theme)['Text Title'].props}
+                      {...GlobalStyles.TextStyles(theme)["Text Title"].props}
                       style={StyleSheet.applyWidth(
                         StyleSheet.compose(
-                          GlobalStyles.TextStyles(theme)['Text Title'].style,
+                          GlobalStyles.TextStyles(theme)["Text Title"].style,
                           {
-                            color: palettes.App['Custom Color 55'],
-                            fontFamily: 'System',
+                            color: palettes.App["Custom Color 55"],
+                            fontFamily: "System",
                             fontSize: 16,
-                            fontWeight: '400',
+                            fontWeight: "400",
                             marginRight: null,
                           }
                         ),
                         dimensions.width
                       )}
                     >
-                      {Constants['user_info']?.has_vip
-                        ? t(Variables, 'mine_upgrade_vip')
-                        : t(Variables, 'live_try_vip')}
+                      {Constants["user_info"]?.has_vip
+                        ? t(Variables, "mine_upgrade_vip")
+                        : t(Variables, "live_try_vip")}
                     </Text>
                   </LinearGradient>
                 </View>
@@ -1475,9 +1476,9 @@ const LiveScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
+                      alignItems: "center",
                       backgroundColor: palettes.Brand.Primary,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                       marginLeft: 16,
                     },
                     dimensions.width
@@ -1486,15 +1487,15 @@ const LiveScreen = props => {
                   <Text
                     accessible={true}
                     selectable={false}
-                    {...GlobalStyles.TextStyles(theme)['Text Title'].props}
+                    {...GlobalStyles.TextStyles(theme)["Text Title"].props}
                     style={StyleSheet.applyWidth(
                       StyleSheet.compose(
-                        GlobalStyles.TextStyles(theme)['Text Title'].style,
+                        GlobalStyles.TextStyles(theme)["Text Title"].style,
                         {
-                          color: palettes.App['Custom #ffffff'],
-                          fontFamily: 'System',
+                          color: palettes.App["Custom #ffffff"],
+                          fontFamily: "System",
                           fontSize: 16,
-                          fontWeight: '400',
+                          fontWeight: "400",
                           lineHeight: 24,
                           marginRight: null,
                           paddingLeft: 24,
@@ -1504,9 +1505,9 @@ const LiveScreen = props => {
                       dimensions.width
                     )}
                   >
-                    {t(Variables, 'live_user_pay')}
+                    {t(Variables, "live_user_pay")}
                     {current_price}
-                    {t(Variables, 'live_user_a_currency')}
+                    {t(Variables, "live_user_a_currency")}
                   </Text>
                 </View>
               </View>
@@ -1516,10 +1517,10 @@ const LiveScreen = props => {
                 selectable={false}
                 style={StyleSheet.applyWidth(
                   {
-                    color: palettes.App['Custom #ffffff'],
-                    fontFamily: 'System',
+                    color: palettes.App["Custom #ffffff"],
+                    fontFamily: "System",
                     fontSize: 20,
-                    fontWeight: '600',
+                    fontWeight: "600",
                     letterSpacing: 0.3,
                     lineHeight: 24,
                     marginTop: 24,
@@ -1527,14 +1528,14 @@ const LiveScreen = props => {
                   dimensions.width
                 )}
               >
-                {t(Variables, 'event_live_open_vip')}
+                {t(Variables, "event_live_open_vip")}
               </Text>
 
               <AceCampTestApi.FetchCustomerServiceGET
-                Wechat_Appid={Constants['wechat_app_id']}
-                Wechat_Code={Constants['wechat_app_code']}
+                Wechat_Appid={Constants["wechat_app_id"]}
+                Wechat_Code={Constants["wechat_app_code"]}
                 handlers={{
-                  onData: fetchData => {
+                  onData: (fetchData) => {
                     try {
                       if (fetchData?.data?.length === 0) {
                       } else {
@@ -1559,7 +1560,7 @@ const LiveScreen = props => {
                   return (
                     <SimpleStyleFlatList
                       data={customer_list}
-                      decelerationRate={'normal'}
+                      decelerationRate={"normal"}
                       horizontal={false}
                       inverted={false}
                       keyExtractor={(listData, index) =>
@@ -1568,8 +1569,8 @@ const LiveScreen = props => {
                         index?.toString() ??
                         JSON.stringify(listData)
                       }
-                      keyboardShouldPersistTaps={'never'}
-                      listKey={'View 2->等待视图 8->Fetch->List'}
+                      keyboardShouldPersistTaps={"never"}
+                      listKey={"View 2->等待视图 8->Fetch->List"}
                       nestedScrollEnabled={false}
                       numColumns={1}
                       onEndReachedThreshold={0.5}
@@ -1583,7 +1584,7 @@ const LiveScreen = props => {
                               style={StyleSheet.applyWidth(
                                 {
                                   backgroundColor:
-                                    palettes.App['Custom #ffffff'],
+                                    palettes.App["Custom #ffffff"],
                                   borderRadius: 4,
                                   margin: 16,
                                   paddingBottom: 16,
@@ -1598,9 +1599,9 @@ const LiveScreen = props => {
                               <View
                                 style={StyleSheet.applyWidth(
                                   {
-                                    alignItems: 'center',
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between',
+                                    alignItems: "center",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
                                   },
                                   dimensions.width
                                 )}
@@ -1610,9 +1611,9 @@ const LiveScreen = props => {
                                   selectable={false}
                                   style={StyleSheet.applyWidth(
                                     {
-                                      fontFamily: 'System',
+                                      fontFamily: "System",
                                       fontSize: 22,
-                                      fontWeight: '600',
+                                      fontWeight: "600",
                                     },
                                     dimensions.width
                                   )}
@@ -1625,7 +1626,7 @@ const LiveScreen = props => {
                                     {
                                       backgroundColor: palettes.Brand.Primary,
                                       borderRadius: 4,
-                                      flexDirection: 'row',
+                                      flexDirection: "row",
                                       paddingBottom: 4,
                                       paddingLeft: 16,
                                       paddingRight: 16,
@@ -1636,9 +1637,9 @@ const LiveScreen = props => {
                                 >
                                   <Icon
                                     size={24}
-                                    color={palettes.App['Custom #ffffff']}
+                                    color={palettes.App["Custom #ffffff"]}
                                     name={
-                                      'MaterialCommunityIcons/comment-account'
+                                      "MaterialCommunityIcons/comment-account"
                                     }
                                     style={StyleSheet.applyWidth(
                                       { marginRight: 8 },
@@ -1650,24 +1651,24 @@ const LiveScreen = props => {
                                     selectable={false}
                                     style={StyleSheet.applyWidth(
                                       {
-                                        color: palettes.App['Custom #ffffff'],
-                                        fontFamily: 'System',
+                                        color: palettes.App["Custom #ffffff"],
+                                        fontFamily: "System",
                                         fontSize: 16,
-                                        fontWeight: '600',
+                                        fontWeight: "600",
                                         letterSpacing: 0.3,
                                         lineHeight: 20,
                                       },
                                       dimensions.width
                                     )}
                                   >
-                                    {t(Variables, 'live_try_vip_comments')}
+                                    {t(Variables, "live_try_vip_comments")}
                                   </Text>
                                 </View>
                               </View>
                               {/* View 2 */}
                               <View
                                 style={StyleSheet.applyWidth(
-                                  { flexDirection: 'row', marginTop: 16 },
+                                  { flexDirection: "row", marginTop: 16 },
                                   dimensions.width
                                 )}
                               >
@@ -1676,16 +1677,16 @@ const LiveScreen = props => {
                                   selectable={false}
                                   style={StyleSheet.applyWidth(
                                     {
-                                      fontFamily: 'System',
+                                      fontFamily: "System",
                                       fontSize: 14,
-                                      fontWeight: '600',
+                                      fontWeight: "600",
                                       letterSpacing: 0.2,
                                       lineHeight: 20,
                                     },
                                     dimensions.width
                                   )}
                                 >
-                                  {t(Variables, 'live_phone')}
+                                  {t(Variables, "live_phone")}
                                 </Text>
                                 {/* Text 2 */}
                                 <Text
@@ -1693,9 +1694,9 @@ const LiveScreen = props => {
                                   selectable={false}
                                   style={StyleSheet.applyWidth(
                                     {
-                                      fontFamily: 'System',
+                                      fontFamily: "System",
                                       fontSize: 14,
-                                      fontWeight: '600',
+                                      fontWeight: "600",
                                       letterSpacing: 0.2,
                                       lineHeight: 20,
                                     },
@@ -1708,7 +1709,7 @@ const LiveScreen = props => {
                               {/* View 3 */}
                               <View
                                 style={StyleSheet.applyWidth(
-                                  { flexDirection: 'row', marginTop: 4 },
+                                  { flexDirection: "row", marginTop: 4 },
                                   dimensions.width
                                 )}
                               >
@@ -1717,16 +1718,16 @@ const LiveScreen = props => {
                                   selectable={false}
                                   style={StyleSheet.applyWidth(
                                     {
-                                      fontFamily: 'System',
+                                      fontFamily: "System",
                                       fontSize: 14,
-                                      fontWeight: '600',
+                                      fontWeight: "600",
                                       letterSpacing: 0.2,
                                       lineHeight: 20,
                                     },
                                     dimensions.width
                                   )}
                                 >
-                                  {t(Variables, 'common_email')}
+                                  {t(Variables, "common_email")}
                                 </Text>
                                 {/* Text 2 */}
                                 <Text
@@ -1734,9 +1735,9 @@ const LiveScreen = props => {
                                   selectable={false}
                                   style={StyleSheet.applyWidth(
                                     {
-                                      fontFamily: 'System',
+                                      fontFamily: "System",
                                       fontSize: 14,
-                                      fontWeight: '600',
+                                      fontWeight: "600",
                                       letterSpacing: 0.2,
                                       lineHeight: 20,
                                     },
@@ -1752,7 +1753,7 @@ const LiveScreen = props => {
                       }}
                       showsHorizontalScrollIndicator={true}
                       showsVerticalScrollIndicator={true}
-                      snapToAlignment={'start'}
+                      snapToAlignment={"start"}
                     />
                   );
                 }}
@@ -1766,21 +1767,21 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  height: '100%',
-                  justifyContent: 'center',
-                  width: '100%',
+                  alignItems: "center",
+                  height: "100%",
+                  justifyContent: "center",
+                  width: "100%",
                 },
                 dimensions.width
               )}
             >
               <Image
-                resizeMode={'cover'}
-                {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                source={imageSource(Images['iclivecannotjoin'])}
+                resizeMode={"cover"}
+                {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                source={imageSource(Images["iclivecannotjoin"])}
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(
-                    GlobalStyles.ImageStyles(theme)['Image'].style,
+                    GlobalStyles.ImageStyles(theme)["Image"].style,
                     { height: 150, width: 150 }
                   ),
                   dimensions.width
@@ -1791,21 +1792,21 @@ const LiveScreen = props => {
                 selectable={false}
                 style={StyleSheet.applyWidth(
                   {
-                    color: palettes.App['Custom #ffffff'],
-                    fontFamily: 'System',
+                    color: palettes.App["Custom #ffffff"],
+                    fontFamily: "System",
                     fontSize: 16,
-                    fontWeight: '400',
+                    fontWeight: "400",
                     letterSpacing: 0.3,
                     lineHeight: 22,
                     marginBottom: 20,
                     paddingLeft: 30,
                     paddingRight: 30,
-                    textAlign: 'center',
+                    textAlign: "center",
                   },
                   dimensions.width
                 )}
               >
-                {t(Variables, 'live_can_not_join_meeting')}
+                {t(Variables, "live_can_not_join_meeting")}
               </Text>
             </View>
           )}
@@ -1814,15 +1815,15 @@ const LiveScreen = props => {
         <View
           style={StyleSheet.applyWidth(
             {
-              alignItems: 'center',
-              height: '100%',
-              justifyContent: 'center',
-              width: '100%',
+              alignItems: "center",
+              height: "100%",
+              justifyContent: "center",
+              width: "100%",
             },
             dimensions.width
           )}
         >
-          <Utils.CustomCodeErrorBoundary>{}</Utils.CustomCodeErrorBoundary>
+          <JoinChannelVideo />
         </View>
         {/* 显示文件 */}
         <>
@@ -1830,12 +1831,12 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
+                  alignItems: "center",
                   bottom: 0,
-                  justifyContent: 'flex-end',
+                  justifyContent: "flex-end",
                   paddingBottom: 46,
-                  position: 'absolute',
-                  width: '100%',
+                  position: "absolute",
+                  width: "100%",
                 },
                 dimensions.width
               )}
@@ -1843,12 +1844,12 @@ const LiveScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
+                    alignItems: "center",
                     backgroundColor: palettes.Brand.appStyle_primary,
                     borderRadius: 16,
-                    flexDirection: 'row',
+                    flexDirection: "row",
                     height: 36,
-                    justifyContent: 'center',
+                    justifyContent: "center",
                     paddingBottom: 4,
                     paddingLeft: 16,
                     paddingRight: 16,
@@ -1859,12 +1860,12 @@ const LiveScreen = props => {
                 )}
               >
                 <Image
-                  resizeMode={'cover'}
-                  {...GlobalStyles.ImageStyles(theme)['Image'].props}
-                  source={imageSource(Images['iclivefile'])}
+                  resizeMode={"cover"}
+                  {...GlobalStyles.ImageStyles(theme)["Image"].props}
+                  source={imageSource(Images["iclivefile"])}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.ImageStyles(theme)['Image'].style,
+                      GlobalStyles.ImageStyles(theme)["Image"].style,
                       { height: 18, width: 18 }
                     ),
                     dimensions.width
@@ -1875,10 +1876,10 @@ const LiveScreen = props => {
                   selectable={false}
                   style={StyleSheet.applyWidth(
                     {
-                      color: palettes.App['Custom #ffffff'],
-                      fontFamily: 'System',
+                      color: palettes.App["Custom #ffffff"],
+                      fontFamily: "System",
                       fontSize: 16,
-                      fontWeight: '400',
+                      fontWeight: "400",
                       letterSpacing: 0.2,
                       lineHeight: 20,
                       paddingLeft: 4,
@@ -1887,12 +1888,12 @@ const LiveScreen = props => {
                     dimensions.width
                   )}
                 >
-                  {t(Variables, 'live_file_show')}
+                  {t(Variables, "live_file_show")}
                 </Text>
                 {/* Icon 2 */}
                 <Icon
-                  color={palettes.App['Custom #ffffff']}
-                  name={'AntDesign/right'}
+                  color={palettes.App["Custom #ffffff"]}
+                  name={"AntDesign/right"}
                   size={18}
                 />
               </View>
@@ -1905,10 +1906,10 @@ const LiveScreen = props => {
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'center',
-                  height: '100%',
-                  justifyContent: 'flex-start',
-                  width: '100%',
+                  alignItems: "center",
+                  height: "100%",
+                  justifyContent: "flex-start",
+                  width: "100%",
                 },
                 dimensions.width
               )}
@@ -1916,8 +1917,8 @@ const LiveScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    alignItems: 'center',
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    alignItems: "center",
+                    backgroundColor: "rgba(255, 255, 255, 0.2)",
                     borderRadius: 8,
                     marginTop: 40,
                     padding: 16,
@@ -1937,25 +1938,25 @@ const LiveScreen = props => {
                   selectable={false}
                   style={StyleSheet.applyWidth(
                     {
-                      color: palettes.App['Custom #ffffff'],
-                      fontFamily: 'System',
+                      color: palettes.App["Custom #ffffff"],
+                      fontFamily: "System",
                       fontSize: 20,
-                      fontWeight: '600',
+                      fontWeight: "600",
                       letterSpacing: 0.3,
                       lineHeight: 24,
                     },
                     dimensions.width
                   )}
                 >
-                  {t(Variables, 'live_complete_info')}
+                  {t(Variables, "live_complete_info")}
                 </Text>
                 {/* 登录提示 */}
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      justifyContent: 'center',
+                      alignItems: "center",
+                      flexDirection: "row",
+                      justifyContent: "center",
                       marginTop: 12,
                     },
                     dimensions.width
@@ -1966,46 +1967,46 @@ const LiveScreen = props => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App['Custom Color 28'],
-                        fontFamily: 'System',
+                        color: palettes.App["Custom Color 28"],
+                        fontFamily: "System",
                         fontSize: 16,
-                        fontWeight: '400',
+                        fontWeight: "400",
                         letterSpacing: 0.2,
                         lineHeight: 20,
                       },
                       dimensions.width
                     )}
-                    title={`${t(Variables, 'login_in')}`}
+                    title={`${t(Variables, "login_in")}`}
                   />
                   <Text
                     accessible={true}
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App['Custom #ffffff'],
-                        fontFamily: 'System',
+                        color: palettes.App["Custom #ffffff"],
+                        fontFamily: "System",
                         fontSize: 16,
-                        fontWeight: '400',
+                        fontWeight: "400",
                         letterSpacing: 0.2,
                         lineHeight: 20,
                       },
                       dimensions.width
                     )}
                   >
-                    {t(Variables, 'live_direct_participation')}
+                    {t(Variables, "live_direct_participation")}
                   </Text>
                 </View>
                 {/* 参会密码录入 */}
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      alignItems: "center",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                       marginTop: 16,
                       paddingBottom: 8,
                       paddingTop: 8,
-                      width: '100%',
+                      width: "100%",
                     },
                     dimensions.width
                   )}
@@ -2015,24 +2016,24 @@ const LiveScreen = props => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App['Custom #ffffff'],
-                        fontFamily: 'System',
+                        color: palettes.App["Custom #ffffff"],
+                        fontFamily: "System",
                         fontSize: 16,
-                        fontWeight: '600',
+                        fontWeight: "600",
                         letterSpacing: 0.2,
                         lineHeight: 20,
                       },
                       dimensions.width
                     )}
                   >
-                    {t(Variables, 'live_info_password')}
+                    {t(Variables, "live_info_password")}
                   </Text>
                   <TextField
                     activeBorderColor={theme.colors.branding.primary}
-                    autoCapitalize={'none'}
+                    autoCapitalize={"none"}
                     autoCorrect={true}
                     changeTextDelay={500}
-                    onChangeText={newStyledTextFieldValue => {
+                    onChangeText={(newStyledTextFieldValue) => {
                       const textFieldValue = newStyledTextFieldValue;
                       try {
                         setStyledTextFieldValue2(newStyledTextFieldValue);
@@ -2040,18 +2041,18 @@ const LiveScreen = props => {
                         console.error(err);
                       }
                     }}
-                    type={'solid'}
+                    type={"solid"}
                     underlineColor={theme.colors.text.light}
                     webShowOutline={true}
-                    placeholder={t(Variables, 'live_please_enter_password')}
+                    placeholder={t(Variables, "live_please_enter_password")}
                     style={StyleSheet.applyWidth(
                       {
-                        backgroundColor: palettes.App['Custom #ffffff'],
+                        backgroundColor: palettes.App["Custom #ffffff"],
                         borderRadius: 4,
                         borderWidth: 0,
                         paddingBottom: 4,
                         paddingTop: 4,
-                        width: '70%',
+                        width: "70%",
                       },
                       dimensions.width
                     )}
@@ -2062,12 +2063,12 @@ const LiveScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      alignItems: "center",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                       paddingBottom: 8,
                       paddingTop: 8,
-                      width: '100%',
+                      width: "100%",
                     },
                     dimensions.width
                   )}
@@ -2077,24 +2078,24 @@ const LiveScreen = props => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App['Custom #ffffff'],
-                        fontFamily: 'System',
+                        color: palettes.App["Custom #ffffff"],
+                        fontFamily: "System",
                         fontSize: 16,
-                        fontWeight: '600',
+                        fontWeight: "600",
                         letterSpacing: 0.2,
                         lineHeight: 20,
                       },
                       dimensions.width
                     )}
                   >
-                    {t(Variables, 'common_name')}
+                    {t(Variables, "common_name")}
                   </Text>
                   <TextField
                     activeBorderColor={theme.colors.branding.primary}
-                    autoCapitalize={'none'}
+                    autoCapitalize={"none"}
                     autoCorrect={true}
                     changeTextDelay={500}
-                    onChangeText={newStyledTextFieldValue => {
+                    onChangeText={(newStyledTextFieldValue) => {
                       const textFieldValue = newStyledTextFieldValue;
                       try {
                         setStyledTextFieldValue2(newStyledTextFieldValue);
@@ -2102,18 +2103,18 @@ const LiveScreen = props => {
                         console.error(err);
                       }
                     }}
-                    type={'solid'}
+                    type={"solid"}
                     underlineColor={theme.colors.text.light}
                     webShowOutline={true}
-                    placeholder={t(Variables, 'register_enter_your_name')}
+                    placeholder={t(Variables, "register_enter_your_name")}
                     style={StyleSheet.applyWidth(
                       {
-                        backgroundColor: palettes.App['Custom #ffffff'],
+                        backgroundColor: palettes.App["Custom #ffffff"],
                         borderRadius: 4,
                         borderWidth: 0,
                         paddingBottom: 4,
                         paddingTop: 4,
-                        width: '70%',
+                        width: "70%",
                       },
                       dimensions.width
                     )}
@@ -2124,12 +2125,12 @@ const LiveScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      alignItems: "center",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                       paddingBottom: 8,
                       paddingTop: 8,
-                      width: '100%',
+                      width: "100%",
                       zIndex: 300,
                     },
                     dimensions.width
@@ -2140,22 +2141,22 @@ const LiveScreen = props => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App['Custom #ffffff'],
-                        fontFamily: 'System',
+                        color: palettes.App["Custom #ffffff"],
+                        fontFamily: "System",
                         fontSize: 16,
-                        fontWeight: '600',
+                        fontWeight: "600",
                         letterSpacing: 0.2,
                         lineHeight: 20,
                       },
                       dimensions.width
                     )}
                   >
-                    {t(Variables, 'live_info_occupation')}
+                    {t(Variables, "live_info_occupation")}
                   </Text>
 
                   <View
                     style={StyleSheet.applyWidth(
-                      { width: '70%' },
+                      { width: "70%" },
                       dimensions.width
                     )}
                   >
@@ -2164,8 +2165,8 @@ const LiveScreen = props => {
                         autoDismissKeyboard={true}
                         dropDownBorderColor={theme.colors.border.base}
                         dropDownTextColor={theme.colors.text.strong}
-                        leftIconMode={'inset'}
-                        onValueChange={newPickerValue => {
+                        leftIconMode={"inset"}
+                        onValueChange={(newPickerValue) => {
                           const pickerValue = newPickerValue;
                           try {
                             setPickerValue(newPickerValue);
@@ -2174,30 +2175,30 @@ const LiveScreen = props => {
                           }
                         }}
                         selectedIconColor={theme.colors.text.strong}
-                        selectedIconName={'Feather/check'}
+                        selectedIconName={"Feather/check"}
                         selectedIconSize={20}
-                        type={'solid'}
-                        dropDownBackgroundColor={palettes.App['Custom #ffffff']}
+                        type={"solid"}
+                        dropDownBackgroundColor={palettes.App["Custom #ffffff"]}
                         dropDownBorderRadius={0}
                         dropDownBorderWidth={0}
-                        dropdownOverlayColor={palettes.App['Custom #ffffff']}
+                        dropdownOverlayColor={palettes.App["Custom #ffffff"]}
                         iconSize={16}
-                        mode={'native'}
+                        mode={"native"}
                         options={getDicArrayForPicker(
-                          Constants['ace_dic']?.data.guest_positions
+                          Constants["ace_dic"]?.data.guest_positions
                         )}
                         placeholder={t(
                           Variables,
-                          'live_please_select_occupation'
+                          "live_please_select_occupation"
                         )}
-                        rightIconName={'AntDesign/down'}
+                        rightIconName={"AntDesign/down"}
                         style={StyleSheet.applyWidth(
                           {
-                            backgroundColor: palettes.App['Custom #ffffff'],
+                            backgroundColor: palettes.App["Custom #ffffff"],
                             borderRadius: 4,
                             paddingBottom: 4,
                             paddingTop: 4,
-                            width: '100%',
+                            width: "100%",
                             zIndex: 300,
                           },
                           dimensions.width
@@ -2211,12 +2212,12 @@ const LiveScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      alignItems: "center",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                       paddingBottom: 8,
                       paddingTop: 8,
-                      width: '100%',
+                      width: "100%",
                     },
                     dimensions.width
                   )}
@@ -2226,24 +2227,24 @@ const LiveScreen = props => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App['Custom #ffffff'],
-                        fontFamily: 'System',
+                        color: palettes.App["Custom #ffffff"],
+                        fontFamily: "System",
                         fontSize: 16,
-                        fontWeight: '600',
+                        fontWeight: "600",
                         letterSpacing: 0.2,
                         lineHeight: 20,
                       },
                       dimensions.width
                     )}
                   >
-                    {t(Variables, 'register_work_email')}
+                    {t(Variables, "register_work_email")}
                   </Text>
                   <TextField
                     activeBorderColor={theme.colors.branding.primary}
-                    autoCapitalize={'none'}
+                    autoCapitalize={"none"}
                     autoCorrect={true}
                     changeTextDelay={500}
-                    onChangeText={newStyledTextFieldValue => {
+                    onChangeText={(newStyledTextFieldValue) => {
                       const textFieldValue = newStyledTextFieldValue;
                       try {
                         setStyledTextFieldValue2(newStyledTextFieldValue);
@@ -2251,18 +2252,18 @@ const LiveScreen = props => {
                         console.error(err);
                       }
                     }}
-                    type={'solid'}
+                    type={"solid"}
                     underlineColor={theme.colors.text.light}
                     webShowOutline={true}
-                    placeholder={t(Variables, 'register_enter_your_work_email')}
+                    placeholder={t(Variables, "register_enter_your_work_email")}
                     style={StyleSheet.applyWidth(
                       {
-                        backgroundColor: palettes.App['Custom #ffffff'],
+                        backgroundColor: palettes.App["Custom #ffffff"],
                         borderRadius: 4,
                         borderWidth: 0,
                         paddingBottom: 4,
                         paddingTop: 4,
-                        width: '70%',
+                        width: "70%",
                       },
                       dimensions.width
                     )}
@@ -2273,12 +2274,12 @@ const LiveScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      alignItems: "center",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                       paddingBottom: 8,
                       paddingTop: 8,
-                      width: '100%',
+                      width: "100%",
                     },
                     dimensions.width
                   )}
@@ -2288,24 +2289,24 @@ const LiveScreen = props => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App['Custom #ffffff'],
-                        fontFamily: 'System',
+                        color: palettes.App["Custom #ffffff"],
+                        fontFamily: "System",
                         fontSize: 16,
-                        fontWeight: '600',
+                        fontWeight: "600",
                         letterSpacing: 0.2,
                         lineHeight: 20,
                       },
                       dimensions.width
                     )}
                   >
-                    {t(Variables, 'register_company_name')}
+                    {t(Variables, "register_company_name")}
                   </Text>
                   <TextField
                     activeBorderColor={theme.colors.branding.primary}
-                    autoCapitalize={'none'}
+                    autoCapitalize={"none"}
                     autoCorrect={true}
                     changeTextDelay={500}
-                    onChangeText={newStyledTextFieldValue => {
+                    onChangeText={(newStyledTextFieldValue) => {
                       const textFieldValue = newStyledTextFieldValue;
                       try {
                         setStyledTextFieldValue2(newStyledTextFieldValue);
@@ -2313,21 +2314,21 @@ const LiveScreen = props => {
                         console.error(err);
                       }
                     }}
-                    type={'solid'}
+                    type={"solid"}
                     underlineColor={theme.colors.text.light}
                     webShowOutline={true}
                     placeholder={t(
                       Variables,
-                      'register_enter_your_company_name'
+                      "register_enter_your_company_name"
                     )}
                     style={StyleSheet.applyWidth(
                       {
-                        backgroundColor: palettes.App['Custom #ffffff'],
+                        backgroundColor: palettes.App["Custom #ffffff"],
                         borderRadius: 4,
                         borderWidth: 0,
                         paddingBottom: 4,
                         paddingTop: 4,
-                        width: '70%',
+                        width: "70%",
                       },
                       dimensions.width
                     )}
@@ -2338,12 +2339,12 @@ const LiveScreen = props => {
                 <View
                   style={StyleSheet.applyWidth(
                     {
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      alignItems: "center",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                       paddingBottom: 8,
                       paddingTop: 8,
-                      width: '100%',
+                      width: "100%",
                     },
                     dimensions.width
                   )}
@@ -2353,24 +2354,24 @@ const LiveScreen = props => {
                     selectable={false}
                     style={StyleSheet.applyWidth(
                       {
-                        color: palettes.App['Custom #ffffff'],
-                        fontFamily: 'System',
+                        color: palettes.App["Custom #ffffff"],
+                        fontFamily: "System",
                         fontSize: 16,
-                        fontWeight: '600',
+                        fontWeight: "600",
                         letterSpacing: 0.2,
                         lineHeight: 20,
                       },
                       dimensions.width
                     )}
                   >
-                    {t(Variables, 'common_phone')}
+                    {t(Variables, "common_phone")}
                   </Text>
                   <TextField
                     activeBorderColor={theme.colors.branding.primary}
-                    autoCapitalize={'none'}
+                    autoCapitalize={"none"}
                     autoCorrect={true}
                     changeTextDelay={500}
-                    onChangeText={newStyledTextFieldValue => {
+                    onChangeText={(newStyledTextFieldValue) => {
                       const textFieldValue = newStyledTextFieldValue;
                       try {
                         setStyledTextFieldValue2(newStyledTextFieldValue);
@@ -2378,18 +2379,18 @@ const LiveScreen = props => {
                         console.error(err);
                       }
                     }}
-                    type={'solid'}
+                    type={"solid"}
                     underlineColor={theme.colors.text.light}
                     webShowOutline={true}
-                    placeholder={t(Variables, 'login_enter_your_phone')}
+                    placeholder={t(Variables, "login_enter_your_phone")}
                     style={StyleSheet.applyWidth(
                       {
-                        backgroundColor: palettes.App['Custom #ffffff'],
+                        backgroundColor: palettes.App["Custom #ffffff"],
                         borderRadius: 4,
                         borderWidth: 0,
                         paddingBottom: 4,
                         paddingTop: 4,
-                        width: '70%',
+                        width: "70%",
                       },
                       dimensions.width
                     )}
@@ -2398,27 +2399,27 @@ const LiveScreen = props => {
                 </View>
                 <Button
                   accessible={true}
-                  iconPosition={'left'}
-                  {...GlobalStyles.ButtonStyles(theme)['Button (default)']
+                  iconPosition={"left"}
+                  {...GlobalStyles.ButtonStyles(theme)["Button (default)"]
                     .props}
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(
-                      GlobalStyles.ButtonStyles(theme)['Button (default)']
+                      GlobalStyles.ButtonStyles(theme)["Button (default)"]
                         .style,
                       {
                         backgroundColor: palettes.Brand.Primary,
                         borderRadius: 4,
-                        fontFamily: 'System',
+                        fontFamily: "System",
                         fontSize: 16,
-                        fontWeight: '400',
+                        fontWeight: "400",
                         letterSpacing: 0.3,
                         marginTop: 12,
-                        width: '100%',
+                        width: "100%",
                       }
                     ),
                     dimensions.width
                   )}
-                  title={`${t(Variables, 'live_info_submit')}`}
+                  title={`${t(Variables, "live_info_submit")}`}
                 />
               </View>
             </View>
@@ -2428,7 +2429,7 @@ const LiveScreen = props => {
       {/* 底部菜单 */}
       <View
         style={StyleSheet.applyWidth(
-          { flexDirection: 'row', justifyContent: 'center' },
+          { flexDirection: "row", justifyContent: "center" },
           dimensions.width
         )}
       >
@@ -2436,7 +2437,7 @@ const LiveScreen = props => {
         <View
           style={StyleSheet.applyWidth(
             {
-              alignItems: 'center',
+              alignItems: "center",
               paddingBottom: 8,
               paddingTop: 8,
               width: 72,
@@ -2447,11 +2448,11 @@ const LiveScreen = props => {
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: 'center',
-                backgroundColor: 'rgba(73, 73, 73, 0.4)',
+                alignItems: "center",
+                backgroundColor: "rgba(73, 73, 73, 0.4)",
                 borderRadius: 20,
                 height: 38,
-                justifyContent: 'center',
+                justifyContent: "center",
                 padding: 8,
                 width: 38,
               },
@@ -2459,11 +2460,11 @@ const LiveScreen = props => {
             )}
           >
             <Icon
-              color={palettes.App['Custom #ffffff']}
+              color={palettes.App["Custom #ffffff"]}
               name={
                 is_mute
-                  ? 'MaterialCommunityIcons/microphone-off'
-                  : 'MaterialCommunityIcons/microphone-outline'
+                  ? "MaterialCommunityIcons/microphone-off"
+                  : "MaterialCommunityIcons/microphone-outline"
               }
               size={20}
             />
@@ -2474,10 +2475,10 @@ const LiveScreen = props => {
             selectable={false}
             style={StyleSheet.applyWidth(
               {
-                color: palettes.App['Custom #ffffff'],
-                fontFamily: 'System',
+                color: palettes.App["Custom #ffffff"],
+                fontFamily: "System",
                 fontSize: 12,
-                fontWeight: '400',
+                fontWeight: "400",
                 letterSpacing: 0.2,
                 lineHeight: 19,
                 marginTop: 4,
@@ -2485,14 +2486,14 @@ const LiveScreen = props => {
               dimensions.width
             )}
           >
-            {is_mute ? t(Variables, 'live_unmute') : t(Variables, 'live_mute')}
+            {is_mute ? t(Variables, "live_unmute") : t(Variables, "live_mute")}
           </Text>
         </View>
         {/* 视频 */}
         <View
           style={StyleSheet.applyWidth(
             {
-              alignItems: 'center',
+              alignItems: "center",
               paddingBottom: 8,
               paddingTop: 8,
               width: 72,
@@ -2503,11 +2504,11 @@ const LiveScreen = props => {
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: 'center',
-                backgroundColor: 'rgba(73, 73, 73, 0.4)',
+                alignItems: "center",
+                backgroundColor: "rgba(73, 73, 73, 0.4)",
                 borderRadius: 20,
                 height: 38,
-                justifyContent: 'center',
+                justifyContent: "center",
                 padding: 8,
                 width: 38,
               },
@@ -2515,8 +2516,8 @@ const LiveScreen = props => {
             )}
           >
             <Icon
-              color={palettes.App['Custom #ffffff']}
-              name={is_video_show ? 'Feather/video' : 'Feather/video-off'}
+              color={palettes.App["Custom #ffffff"]}
+              name={is_video_show ? "Feather/video" : "Feather/video-off"}
               size={20}
             />
           </View>
@@ -2526,10 +2527,10 @@ const LiveScreen = props => {
             selectable={false}
             style={StyleSheet.applyWidth(
               {
-                color: palettes.App['Custom #ffffff'],
-                fontFamily: 'System',
+                color: palettes.App["Custom #ffffff"],
+                fontFamily: "System",
                 fontSize: 12,
-                fontWeight: '400',
+                fontWeight: "400",
                 letterSpacing: 0.2,
                 lineHeight: 19,
                 marginTop: 4,
@@ -2538,15 +2539,15 @@ const LiveScreen = props => {
             )}
           >
             {is_video_show
-              ? t(Variables, 'live_stop_video')
-              : t(Variables, 'live_open_video')}
+              ? t(Variables, "live_stop_video")
+              : t(Variables, "live_open_video")}
           </Text>
         </View>
         {/* 预约1v1 */}
         <View
           style={StyleSheet.applyWidth(
             {
-              alignItems: 'center',
+              alignItems: "center",
               paddingBottom: 8,
               paddingTop: 8,
               width: 72,
@@ -2557,11 +2558,11 @@ const LiveScreen = props => {
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: 'center',
-                backgroundColor: 'rgba(73, 73, 73, 0.4)',
+                alignItems: "center",
+                backgroundColor: "rgba(73, 73, 73, 0.4)",
                 borderRadius: 20,
                 height: 38,
-                justifyContent: 'center',
+                justifyContent: "center",
                 padding: 8,
                 width: 38,
               },
@@ -2569,8 +2570,8 @@ const LiveScreen = props => {
             )}
           >
             <Icon
-              color={palettes.App['Custom #ffffff']}
-              name={'Ionicons/people-outline'}
+              color={palettes.App["Custom #ffffff"]}
+              name={"Ionicons/people-outline"}
               size={20}
             />
           </View>
@@ -2580,10 +2581,10 @@ const LiveScreen = props => {
             selectable={false}
             style={StyleSheet.applyWidth(
               {
-                color: palettes.App['Custom #ffffff'],
-                fontFamily: 'System',
+                color: palettes.App["Custom #ffffff"],
+                fontFamily: "System",
                 fontSize: 12,
-                fontWeight: '400',
+                fontWeight: "400",
                 letterSpacing: 0.2,
                 lineHeight: 19,
                 marginTop: 4,
@@ -2591,14 +2592,14 @@ const LiveScreen = props => {
               dimensions.width
             )}
           >
-            {t(Variables, 'event_order_expert_one')}
+            {t(Variables, "event_order_expert_one")}
           </Text>
         </View>
         {/* 成员 */}
         <View
           style={StyleSheet.applyWidth(
             {
-              alignItems: 'center',
+              alignItems: "center",
               paddingBottom: 8,
               paddingTop: 8,
               width: 72,
@@ -2609,11 +2610,11 @@ const LiveScreen = props => {
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: 'center',
-                backgroundColor: 'rgba(73, 73, 73, 0.4)',
+                alignItems: "center",
+                backgroundColor: "rgba(73, 73, 73, 0.4)",
                 borderRadius: 20,
                 height: 38,
-                justifyContent: 'center',
+                justifyContent: "center",
                 padding: 8,
                 width: 38,
               },
@@ -2621,8 +2622,8 @@ const LiveScreen = props => {
             )}
           >
             <Icon
-              color={palettes.App['Custom #ffffff']}
-              name={'Feather/users'}
+              color={palettes.App["Custom #ffffff"]}
+              name={"Feather/users"}
               size={20}
             />
           </View>
@@ -2632,10 +2633,10 @@ const LiveScreen = props => {
             selectable={false}
             style={StyleSheet.applyWidth(
               {
-                color: palettes.App['Custom #ffffff'],
-                fontFamily: 'System',
+                color: palettes.App["Custom #ffffff"],
+                fontFamily: "System",
                 fontSize: 12,
-                fontWeight: '400',
+                fontWeight: "400",
                 letterSpacing: 0.2,
                 lineHeight: 19,
                 marginTop: 4,
@@ -2643,14 +2644,14 @@ const LiveScreen = props => {
               dimensions.width
             )}
           >
-            {t(Variables, 'live_member')}
+            {t(Variables, "live_member")}
           </Text>
         </View>
         {/* 消息 */}
         <View
           style={StyleSheet.applyWidth(
             {
-              alignItems: 'center',
+              alignItems: "center",
               paddingBottom: 8,
               paddingTop: 8,
               width: 72,
@@ -2661,11 +2662,11 @@ const LiveScreen = props => {
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: 'center',
-                backgroundColor: 'rgba(73, 73, 73, 0.4)',
+                alignItems: "center",
+                backgroundColor: "rgba(73, 73, 73, 0.4)",
                 borderRadius: 20,
                 height: 38,
-                justifyContent: 'center',
+                justifyContent: "center",
                 padding: 8,
                 width: 38,
               },
@@ -2673,8 +2674,8 @@ const LiveScreen = props => {
             )}
           >
             <Icon
-              color={palettes.App['Custom #ffffff']}
-              name={'MaterialCommunityIcons/message-text'}
+              color={palettes.App["Custom #ffffff"]}
+              name={"MaterialCommunityIcons/message-text"}
               size={20}
             />
           </View>
@@ -2684,10 +2685,10 @@ const LiveScreen = props => {
             selectable={false}
             style={StyleSheet.applyWidth(
               {
-                color: palettes.App['Custom #ffffff'],
-                fontFamily: 'System',
+                color: palettes.App["Custom #ffffff"],
+                fontFamily: "System",
                 fontSize: 12,
-                fontWeight: '400',
+                fontWeight: "400",
                 letterSpacing: 0.2,
                 lineHeight: 19,
                 marginTop: 4,
@@ -2695,7 +2696,7 @@ const LiveScreen = props => {
               dimensions.width
             )}
           >
-            {t(Variables, 'live_chat')}
+            {t(Variables, "live_chat")}
           </Text>
           {/* View 2 */}
           <>
@@ -2703,13 +2704,13 @@ const LiveScreen = props => {
               <View
                 style={StyleSheet.applyWidth(
                   {
-                    backgroundColor: palettes.App['Custom Color 59'],
+                    backgroundColor: palettes.App["Custom Color 59"],
                     borderRadius: 8,
                     paddingBottom: 2,
                     paddingLeft: 6,
                     paddingRight: 6,
                     paddingTop: 2,
-                    position: 'absolute',
+                    position: "absolute",
                     right: 8,
                     top: 0,
                   },
@@ -2721,10 +2722,10 @@ const LiveScreen = props => {
                   selectable={false}
                   style={StyleSheet.applyWidth(
                     {
-                      color: palettes.App['Custom #ffffff'],
-                      fontFamily: 'System',
+                      color: palettes.App["Custom #ffffff"],
+                      fontFamily: "System",
                       fontSize: 10,
-                      fontWeight: '400',
+                      fontWeight: "400",
                       letterSpacing: 0.2,
                       lineHeight: 12,
                     },
@@ -2741,7 +2742,7 @@ const LiveScreen = props => {
         <View
           style={StyleSheet.applyWidth(
             {
-              alignItems: 'center',
+              alignItems: "center",
               paddingBottom: 8,
               paddingTop: 8,
               width: 72,
@@ -2752,11 +2753,11 @@ const LiveScreen = props => {
           <View
             style={StyleSheet.applyWidth(
               {
-                alignItems: 'center',
-                backgroundColor: 'rgba(73, 73, 73, 0.4)',
+                alignItems: "center",
+                backgroundColor: "rgba(73, 73, 73, 0.4)",
                 borderRadius: 20,
                 height: 38,
-                justifyContent: 'center',
+                justifyContent: "center",
                 padding: 8,
                 width: 38,
               },
@@ -2764,8 +2765,8 @@ const LiveScreen = props => {
             )}
           >
             <Icon
-              color={palettes.App['Custom #ffffff']}
-              name={'MaterialIcons/dehaze'}
+              color={palettes.App["Custom #ffffff"]}
+              name={"MaterialIcons/dehaze"}
               size={20}
             />
           </View>
@@ -2775,10 +2776,10 @@ const LiveScreen = props => {
             selectable={false}
             style={StyleSheet.applyWidth(
               {
-                color: palettes.App['Custom #ffffff'],
-                fontFamily: 'System',
+                color: palettes.App["Custom #ffffff"],
+                fontFamily: "System",
                 fontSize: 12,
-                fontWeight: '400',
+                fontWeight: "400",
                 letterSpacing: 0.2,
                 lineHeight: 19,
                 marginTop: 4,
@@ -2786,7 +2787,7 @@ const LiveScreen = props => {
               dimensions.width
             )}
           >
-            {t(Variables, 'common_more')}
+            {t(Variables, "common_more")}
           </Text>
         </View>
       </View>

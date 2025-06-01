@@ -1,5 +1,3 @@
-import { ParamListBase } from "@react-navigation/native";
-import { StackScreenProps } from "@react-navigation/stack";
 import React, { Component, ReactElement, useState } from "react";
 import {
   Alert,
@@ -31,7 +29,8 @@ import {
   AgoraTextInput,
   AgoraView,
 } from "./UiIndex";
-import JoinChannelVideo from "./JoinChannelVideo";
+import { LiveInfo } from "./LiveInfo";
+import RtmClient from "agora-react-native-rtm";
 
 const Header = ({ getData }: { getData: () => Array<string> }) => {
   const [visible, setVisible] = useState(false);
@@ -51,13 +50,17 @@ const Header = ({ getData }: { getData: () => Array<string> }) => {
     </>
   );
 };
+export interface LiveToken {
+  meeting_id: string;
+  user_type: string;
+  expert_id: string;
+  expert_code: string;
+  demo: boolean;
+  token: string;
+}
 
 export interface BaseComponentState {
-  appId: string;
   enableVideo: boolean;
-  channelId?: string;
-  token?: string;
-  uid?: number;
   joinChannelSuccess?: boolean;
   remoteUsers?: number[];
   hideAction?: boolean;
@@ -65,15 +68,18 @@ export interface BaseComponentState {
 }
 
 export interface BaseAudioComponentState extends BaseComponentState {
-  channelId: string;
-  token: string;
-  uid: number;
-  joinChannelSuccess: boolean;
   remoteUsers: number[];
+  liveUrl: string;
 }
 
 export interface BaseVideoComponentState extends BaseAudioComponentState {
   startPreview: boolean;
+  from: number;
+  flag: boolean;
+  showImg: boolean;
+  initLiveUI: (params: number) => void;
+  setLiveToken: (params: LiveToken) => void;
+  setLiveInfo: (params: LiveInfo) => void;
 }
 
 export abstract class BaseComponent<
@@ -83,6 +89,7 @@ export abstract class BaseComponent<
   implements IRtcEngineEventHandler
 {
   protected engine?: IRtcEngine;
+  protected rtmEngine: RtmClient;
   private _data: Array<string> = [];
 
   constructor(props: BaseVideoComponentState) {
@@ -95,7 +102,10 @@ export abstract class BaseComponent<
   }
 
   componentDidMount() {
+    this.initView();
+    this.setData();
     this.initRtcEngine();
+    this.initRtmEventListener();
   }
 
   componentWillUnmount() {
@@ -105,6 +115,10 @@ export abstract class BaseComponent<
   protected abstract createState(props: BaseVideoComponentState): S;
 
   protected abstract initRtcEngine(): void;
+
+  protected abstract setData(): void;
+  protected abstract initView(): void;
+  protected abstract initRtmEventListener(): void;
 
   protected joinChannel() {}
 
@@ -180,9 +194,9 @@ export abstract class BaseComponent<
         style={AgoraStyle.fullSize}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <AgoraView style={AgoraStyle.fullWidth}>
+        {/* <AgoraView style={AgoraStyle.fullWidth}>
           {this.renderChannel()}
-        </AgoraView>
+        </AgoraView> */}
         {users ? (
           <AgoraView style={AgoraStyle.fullSize}>{users}</AgoraView>
         ) : undefined}
@@ -208,26 +222,26 @@ export abstract class BaseComponent<
     );
   }
 
-  protected renderChannel(): ReactElement | undefined {
-    const { channelId, joinChannelSuccess } = this.state;
-    return (
-      <>
-        <AgoraTextInput
-          onChangeText={(text) => {
-            this.setState({ channelId: text });
-          }}
-          placeholder={`channelId`}
-          value={channelId}
-        />
-        <AgoraButton
-          title={`${joinChannelSuccess ? "leave" : "join"} Channel`}
-          onPress={() => {
-            joinChannelSuccess ? this.leaveChannel() : this.joinChannel();
-          }}
-        />
-      </>
-    );
-  }
+  // protected renderChannel(): ReactElement | undefined {
+  //   const { channelId, joinChannelSuccess } = this.state;
+  //   return (
+  //     <>
+  //       <AgoraTextInput
+  //         onChangeText={(text) => {
+  //           this.setState({ channelId: text });
+  //         }}
+  //         placeholder={`channelId`}
+  //         value={channelId}
+  //       />
+  //       <AgoraButton
+  //         title={`${joinChannelSuccess ? "leave" : "join"} Channel`}
+  //         onPress={() => {
+  //           joinChannelSuccess ? this.leaveChannel() : this.joinChannel();
+  //         }}
+  //       />
+  //     </>
+  //   );
+  // }
 
   protected renderUsers(): ReactElement | undefined {
     const { enableVideo, startPreview, joinChannelSuccess, remoteUsers } =

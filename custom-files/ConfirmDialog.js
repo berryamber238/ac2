@@ -1,5 +1,5 @@
-import React from 'react';
-import { Modal, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React from "react";
+import { Modal, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 export const ConfirmDialog = ({
   visible,
@@ -16,7 +16,7 @@ export const ConfirmDialog = ({
   txtAlign,
 }) => {
   const dynamicStyle = {
-    textAlign: txtAlign ? txtAlign : 'center', // alignment 变量可以是 'left', 'center', 'right'
+    textAlign: txtAlign ? txtAlign : "center", // alignment 变量可以是 'left', 'center', 'right'
   };
   return (
     <Modal
@@ -65,58 +65,58 @@ export const ConfirmDialog = ({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   dialog: {
     width: 300,
     padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   message: {
     fontSize: 16,
     marginBottom: 20,
-    textAlign: 'center',
-    color: '#596a7a',
+    textAlign: "center",
+    color: "#596a7a",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
   button: {
     flex: 1,
     padding: 10,
     margin: 5,
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
   cancelButton: {
-    backgroundColor: 'white',
-    borderColor: '#e2e4e7',
+    backgroundColor: "white",
+    borderColor: "#e2e4e7",
     borderRadius: 4,
     borderWidth: 1,
   },
   confirmButton: {
-    backgroundColor: '#2B33E6',
+    backgroundColor: "#2B33E6",
   },
   negativeButton: {
-    backgroundColor: '#FF4C4C',
+    backgroundColor: "#FF4C4C",
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   cancelButtonText: {
-    color: 'black',
-    fontWeight: 'bold',
+    color: "black",
+    fontWeight: "bold",
   },
 });

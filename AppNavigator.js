@@ -32,6 +32,7 @@ import DrawerNavScreen from "./screens/DrawerNavScreen";
 import EventDetailScreen from "./screens/EventDetailScreen";
 import HomeScreen from "./screens/HomeScreen";
 import LiveScreen from "./screens/LiveScreen";
+import LiveConferenceScreen from "./custom-files/LiveConferenceScreen";
 import LoginScreen from "./screens/LoginScreen";
 import MessageCenterScreen from "./screens/MessageCenterScreen";
 import MineAuthScreen from "./screens/MineAuthScreen";
@@ -598,6 +599,14 @@ export default function RootAppNavigator() {
         <Stack.Screen
           name="LiveScreen"
           component={LiveScreen}
+          options={({ navigation }) => ({
+            headerShown: false,
+            title: "Live",
+          })}
+        />
+        <Stack.Screen
+          name="LiveConferenceScreen"
+          component={LiveConferenceScreen}
           options={({ navigation }) => ({
             headerShown: false,
             title: "Live",
