@@ -1,25 +1,29 @@
-import React from "react";
-import { Button, ScreenContainer, Touchable, withTheme } from "@draftbit/ui";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useIsFocused } from "@react-navigation/native";
-import { StatusBar } from "react-native";
-import * as reactNativeToastMessage from "react-native-toast-message";
-import { Fetch } from "react-request";
-import * as GlobalStyles from "../GlobalStyles.js";
-import * as AceCampTestApi from "../apis/AceCampTestApi.js";
-import * as GlobalVariables from "../config/GlobalVariableContext";
-import * as DrawerNav from "../custom-files/DrawerNav";
-import * as HttpClient from "../custom-files/HttpClient";
-import * as Toast from "../custom-files/Toast";
-import palettes from "../themes/palettes";
-import * as Utils from "../utils";
-import Breakpoints from "../utils/Breakpoints";
-import * as StyleSheet from "../utils/StyleSheet";
-import useWindowDimensions from "../utils/useWindowDimensions";
+import React from 'react';
+import { Button, ScreenContainer, Touchable, withTheme } from '@draftbit/ui';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusBar } from 'react-native';
+import * as reactNativeToastMessage from 'react-native-toast-message';
+import { Fetch } from 'react-request';
+import * as GlobalStyles from '../GlobalStyles.js';
+import * as AceCampTestApi from '../apis/AceCampTestApi.js';
+import * as GlobalVariables from '../config/GlobalVariableContext';
+import * as DrawerNav from '../custom-files/DrawerNav';
+import * as HttpClient from '../custom-files/HttpClient';
+import * as Toast from '../custom-files/Toast';
+import * as eventBus from '../custom-files/eventBus';
+import palettes from '../themes/palettes';
+import * as Utils from '../utils';
+import Breakpoints from '../utils/Breakpoints';
+import * as StyleSheet from '../utils/StyleSheet';
+import useIsFocused from '../utils/useIsFocused';
+import useNavigation from '../utils/useNavigation';
+import useParams from '../utils/useParams';
+import useWindowDimensions from '../utils/useWindowDimensions';
 
-const DrawerNavScreen = (props) => {
-  const { theme, navigation } = props;
+const DrawerNavScreen = props => {
+  const { theme } = props;
   const dimensions = useWindowDimensions();
+  const navigation = useNavigation();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
   const setGlobalVariableValue = GlobalVariables.useSetValue();
@@ -34,66 +38,72 @@ line two` ) and will not work with special characters inside of quotes ( example
     ///sdfsdf
     console.log(screen);
     switch (screen) {
-      case "LoginScreen":
-        navigation.push("LoginScreen");
+      case 'LoginScreen':
+        navigation.push('LoginScreen');
         break;
-      case "Article":
-      case "Minute":
-        navigation.push("ArticleDetailScreen", { article_info_id: id });
+      case 'Article':
+      case 'Minute':
+        navigation.push('ArticleDetailScreen', { article_info_id: id });
         break;
-      case "Event":
-        navigation.push("EventDetailScreen", { event_id: id });
+      case 'Event':
+        navigation.push('EventDetailScreen', { event_id: id });
         break;
-      case "Spotlight":
-        navigation.push("SpotlightDetailScreen", { spotlightId: id });
+      case 'Spotlight':
+        navigation.push('SpotlightDetailScreen', { spotlightId: id });
         break;
-      case "Opinion":
-        navigation.push("OpinionInfoScreen", { id: id });
+      case 'Opinion':
+        navigation.push('OpinionInfoScreen', { id: id });
         break;
-      case "SearchPage":
-        navigation.push("SearchPageScreen", {});
+      case 'SearchPage':
+        navigation.push('SearchPageScreen', {});
         break;
-      case "Calendar":
-        navigation.push("CalendarScreen", {});
+      case 'Calendar':
+        navigation.push('CalendarScreen', {});
         break;
-      case "MessageCenter":
-        navigation.push("MessageCenterScreen", {});
+      case 'MessageCenter':
+        navigation.push('MessageCenterScreen', {});
         break;
-      case "DailyUpdate":
-        navigation.push("DailyUpdateScreen", {});
+      case 'DailyUpdate':
+        navigation.push('DailyUpdateScreen', {});
         break;
     }
   };
 
   const show = () => {
     reactNativeToastMessage.default.show({
-      type: "success",
-      text1: "Hello",
-      text2: "This is some something 👋",
+      type: 'success',
+      text1: 'Hello',
+      text2: 'This is some something 👋',
     });
   };
   React.useEffect(() => {
-    console.log("=============");
-    console.log(Variables.customer_info);
-  }, [Variables.customer_info]);
+    console.log(eventBus);
+    const defaultEvent = eventBus.default.addListener('defaultEvent', type => {
+      console.log('============!!!!!!!!!!!!!!!!!!!!', type);
+    });
+
+    return () => {
+      defaultEvent.remove();
+    };
+  }, []);
   React.useEffect(() => {
     const getUserInfo = async () => {
-      const url = HttpClient.apiEndpoints["me_info"];
+      const url = HttpClient.apiEndpoints['me_info'];
       const response = await HttpClient.fetcher(url.url, url.method);
-      const responseCookies = await AsyncStorage.getItem("cookies");
+      const responseCookies = await AsyncStorage.getItem('cookies');
       const responseStr = await response.json();
-      console.log(responseStr);
+      console.log('=====是否登录' + responseStr);
       if (response.ok && response.data) {
-        setGlobalVariableValue({ key: "user_info", value: responseStr.data });
-        setGlobalVariableValue({ key: "cookie", value: responseCookies });
-        setGlobalVariableValue({ key: "is_login", value: true });
+        setGlobalVariableValue({ key: 'user_info', value: responseStr.data });
+        setGlobalVariableValue({ key: 'cookie', value: responseCookies });
+        setGlobalVariableValue({ key: 'is_login', value: true });
         setGlobalVariableValue({
-          key: "is_vip",
+          key: 'is_vip',
           value: responseStr.data.has_vip,
         });
       } else {
-        setGlobalVariableValue({ key: "is_login", value: false });
-        setGlobalVariableValue({ key: "is_vip", value: false });
+        setGlobalVariableValue({ key: 'is_login', value: false });
+        setGlobalVariableValue({ key: 'is_vip', value: false });
       }
     };
 
@@ -104,49 +114,49 @@ line two` ) and will not work with special characters inside of quotes ( example
       try {
         const result = (await AceCampTestApi.dimensionsGET(Constants))?.json;
         setGlobalVariableValue({
-          key: "ace_dic",
+          key: 'ace_dic',
           value: result,
         });
         const customer_info_data = (
           await AceCampTestApi.customerServiceGET(Constants, {
-            Wechat_Appid: Constants["wechat_app_id"],
-            Wechat_Code: Constants["wechat_app_code"],
+            Wechat_Appid: Constants['wechat_app_id'],
+            Wechat_Code: Constants['wechat_app_code'],
           })
         )?.json;
         setGlobalVariableValue({
-          key: "customer_info",
+          key: 'customer_info',
           value:
             customer_info_data?.data?.length > 0
               ? customer_info_data?.data
               : [
                   {
-                    name: "Lu Yu",
-                    email: "luyu@acecamptech.com",
+                    name: 'Lu Yu',
+                    email: 'luyu@acecamptech.com',
                     avatar:
-                      "https://wework.qpic.cn/wwpic3az/654320_Q8xGVqwjTXqivOC_1727064850/0",
-                    phone_number: "+8613261690696",
+                      'https://wework.qpic.cn/wwpic3az/654320_Q8xGVqwjTXqivOC_1727064850/0',
+                    phone_number: '+8613261690696',
                     customer_service_url:
-                      "https://work.weixin.qq.com/kfid/kfc4932588fb2a00cf5",
+                      'https://work.weixin.qq.com/kfid/kfc4932588fb2a00cf5',
                   },
                 ],
         });
         const my_info = (await AceCampTestApi.myInfoGET(Constants))?.json;
         if (my_info?.data) {
           setGlobalVariableValue({
-            key: "user_info",
+            key: 'user_info',
             value: my_info?.data,
           });
           setGlobalVariableValue({
-            key: "is_login",
+            key: 'is_login',
             value: true,
           });
           setGlobalVariableValue({
-            key: "is_vip",
+            key: 'is_vip',
             value: true,
           });
         } else {
           setGlobalVariableValue({
-            key: "is_login",
+            key: 'is_login',
             value: false,
           });
         }
@@ -164,7 +174,7 @@ line two` ) and will not work with special characters inside of quotes ( example
     if (!isFocused) {
       return;
     }
-    const entry = StatusBar.pushStackEntry?.({ barStyle: "dark-content" });
+    const entry = StatusBar.pushStackEntry?.({ barStyle: 'dark-content' });
     return () => StatusBar.popStackEntry?.(entry);
   }, [isFocused]);
 

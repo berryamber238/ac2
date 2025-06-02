@@ -1,30 +1,31 @@
-import React from "react";
+import React from 'react';
 import {
   LinearGradient,
   Shadow,
   SimpleStyleFlatList,
   SimpleStyleScrollView,
   withTheme,
-} from "@draftbit/ui";
-import { useIsFocused } from "@react-navigation/native";
-import { ActivityIndicator, RefreshControl, Text, View } from "react-native";
-import { Fetch } from "react-request";
-import * as GlobalStyles from "../GlobalStyles.js";
-import * as AceCampTestApi from "../apis/AceCampTestApi.js";
-import HotSectionBlock from "../components/HotSectionBlock";
-import * as GlobalVariables from "../config/GlobalVariableContext";
-import * as DataContext from "../custom-files/DataContext";
-import * as HttpClient from "../custom-files/HttpClient";
-import * as Test from "../custom-files/Test";
-import getNoteStatus from "../global-functions/getNoteStatus";
-import palettes from "../themes/palettes";
-import Breakpoints from "../utils/Breakpoints";
-import * as StyleSheet from "../utils/StyleSheet";
-import useWindowDimensions from "../utils/useWindowDimensions";
+} from '@draftbit/ui';
+import { useIsFocused } from '@react-navigation/native';
+import { ActivityIndicator, RefreshControl, Text, View } from 'react-native';
+import { Fetch } from 'react-request';
+import * as GlobalStyles from '../GlobalStyles.js';
+import * as AceCampTestApi from '../apis/AceCampTestApi.js';
+import EmptyViewBlock from '../components/EmptyViewBlock';
+import HotSectionBlock from '../components/HotSectionBlock';
+import * as GlobalVariables from '../config/GlobalVariableContext';
+import * as DataContext from '../custom-files/DataContext';
+import * as HttpClient from '../custom-files/HttpClient';
+import * as Test from '../custom-files/Test';
+import getNoteStatus from '../global-functions/getNoteStatus';
+import palettes from '../themes/palettes';
+import Breakpoints from '../utils/Breakpoints';
+import * as StyleSheet from '../utils/StyleSheet';
+import useWindowDimensions from '../utils/useWindowDimensions';
 
 const defaultProps = { gotoScreen: () => {} };
 
-const HotBlock = (props) => {
+const HotBlock = props => {
   const { theme } = props;
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
@@ -32,10 +33,10 @@ const HotBlock = (props) => {
   const [content_language_preference, setContent_language_preference] =
     React.useState([]);
   const [custom_sector_ids, setCustom_sector_ids] = React.useState([]);
-  const [data, setData] = React.useState("");
-  const [follow, setFollow] = React.useState("");
+  const [data, setData] = React.useState('');
+  const [follow, setFollow] = React.useState('');
   const [recommend_search, setRecommend_search] = React.useState([]);
-  const [vip, setVip] = React.useState("");
+  const [vip, setVip] = React.useState('');
   const [
     refreshingLinearGradientFetchShadowScrollView,
     setRefreshingLinearGradientFetchShadowScrollView,
@@ -53,36 +54,36 @@ const HotBlock = (props) => {
     }
     setCustom_sector_ids(queryData?.custom_sector_ids);
     setRecommend_search(queryData?.recommend_search);
-    if (queryData?.recommend_search?.includes("vip")) setVip("true");
+    if (queryData?.recommend_search?.includes('vip')) setVip('true');
     else setVip(undefined);
-    if (queryData?.recommend_search?.includes("follow")) setFollow("true");
+    if (queryData?.recommend_search?.includes('follow')) setFollow('true');
     else setFollow(undefined);
     if (refetchFunc) {
       refetchFunc();
     } else {
-      console.log("refetch not set");
+      console.log('refetch not set');
     }
   }, [queryData]);
 
   return (
     <View
       style={StyleSheet.applyWidth(
-        { backgroundColor: "rgba(239, 245, 254, 0)", height: "100%" },
+        { backgroundColor: 'rgba(239, 245, 254, 0)', height: '100%' },
         dimensions.width
       )}
     >
       <LinearGradient
-        {...GlobalStyles.LinearGradientStyles(theme)["Linear Gradient"].props}
-        color1={palettes.App["Custom Color 13"]}
-        color2={palettes.App["Custom Color 13"]}
-        color3={palettes.App["Custom #ffffff"]}
+        {...GlobalStyles.LinearGradientStyles(theme)['Linear Gradient'].props}
+        color1={palettes.App['Custom Color 13']}
+        color2={palettes.App['Custom Color 13']}
+        color3={palettes.App['Custom #ffffff']}
         endX={100}
         endY={100}
         startX={100}
         startY={0}
         style={StyleSheet.applyWidth(
           StyleSheet.compose(
-            GlobalStyles.LinearGradientStyles(theme)["Linear Gradient"].style,
+            GlobalStyles.LinearGradientStyles(theme)['Linear Gradient'].style,
             {
               paddingBottom: 10,
               paddingLeft: 10,
@@ -123,7 +124,7 @@ const HotBlock = (props) => {
                 showShadowSideEnd={true}
                 showShadowSideStart={true}
                 showShadowSideTop={true}
-                startColor={palettes.App["Custom Color 105"]}
+                startColor={palettes.App['Custom Color 105']}
                 style={StyleSheet.applyWidth(
                   { borderRadius: 4 },
                   dimensions.width
@@ -132,7 +133,7 @@ const HotBlock = (props) => {
                 <SimpleStyleScrollView
                   bounces={true}
                   horizontal={false}
-                  keyboardShouldPersistTaps={"never"}
+                  keyboardShouldPersistTaps={'never'}
                   nestedScrollEnabled={false}
                   refreshControl={
                     <RefreshControl
@@ -162,17 +163,17 @@ const HotBlock = (props) => {
                   showsVerticalScrollIndicator={false}
                   style={StyleSheet.applyWidth(
                     {
-                      backgroundColor: palettes.App["Custom #ffffff"],
+                      backgroundColor: palettes.App['Custom #ffffff'],
                       borderRadius: 4,
-                      height: "100%",
-                      width: "100%",
+                      height: '100%',
+                      width: '100%',
                     },
                     dimensions.width
                   )}
                 >
                   <SimpleStyleFlatList
                     data={fetchData?.data?.feeds}
-                    decelerationRate={"normal"}
+                    decelerationRate={'normal'}
                     horizontal={false}
                     inverted={false}
                     keyExtractor={(listData, index) =>
@@ -181,9 +182,9 @@ const HotBlock = (props) => {
                       index?.toString() ??
                       JSON.stringify(listData)
                     }
-                    keyboardShouldPersistTaps={"never"}
+                    keyboardShouldPersistTaps={'never'}
                     listKey={
-                      "Linear Gradient->Fetch->Shadow->Scroll View->List"
+                      'Linear Gradient->Fetch->Shadow->Scroll View->List'
                     }
                     nestedScrollEnabled={false}
                     numColumns={1}
@@ -201,7 +202,7 @@ const HotBlock = (props) => {
                     }}
                     showsHorizontalScrollIndicator={true}
                     showsVerticalScrollIndicator={true}
-                    snapToAlignment={"start"}
+                    snapToAlignment={'start'}
                     style={StyleSheet.applyWidth(
                       { paddingLeft: 16, paddingRight: 16 },
                       dimensions.width
@@ -213,6 +214,11 @@ const HotBlock = (props) => {
           }}
         </AceCampTestApi.FetchHotGET>
       </LinearGradient>
+      <>
+        {getNoteStatus(Variables) === 0 ? null : (
+          <EmptyViewBlock type={getNoteStatus(Variables)} />
+        )}
+      </>
     </View>
   );
 };

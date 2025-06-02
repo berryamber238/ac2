@@ -6,7 +6,7 @@ import {
   useQueryClient,
 } from 'react-query';
 import useFetch from 'react-fetch-hook';
-import { useIsFocused } from '@react-navigation/native';
+import useIsFocused from '../utils/useIsFocused';
 import { handleResponse, isOkStatus } from '../utils/handleRestApiResponse';
 import usePrevious from '../utils/usePrevious';
 import {

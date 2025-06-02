@@ -12,7 +12,7 @@ import * as StyleSheet from '../utils/StyleSheet';
 import imageSource from '../utils/imageSource';
 import useWindowDimensions from '../utils/useWindowDimensions';
 
-const defaultProps = { type: 3 };
+const defaultProps = { gotoScreen: () => {}, type: 3 };
 
 const EmptyViewBlock = props => {
   const { theme } = props;

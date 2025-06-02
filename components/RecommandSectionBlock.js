@@ -1305,13 +1305,6 @@ line two` ) and will not work with special characters inside of quotes ( example
                     <>
                       {props.hideMenu ?? defaultProps.hideMenu ? null : (
                         <IconButton
-                          onPress={() => {
-                            try {
-                              setShowAction(true);
-                            } catch (err) {
-                              console.error(err);
-                            }
-                          }}
                           color={palettes.App['Custom Color 11']}
                           icon={'Feather/more-horizontal'}
                           size={18}
@@ -1516,7 +1509,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                             alignSelf: 'center',
                             color: 'rgb(150, 150, 150)',
                             fontFamily: 'System',
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: '400',
                             lineHeight: 16,
                           }
@@ -1564,9 +1557,9 @@ line two` ) and will not work with special characters inside of quotes ( example
                                 alignSelf: 'center',
                                 color: 'rgb(184, 148, 106)',
                                 fontFamily: 'System',
-                                fontSize: 12,
+                                fontSize: 10,
                                 fontWeight: '400',
-                                lineHeight: 16,
+                                lineHeight: 14,
                               }
                             ),
                             dimensions.width
@@ -1660,7 +1653,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                         <IconButton
                           onPress={() => {
                             try {
-                              /* hidden 'Set Variable' action */
+                              setShowAction(true);
                             } catch (err) {
                               console.error(err);
                             }
@@ -1669,7 +1662,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                           icon={'Feather/more-horizontal'}
                           size={18}
                           style={StyleSheet.applyWidth(
-                            { marginLeft: 10, marginRight: 10 },
+                            { marginLeft: 10 },
                             dimensions.width
                           )}
                         />

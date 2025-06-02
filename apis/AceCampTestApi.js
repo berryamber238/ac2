@@ -6,7 +6,7 @@ import {
   useQueryClient,
 } from 'react-query';
 import useFetch from 'react-fetch-hook';
-import { useIsFocused } from '@react-navigation/native';
+import useIsFocused from '../utils/useIsFocused';
 import { handleResponse, isOkStatus } from '../utils/handleRestApiResponse';
 import usePrevious from '../utils/usePrevious';
 import {
@@ -5760,6 +5760,7 @@ export const hotGET = async (
   Constants,
   {
     content_language_preference,
+    cursor,
     custom_sector_ids,
     follow,
     recommend_search,
@@ -5787,6 +5788,9 @@ export const hotGET = async (
     paramsDict['vip'] = vip;
   }
   paramsDict['topping'] = 'false';
+  if (cursor !== undefined) {
+    paramsDict['cursor'] = cursor;
+  }
   const url = `https://api.ca3test.com/api/v1/feeds${renderQueryString(
     paramsDict,
     'brackets'
@@ -5863,6 +5867,7 @@ export const FetchHotGET = ({
   staleTime,
   timeout,
   content_language_preference,
+  cursor,
   custom_sector_ids,
   follow,
   recommend_search,
@@ -5880,6 +5885,7 @@ export const FetchHotGET = ({
   } = useHotGET(
     {
       content_language_preference,
+      cursor,
       custom_sector_ids,
       follow,
       recommend_search,
